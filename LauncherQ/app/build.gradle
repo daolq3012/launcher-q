@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt' // Use experimental kapt implementation
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -20,6 +22,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -30,4 +35,21 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // for manage local data
+    // for local data save
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
+
+    // for databinding / mvvm
+//    kapt 'com.android.databinding:compiler:3.1.4'
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    kapt "android.arch.lifecycle:compiler:1.1.1"
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'com.android.support:design:28.0.0'
+
+
 }
