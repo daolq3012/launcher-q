@@ -15,10 +15,29 @@
             android:layout_height="match_parent"
             tools:context=".ui.main.MainActivity">
 
-        <ImageView
-                app:bgImg="@{vm.ofResetBg}"
+        <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+            <ImageView
+                    app:bgImg="@{vm.ofResetBg}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:id="@+id/rlTouchController"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+
+        </RelativeLayout>
+
 
 
 

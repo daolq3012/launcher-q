@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="setting">
+        <PreferenceScreen
+                android:key="key1"
+                android:title="단색"
+                android:summary="배경을 단색으로 설정합니다"/>
+        <PreferenceScreen
+                android:key="key2"
+                android:title="임의 이미지"
+                android:summary="배경을 임의의 이미지로 설정합니다"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>
