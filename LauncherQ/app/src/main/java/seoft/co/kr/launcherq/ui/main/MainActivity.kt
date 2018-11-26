@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         vm.observeActMsg(this, Observer {
             when(it) {
                 MsgType.START_ACTIVITY -> startActivity(Intent(applicationContext,vm.msg as Class<*>))
-//                MsgType.REFRESH_SETTING -> refreshSettingInAct()
 
             }
         })
@@ -64,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         if(SC.needResetSetting) {
-//            vm.resetSettingInVM()
             resetSettingAct()
         }
 

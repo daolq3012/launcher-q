@@ -54,4 +54,7 @@ dependencies {
     // for image crop
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
 
+    // for pick image
+    implementation 'me.priyesh:chroma:1.0.2'
+
 }

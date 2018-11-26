@@ -2,6 +2,8 @@ package seoft.co.kr.launcherq.ui.setting
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
 import android.preference.PreferenceFragment
@@ -9,16 +11,21 @@ import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.theartofdev.edmodo.cropper.CropImage
+import me.priyesh.chroma.ChromaDialog
+import me.priyesh.chroma.ColorMode
+import me.priyesh.chroma.ColorSelectListener
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.setupActionBar
+import seoft.co.kr.launcherq.utill.*
 
 
 class BgScreenSettingActivity: AppCompatActivity() {
 
     val TAG = "BgScreenSettingActivity#$#"
+
+    companion object {
+        lateinit var bgScreenSettingActivity : AppCompatActivity
+    }
 
     private fun initToolbar(){
         setupActionBar(R.id.toolbar) {
@@ -30,6 +37,8 @@ class BgScreenSettingActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bg_screen_setting)
+
+        bgScreenSettingActivity = this
 
         initToolbar()
     }
@@ -54,7 +63,7 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
         fun initListener(){
             findPreference("simpleColor").setOnPreferenceClickListener { view ->
-
+                openColorSetting()
                 true
             }
 
@@ -62,6 +71,34 @@ class BgScreenSettingActivity: AppCompatActivity() {
                 CropImage.startPickImageActivity(this.activity)
                 true
             }
+        }
+
+
+        fun openColorSetting(){
+
+            val deviceWidth = Repo.preference.getDeviceX()
+            val deviceHeight = Repo.preference.getDeviceY()
+
+            val pickedImg = Repo.preference.getBgImageColor()
+
+            ChromaDialog.Builder()
+                .initialColor(Color.parseColor(pickedImg))
+                .colorMode(ColorMode.RGB) // There's also ARGB and HSV
+                .onColorSelected(object : ColorSelectListener {
+                    override fun onColorSelected(color: Int) {
+                        val bit = Bitmap.createBitmap(deviceWidth,deviceHeight, Bitmap.Config.ARGB_8888)
+                        bit.eraseColor(color)
+                        Repo.backgroundRepo.saveBitmap(bit, App.get)
+                        "배경화면 설정 완료".toast()
+
+                        val strPickColor = String.format("#%08X", color)
+                        Repo.preference.setBgImageColor(strPickColor)
+                        SC.needResetSetting = true
+
+                    }
+                })
+                .create()
+                .show(bgScreenSettingActivity.supportFragmentManager, "ChromaDialog")
         }
     }
 
@@ -71,9 +108,6 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
         val deviceWidth = Repo.preference.getDeviceX()
         val deviceHeight = Repo.preference.getDeviceY()
-
-        deviceWidth.toString().i(TAG)
-        deviceHeight.toString().i(TAG)
 
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val imageUri = CropImage.getPickImageResultUri(this, data)
@@ -87,7 +121,7 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
             Repo.backgroundRepo.saveBitmap(bitImg,this)
             SC.needResetSetting = true
+            "배경화면 설정 완료".toast()
         }
     }
-
 }

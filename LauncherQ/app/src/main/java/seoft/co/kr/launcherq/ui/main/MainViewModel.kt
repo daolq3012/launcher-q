@@ -40,13 +40,8 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun appInit(){
-//        val bitImg = BitmapFactory.decodeResource(App.get.resources, R.drawable.default_bg)
-//        repo.backgroundRepo.saveBitmap(bitImg,App.get.applicationContext)
     }
 
-//    fun resetSettingInVM(){
-//        ofResetBg.set(true)
-//    }
 
 
 }

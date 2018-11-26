@@ -12,6 +12,7 @@ class PreferenceRepo {
     private val SP_IS_FIRST_LAUNCH = "PFRK_IS_FIRST_LAUNCH"
     private val mPrefs = PreferenceManager.getDefaultSharedPreferences(App.get)
     private val SP_BG_IMAGE_BITMAP_PATH = "SP_BG_IMAGE_BITMAP_PATH"
+    private val SP_BG_IMAGE_COLOR = "SP_BG_IMAGE_COLOR"
     private val SP_DEVICE_X = "SP_DEVICE_X"
     private val SP_DEVICE_Y = "SP_DEVICE_Y"
 
@@ -28,6 +29,13 @@ class PreferenceRepo {
     }
     fun getBgImageBitmapPath()
         = mPrefs.getString(SP_BG_IMAGE_BITMAP_PATH,"")
+
+    fun setBgImageColor(str:String) {
+        mPrefs.edit().putString(SP_BG_IMAGE_COLOR,str).apply()
+    }
+    fun getBgImageColor()
+            = mPrefs.getString(SP_BG_IMAGE_COLOR,"#FFFFFF")
+
 
     fun setDeviceX(i:Int) {
         mPrefs.edit().putInt(SP_DEVICE_X,i).apply()
