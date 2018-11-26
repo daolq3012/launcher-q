@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.ui.main
 
 import android.databinding.ObservableField
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.provider.MediaStore
 import seoft.co.kr.launcherq.R
@@ -14,31 +15,38 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     val TAG = "MainViewModel#$#"
 
-    val ofResetBg = ObservableField(false)
+    val bgBitmap : ObservableField<Bitmap> by lazy { ObservableField(repo.backgroundRepo.loadBitmap()) }
 
     override fun start() {
 
         repo.preference.run {
             if(isFirstLaunch()) {
                 appInit()
+
                 setIsFirst(false)
             }
         }
+    }
 
-        ofResetBg.set(true)
+    fun resetBgBitmap(){
+        bgBitmap.set(repo.backgroundRepo.loadBitmap())
+    }
 
+    fun setDeviceXY(x:Int,y:Int){
+        repo.preference.run {
+            setDeviceX(x)
+            setDeviceY(y)
+        }
     }
 
     fun appInit(){
-
-        val bitImg = BitmapFactory.decodeResource(App.get.resources, R.drawable.default_bg)
-        repo.backgroundRepo.saveBitmap(bitImg,App.get.applicationContext)
-
-
-
-
-
+//        val bitImg = BitmapFactory.decodeResource(App.get.resources, R.drawable.default_bg)
+//        repo.backgroundRepo.saveBitmap(bitImg,App.get.applicationContext)
     }
+
+//    fun resetSettingInVM(){
+//        ofResetBg.set(true)
+//    }
 
 
 }

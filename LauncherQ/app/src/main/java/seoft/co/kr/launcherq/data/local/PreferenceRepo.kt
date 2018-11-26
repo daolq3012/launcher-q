@@ -6,9 +6,16 @@ import seoft.co.kr.launcherq.utill.App
 
 class PreferenceRepo {
 
+    private val DEFAULT_DEVICE_X = 1080
+    private val DEFAULT_DEVICE_Y = 1920
+
     private val SP_IS_FIRST_LAUNCH = "PFRK_IS_FIRST_LAUNCH"
     private val mPrefs = PreferenceManager.getDefaultSharedPreferences(App.get)
     private val SP_BG_IMAGE_BITMAP_PATH = "SP_BG_IMAGE_BITMAP_PATH"
+    private val SP_DEVICE_X = "SP_DEVICE_X"
+    private val SP_DEVICE_Y = "SP_DEVICE_Y"
+
+
 
     fun isFirstLaunch()
             = mPrefs.getBoolean(SP_IS_FIRST_LAUNCH,true)
@@ -21,5 +28,19 @@ class PreferenceRepo {
     }
     fun getBgImageBitmapPath()
         = mPrefs.getString(SP_BG_IMAGE_BITMAP_PATH,"")
+
+    fun setDeviceX(i:Int) {
+        mPrefs.edit().putInt(SP_DEVICE_X,i).apply()
+    }
+
+    fun setDeviceY(i:Int) {
+        mPrefs.edit().putInt(SP_DEVICE_Y,i).apply()
+    }
+
+    fun getDeviceX() = mPrefs.getInt(SP_DEVICE_X,DEFAULT_DEVICE_X)
+    fun getDeviceY() = mPrefs.getInt(SP_DEVICE_Y,DEFAULT_DEVICE_Y)
+
+
+
 
 }

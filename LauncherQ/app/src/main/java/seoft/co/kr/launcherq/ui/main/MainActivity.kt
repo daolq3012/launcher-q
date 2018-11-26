@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
+import android.graphics.Point
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.GestureDetectorCompat
@@ -18,6 +19,7 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.databinding.ActivityMainBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.main.RequestManager.Companion.REQ_PERMISSIONS
+import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.observeActMsg
 
 
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         vm.observeActMsg(this, Observer {
             when(it) {
                 MsgType.START_ACTIVITY -> startActivity(Intent(applicationContext,vm.msg as Class<*>))
+//                MsgType.REFRESH_SETTING -> refreshSettingInAct()
 
             }
         })
@@ -55,6 +58,16 @@ class MainActivity : AppCompatActivity() {
         initListener()
 
         requestManager = RequestManager(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if(SC.needResetSetting) {
+//            vm.resetSettingInVM()
+            resetSettingAct()
+        }
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -67,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initListener(){
-        gestureDetectorCompat = GestureDetectorCompat(this,GestureListener())
+        gestureDetectorCompat = GestureDetectorCompat(this,GestureListener(this))
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -80,17 +93,16 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext,it as Class<*>))
         }
         simd.show()
+
     }
 
-    // ref : http://ukzzang.tistory.com/45
-    inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
-
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
-            showSettingInMainDialog()
-
-            return super.onDoubleTap(e)
-        }
-
+    // call when called resetSettingInVM in ViewModel
+    fun resetSettingAct(){
+        val size = Point()
+        windowManager.defaultDisplay.getRealSize( size )
+        vm.setDeviceXY(size.x,size.y)
+        vm.resetBgBitmap()
+        SC.needResetSetting = false
 
     }
 
