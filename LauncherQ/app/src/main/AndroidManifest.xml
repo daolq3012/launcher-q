@@ -23,8 +23,11 @@
         </activity>
         <activity android:name=".ui.splash.SplashActivity"/>
         <activity android:name=".ui.setting.BgScreenSettingActivity"/>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-                  android:theme="@style/AppTheme" />
+        <activity
+                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:theme="@style/AppTheme"/>
+        <activity android:name=".ui.setting.BgWidgetSettingActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -9,11 +9,8 @@ import android.graphics.Point
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.GestureDetectorCompat
-import android.support.v7.app.AlertDialog
-import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.WindowManager
-import kotlinx.android.synthetic.main.activity_main.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.databinding.ActivityMainBinding
@@ -87,9 +84,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showSettingInMainDialog(){
-        val simd = SettingInMainDialog(this){
-            startActivity(Intent(applicationContext,it as Class<*>))
-        }
+        val simd = SettingEntranceDialog(this){}
         simd.show()
 
     }

@@ -57,4 +57,7 @@ dependencies {
     // for pick image
     implementation 'me.priyesh:chroma:1.0.2'
 
+    // parse
+    implementation 'com.google.code.gson:gson:2.8.4'
+
 }

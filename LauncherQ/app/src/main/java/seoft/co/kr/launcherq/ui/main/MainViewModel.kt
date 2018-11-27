@@ -2,14 +2,8 @@ package seoft.co.kr.launcherq.ui.main
 
 import android.databinding.ObservableField
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.provider.MediaStore
-import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
-import seoft.co.kr.launcherq.ui.splash.SplashActivity
-import seoft.co.kr.launcherq.utill.App
 
 class MainViewModel(val repo: Repo): ViewModelHelper() {
 
@@ -40,6 +34,9 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun appInit(){
+
+
+
     }
 
 

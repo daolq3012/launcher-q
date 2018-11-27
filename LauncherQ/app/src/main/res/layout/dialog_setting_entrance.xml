@@ -98,7 +98,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="배경 화면 설정"
+                    android:text="배경 설정"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -109,13 +109,13 @@
             />
 
             <TextView
-                    android:id="@+id/tvBgEtcetting"
+                    android:id="@+id/tvBgEtcSetting"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="배경 부가 설정"
+                    android:text="더미 더미"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

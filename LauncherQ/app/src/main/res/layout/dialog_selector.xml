@@ -87,6 +87,28 @@
             tools:text="selector1"
     />
 
+    <LinearLayout
+            android:id="@+id/llLine4"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:background="@color/c2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+    <TextView
+            android:layout_margin="17dp"
+            android:visibility="gone"
+            android:id="@+id/tvSelector4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#1a273d"
+            android:letterSpacing="-0.02"
+            android:lineSpacingExtra="10sp"
+            android:gravity="center_horizontal"
+            tools:text="selector4"
+    />
+
 
 
 

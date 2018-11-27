@@ -20,6 +20,7 @@ class SelectorDialog(val context : Context,
                      val firstSelector:DialogSelectorInfo,
                      val secondSelector:DialogSelectorInfo? = null,
                      val thirdSelector:DialogSelectorInfo? = null,
+                     val fourthSelector:DialogSelectorInfo? = null,
                      val cb : (Int)->Any
 ) {
 
@@ -36,9 +37,11 @@ class SelectorDialog(val context : Context,
         val tvSelector1 = dlg.findViewById<TextView>(R.id.tvSelector1)
         val tvSelector2 = dlg.findViewById<TextView>(R.id.tvSelector2)
         val tvSelector3 = dlg.findViewById<TextView>(R.id.tvSelector3)
+        val tvSelector4 = dlg.findViewById<TextView>(R.id.tvSelector4)
 
         val llLine2 = dlg.findViewById<LinearLayout>(R.id.llLine2)
         val llLine3 = dlg.findViewById<LinearLayout>(R.id.llLine3)
+        val llLine4 = dlg.findViewById<LinearLayout>(R.id.llLine4)
 
         tvSelector1.run {
             text = firstSelector.text
@@ -75,6 +78,20 @@ class SelectorDialog(val context : Context,
 
             }
             llLine3.visibility = View.VISIBLE
+        }
+
+        if(fourthSelector != null)  {
+            tvSelector4.run {
+                text = fourthSelector.text
+                setTextColor(ContextCompat.getColor(App.get.applicationContext, fourthSelector.colorId))
+                visibility = View.VISIBLE
+                setOnClickListener { _ ->
+                    cb.invoke(4)
+                    dlg.dismiss()
+                }
+
+            }
+            llLine4.visibility = View.VISIBLE
         }
 
         dlg.setOnKeyListener { _, keyCode, _ ->

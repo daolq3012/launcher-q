@@ -8,6 +8,3 @@ import android.widget.ImageView
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.utill.i
 
-@BindingAdapter("bgImg")
-fun setBgImg(imageView: ImageView,bitmap: Bitmap) { imageView.setImageBitmap(bitmap) }
-

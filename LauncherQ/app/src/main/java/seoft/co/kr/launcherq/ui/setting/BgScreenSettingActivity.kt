@@ -6,7 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
+import android.preference.Preference
 import android.preference.PreferenceFragment
+import android.preference.SwitchPreference
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -16,6 +18,7 @@ import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.ui.setting.BgWidgetSettingActivity.Companion.WIDGET_TYPE
 import seoft.co.kr.launcherq.utill.*
 
 
@@ -51,13 +54,20 @@ class BgScreenSettingActivity: AppCompatActivity() {
     class BgScreenSettingFragment : PreferenceFragment() {
 
         val TAG = "SettingFragment"
-
+        lateinit var widgetPreferencesScreens : Array<Preference>
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
 
             addPreferencesFromResource(R.xml.bg_screen_setting)
 
             initListener()
+
+        }
+
+        override fun onResume() {
+            super.onResume()
+            widgetPreferencesScreens[1].isEnabled = Repo.preference.getBgTimeUse()
+            widgetPreferencesScreens[3].isEnabled = Repo.preference.getBgDateUse()
 
         }
 
@@ -68,9 +78,30 @@ class BgScreenSettingActivity: AppCompatActivity() {
             }
 
             findPreference("specificImage").setOnPreferenceClickListener { view ->
+
                 CropImage.startPickImageActivity(this.activity)
                 true
             }
+
+            widgetPreferencesScreens = arrayOf(
+                findPreference("timeWidget"),
+                findPreference("ampmWidget"),
+                findPreference("dateWidget"),
+                findPreference("dowWidget"),
+                findPreference("textWidget")
+            )
+
+            for ( wps in widgetPreferencesScreens) {
+                wps.setOnPreferenceClickListener {
+                    Intent(context,BgWidgetSettingActivity::class.java)
+                        .apply { putExtra(WIDGET_TYPE,wps.key)
+                        startActivity(this)}
+                    true
+                }
+            }
+
+
+
         }
 
 
