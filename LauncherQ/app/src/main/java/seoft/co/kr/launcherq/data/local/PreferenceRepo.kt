@@ -64,9 +64,9 @@ class PreferenceRepo {
         var jsonStr = mPrefs.getString(SP_BG_WIDGET_INFOS,"")
         if (jsonStr.isNullOrEmpty()) {
             val backgroundInfos = BackgroundWidgetInfos( arrayOf(
-                Info("HH:MM",20,"#00574B",50,100,""),
-                Info("AM/PM",20,"#00574B",250,200,""),
-                Info("YYYY. MM. DD.",20,"#00574B",50,300,""),
+                Info("HH:mm",20,"#00574B",50,100,""),
+                Info("AM%%PM",20,"#00574B",250,200,""),
+                Info("yyyy. MM. dd.",20,"#00574B",50,300,""),
                 Info("[ENG]",20,"#00574B",250,400,""),
                 Info("WELCOME%%TO%%LAUNCHER Q",20,"#00574B",50,500,"")
             ))

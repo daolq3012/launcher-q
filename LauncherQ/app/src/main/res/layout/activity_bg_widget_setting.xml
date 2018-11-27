@@ -9,6 +9,9 @@
         <variable
                 name="vm"
                 type="seoft.co.kr.launcherq.ui.setting.BgWidgetSettingViewModel" />
+        <variable
+                name="widgetType"
+                type="seoft.co.kr.launcherq.data.model.WidgetInfoType" />
     </data>
 
     <RelativeLayout
@@ -24,8 +27,9 @@
         />
 
         <TextView
-                app:bgTime="@{vm.bgwi}"
+                app:bgwi="@{vm.bgwi}"
                 app:isUse="@{vm.useDate}"
+                app:type="@{widgetType.DATE}"
                 android:id="@+id/tvDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -34,6 +38,9 @@
         />
 
         <TextView
+                app:bgwi="@{vm.bgwi}"
+                app:isUse="@{vm.useTime}"
+                app:type="@{widgetType.TIME}"
                 android:id="@+id/tvTime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -42,6 +49,9 @@
         />
 
         <TextView
+                app:bgwi="@{vm.bgwi}"
+                app:isUse="@{vm.useAmpm}"
+                app:type="@{widgetType.AMPM}"
                 android:id="@+id/tvAmpm"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -50,6 +60,9 @@
         />
 
         <TextView
+                app:bgwi="@{vm.bgwi}"
+                app:isUse="@{vm.useDow}"
+                app:type="@{widgetType.DOW}"
                 android:id="@+id/tvDow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -58,6 +71,9 @@
         />
 
         <TextView
+                app:bgwi="@{vm.bgwi}"
+                app:isUse="@{vm.useText}"
+                app:type="@{widgetType.TEXT}"
                 android:id="@+id/tvText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

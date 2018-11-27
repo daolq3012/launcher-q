@@ -13,7 +13,7 @@ data class Info(
     var font:String
 )
 
-enum class WidgetInfoType(var type:Int){
+enum class WidgetInfoType(var get:Int){
     TIME(0),
     AMPM(1),
     DATE(2),

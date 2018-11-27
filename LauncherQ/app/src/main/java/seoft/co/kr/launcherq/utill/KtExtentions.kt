@@ -3,6 +3,7 @@ package seoft.co.kr.launcherq.utill
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.databinding.ObservableField
+import android.graphics.Color
 import android.support.annotation.IdRes
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
@@ -39,6 +40,8 @@ fun String.e(tag:String = "#$#") {
 fun String.toast( duration: Int = Toast.LENGTH_LONG): Toast {
     return Toast.makeText(App.get, this, duration).apply { show()  }
 }
+
+fun String.toIntColor() = Color.parseColor(this)
 
 // view
 

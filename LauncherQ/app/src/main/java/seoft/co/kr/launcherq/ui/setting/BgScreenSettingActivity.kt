@@ -110,10 +110,10 @@ class BgScreenSettingActivity: AppCompatActivity() {
             val deviceWidth = Repo.preference.getDeviceX()
             val deviceHeight = Repo.preference.getDeviceY()
 
-            val pickedImg = Repo.preference.getBgImageColor()
+            val pickedColor = Repo.preference.getBgImageColor()
 
             ChromaDialog.Builder()
-                .initialColor(Color.parseColor(pickedImg))
+                .initialColor(pickedColor.toIntColor())
                 .colorMode(ColorMode.RGB) // There's also ARGB and HSV
                 .onColorSelected(object : ColorSelectListener {
                     override fun onColorSelected(color: Int) {
