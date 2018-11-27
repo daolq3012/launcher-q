@@ -67,7 +67,7 @@ class PreferenceRepo {
                 Info("HH:mm",20,"#00574B",50,100,""),
                 Info("AM%%PM",20,"#00574B",250,200,""),
                 Info("yyyy. MM. dd.",20,"#00574B",50,300,""),
-                Info("[ENG]",20,"#00574B",250,400,""),
+                Info("Sun%%Mon%%Tue%%Wed%%Thu%%Fri%%Sat",20,"#00574B",250,400,""),
                 Info("WELCOME%%TO%%LAUNCHER Q",20,"#00574B",50,500,"")
             ))
             setBgWidgetInfos(backgroundInfos)
