@@ -39,15 +39,43 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
     }
 
     fun savePos(x:Int,y:Int){
-
         bgwi.get()?.run {
             Infos[widgetInfoType_.getInt].posX = x
             Infos[widgetInfoType_.getInt].posY = y
 
-            bgwi.set(this)
             repo.preference.setBgWidgetInfos(this)
+            bgwi.set(this)
         }
     }
+
+    fun saveColor(colorCode: String) {
+        bgwi.get()?.copy()?.run {
+            Infos[widgetInfoType_.getInt].color = colorCode
+            repo.preference.setBgWidgetInfos(this)
+            bgwi.set(this)
+        }
+    }
+
+    fun clickColorBt() {
+        bgwi.get()?.run {
+            toActMsg(MsgType.PICK_COLOR,Infos[widgetInfoType_.getInt].color)
+        }
+    }
+
+    fun clickEtcBt() {
+        // TODO 각 설정에 맞는 다이어로그로 설정
+    }
+
+    fun clickResetBt() {
+        bgwi.get()?.copy()?.run {
+            Infos[widgetInfoType_.getInt].posX = (100 until 200).random()
+            Infos[widgetInfoType_.getInt].posY = (100 until 500).random()
+
+            repo.preference.setBgWidgetInfos(this)
+            bgwi.set(this)
+        }
+    }
+
 
 
     fun clickOnOffBt(v:View) {

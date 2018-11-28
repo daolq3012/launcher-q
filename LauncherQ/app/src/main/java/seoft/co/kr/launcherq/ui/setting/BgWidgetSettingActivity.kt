@@ -3,6 +3,7 @@ package seoft.co.kr.launcherq.ui.setting
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
@@ -11,13 +12,15 @@ import android.view.WindowManager
 import android.widget.RelativeLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_bg_widget_setting.*
+import me.priyesh.chroma.ChromaDialog
+import me.priyesh.chroma.ColorMode
+import me.priyesh.chroma.ColorSelectListener
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import seoft.co.kr.launcherq.databinding.ActivityBgWidgetSettingBinding
-import seoft.co.kr.launcherq.utill.getWidget
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.observeActMsg
+import seoft.co.kr.launcherq.ui.MsgType
+import seoft.co.kr.launcherq.utill.*
 
 class BgWidgetSettingActivity : AppCompatActivity() {
 
@@ -55,7 +58,7 @@ class BgWidgetSettingActivity : AppCompatActivity() {
 
         vm.observeActMsg(this, Observer {
             when(it) {
-
+                MsgType.PICK_COLOR  -> pickColor(vm.msg as String)
             }
         })
 
@@ -113,6 +116,21 @@ class BgWidgetSettingActivity : AppCompatActivity() {
                 return true
             }
         }
+    }
+
+    fun pickColor(pickedColor:String) {
+
+        ChromaDialog.Builder()
+            .initialColor(pickedColor.toIntColor())
+            .colorMode(ColorMode.RGB) // There's also ARGB and HSV
+            .onColorSelected(object : ColorSelectListener {
+                override fun onColorSelected(color: Int) {
+                    vm.saveColor(color.toStrColor())
+                }
+            })
+            .create()
+            .show(supportFragmentManager, "ChromaDialog")
+
     }
 
 

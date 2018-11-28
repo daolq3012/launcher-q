@@ -123,7 +123,7 @@ class BgScreenSettingActivity: AppCompatActivity() {
                         Repo.backgroundRepo.saveBitmap(bit, App.get)
                         "배경화면 설정 완료".toast()
 
-                        val strPickColor = String.format("#%08X", color)
+                        val strPickColor = color.toStrColor()
                         Repo.preference.setBgImageColor(strPickColor)
                         SC.needResetSetting = true
 

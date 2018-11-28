@@ -131,12 +131,14 @@
                         android:layout_height="wrap_content"
                 />
                 <Button
+                        android:onClick="@{()->vm.clickColorBt()}"
                         android:layout_weight="1"
                         android:text="색상"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/button3" />
                 <Button
+                        android:onClick="@{()->vm.clickEtcBt()}"
                         android:layout_weight="1"
                         android:text="형식"
                         android:layout_width="wrap_content"
@@ -144,6 +146,7 @@
                         android:id="@+id/button2" />
 
                 <Button
+                        android:onClick="@{()->vm.clickResetBt()}"
                         android:layout_weight="1"
                         android:text="초기화"
                         android:layout_width="wrap_content"

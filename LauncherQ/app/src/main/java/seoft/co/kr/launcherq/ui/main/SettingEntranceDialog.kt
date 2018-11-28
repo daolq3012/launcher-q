@@ -27,31 +27,9 @@ class SettingEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(conte
 
     fun initListener(){
         tvBgScreenSetting.setOnClickListener { v ->
-//            cb.invoke(MsgType.START_BG_SETTING_ACTIVITY)
             context.startActivity(Intent(context,BgScreenSettingActivity::class.java))
             dismiss()
         }
-
-//        tvBgEtcSetting.setOnClickListener { v ->
-//            val sd = SelectorDialog(
-//                context,
-//                "위젯 설정",
-//                SelectorDialog.DialogSelectorInfo("시간 위젯",R.color.gray),
-//                SelectorDialog.DialogSelectorInfo("날짜 위젯",R.color.gray),
-//                SelectorDialog.DialogSelectorInfo("요일 위젯",R.color.gray),
-//                SelectorDialog.DialogSelectorInfo("글귀 위젯",R.color.gray)
-//            ) {
-//                it.toString().i(TAG)
-//            }
-//            sd.create()
-//            dismiss()
-//        }
-
-
     }
-
-
-
-
 
 }

@@ -55,6 +55,10 @@ fun String.getWidget() : WidgetInfoType {
     }
 }
 
+// Int extentions
+
+fun Int.toStrColor() = String.format("#%08X", this)
+
 // view
 
 fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
