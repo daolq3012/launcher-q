@@ -133,5 +133,10 @@ class BgWidgetSettingActivity : AppCompatActivity() {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        vm.saveWhenOnPause()
+    }
 
 }

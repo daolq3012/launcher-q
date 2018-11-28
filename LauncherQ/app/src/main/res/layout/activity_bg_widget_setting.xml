@@ -107,6 +107,8 @@
                         android:text="크기 설정"
                 />
                 <SeekBar
+                        android:progress="@{vm.initSize}"
+                        android:onProgressChanged="@{(p,f,b)->vm.changeSizeSb(p,f,b)}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
             </LinearLayout>

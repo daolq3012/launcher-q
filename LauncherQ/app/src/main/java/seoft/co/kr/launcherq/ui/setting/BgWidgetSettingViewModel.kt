@@ -4,6 +4,7 @@ import android.databinding.ObservableField
 import android.graphics.Bitmap
 import android.view.View
 import android.widget.Button
+import android.widget.SeekBar
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
@@ -26,7 +27,7 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
     val useDow : ObservableField<Boolean> by lazy { ObservableField(repo.preference.getBgDowUse()) }
     val useText : ObservableField<Boolean> by lazy { ObservableField(repo.preference.getBgTextUse()) }
 
-
+    val initSize : ObservableField<Int> by lazy { ObservableField(repo.preference.getBgWidgetInfos().Infos[widgetInfoType_.getInt].size) }
 
     val widgetInfoType : ObservableField<WidgetInfoType> by lazy {
         ObservableField(widgetInfoType_)
@@ -76,8 +77,6 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
         }
     }
 
-
-
     fun clickOnOffBt(v:View) {
 
         val bt = v as Button
@@ -107,11 +106,22 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
                 }
             }
         }
+    }
 
+    fun changeSizeSb(sb:SeekBar,fSize:Int,b:Boolean){
 
-
+        bgwi.get()?.copy()?.run {
+            Infos[widgetInfoType_.getInt].size = fSize
+            repo.preference.setBgWidgetInfos(this)
+            bgwi.set(this)
+        }
 
     }
 
+    fun saveWhenOnPause() {
+        bgwi.get()?.copy()?.run {
+            repo.preference.setBgWidgetInfos(this)
+        }
+    }
 
 }

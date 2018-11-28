@@ -3,17 +3,13 @@ package seoft.co.kr.launcherq.utill
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import java.text.SimpleDateFormat
 import java.util.*
 import android.view.MotionEvent
-
+import android.widget.*
 
 
 @BindingAdapter("bgImg")
