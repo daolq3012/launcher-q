@@ -12,6 +12,9 @@ import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import java.text.SimpleDateFormat
 import java.util.*
+import android.view.MotionEvent
+
+
 
 @BindingAdapter("bgImg")
 fun setBgImg(imageView: ImageView, bitmap: Bitmap) { imageView.setImageBitmap(bitmap) }
@@ -97,4 +100,3 @@ fun setOnOffButton(bt: Button, type: WidgetInfoType, useTime:Boolean,useAmpm:Boo
     if (isUse) bt.text = SC.ON_WIDGET
     else bt.text = SC.OFF_WIDGET
 }
-

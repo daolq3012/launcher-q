@@ -82,50 +82,23 @@
         />
         <LinearLayout
                 android:background="@color/white"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="40dp">
-
-            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="좌우 설정"
-                />
-                <SeekBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="상하 설정"
-                />
-                <SeekBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-            </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="60dp">
 
             <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <TextView
@@ -145,7 +118,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 <Button
-                        android:onClick="@{(v)->vm.clickOnOffBt(v)}"
+                        android:layout_weight="1"
+                         android:onClick="@{(v)->vm.clickOnOffBt(v)}"
                         app:type="@{vm.widgetInfoType}"
                         app:useTime="@{vm.useTime}"
                         app:useAmpm="@{vm.useAmpm}"
@@ -157,15 +131,24 @@
                         android:layout_height="wrap_content"
                 />
                 <Button
-                        android:text="색상 설정"
+                        android:layout_weight="1"
+                        android:text="색상"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/button3" />
                 <Button
-                        android:text="형식 설정"
+                        android:layout_weight="1"
+                        android:text="형식"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/button2" />
+
+                <Button
+                        android:layout_weight="1"
+                        android:text="초기화"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button4" />
             </LinearLayout>
         </LinearLayout>
 
