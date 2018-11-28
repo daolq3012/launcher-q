@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 
@@ -42,6 +43,17 @@ fun String.toast( duration: Int = Toast.LENGTH_LONG): Toast {
 }
 
 fun String.toIntColor() = Color.parseColor(this)
+
+fun String.getWidget() : WidgetInfoType {
+    return when(this) {
+        WidgetInfoType.TIME.getStr -> WidgetInfoType.TIME
+        WidgetInfoType.AMPM.getStr -> WidgetInfoType.AMPM
+        WidgetInfoType.DATE.getStr -> WidgetInfoType.DATE
+        WidgetInfoType.DOW.getStr -> WidgetInfoType.DOW
+        WidgetInfoType.TEXT.getStr -> WidgetInfoType.TEXT
+        else -> WidgetInfoType.ERR
+    }
+}
 
 // view
 

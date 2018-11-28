@@ -3,6 +3,7 @@ package seoft.co.kr.launcherq.utill
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -16,7 +17,7 @@ import java.util.*
 fun setBgImg(imageView: ImageView, bitmap: Bitmap) { imageView.setImageBitmap(bitmap) }
 
 @BindingAdapter("bgwi","isUse","type")
-fun setBgTime(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: WidgetInfoType) {
+fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: WidgetInfoType) {
 
     if(!isUse) {
         tv.visibility = View.GONE
@@ -25,7 +26,7 @@ fun setBgTime(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wi
 
     tv.visibility = View.VISIBLE
 
-    bgwi.Infos[type.get].run {
+    bgwi.Infos[type.getInt].run {
 
         tv.let {
             it.textSize = size.toFloat()
@@ -77,5 +78,23 @@ fun setBgTime(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wi
 
     }
 
+}
+
+
+@BindingAdapter("type","useTime","useAmpm","useDate","useDow","useText")
+fun setOnOffButton(bt: Button, type: WidgetInfoType, useTime:Boolean,useAmpm:Boolean,
+                   useDate:Boolean,useDow:Boolean,useText:Boolean) {
+
+    val isUse = when(type) {
+        WidgetInfoType.TIME -> useTime
+        WidgetInfoType.AMPM -> useAmpm
+        WidgetInfoType.DATE -> useDate
+        WidgetInfoType.DOW -> useDow
+        WidgetInfoType.TEXT -> useText
+        else -> false
+    }
+
+    if (isUse) bt.text = SC.ON_WIDGET
+    else bt.text = SC.OFF_WIDGET
 }
 

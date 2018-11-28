@@ -13,11 +13,12 @@ data class Info(
     var font:String
 )
 
-enum class WidgetInfoType(var get:Int){
-    TIME(0),
-    AMPM(1),
-    DATE(2),
-    DOW(3),
-    TEXT(4),
-
+enum class WidgetInfoType(var getInt:Int,var getStr:String){
+    TIME(0,"timeWidget"),
+    AMPM(1,"ampmWidget"),
+    DATE(2,"dateWidget"),
+    DOW(3,"dowWidget"),
+    TEXT(4,"textWidget"),
+    ERR(5,"err"),
 }
+

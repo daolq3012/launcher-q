@@ -37,7 +37,7 @@ class PreferenceRepo {
     fun getBgImageBitmapPath() = mPrefs.getString(SP_BG_IMAGE_BITMAP_PATH,"")
 
     fun setBgImageColor(str:String) { mPrefs.edit().putString(SP_BG_IMAGE_COLOR,str).apply() }
-    fun getBgImageColor() = mPrefs.getString(SP_BG_IMAGE_COLOR,"#FFFFFF")
+    fun getBgImageColor() = mPrefs.getString(SP_BG_IMAGE_COLOR,"#000000")
 
     fun setDeviceX(i:Int) { mPrefs.edit().putInt(SP_DEVICE_X,i).apply() }
     fun getDeviceX() = mPrefs.getInt(SP_DEVICE_X,DEFAULT_DEVICE_X)

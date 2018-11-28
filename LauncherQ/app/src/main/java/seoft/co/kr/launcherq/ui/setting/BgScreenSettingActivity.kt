@@ -18,6 +18,7 @@ import me.priyesh.chroma.ColorMode
 import me.priyesh.chroma.ColorSelectListener
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import seoft.co.kr.launcherq.ui.setting.BgWidgetSettingActivity.Companion.WIDGET_TYPE
 import seoft.co.kr.launcherq.utill.*
 
@@ -66,8 +67,8 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
         override fun onResume() {
             super.onResume()
-            widgetPreferencesScreens[1].isEnabled = Repo.preference.getBgTimeUse()
-            widgetPreferencesScreens[3].isEnabled = Repo.preference.getBgDateUse()
+//            widgetPreferencesScreens[1].isEnabled = Repo.preference.getBgTimeUse()
+//            widgetPreferencesScreens[3].isEnabled = Repo.preference.getBgDateUse()
 
         }
 
@@ -84,11 +85,11 @@ class BgScreenSettingActivity: AppCompatActivity() {
             }
 
             widgetPreferencesScreens = arrayOf(
-                findPreference("timeWidget"),
-                findPreference("ampmWidget"),
-                findPreference("dateWidget"),
-                findPreference("dowWidget"),
-                findPreference("textWidget")
+                findPreference(WidgetInfoType.TIME.getStr),
+                findPreference(WidgetInfoType.AMPM.getStr),
+                findPreference(WidgetInfoType.DATE.getStr),
+                findPreference(WidgetInfoType.DOW.getStr),
+                findPreference(WidgetInfoType.TEXT.getStr)
             )
 
             for ( wps in widgetPreferencesScreens) {
