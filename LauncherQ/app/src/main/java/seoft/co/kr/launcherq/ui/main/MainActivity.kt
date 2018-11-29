@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         windowManager.defaultDisplay.getRealSize( size )
         vm.setDeviceXY(size.x,size.y)
         vm.resetBgBitmap()
+        vm.resetBgWidgets()
         SC.needResetSetting = false
 
     }

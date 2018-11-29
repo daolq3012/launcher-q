@@ -28,6 +28,8 @@
                 android:theme="@style/AppTheme"/>
         <activity android:name=".ui.setting.BgWidgetSettingActivity">
         </activity>
+        
+
     </application>
 
 </manifest>

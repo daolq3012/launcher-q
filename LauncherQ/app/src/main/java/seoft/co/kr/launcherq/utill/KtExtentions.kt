@@ -8,6 +8,7 @@ import android.support.annotation.IdRes
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
 import android.util.Log
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -55,6 +56,9 @@ fun String.getWidget() : WidgetInfoType {
     }
 }
 
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
+
+
 // Int extentions
 
 fun Int.toStrColor() = String.format("#%08X", this)
@@ -71,6 +75,7 @@ fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.()
 fun AppCompatActivity.replace(@IdRes frameId: Int, fragment: android.support.v4.app.Fragment, tag: String? = null) {
     supportFragmentManager.beginTransaction().replace(frameId, fragment, tag).commit()
 }
+
 
 // dialog
 fun AlertDialog.Builder.showDialog(title:String? = null, message:String? = null,
@@ -90,11 +95,14 @@ fun AlertDialog.Builder.showDialog(title:String? = null, message:String? = null,
 fun AlertDialog.Builder.showDialogWithInput(title:String? = null, message:String? = null,
                                             postiveBtText:String? = null, negativeBtText:String? = null,
                                             cbPostive : ((String)->Unit)? = null, cbNegative:(()->Unit)? = null,
-                                            inputType: Int) {
+                                            inputType: Int, text:String) {
     title?.let {  setTitle(title) }
     message?.let { setMessage(message) }
 
-    val etInput = EditText(context).apply { this.inputType = inputType }
+    val etInput = EditText(context).apply {
+        this.inputType = inputType
+        this.text = text.toEditable()
+    }
     val ll = LinearLayout(context).apply { orientation = LinearLayout.VERTICAL }
     val lp = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT,

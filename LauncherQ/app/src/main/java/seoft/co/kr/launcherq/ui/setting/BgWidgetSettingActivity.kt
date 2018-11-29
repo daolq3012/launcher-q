@@ -1,11 +1,14 @@
 package seoft.co.kr.launcherq.ui.setting
 
+import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
@@ -59,6 +62,7 @@ class BgWidgetSettingActivity : AppCompatActivity() {
         vm.observeActMsg(this, Observer {
             when(it) {
                 MsgType.PICK_COLOR  -> pickColor(vm.msg as String)
+                MsgType.OPEN_INPUT_DIALOG  -> openInputDialog(vm.msg as String)
             }
         })
 
@@ -130,6 +134,28 @@ class BgWidgetSettingActivity : AppCompatActivity() {
             })
             .create()
             .show(supportFragmentManager, "ChromaDialog")
+
+    }
+
+    fun openInputDialog(befStr:String){
+
+        val bgWidgetContent = BgWidgetContent()
+        AlertDialog.Builder(this).showDialogWithInput(
+            title = bgWidgetContent.widgetClassContents[widgetType.getInt].title,
+            message = bgWidgetContent.widgetClassContents[widgetType.getInt].explain,
+            postiveBtText = "확인",
+            negativeBtText = "취소",
+            cbPostive = {
+                vm.saveEtc(it)
+            },
+            cbNegative = {
+
+            },
+            inputType = InputType.TYPE_CLASS_TEXT,
+            text = befStr
+        )
+
+
 
     }
 
