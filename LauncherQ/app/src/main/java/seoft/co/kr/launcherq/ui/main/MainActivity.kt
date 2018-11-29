@@ -2,13 +2,16 @@ package seoft.co.kr.launcherq.ui.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.graphics.Point
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.GestureDetectorCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.WindowManager
 import seoft.co.kr.launcherq.R
@@ -20,8 +23,6 @@ import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.observeActMsg
 
 
-
-
 class MainActivity : AppCompatActivity() {
 
     val TAG = "MainActivity#$#"
@@ -30,6 +31,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var vm : MainViewModel
     private lateinit var requestManager : RequestManager
     private lateinit var gestureDetectorCompat : GestureDetectorCompat
+    private val screenSize = Point()
+
+
+    private val timeReceiver :  TimeReceiver by lazy {
+        TimeReceiver()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,18 +58,27 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        initListener()
-
+        inits()
         requestManager = RequestManager(this)
+
     }
 
     override fun onResume() {
         super.onResume()
 
-        if(SC.needResetSetting) {
+        if(SC.needResetSetting)
             resetSettingAct()
-        }
 
+        registerReceiver(timeReceiver, IntentFilter().apply {
+            addAction(Intent.ACTION_TIME_TICK)
+        })
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        unregisterReceiver(timeReceiver)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -74,8 +90,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initListener(){
-        gestureDetectorCompat = GestureDetectorCompat(this,GestureListener(this))
+    fun inits(){
+        windowManager.defaultDisplay.getRealSize( screenSize )
+        gestureDetectorCompat = GestureDetectorCompat(this,GestureListener(this,screenSize))
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -91,13 +108,25 @@ class MainActivity : AppCompatActivity() {
 
     // call when called resetSettingInVM in ViewModel
     fun resetSettingAct(){
-        val size = Point()
-        windowManager.defaultDisplay.getRealSize( size )
-        vm.setDeviceXY(size.x,size.y)
+        vm.setDeviceXY(screenSize.x,screenSize.y)
         vm.resetBgBitmap()
         vm.resetBgWidgets()
         SC.needResetSetting = false
 
     }
+
+    inner class TimeReceiver : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.action.run {
+                if(this == Intent.ACTION_TIME_TICK) {
+                    vm.resetBgWidgets()
+                }
+            }
+        }
+
+    }
+
+
+
 
 }

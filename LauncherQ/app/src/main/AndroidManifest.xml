@@ -26,10 +26,15 @@
         <activity
                 android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
                 android:theme="@style/AppTheme"/>
-        <activity android:name=".ui.setting.BgWidgetSettingActivity">
-        </activity>
-        
+        <activity android:name=".ui.setting.BgWidgetSettingActivity"/>
 
+        <receiver
+                android:name=".ui.main.MainActivity$timeReceiver"
+                android:enabled="true"
+                android:exported="false"/>
+
+        <activity android:name=".ui.drawer.DrawerActivity">
+        </activity>
     </application>
 
 </manifest>
