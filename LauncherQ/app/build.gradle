@@ -38,9 +38,9 @@ dependencies {
 
     // for manage local data
     // for local data save
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    implementation "android.arch.persistence.room:rxjava2:1.1.1"
-    kapt 'android.arch.persistence.room:compiler:1.1.1'
+//    implementation 'android.arch.persistence.room:runtime:1.1.1'
+//    implementation "android.arch.persistence.room:rxjava2:1.1.1"
+//    kapt 'android.arch.persistence.room:compiler:1.1.1'
 
     // for databinding / mvvm
     // kapt 'com.android.databinding:compiler:3.1.4'

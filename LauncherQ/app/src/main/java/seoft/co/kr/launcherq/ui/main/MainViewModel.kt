@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.ui.ViewModelHelper
+import seoft.co.kr.launcherq.utill.InstalledAppUtil
 
 class MainViewModel(val repo: Repo): ViewModelHelper() {
 
@@ -53,6 +54,10 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun appInit(){
+
+        val apps = InstalledAppUtil().getInstalledApps()
+
+
 
 
 

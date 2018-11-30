@@ -15,4 +15,7 @@ class SC{
 
         val gson = Gson()
     }
+
+
+
 }

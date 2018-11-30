@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content">
                 <Button
                         android:layout_weight="1"
-                         android:onClick="@{(v)->vm.clickOnOffBt(v)}"
+                        android:onClick="@{(v)->vm.clickOnOffBt(v)}"
                         app:type="@{vm.widgetInfoType}"
                         app:useTime="@{vm.useTime}"
                         app:useAmpm="@{vm.useAmpm}"

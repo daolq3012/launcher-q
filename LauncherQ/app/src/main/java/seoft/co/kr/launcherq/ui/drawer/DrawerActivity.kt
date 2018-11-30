@@ -3,8 +3,8 @@ package seoft.co.kr.launcherq.ui.drawer
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.databinding.ActivityDrawerBinding
@@ -28,7 +28,7 @@ class DrawerActivity : AppCompatActivity() {
 
         vm.observeActMsg(this, Observer {
             when(it) {
-                
+
 
 
 

@@ -2,10 +2,13 @@ package seoft.co.kr.launcherq.data.local
 
 import android.content.Context
 import android.preference.PreferenceManager
+import com.google.gson.reflect.TypeToken
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.data.model.Info
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
+import seoft.co.kr.launcherq.utill.i
 
 class PreferenceRepo {
 
@@ -26,6 +29,8 @@ class PreferenceRepo {
     private val SP_BG_AMPM_USE = "SP_BG_AMPM_USE"
     private val SP_BG_DOW_USE = "SP_BG_DOW_USE"
     private val SP_BG_TEXT_USE = "SP_BG_TEXT_USE"
+
+    private val SP_DRAWER_APPS = "SP_DRAWER_APPS"
 
 
 
@@ -57,10 +62,10 @@ class PreferenceRepo {
     fun getBgDowUse() = mPrefs.getBoolean(SP_BG_DOW_USE,true)
     fun getBgTextUse() = mPrefs.getBoolean(SP_BG_TEXT_USE,true)
 
-    fun  setBgWidgetInfos(bgwi: BackgroundWidgetInfos) {
+    fun setBgWidgetInfos(bgwi: BackgroundWidgetInfos) {
         mPrefs.edit().putString(SP_BG_WIDGET_INFOS,SC.gson.toJson(bgwi)).apply()
     }
-    fun  getBgWidgetInfos() :BackgroundWidgetInfos {
+    fun getBgWidgetInfos() :BackgroundWidgetInfos {
         var jsonStr = mPrefs.getString(SP_BG_WIDGET_INFOS,"")
         if (jsonStr.isNullOrEmpty()) {
             val backgroundInfos = BackgroundWidgetInfos( arrayOf(
@@ -76,4 +81,22 @@ class PreferenceRepo {
         return SC.gson.fromJson(jsonStr, BackgroundWidgetInfos::class.java)
     }
 
+    // for drawer
+
+
+    fun setDrawerApps(apps : MutableList<CommonApp>) {
+        mPrefs.edit().putString(SP_BG_WIDGET_INFOS,SC.gson.toJson(apps)).apply()
+    }
+
+    fun getDrawerApps() : MutableList<CommonApp>{
+        val jsonStr = mPrefs.getString(SP_DRAWER_APPS,"")
+        return SC.gson.fromJson<MutableList<CommonApp>>(jsonStr, object : TypeToken<MutableList<CommonApp>>(){}.type)
+    }
+
+
+
+
+
 }
+
+

@@ -6,5 +6,4 @@ import seoft.co.kr.launcherq.data.local.PreferenceRepo
 object Repo{
     val preference = PreferenceRepo()
     val backgroundRepo = BackgroundRepo()
-
 }
