@@ -10,10 +10,14 @@ class SC{
         val ON_WIDGET = "ON"
         val OFF_WIDGET = "OFF"
 
+        var ITEM_GRID_NUM = 12
+        var NUMBER_OF_COLUMNS = 4
 
         var needResetSetting = false
 
         val gson = Gson()
+
+
     }
 
 

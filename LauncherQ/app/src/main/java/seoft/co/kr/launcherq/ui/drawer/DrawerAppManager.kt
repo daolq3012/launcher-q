@@ -2,6 +2,7 @@ package seoft.co.kr.launcherq.ui.drawer
 
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
+import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
 
 class DrawerAppManager(val repo:Repo){
@@ -77,12 +78,7 @@ class DrawerAppManager(val repo:Repo){
 
     fun getIndexFromPkgName(pkgName_:String) = drawerApps.indexOfFirst{ it.pkgName == pkgName_ }
 
-
     fun save(){ repo.preference.setDrawerApps(drawerApps) }
-
-
-
-
 
 
 }

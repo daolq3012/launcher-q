@@ -85,7 +85,7 @@ class PreferenceRepo {
 
 
     fun setDrawerApps(apps : MutableList<CommonApp>) {
-        mPrefs.edit().putString(SP_BG_WIDGET_INFOS,SC.gson.toJson(apps)).apply()
+        mPrefs.edit().putString(SP_DRAWER_APPS, SC.gson.toJson(apps,object : TypeToken<MutableList<CommonApp>>(){}.type)).apply()
     }
 
     fun getDrawerApps() : MutableList<CommonApp>{

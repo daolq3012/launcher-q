@@ -15,6 +15,13 @@
             android:layout_height="match_parent"
             tools:context=".ui.drawer.DrawerActivity">
 
+        <android.support.v4.view.ViewPager
+                android:id="@+id/vpDrawer"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
 
     </RelativeLayout>
 

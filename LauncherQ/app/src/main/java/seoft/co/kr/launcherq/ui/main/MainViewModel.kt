@@ -54,12 +54,8 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun appInit(){
-
-        val apps = InstalledAppUtil().getInstalledApps()
-
-
-
-
+        val installedApps = InstalledAppUtil().getInstalledApps()
+        repo.preference.setDrawerApps(installedApps)
 
     }
 

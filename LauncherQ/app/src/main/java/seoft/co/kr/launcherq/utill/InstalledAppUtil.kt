@@ -11,18 +11,18 @@ class InstalledAppUtil {
         val intent = Intent(Intent.ACTION_MAIN, null)
             .apply { addCategory(Intent.CATEGORY_LAUNCHER) }
 
-        val packages = packageManager.queryIntentActivities(intent,0)
-            .map { it.activityInfo }
-
-        return packages
+        return packageManager.queryIntentActivities(intent,0)
             .map {
-                CommonApp(
-                    it.packageName,
-                    it.loadLabel(packageManager).toString(),
-                    it.name,
-                    it.loadIcon(packageManager),
-                    false
-                )
+                it.activityInfo.run {
+                    CommonApp(
+                        packageName,
+                        loadLabel(packageManager).toString(),
+                        name,
+//                    it.loadIcon(packageManager),
+                        false
+                    )
+                }
+
             }.toMutableList()
     }
 
