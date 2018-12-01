@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     fun inits(){
         windowManager.defaultDisplay.getRealSize( screenSize )
-        gestureDetectorCompat = GestureDetectorCompat(this,GestureListener(this,screenSize))
+        gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(this,screenSize))
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

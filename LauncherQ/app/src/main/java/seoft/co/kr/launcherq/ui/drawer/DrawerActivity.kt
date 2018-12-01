@@ -5,11 +5,14 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.ComponentName
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.Point
 import android.graphics.Rect
 import android.os.Bundle
+import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_drawer.*
 import seoft.co.kr.launcherq.R
@@ -27,12 +30,22 @@ class DrawerActivity : AppCompatActivity() {
 
     val TAG = "DrawerActivity#$#"
 
+    // ref : http://iw90.tistory.com/238
+    // finish drawer when scroll bottom to top
+    // distance is device size /  FINISH_ACTION_SENSITIVE(6)
+    val FINISH_ACTION_SENSITIVE = 6
+
     private lateinit var binding: ActivityDrawerBinding
 
     lateinit var vm : DrawerViewModel
 
     lateinit var viewPagerAdapter: DrawerPagerAdapter
     var recyclerViews:ArrayList<RecyclerView> = arrayListOf()
+
+    var screenSize : Point = Point()
+
+    var befY = 0
+    var afterY = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,9 +75,12 @@ class DrawerActivity : AppCompatActivity() {
     }
 
     fun initViews(){
+
+        windowManager.defaultDisplay.getRealSize( screenSize )
         viewPagerAdapter = DrawerPagerAdapter(recyclerViews)
         vpDrawer.adapter = viewPagerAdapter
     }
+
 
     fun updateApps(drawerLoadInfo:DrawerLoadInfo) {
 
@@ -91,6 +107,20 @@ class DrawerActivity : AppCompatActivity() {
                 rv.adapter = appAdapter
 //            rv.addItemDecoration(SPID(100))
                 rv.addItemDecoration(GridSpacingItemDecoration(it.columnNum, 50))
+
+                rv.setOnTouchListener { view, motionEvent ->
+                    when(motionEvent.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            befY = motionEvent.y.toInt()
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            afterY = motionEvent.y.toInt()
+                            if(befY - afterY > screenSize.y / FINISH_ACTION_SENSITIVE )
+                                finish()
+                        }
+                    }
+                    false
+                }
 
                 recyclerViews.add(rv)
                 viewPagerAdapter.notifyDataSetChanged()

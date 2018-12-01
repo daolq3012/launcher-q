@@ -8,9 +8,9 @@ import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.ui.drawer.DrawerActivity
 
 // ref : http://ukzzang.tistory.com/45
-class GestureListener(val activity: MainActivity,val screenSize:Point) : GestureDetector.SimpleOnGestureListener() {
+class MainGestureListener(val activity: MainActivity, val screenSize:Point) : GestureDetector.SimpleOnGestureListener() {
 
-    val TAG = "GestureListener#$#"
+    val TAG = "MainGestureListener#$#"
 
     override fun onLongPress(e: MotionEvent?) {
         activity.showSettingInMainDialog()
