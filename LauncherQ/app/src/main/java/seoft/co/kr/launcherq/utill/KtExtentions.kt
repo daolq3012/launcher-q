@@ -120,3 +120,8 @@ fun AlertDialog.Builder.showDialogWithInput(title:String? = null, message:String
     }}
     show()
 }
+
+
+fun Any.i(tag:String = "#$#") {
+    Log.i(tag,this.toString())
+}

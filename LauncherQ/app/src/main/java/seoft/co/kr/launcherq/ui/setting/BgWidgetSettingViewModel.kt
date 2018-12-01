@@ -136,7 +136,7 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
         bgwi.get()?.copy()?.run {
             repo.preference.setBgWidgetInfos(this)
         }
-        SC.needResetSetting = true
+        SC.needResetBgSetting = true
     }
 
 }

@@ -31,6 +31,8 @@ class PreferenceRepo {
     private val SP_BG_TEXT_USE = "SP_BG_TEXT_USE"
 
     private val SP_DRAWER_APPS = "SP_DRAWER_APPS"
+    private val SP_DRAWER_COLUMN_NUM = "SP_DRAWER_COLUMN_NUM"
+    private val SP_DRAWER_ITEM_NUM = "SP_DRAWER_ITEM_NUM"
 
 
 
@@ -61,6 +63,12 @@ class PreferenceRepo {
     fun getBgAmpmUse() = mPrefs.getBoolean(SP_BG_AMPM_USE,true)
     fun getBgDowUse() = mPrefs.getBoolean(SP_BG_DOW_USE,true)
     fun getBgTextUse() = mPrefs.getBoolean(SP_BG_TEXT_USE,true)
+
+    fun setDrawerColumnNum(num:Int) { mPrefs.edit().putInt(SP_DRAWER_COLUMN_NUM,num).apply() }
+    fun getDrawerColumnNum() = mPrefs.getInt(SP_DRAWER_COLUMN_NUM,5) // default is 5
+
+    fun setDrawerItemNum(num:Int) { mPrefs.edit().putInt(SP_DRAWER_ITEM_NUM,num).apply() }
+    fun getDrawerItemNum() = mPrefs.getInt(SP_DRAWER_ITEM_NUM,25) // default is 5
 
     fun setBgWidgetInfos(bgwi: BackgroundWidgetInfos) {
         mPrefs.edit().putString(SP_BG_WIDGET_INFOS,SC.gson.toJson(bgwi)).apply()

@@ -5,10 +5,12 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.ComponentName
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import kotlinx.android.synthetic.main.activity_drawer.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
@@ -26,6 +28,9 @@ class DrawerActivity : AppCompatActivity() {
     val TAG = "DrawerActivity#$#"
 
     private lateinit var binding: ActivityDrawerBinding
+
+    lateinit var vm : DrawerViewModel
+
     lateinit var viewPagerAdapter: DrawerPagerAdapter
     var recyclerViews:ArrayList<RecyclerView> = arrayListOf()
 
@@ -35,14 +40,19 @@ class DrawerActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
 
-        val vm = ViewModelProviders.of(this,DrawerViewModel(Repo).create()).get(DrawerViewModel::class.java)
+        vm = ViewModelProviders.of(this,DrawerViewModel(Repo).create()).get(DrawerViewModel::class.java)
         binding.vm = vm
         binding.executePendingBindings()
 
         vm.observeActMsg(this, Observer {
             when(it) {
-                MsgType.UPDATE_APPS ->updateApps(vm.msg as MutableList<CommonApp>)
-
+                MsgType.UPDATE_APPS ->updateApps(vm.msg as DrawerLoadInfo)
+                MsgType.SHOW_SETTING_DAILOG -> {
+                    val dsd = DrawerSettingDialog(this,Repo) {
+                        if(it) vm.reloadDrawer()
+                    }
+                    dsd.show()
+                }
             }
         })
 
@@ -56,27 +66,35 @@ class DrawerActivity : AppCompatActivity() {
         vpDrawer.adapter = viewPagerAdapter
     }
 
-    fun updateApps(dApps: MutableList<CommonApp>) {
-        val pageSize = if (dApps.size % SC.ITEM_GRID_NUM == 0)
-            dApps.size / SC.ITEM_GRID_NUM
-        else
-            dApps.size / SC.ITEM_GRID_NUM + 1
+    fun updateApps(drawerLoadInfo:DrawerLoadInfo) {
 
-        for (i in 0 until pageSize) {
-            val rv = RecyclerView(this)
-            val lm = GridLayoutManager(this, SC.NUMBER_OF_COLUMNS)
-            val appAdapter = DrawerAppAdapter(dApps, i) {
+        recyclerViews.clear()
 
-                it.toString().toast()
-                it.toString().i(TAG)
+        drawerLoadInfo.let {
+            val pageSize = if (it.dApps.size % it.itemGridNum == 0)
+                it.dApps.size / it.itemGridNum
+            else
+                it.dApps.size / it.itemGridNum + 1
 
-                launchApp(it)
+            for (i in 0 until pageSize) {
+                val rv = RecyclerView(this)
+                val lm = GridLayoutManager(this, it.columnNum)
+                val appAdapter = DrawerAppAdapter(it.dApps, i, it.itemGridNum) {
+
+                    it.toString().toast()
+                    it.toString().i(TAG)
+
+                    launchApp(it)
+                }
+
+                rv.layoutManager = lm
+                rv.adapter = appAdapter
+//            rv.addItemDecoration(SPID(100))
+                rv.addItemDecoration(GridSpacingItemDecoration(it.columnNum, 50))
+
+                recyclerViews.add(rv)
+                viewPagerAdapter.notifyDataSetChanged()
             }
-
-            rv.layoutManager = lm
-            rv.adapter = appAdapter
-            recyclerViews.add(rv)
-            viewPagerAdapter.notifyDataSetChanged()
         }
     }
 
@@ -93,21 +111,36 @@ class DrawerActivity : AppCompatActivity() {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
 
-
-
-
-
-
-
+        vm.onResumeInVM()
+    }
 
     override fun finish() {
         super.finish()
         overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
-
     }
 
 
 
+    inner class GridSpacingItemDecoration(
+        private val spanCount: Int,
+        private val spacing: Int
+    ) : RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val position = parent.getChildAdapterPosition(view) // item position
+            val column = position % spanCount // item column
+
+            outRect.left = spacing - column * spacing / spanCount // spacing - column * ((1f / spanCount) * spacing)
+            outRect.right = (column + 1) * spacing / spanCount // (column + 1) * ((1f / spanCount) * spacing)
+
+            if (position < spanCount) { // top edge
+                outRect.top = spacing
+            }
+            outRect.bottom = ( spacing * 1.6 ).toInt() // item bottom
+        }
+    }
 
 }

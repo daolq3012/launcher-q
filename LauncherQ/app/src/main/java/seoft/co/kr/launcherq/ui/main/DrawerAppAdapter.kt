@@ -11,13 +11,13 @@ import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
 
-class DrawerAppAdapter(apps_ : List<CommonApp>,page:Int ,var cb: (cApp:CommonApp)->Unit) : RecyclerView.Adapter<DrawerAppAdapter.ViewHolder>(){
+class DrawerAppAdapter(apps_ : List<CommonApp>,page:Int ,itemGridNum:Int ,var cb: (cApp:CommonApp)->Unit) : RecyclerView.Adapter<DrawerAppAdapter.ViewHolder>(){
 
     var apps = ArrayList<CommonApp>()
 
     init {
-        var stt = page * SC.ITEM_GRID_NUM
-        val end = stt + SC.ITEM_GRID_NUM
+        var stt = page * itemGridNum
+        val end = stt + itemGridNum
         while((stt < apps_.size) && (stt < end) )
             apps.add(apps_[stt++])
     }

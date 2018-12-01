@@ -14,8 +14,8 @@ abstract class ViewModelHelper : ViewModel() {
 
     abstract fun start()
 
-    fun toActMsg(type:MsgType,msg_:Any? = null) {
-        "SEND TO ACTVITY :: type -> ${type.name}    msg -> ${msg_.toString()}".i()
+    fun toActMsg(type:MsgType,msg_:Any? = null, showLog:Boolean = false) {
+        if(showLog) "SEND TO ACTVITY :: type -> ${type.name}    msg -> ${msg_.toString()}".i()
         msg = msg_
         actMsg.value = type
     }

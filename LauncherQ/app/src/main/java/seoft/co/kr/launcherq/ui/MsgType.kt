@@ -6,6 +6,7 @@ enum class MsgType {
     PICK_COLOR,
     OPEN_INPUT_DIALOG,
     UPDATE_APPS,
+    SHOW_SETTING_DAILOG,
 //    REFRESH_SETTING,
 }
 

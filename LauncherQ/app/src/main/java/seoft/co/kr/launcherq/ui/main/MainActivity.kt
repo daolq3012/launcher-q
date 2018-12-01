@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if(SC.needResetSetting)
+        if(SC.needResetBgSetting)
             resetSettingAct()
 
         registerReceiver(timeReceiver, IntentFilter().apply {
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         vm.setDeviceXY(screenSize.x,screenSize.y)
         vm.resetBgBitmap()
         vm.resetBgWidgets()
-        SC.needResetSetting = false
+        SC.needResetBgSetting = false
 
     }
 

@@ -29,11 +29,14 @@
         <activity android:name=".ui.setting.BgWidgetSettingActivity"/>
 
         <receiver
-                android:name=".ui.main.MainActivity$timeReceiver"
+                android:name=".ui.main.MainActivity$TimeReceiver"
                 android:enabled="true"
                 android:exported="false"/>
 
-        <activity android:name=".ui.drawer.DrawerActivity">
+        <activity
+                android:name=".ui.drawer.DrawerActivity"
+                android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ui.drawer.DrawerHideActivity">
         </activity>
     </application>
 
