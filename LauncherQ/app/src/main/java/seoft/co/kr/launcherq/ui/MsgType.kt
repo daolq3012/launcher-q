@@ -7,6 +7,7 @@ enum class MsgType {
     OPEN_INPUT_DIALOG,
     UPDATE_APPS,
     SHOW_SETTING_DAILOG,
+    CLEAR_SEARCH_EDIT_TEXT,
 //    REFRESH_SETTING,
 }
 

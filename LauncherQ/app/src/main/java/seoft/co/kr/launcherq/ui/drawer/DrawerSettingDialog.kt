@@ -12,7 +12,7 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.utill.SC
 
 
-class DrawerSettingDialog(context: Context,val drawerMode: DrawerActivity.DrawerMode, val repo: Repo,var cb: (dsdr:DrawerSettingDialogResult)->Unit) : Dialog(context) {
+class DrawerSettingDialog(context: Context,val drawerMode: DrawerViewModel.DrawerMode, val repo: Repo,var cb: (dsdr:DrawerSettingDialogResult)->Unit) : Dialog(context) {
 
     val TAG = "DrawerSettingDialog#$#"
 
@@ -45,7 +45,7 @@ class DrawerSettingDialog(context: Context,val drawerMode: DrawerActivity.Drawer
         tvNumX.text = curX.toString()
         tvNumY.text = curY.toString()
 
-        tvHide.text = if(DrawerActivity.DrawerMode.HIDE_MODE == drawerMode) "일반 앱 리스트" else "숨겨진 앱 리스트"
+        tvHide.text = if(DrawerViewModel.DrawerMode.HIDE_MODE == drawerMode) "일반 앱 리스트" else "숨겨진 앱 리스트"
 
 
         tvNumX.setOnClickListener { v ->

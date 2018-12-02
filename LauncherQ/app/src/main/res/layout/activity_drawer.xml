@@ -50,6 +50,7 @@
                         android:layout_toStartOf="@+id/ivOption" >
 
                     <EditText
+                            android:onTextChanged="@{(text, start, before, count)->vm.onTextChanged(text)}"
                             android:layout_marginLeft="15dp"
                             android:background="@android:color/transparent"
                             android:id="@+id/etSearch"
@@ -58,6 +59,7 @@
                             android:layout_height="35dp" />
 
                     <ImageView
+                            android:onClick="@{() -> vm.clickClearSearchText()}"
                             android:id="@+id/ivClear"
                             android:layout_marginRight="8dp"
                             android:layout_width="wrap_content"
@@ -79,8 +81,6 @@
                     android:layout_height="wrap_content">
 
             </android.support.v4.view.ViewPager>
-
-
 
         </LinearLayout>
 

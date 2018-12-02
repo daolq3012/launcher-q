@@ -1,5 +1,6 @@
 package seoft.co.kr.launcherq.ui.drawer
 
+import android.databinding.ObservableField
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.ui.MsgType
@@ -7,13 +8,14 @@ import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
 import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.i
+import seoft.co.kr.launcherq.utill.value
 
 class DrawerViewModel(val repo: Repo): ViewModelHelper() {
 
     val TAG = "DrawerViewModel#$#"
 
     lateinit var drawerApps : MutableList<CommonApp>
-
+    var drawerMode = DrawerMode.LAUNCH_MODE
 
     override fun start() {
         isChangedAppsWithRefresh()
@@ -121,5 +123,36 @@ class DrawerViewModel(val repo: Repo): ViewModelHelper() {
         toActMsg(MsgType.SHOW_SETTING_DAILOG)
     }
 
+    fun onTextChanged(searchText:CharSequence) {
+
+        drawerMode.i(TAG)
+
+        if(drawerMode == DrawerMode.HIDE_MODE) return
+
+        toActMsg(MsgType.UPDATE_APPS,
+            DrawerLoadInfo(
+                drawerApps
+                    .filter { it.label.toLowerCase().contains(searchText.toString())  }
+                    .filter { !it.isHide   }
+                    .toMutableList(),
+                repo.preference.getDrawerItemNum(),
+                repo.preference.getDrawerColumnNum()
+            )
+        )
+    }
+
+    fun clickClearSearchText() {
+        if(drawerMode == DrawerMode.HIDE_MODE) return
+
+        onTextChanged("")
+        toActMsg(MsgType.CLEAR_SEARCH_EDIT_TEXT)
+    }
+
+    enum class DrawerMode{
+        LAUNCH_MODE,
+        ADD_MODE,
+        MOVE_MODE,
+        HIDE_MODE
+    }
 
 }

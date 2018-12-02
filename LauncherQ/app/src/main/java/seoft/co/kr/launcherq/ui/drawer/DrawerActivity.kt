@@ -24,6 +24,7 @@ import seoft.co.kr.launcherq.utill.SelectorDialog
 import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.observeActMsg
 import seoft.co.kr.launcherq.utill.toast
+import seoft.co.kr.launcherq.ui.drawer.DrawerViewModel.DrawerMode
 
 class DrawerActivity : AppCompatActivity() {
 
@@ -46,7 +47,6 @@ class DrawerActivity : AppCompatActivity() {
     var befY = 0
     var afterY = 0
 
-    var drawerMode = DrawerMode.LAUNCH_MODE
     lateinit var selectedApp : CommonApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +63,7 @@ class DrawerActivity : AppCompatActivity() {
             when(it) {
                 MsgType.UPDATE_APPS -> updateApps(vm.msg as DrawerLoadInfo)
                 MsgType.SHOW_SETTING_DAILOG -> { showSettingDialog() }
-
+                MsgType.CLEAR_SEARCH_EDIT_TEXT -> etSearch.setText("")
             }
         })
 
@@ -135,7 +135,7 @@ class DrawerActivity : AppCompatActivity() {
     }
 
     private fun clickApp(dApp: CommonApp) {
-        when(drawerMode) {
+        when(vm.drawerMode) {
             DrawerMode.LAUNCH_MODE -> {
                 launchApp(dApp)
             }
@@ -144,7 +144,7 @@ class DrawerActivity : AppCompatActivity() {
             }
             DrawerMode.MOVE_MODE -> {
                 vm.moveApp(selectedApp.pkgName,dApp.pkgName)
-                drawerMode = DrawerMode.LAUNCH_MODE
+                vm.drawerMode = DrawerMode.LAUNCH_MODE
             }
             DrawerMode.HIDE_MODE -> {
                 vm.setUnhide(dApp.pkgName)
@@ -155,7 +155,7 @@ class DrawerActivity : AppCompatActivity() {
 
     private fun longClickApp(dApp: CommonApp) {
 
-        if(drawerMode == DrawerMode.HIDE_MODE) return
+        if(vm.drawerMode == DrawerMode.HIDE_MODE) return
 
         SelectorDialog(context = this,
             title = "설정",
@@ -166,11 +166,11 @@ class DrawerActivity : AppCompatActivity() {
                 when(it) {
                     1 -> {
                         selectedApp = dApp
-                        drawerMode = DrawerMode.ADD_MODE
+                        vm.drawerMode = DrawerMode.ADD_MODE
                     }
                     2 -> {
                         selectedApp = dApp
-                        drawerMode = DrawerMode.MOVE_MODE
+                        vm.drawerMode = DrawerMode.MOVE_MODE
                         "이동할 곳을 선택해주세요".toast()
                     }
                     3 -> {
@@ -183,17 +183,17 @@ class DrawerActivity : AppCompatActivity() {
     }
 
     private fun showSettingDialog() {
-        val dsd = DrawerSettingDialog(this,drawerMode,Repo) {
+        val dsd = DrawerSettingDialog(this,vm.drawerMode,Repo) {
 
             when(it) {
                 DrawerSettingDialog.DrawerSettingDialogResult.OK -> {
-                    vm.loadDrawerList(drawerMode == DrawerMode.HIDE_MODE)
+                    vm.loadDrawerList(vm.drawerMode == DrawerMode.HIDE_MODE)
                 }
                 DrawerSettingDialog.DrawerSettingDialogResult.SET_HIDE_APP -> {
 
-                    val isCurHideMode = drawerMode == DrawerMode.HIDE_MODE
+                    val isCurHideMode = vm.drawerMode == DrawerMode.HIDE_MODE
                     vm.loadDrawerList(!isCurHideMode)
-                    drawerMode =
+                    vm.drawerMode =
                             if(isCurHideMode) DrawerMode.LAUNCH_MODE
                             else DrawerMode.HIDE_MODE
                 }
@@ -228,9 +228,9 @@ class DrawerActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if(drawerMode == DrawerMode.HIDE_MODE){
+        if(vm.drawerMode == DrawerMode.HIDE_MODE){
             vm.loadDrawerList(false)
-            drawerMode = DrawerMode.LAUNCH_MODE
+            vm.drawerMode = DrawerMode.LAUNCH_MODE
         }
         else
             super.onBackPressed()
@@ -256,11 +256,6 @@ class DrawerActivity : AppCompatActivity() {
         }
     }
 
-    enum class DrawerMode{
-        LAUNCH_MODE,
-        ADD_MODE,
-        MOVE_MODE,
-        HIDE_MODE
-    }
+
 
 }
