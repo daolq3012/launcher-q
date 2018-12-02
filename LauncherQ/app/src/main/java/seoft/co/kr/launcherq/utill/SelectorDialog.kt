@@ -109,7 +109,7 @@ class SelectorDialog(val context : Context,
 
     data class DialogSelectorInfo (
         val text:String,
-        val colorId: Int
+        val colorId: Int = R.color.gray
     )
 
 }

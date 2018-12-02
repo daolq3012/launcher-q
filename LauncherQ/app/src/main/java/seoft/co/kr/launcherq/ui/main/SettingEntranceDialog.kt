@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.dialog_setting_entrance.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.ui.setting.BgScreenSettingActivity
-import seoft.co.kr.launcherq.utill.SelectorDialog
 
 
 class SettingEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(context) {

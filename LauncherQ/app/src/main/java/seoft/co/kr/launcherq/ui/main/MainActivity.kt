@@ -66,8 +66,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+
         if(SC.needResetBgSetting)
             resetSettingAct()
+        else
+            vm.resetBgWidgets() // when onresume but don't need setting reset, example) quit another app, clock refresh
 
         registerReceiver(timeReceiver, IntentFilter().apply {
             addAction(Intent.ACTION_TIME_TICK)

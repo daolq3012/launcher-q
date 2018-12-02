@@ -12,7 +12,7 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.utill.SC
 
 
-class DrawerSettingDialog(context: Context, val repo: Repo,var cb: (boolean: Boolean)->Unit) : Dialog(context) {
+class DrawerSettingDialog(context: Context,val drawerMode: DrawerActivity.DrawerMode, val repo: Repo,var cb: (dsdr:DrawerSettingDialogResult)->Unit) : Dialog(context) {
 
     val TAG = "DrawerSettingDialog#$#"
 
@@ -45,6 +45,9 @@ class DrawerSettingDialog(context: Context, val repo: Repo,var cb: (boolean: Boo
         tvNumX.text = curX.toString()
         tvNumY.text = curY.toString()
 
+        tvHide.text = if(DrawerActivity.DrawerMode.HIDE_MODE == drawerMode) "숨겨진 앱 리스트" else "일반 앱 리스트"
+
+
         tvNumX.setOnClickListener { v ->
             if(curX >= MAX_CUR_X) curX = MIN_CUR_X
             else curX++
@@ -60,21 +63,28 @@ class DrawerSettingDialog(context: Context, val repo: Repo,var cb: (boolean: Boo
         }
 
         tvHide.setOnClickListener { v ->
-            context.startActivity(Intent(context,DrawerHideActivity::class.java))
+            cb.invoke(DrawerSettingDialogResult.SET_HIDE_APP)
+            dismiss()
         }
 
         tvOk.setOnClickListener { v ->
             repo.preference.setDrawerColumnNum(curX)
             repo.preference.setDrawerItemNum(curX * curY)
-            cb.invoke(true)
+            cb.invoke(DrawerSettingDialogResult.OK)
             dismiss()
         }
 
         tvCancel.setOnClickListener { v ->
-            cb.invoke(false)
+            cb.invoke(DrawerSettingDialogResult.CANCEL)
             dismiss()
         }
 
+    }
+
+    enum class DrawerSettingDialogResult{
+        OK,
+        CANCEL,
+        SET_HIDE_APP
     }
 
 }

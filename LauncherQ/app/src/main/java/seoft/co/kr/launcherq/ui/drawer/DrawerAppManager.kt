@@ -4,11 +4,13 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
+import seoft.co.kr.launcherq.utill.i
 
 class DrawerAppManager(val repo:Repo){
 
     val TAG = "DrawerAppManager#$#"
     lateinit var drawerApps : MutableList<CommonApp>
+
     /**
      * @description
      * 1. check add or remove app
@@ -54,6 +56,22 @@ class DrawerAppManager(val repo:Repo){
         return isChanged
     }
 
+    fun setHide(pkgName: String) {
+        drawerApps
+            .forEach {
+                if(it.pkgName == pkgName) it.isHide = true
+            }
+        save()
+    }
+
+    fun setUnhide(pkgName: String) {
+        drawerApps
+            .forEach {
+                if(it.pkgName == pkgName) it.isHide = false
+            }
+        save()
+    }
+
     /**
      * @descript : need to get idx from pkgName searching in list
      */
@@ -69,7 +87,11 @@ class DrawerAppManager(val repo:Repo){
         val fromIdx = getIndexFromPkgName(fromPkgName)
         val toIdx = getIndexFromPkgName(toPkgName)
 
-        drawerApps.add(toIdx, drawerApps.get(fromIdx))
+        if(fromIdx < toIdx)
+            drawerApps.add(toIdx + 1, drawerApps.get(fromIdx))
+        else
+            drawerApps.add(toIdx, drawerApps.get(fromIdx))
+
         drawerApps.removeAt(
             if(fromIdx < toIdx) fromIdx else fromIdx + 1
         )

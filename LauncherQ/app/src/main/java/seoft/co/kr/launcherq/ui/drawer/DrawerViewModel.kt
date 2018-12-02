@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.ui.drawer
 
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.SC
@@ -13,29 +14,27 @@ class DrawerViewModel(val repo: Repo): ViewModelHelper() {
     val dam by lazy { DrawerAppManager(repo) }
 
     override fun start() {
-
         dam.isChangedAppsWithRefresh()
-
-        toActMsg(MsgType.UPDATE_APPS,
-            DrawerLoadInfo(
-                dam.drawerApps,
-                repo.preference.getDrawerItemNum(),
-                repo.preference.getDrawerColumnNum()
-            )
-        )
-
+        loadDrawerList()
     }
 
-    fun onResumeInVM(){
+    fun moveApp(fromPkgName : String, toPkgName: String) {
+        dam.moveApp(fromPkgName,toPkgName)
+        loadDrawerList()
+    }
+    fun onRestartInVM(){
         if(dam.isChangedAppsWithRefresh()){
-            reloadDrawer()
+            loadDrawerList()
         }
     }
 
-    fun reloadDrawer(){
+    fun loadDrawerList(isHideList:Boolean = false){
+
         toActMsg(MsgType.UPDATE_APPS,
             DrawerLoadInfo(
-                dam.drawerApps,
+                dam.drawerApps
+                    .filter { it.isHide == isHideList  }
+                    .toMutableList(),
                 repo.preference.getDrawerItemNum(),
                 repo.preference.getDrawerColumnNum()
             )
@@ -46,6 +45,15 @@ class DrawerViewModel(val repo: Repo): ViewModelHelper() {
        toActMsg(MsgType.SHOW_SETTING_DAILOG)
     }
 
+    fun setHideApp(pkgName: String) {
+        dam.setHide(pkgName)
+        loadDrawerList()
+    }
+
+    fun setUnhideApp(pkgName: String) {
+        dam.setUnhide(pkgName)
+        loadDrawerList(true)
+    }
 
 
 }

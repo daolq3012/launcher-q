@@ -36,8 +36,6 @@
         <activity
                 android:name=".ui.drawer.DrawerActivity"
                 android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.drawer.DrawerHideActivity">
-        </activity>
     </application>
 
 </manifest>

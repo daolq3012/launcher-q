@@ -34,6 +34,7 @@ class PreferenceRepo {
     private val SP_DRAWER_COLUMN_NUM = "SP_DRAWER_COLUMN_NUM"
     private val SP_DRAWER_ITEM_NUM = "SP_DRAWER_ITEM_NUM"
 
+    private val SP_DRAWER_HIDE_APPS = "SP_DRAWER_HIDE_APPS"
 
 
 
@@ -100,7 +101,7 @@ class PreferenceRepo {
         val jsonStr = mPrefs.getString(SP_DRAWER_APPS,"")
         return SC.gson.fromJson<MutableList<CommonApp>>(jsonStr, object : TypeToken<MutableList<CommonApp>>(){}.type)
     }
-
+ 
 
 
 

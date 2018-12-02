@@ -1,4 +1,4 @@
-package seoft.co.kr.launcherq.ui.main
+package seoft.co.kr.launcherq.ui.drawer
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,9 +9,10 @@ import android.widget.TextView
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.utill.App
-import seoft.co.kr.launcherq.utill.SC
 
-class DrawerAppAdapter(apps_ : List<CommonApp>,page:Int ,itemGridNum:Int ,var cb: (cApp:CommonApp)->Unit) : RecyclerView.Adapter<DrawerAppAdapter.ViewHolder>(){
+class DrawerGridAdapter(apps_ : List<CommonApp>, page:Int, itemGridNum:Int,
+                        var cbOnClick: (cApp:CommonApp)->Unit,
+                        var cbOnLongClick: (cApp:CommonApp)->Unit) : RecyclerView.Adapter<DrawerGridAdapter.ViewHolder>(){
 
     var apps = ArrayList<CommonApp>()
 
@@ -22,14 +23,14 @@ class DrawerAppAdapter(apps_ : List<CommonApp>,page:Int ,itemGridNum:Int ,var cb
             apps.add(apps_[stt++])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrawerAppAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_app,parent,false)
-        return ViewHolder(view, cb)
+        return ViewHolder(view, cbOnClick, cbOnLongClick)
     }
 
     override fun getItemCount() = apps.size
 
-    override fun onBindViewHolder(holder: DrawerAppAdapter.ViewHolder, pos: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         apps[pos].let{
             val icon = App.get.packageManager.getApplicationIcon(it.pkgName)
             holder.apply {
@@ -40,7 +41,9 @@ class DrawerAppAdapter(apps_ : List<CommonApp>,page:Int ,itemGridNum:Int ,var cb
         }
     }
 
-    inner class ViewHolder(v: View, var cb: (cApp:CommonApp)->Unit) : RecyclerView.ViewHolder(v) {
+    inner class ViewHolder(v: View,
+                           var cbOnClick: (cApp:CommonApp)->Unit,
+                           var cbOnLongClick: (cApp:CommonApp)->Unit) : RecyclerView.ViewHolder(v) {
 
         var ivIcon : ImageView
         var tvName : TextView
@@ -51,7 +54,12 @@ class DrawerAppAdapter(apps_ : List<CommonApp>,page:Int ,itemGridNum:Int ,var cb
             tvName = v.findViewById(R.id.tvName)
 
             ivIcon.setOnClickListener { v ->
-                cb.invoke(cApp)
+                cbOnClick.invoke(cApp)
+            }
+
+            ivIcon.setOnLongClickListener { v ->
+                cbOnLongClick.invoke(cApp)
+                true
             }
         }
 
