@@ -147,13 +147,15 @@ class DrawerActivity : AppCompatActivity() {
                 drawerMode = DrawerMode.LAUNCH_MODE
             }
             DrawerMode.HIDE_MODE -> {
-                vm.setUnhideApp(dApp.pkgName)
+                vm.setUnhide(dApp.pkgName)
                 "${dApp.label}앱의 숨기기가 해제되었습니다".toast(Toast.LENGTH_SHORT)
             }
         }
     }
 
     private fun longClickApp(dApp: CommonApp) {
+
+        if(drawerMode == DrawerMode.HIDE_MODE) return
 
         SelectorDialog(context = this,
             title = "설정",
@@ -172,7 +174,7 @@ class DrawerActivity : AppCompatActivity() {
                         "이동할 곳을 선택해주세요".toast()
                     }
                     3 -> {
-                        vm.setHideApp(dApp.pkgName)
+                        vm.setHide(dApp.pkgName)
                     }
                     else -> {}
                 }

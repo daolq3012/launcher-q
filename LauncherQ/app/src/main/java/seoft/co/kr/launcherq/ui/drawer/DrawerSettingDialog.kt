@@ -45,7 +45,7 @@ class DrawerSettingDialog(context: Context,val drawerMode: DrawerActivity.Drawer
         tvNumX.text = curX.toString()
         tvNumY.text = curY.toString()
 
-        tvHide.text = if(DrawerActivity.DrawerMode.HIDE_MODE == drawerMode) "숨겨진 앱 리스트" else "일반 앱 리스트"
+        tvHide.text = if(DrawerActivity.DrawerMode.HIDE_MODE == drawerMode) "일반 앱 리스트" else "숨겨진 앱 리스트"
 
 
         tvNumX.setOnClickListener { v ->
