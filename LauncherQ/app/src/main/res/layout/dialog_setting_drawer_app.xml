@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="300dp" android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/grid_parent_size_in_app_setting_view">
+
+            <!-- ##### -->
+            <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="110dp"
+                    android:layout_width="@dimen/grid_size_in_app_setting_view"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="#123123"
+                    android:padding="1dp"
+                    android:layout_height="@dimen/grid_size_in_app_setting_view" >
+
+                <LinearLayout
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:gravity="center" >
+
+                    <GridView
+                            android:visibility="visible"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:id="@+id/gvTop" />
+
+                    <TextView
+                            android:gravity="center"
+                            android:text="EMPTY"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/tvTop" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- ##### -->
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/grid_parent_size_in_app_setting_view">
+
+            <!-- ##### -->
+            <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_width="@dimen/grid_size_in_app_setting_view"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="#123123"
+                    android:padding="1dp"
+                    android:layout_height="@dimen/grid_size_in_app_setting_view" >
+
+                <LinearLayout
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:gravity="center" >
+
+                    <GridView
+                            android:visibility="visible"
+                            android:clickable="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:gravity="center"
+                            android:id="@+id/gvLeft" />
+
+                    <TextView
+                            android:gravity="center"
+                            android:text="EMPTY"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/tvLeft" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- ##### -->
+
+            <LinearLayout
+                    android:layout_width="@dimen/grid_parent_size_in_app_setting_view"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_height="@dimen/grid_parent_size_in_app_setting_view" >
+
+                <TextView
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:text="바로가기\n설정"
+                        android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+            <!-- ##### -->
+            <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_width="@dimen/grid_size_in_app_setting_view"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="#123123"
+                    android:padding="1dp"
+                    android:layout_height="@dimen/grid_size_in_app_setting_view" >
+
+                <LinearLayout
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:gravity="center" >
+
+                    <GridView
+                            android:visibility="visible"
+                            android:clickable="false"
+                            android:layout_width="match_parent"
+                            android:focusable="false"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:id="@+id/gvRight" />
+
+                    <TextView
+                            android:gravity="center"
+                            android:text="EMPTY"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/tvRight" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- ##### -->
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/grid_parent_size_in_app_setting_view">
+
+            <!-- ##### -->
+            <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="110dp"
+                    android:layout_width="@dimen/grid_size_in_app_setting_view"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="#123123"
+                    android:padding="1dp"
+                    android:layout_height="@dimen/grid_size_in_app_setting_view" >
+
+                <LinearLayout
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:gravity="center" >
+
+                    <GridView
+                            android:visibility="visible"
+                            android:clickable="false"
+                            android:layout_width="match_parent"
+                            android:focusable="false"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:id="@+id/gvBottom" />
+
+                    <TextView
+                            android:gravity="center"
+                            android:text="EMPTY"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/tvBottom" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- ##### -->
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+            android:layout_marginTop="10dp"
+            android:background="@color/c2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+    />
+
+    <TextView
+            android:id="@+id/tvOrder"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="순서 변경"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <View
+            android:background="@color/c2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+    />
+
+    <TextView
+            android:id="@+id/tvHide"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="앱 숨기기"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+
+
+
+
+</LinearLayout>

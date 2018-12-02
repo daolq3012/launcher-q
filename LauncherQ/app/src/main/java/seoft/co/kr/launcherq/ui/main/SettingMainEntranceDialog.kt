@@ -5,21 +5,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Window
-import kotlinx.android.synthetic.main.dialog_setting_entrance.*
+import kotlinx.android.synthetic.main.dialog_setting_main_entrance.*
 import seoft.co.kr.launcherq.R
-import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.ui.setting.BgScreenSettingActivity
 
 
-class SettingEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(context) {
+class SettingMainEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(context) {
 
-    val TAG = "SettingEntranceDialog#$#"
+    val TAG = "SettingMainEntranceDialog#$#"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_setting_entrance)
+        setContentView(R.layout.dialog_setting_main_entrance)
 
         initListener()
     }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_parent_size_in_app_setting_view">100dp</dimen>
+    <dimen name="grid_size_in_app_setting_view">80dp</dimen>
+
+</resources>

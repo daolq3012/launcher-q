@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showSettingInMainDialog(){
-        val simd = SettingEntranceDialog(this){}
+        val simd = SettingMainEntranceDialog(this){}
         simd.show()
 
     }

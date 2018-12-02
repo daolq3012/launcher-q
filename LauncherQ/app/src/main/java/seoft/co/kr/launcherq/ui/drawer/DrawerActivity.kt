@@ -157,39 +157,30 @@ class DrawerActivity : AppCompatActivity() {
 
         if(vm.drawerMode == DrawerMode.HIDE_MODE) return
 
-        SelectorDialog(context = this,
-            title = "설정",
-            firstSelector = SelectorDialog.DialogSelectorInfo("바로가기 추가"),
-            secondSelector = SelectorDialog.DialogSelectorInfo("순서 변경"),
-            thirdSelector =  SelectorDialog.DialogSelectorInfo("앱 숨기기"),
-            cb = {
-                when(it) {
-                    1 -> {
-                        selectedApp = dApp
-                        vm.drawerMode = DrawerMode.ADD_MODE
-                    }
-                    2 -> {
-                        selectedApp = dApp
-                        vm.drawerMode = DrawerMode.MOVE_MODE
-                        "이동할 곳을 선택해주세요".toast()
-                    }
-                    3 -> {
-                        vm.setHide(dApp.pkgName)
-                    }
-                    else -> {}
+        DrawerAppSettingDialog(this,Repo){
+            when(it) {
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_ORDER -> {
+                    selectedApp = dApp
+                    vm.drawerMode = DrawerMode.MOVE_MODE
+                    "이동할 곳을 선택해주세요".toast()
                 }
-            }).create()
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_HIDE -> {
+                    vm.setHide(dApp.pkgName)
+                    "${dApp.label}앱을 숨겼습니다"
+                }
+            }
+        }.show()
 
     }
 
     private fun showSettingDialog() {
-        val dsd = DrawerSettingDialog(this,vm.drawerMode,Repo) {
+        DrawerWholeSettingDialog(this,vm.drawerMode,Repo) {
 
             when(it) {
-                DrawerSettingDialog.DrawerSettingDialogResult.OK -> {
+                DrawerWholeSettingDialog.DrawerSettingDialogResult.OK -> {
                     vm.loadDrawerList(vm.drawerMode == DrawerMode.HIDE_MODE)
                 }
-                DrawerSettingDialog.DrawerSettingDialogResult.SET_HIDE_APP -> {
+                DrawerWholeSettingDialog.DrawerSettingDialogResult.SET_HIDE_APP -> {
 
                     val isCurHideMode = vm.drawerMode == DrawerMode.HIDE_MODE
                     vm.loadDrawerList(!isCurHideMode)
@@ -198,8 +189,7 @@ class DrawerActivity : AppCompatActivity() {
                             else DrawerMode.HIDE_MODE
                 }
             }
-        }
-        dsd.show()
+        }.show()
     }
 
     fun launchApp(cApp:CommonApp) {
@@ -255,7 +245,4 @@ class DrawerActivity : AppCompatActivity() {
             outRect.bottom = ( spacing * 1.6 ).toInt() // item bottom
         }
     }
-
-
-
 }

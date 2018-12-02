@@ -34,8 +34,12 @@ class PreferenceRepo {
     private val SP_DRAWER_COLUMN_NUM = "SP_DRAWER_COLUMN_NUM"
     private val SP_DRAWER_ITEM_NUM = "SP_DRAWER_ITEM_NUM"
 
-    private val SP_DRAWER_HIDE_APPS = "SP_DRAWER_HIDE_APPS"
+    private val SP_QL_TOP_APPS = "SP_QL_TOP_APPS"
+    private val SP_QL_RIGHT_APPS = "SP_QL_RIGHT_APPS"
+    private val SP_QL_BOTTOM_APPS = "SP_QL_BOTTOM_APPS"
+    private val SP_QL_LEFT_APPS = "SP_QL_LEFT_APPS"
 
+    private val SP_QL_GRID_COUNT = "SP_QL_GRID_COUNT"
 
 
     fun isFirstLaunch() = mPrefs.getBoolean(SP_IS_FIRST_LAUNCH,true)
@@ -101,8 +105,48 @@ class PreferenceRepo {
         val jsonStr = mPrefs.getString(SP_DRAWER_APPS,"")
         return SC.gson.fromJson<MutableList<CommonApp>>(jsonStr, object : TypeToken<MutableList<CommonApp>>(){}.type)
     }
- 
 
+    fun setQuickApps(apps : MutableList<CommonApp>,dir:Int) {
+
+        var key = ""
+        when(dir) {
+            0 -> key = SP_QL_TOP_APPS
+            1 -> key = SP_QL_RIGHT_APPS
+            2 -> key = SP_QL_BOTTOM_APPS
+            3 -> key = SP_QL_LEFT_APPS
+        }
+
+        mPrefs.edit().putString(key, SC.gson.toJson(apps,object : TypeToken<MutableList<CommonApp>>(){}.type)).apply()
+    }
+
+    fun getQuickApps(dir:Int) : MutableList<CommonApp>{
+        var key = ""
+
+        when(dir) {
+            0 -> key = SP_QL_TOP_APPS
+            1 -> key = SP_QL_RIGHT_APPS
+            2 -> key = SP_QL_BOTTOM_APPS
+            3 -> key = SP_QL_LEFT_APPS
+        }
+
+        var jsonStr = mPrefs.getString(key,"")
+
+        if(jsonStr.isNullOrEmpty()) {
+            val tmpApps = mutableListOf<CommonApp>()
+            for(i in 0 until 16) { tmpApps.add(CommonApp("","","",false)) }
+            jsonStr = SC.gson.toJson(tmpApps,object : TypeToken<MutableList<CommonApp>>(){}.type)
+        }
+
+        return SC.gson.fromJson<MutableList<CommonApp>>(jsonStr, object : TypeToken<MutableList<CommonApp>>(){}.type)
+    }
+
+    fun setGridCount(gridCnt : Int) {
+        mPrefs.edit().putInt(SP_QL_GRID_COUNT, gridCnt).apply()
+    }
+
+    fun getGridCount() : Int{
+        return mPrefs.getInt(SP_QL_GRID_COUNT,3)
+    }
 
 
 
