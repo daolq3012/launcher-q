@@ -1,5 +1,19 @@
 package seoft.co.kr.launcherq.data.model
 
+data class QuickApp(
+    var commonApp: CommonApp,
+    var type: QuickAppType,
+    var cmds: Array<String>
+)
+
+enum class QuickAppType{
+    EMPTY,
+    ONE_APP,
+    TWO_APP,
+    FOLDER,
+    EXPERT,
+}
+
 data class BackgroundWidgetInfos(
     var Infos : Array<Info>
 )

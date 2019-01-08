@@ -3,9 +3,7 @@ package seoft.co.kr.launcherq.data.local
 import android.content.Context
 import android.preference.PreferenceManager
 import com.google.gson.reflect.TypeToken
-import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
-import seoft.co.kr.launcherq.data.model.CommonApp
-import seoft.co.kr.launcherq.data.model.Info
+import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.i
@@ -40,6 +38,8 @@ class PreferenceRepo {
     private val SP_QL_LEFT_APPS = "SP_QL_LEFT_APPS"
 
     private val SP_QL_GRID_COUNT = "SP_QL_GRID_COUNT"
+
+    private val SP_ON_APPS = "SP_ON_APPS"
 
 
     fun isFirstLaunch() = mPrefs.getBoolean(SP_IS_FIRST_LAUNCH,true)
@@ -106,7 +106,7 @@ class PreferenceRepo {
         return SC.gson.fromJson<MutableList<CommonApp>>(jsonStr, object : TypeToken<MutableList<CommonApp>>(){}.type)
     }
 
-    fun setQuickApps(apps : MutableList<CommonApp>,dir:Int) {
+    fun setQuickApps(apps : MutableList<QuickApp>,dir:Int) {
 
         var key = ""
         when(dir) {
@@ -116,10 +116,10 @@ class PreferenceRepo {
             3 -> key = SP_QL_LEFT_APPS
         }
 
-        mPrefs.edit().putString(key, SC.gson.toJson(apps,object : TypeToken<MutableList<CommonApp>>(){}.type)).apply()
+        mPrefs.edit().putString(key, SC.gson.toJson(apps,object : TypeToken<MutableList<QuickApp>>(){}.type)).apply()
     }
 
-    fun getQuickApps(dir:Int) : MutableList<CommonApp>{
+    fun getQuickApps(dir:Int) : MutableList<QuickApp>{
         var key = ""
 
         when(dir) {
@@ -132,12 +132,17 @@ class PreferenceRepo {
         var jsonStr = mPrefs.getString(key,"")
 
         if(jsonStr.isNullOrEmpty()) {
-            val tmpApps = mutableListOf<CommonApp>()
-            for(i in 0 until 16) { tmpApps.add(CommonApp("","","",false)) }
-            jsonStr = SC.gson.toJson(tmpApps,object : TypeToken<MutableList<CommonApp>>(){}.type)
+            val tmpApps = mutableListOf<QuickApp>()
+            for(i in 0 until 16) { tmpApps.add(
+                QuickApp(
+                    CommonApp("","","",false),
+                    QuickAppType.EMPTY,
+                    emptyArray())
+            )}
+            jsonStr = SC.gson.toJson(tmpApps,object : TypeToken<MutableList<QuickApp>>(){}.type)
         }
 
-        return SC.gson.fromJson<MutableList<CommonApp>>(jsonStr, object : TypeToken<MutableList<CommonApp>>(){}.type)
+        return SC.gson.fromJson<MutableList<QuickApp>>(jsonStr, object : TypeToken<MutableList<QuickApp>>(){}.type)
     }
 
     fun setGridCount(gridCnt : Int) {

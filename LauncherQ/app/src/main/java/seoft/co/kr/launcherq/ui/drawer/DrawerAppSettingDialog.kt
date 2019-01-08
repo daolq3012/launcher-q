@@ -37,8 +37,6 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
         initListener()
     }
 
-
-
     fun initView(){
 
         grids.add(gvTop)
@@ -55,13 +53,13 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
 
         for(i in 0 until 4){
 
-            val apps = repo.preference.getQuickApps(i)
+            val apps = repo.preference.getQuickApps(i).map { it.commonApp }
 
             if(apps.all { it.pkgName == "" }){
                 grids[i].visibility = View.GONE
             } else {
                 grids[i].numColumns = gridCnt
-                grids[i].adapter = SimpleImageAdapter(context, 78/gridCnt ,apps.take(gridCnt*gridCnt).toMutableList())
+                grids[i].adapter = SimpleImageAdapter(context, 78/gridCnt ,apps.take(gridCnt*gridCnt).toMutableList()) // 78 is width?
             }
         }
 
