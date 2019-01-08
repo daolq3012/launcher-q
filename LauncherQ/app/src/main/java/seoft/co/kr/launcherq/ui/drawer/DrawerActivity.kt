@@ -20,11 +20,11 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.databinding.ActivityDrawerBinding
 import seoft.co.kr.launcherq.ui.MsgType
-import seoft.co.kr.launcherq.utill.SelectorDialog
+import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
+import seoft.co.kr.launcherq.ui.drawer.DrawerViewModel.DrawerMode
 import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.observeActMsg
 import seoft.co.kr.launcherq.utill.toast
-import seoft.co.kr.launcherq.ui.drawer.DrawerViewModel.DrawerMode
 
 class DrawerActivity : AppCompatActivity() {
 
@@ -168,8 +168,27 @@ class DrawerActivity : AppCompatActivity() {
                     vm.setHide(dApp.pkgName)
                     "${dApp.label}앱을 숨겼습니다"
                 }
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_TOP -> startArrangeActivity(0,dApp)
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_RIGHT -> startArrangeActivity(1,dApp)
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_BOTTOM -> startArrangeActivity(2,dApp)
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_LEFT -> startArrangeActivity(3,dApp)
+
             }
         }.show()
+
+    }
+
+    fun startArrangeActivity(dir:Int, app: CommonApp) {
+
+        val intent = Intent(applicationContext,ArrangeActivity::class.java)
+            .apply {
+                putExtra(ArrangeActivity.DIR,dir)
+                putExtra(ArrangeActivity.PKG_NAME,app.pkgName)
+                putExtra(ArrangeActivity.LABEL,app.label)
+                putExtra(ArrangeActivity.DETAIL_NAME,app.detailName)
+            }
+
+        startActivity(intent)
 
     }
 

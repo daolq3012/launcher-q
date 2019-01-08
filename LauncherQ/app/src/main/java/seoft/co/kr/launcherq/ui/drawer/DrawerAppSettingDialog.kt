@@ -2,20 +2,14 @@ package seoft.co.kr.launcherq.ui.drawer
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.widget.GridView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.dialog_setting_drawer_app.*
-import kotlinx.android.synthetic.main.dialog_setting_main_entrance.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.CommonApp
-import seoft.co.kr.launcherq.ui.SimpleImageAdapter
-import seoft.co.kr.launcherq.ui.setting.BgScreenSettingActivity
-import seoft.co.kr.launcherq.utill.i
 
 
 class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppSettingType)->Unit ) : Dialog(context) {
@@ -59,13 +53,43 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
                 grids[i].visibility = View.GONE
             } else {
                 grids[i].numColumns = gridCnt
-                grids[i].adapter = SimpleImageAdapter(context, 78/gridCnt ,apps.take(gridCnt*gridCnt).toMutableList()) // 78 is width?
+                grids[i].adapter = SimpleImageAdapter(
+                    context,
+                    78 / gridCnt,
+                    apps.take(gridCnt * gridCnt).toMutableList()
+                ) // 78 is @dimen/grid_size_in_app_setting_view - 2
             }
         }
 
     }
 
     fun initListener(){
+
+        llSetTop.setOnClickListener { _ ->
+            cb.invoke(DrawerAppSettingType.SET_TOP)
+            dismiss()
+        }
+
+        llSetRight.setOnClickListener { _ ->
+            cb.invoke(DrawerAppSettingType.SET_RIGHT)
+            dismiss()
+        }
+
+        llSetBottom.setOnClickListener { _ ->
+            cb.invoke(DrawerAppSettingType.SET_BOTTOM)
+            dismiss()
+        }
+
+        llSetLeft.setOnClickListener { _ ->
+            cb.invoke(DrawerAppSettingType.SET_LEFT)
+            dismiss()
+        }
+
+        llSetMid.setOnClickListener { _ ->
+            cb.invoke(DrawerAppSettingType.SET_TOP)
+            dismiss()
+        }
+
 
         tvOrder.setOnClickListener { v ->
             cb.invoke(DrawerAppSettingType.SET_ORDER)
@@ -80,7 +104,11 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
 
     enum class DrawerAppSettingType{
         SET_ORDER,
-        SET_HIDE
+        SET_HIDE,
+        SET_TOP,
+        SET_LEFT,
+        SET_RIGHT,
+        SET_BOTTOM,
     }
 
 }

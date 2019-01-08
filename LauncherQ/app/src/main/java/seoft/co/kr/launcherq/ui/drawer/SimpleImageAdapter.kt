@@ -1,18 +1,14 @@
-package seoft.co.kr.launcherq.ui
+package seoft.co.kr.launcherq.ui.drawer
 
 import android.content.Context
-import android.media.Image
+import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.GridView
 import android.widget.ImageView
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.utill.App
-import kotlin.contracts.contract
-import android.util.TypedValue
-import android.util.DisplayMetrics
-
 
 
 class SimpleImageAdapter(val context:Context, val gridInterval:Int, val cApps: MutableList<CommonApp>) : BaseAdapter() {
@@ -42,10 +38,11 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val cApps: M
     fun toPixels(dp: Int, metrics: DisplayMetrics): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), metrics).toInt()
     }
-//
-//픽셀맞추기중
-//    그리드뷰 뜨는거 픽셀맞추고
-//    저장세이브 계쏙진행
+// TODO
+// 픽셀맞추기중
+// 그리드뷰 뜨는거 픽셀맞추고
+// 저장세이브 계쏙진행
+// 혹 잘되면 QuickImageAdapter도 적용
 
 
 }
