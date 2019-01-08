@@ -36,11 +36,11 @@ class ArrangeActivity : AppCompatActivity() {
         vm.liveDataApps.observe(this,
             Observer {
                 it?.let {
-                    val gridCnt = vm.gridCnt
+                    val gridCnt = 4
                     gvApps.numColumns = gridCnt
                     gvApps.adapter = QuickImageAdapter(
                         this,
-                        100, // 100 dp
+                        80, // 80 dp
                         it.map { it.commonApp }.take(gridCnt * gridCnt).toMutableList()
                     )
                 }
@@ -67,3 +67,7 @@ class ArrangeActivity : AppCompatActivity() {
 
 
 }
+
+// TODO LIST
+// 그리드뷰 내에서 클릭해서 현 클릭상황 알 수 있게 (ui로도 표시)
+//        3. 그리드 크기 적당히

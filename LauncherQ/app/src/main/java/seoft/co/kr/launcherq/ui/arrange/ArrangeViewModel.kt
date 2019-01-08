@@ -23,8 +23,12 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun refreshApp(dir:Int) {
         gridCnt = repo.preference.getGridCount()
         liveDataApps.value = repo.preference.getQuickApps(dir)
-
     }
+
+    fun clickTop() { refreshApp(0) }
+    fun clickRight() { refreshApp(1) }
+    fun clickBottom() { refreshApp(2) }
+    fun clickLeft() { refreshApp(3) }
 
 
 
