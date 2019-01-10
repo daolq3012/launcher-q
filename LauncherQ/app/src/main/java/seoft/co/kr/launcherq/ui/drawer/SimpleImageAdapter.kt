@@ -13,6 +13,7 @@ import seoft.co.kr.launcherq.utill.App
 
 class SimpleImageAdapter(val context:Context, val gridInterval:Int, val cApps: MutableList<CommonApp>) : BaseAdapter() {
 
+    val TAG = "SimpleImageAdapter#$#"
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
         var iv = ImageView(context)
@@ -26,7 +27,9 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val cApps: M
             iv.scaleType = ImageView.ScaleType.FIT_XY
         }
 
-        iv.setImageDrawable(App.get.packageManager.getApplicationIcon(cApps[pos].pkgName))
+//        "cApps[pos].pkgName ${cApps[pos].pkgName.toString()}".i(TAG)
+        if(!cApps[pos].pkgName.isEmpty())
+            iv.setImageDrawable(App.get.packageManager.getApplicationIcon(cApps[pos].pkgName))
 
         return iv
     }

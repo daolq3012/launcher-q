@@ -3,13 +3,15 @@ package seoft.co.kr.launcherq.utill
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import java.text.SimpleDateFormat
 import java.util.*
-import android.view.MotionEvent
-import android.widget.*
 
 
 @BindingAdapter("bgImg")
@@ -99,3 +101,19 @@ fun setOnOffButton(bt: Button, type: WidgetInfoType, useTime:Boolean,useAmpm:Boo
     if (isUse) bt.text = SC.ON_WIDGET
     else bt.text = SC.OFF_WIDGET
 }
+
+//@BindingAdapter("type","useTime","useAmpm","useDate","useDow","useText")
+//fun setBottoms(ll:LinearLayout, commonApp: CommonApp, ) {
+//
+//    val isUse = when(type) {
+//        WidgetInfoType.TIME -> useTime
+//        WidgetInfoType.AMPM -> useAmpm
+//        WidgetInfoType.DATE -> useDate
+//        WidgetInfoType.DOW -> useDow
+//        WidgetInfoType.TEXT -> useText
+//        else -> false
+//    }
+//
+//    if (isUse) bt.text = SC.ON_WIDGET
+//    else bt.text = SC.OFF_WIDGET
+//}

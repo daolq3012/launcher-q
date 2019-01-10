@@ -3,15 +3,11 @@ package seoft.co.kr.launcherq.ui.setting
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.Point
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
-import android.preference.SwitchPreference
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.theartofdev.edmodo.cropper.CropImage
 import me.priyesh.chroma.ChromaDialog
 import me.priyesh.chroma.ColorMode
@@ -108,8 +104,8 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
         fun openColorSetting(){
 
-            val deviceWidth = Repo.preference.getDeviceX()
-            val deviceHeight = Repo.preference.getDeviceY()
+//            val deviceWidth = Repo.preference.getDeviceX()
+//            val deviceHeight = Repo.preference.getDeviceY()
 
             val pickedColor = Repo.preference.getBgImageColor()
 
@@ -118,7 +114,7 @@ class BgScreenSettingActivity: AppCompatActivity() {
                 .colorMode(ColorMode.RGB) // There's also ARGB and HSV
                 .onColorSelected(object : ColorSelectListener {
                     override fun onColorSelected(color: Int) {
-                        val bit = Bitmap.createBitmap(deviceWidth,deviceHeight, Bitmap.Config.ARGB_8888)
+                        val bit = Bitmap.createBitmap(1,1, Bitmap.Config.ARGB_8888)
                         bit.eraseColor(color)
                         Repo.backgroundRepo.saveBitmap(bit, App.get)
                         "배경화면 설정 완료".toast()
@@ -138,8 +134,11 @@ class BgScreenSettingActivity: AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val deviceWidth = Repo.preference.getDeviceX()
-        val deviceHeight = Repo.preference.getDeviceY()
+        val reduction = 2
+
+        val deviceWidth = Repo.preference.getDeviceX()/reduction
+        val deviceHeight = Repo.preference.getDeviceY()/reduction
+
 
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val imageUri = CropImage.getPickImageResultUri(this, data)

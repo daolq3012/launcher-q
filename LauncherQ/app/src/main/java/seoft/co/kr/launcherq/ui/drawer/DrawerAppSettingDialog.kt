@@ -63,32 +63,27 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
 
     }
 
+    fun setDir(drawerAppSettingType : DrawerAppSettingType) : Boolean {
+        cb.invoke(drawerAppSettingType)
+        dismiss()
+        return true
+    }
+
     fun initListener(){
 
-        llSetTop.setOnClickListener { _ ->
-            cb.invoke(DrawerAppSettingType.SET_TOP)
-            dismiss()
-        }
+        llSetTop.setOnClickListener { _ -> setDir(DrawerAppSettingType.SET_TOP) }
+        gvTop.setOnTouchListener { _, _ -> setDir(DrawerAppSettingType.SET_TOP) }
 
-        llSetRight.setOnClickListener { _ ->
-            cb.invoke(DrawerAppSettingType.SET_RIGHT)
-            dismiss()
-        }
+        llSetRight.setOnClickListener { _ -> setDir(DrawerAppSettingType.SET_RIGHT) }
+        gvRight.setOnTouchListener { _, _ -> setDir(DrawerAppSettingType.SET_RIGHT)  }
 
-        llSetBottom.setOnClickListener { _ ->
-            cb.invoke(DrawerAppSettingType.SET_BOTTOM)
-            dismiss()
-        }
+        llSetLeft.setOnClickListener { _ -> setDir(DrawerAppSettingType.SET_LEFT) }
+        gvLeft.setOnTouchListener { _, _ -> setDir(DrawerAppSettingType.SET_LEFT)  }
 
-        llSetLeft.setOnClickListener { _ ->
-            cb.invoke(DrawerAppSettingType.SET_LEFT)
-            dismiss()
-        }
+        llSetBottom.setOnClickListener { _ -> setDir(DrawerAppSettingType.SET_BOTTOM) }
+        gvBottom.setOnTouchListener { _, _ -> setDir(DrawerAppSettingType.SET_BOTTOM)  }
 
-        llSetMid.setOnClickListener { _ ->
-            cb.invoke(DrawerAppSettingType.SET_TOP)
-            dismiss()
-        }
+        llSetMid.setOnClickListener { _ -> setDir(DrawerAppSettingType.SET_TOP) }
 
 
         tvOrder.setOnClickListener { v ->

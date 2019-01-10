@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_arrange.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.databinding.ActivityArrangeBinding
-import seoft.co.kr.launcherq.ui.QuickImageAdapter
 import seoft.co.kr.launcherq.utill.observeActMsg
 
 class ArrangeActivity : AppCompatActivity() {
@@ -36,24 +36,30 @@ class ArrangeActivity : AppCompatActivity() {
         vm.liveDataApps.observe(this,
             Observer {
                 it?.let {
-                    val gridCnt = 4
+                    val gridCnt = vm.gridCnt
                     gvApps.numColumns = gridCnt
-                    gvApps.adapter = QuickImageAdapter(
+                    gvApps.adapter = ArrangeImageAdapter(
                         this,
-                        80, // 80 dp
-                        it.map { it.commonApp }.take(gridCnt * gridCnt).toMutableList()
-                    )
+                        it.take(gridCnt * gridCnt).toMutableList()
+                    ){
+                        vm.setPickedApp(it.quickApp, it.pos)
+                    }
                 }
             })
 
         vm.start()
 
-        val initDir = intent.getIntExtra(DIR,0)
-        vm.pkgName = intent.getStringExtra(PKG_NAME)
-        vm.label = intent.getStringExtra(LABEL)
-        vm.detailName = intent.getStringExtra(DETAIL_NAME)
+        vm.dir = intent.getIntExtra(DIR,0)
 
-        vm.refreshApp(initDir)
+        intent.getStringExtra(PKG_NAME)?.let {
+            vm.insertingApp = CommonApp(
+                intent.getStringExtra(PKG_NAME),
+                intent.getStringExtra(LABEL),
+                intent.getStringExtra(DETAIL_NAME),
+                false)
+        }
+
+        vm.refreshAppGrid()
 
     }
 
