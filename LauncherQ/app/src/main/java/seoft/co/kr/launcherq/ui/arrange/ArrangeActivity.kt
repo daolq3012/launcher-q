@@ -6,15 +6,18 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_arrange.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
+import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.databinding.ActivityArrangeBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.select.SelectActivity
 import seoft.co.kr.launcherq.utill.observeActMsg
+import seoft.co.kr.launcherq.utill.showDialog
 
 class ArrangeActivity : AppCompatActivity() {
 
@@ -52,7 +55,23 @@ class ArrangeActivity : AppCompatActivity() {
                         this,
                         it.take(gridCnt * gridCnt).toMutableList()
                     ){
-                        vm.setPickedApp(it.quickApp, it.pos)
+                        if(vm.isMoving) {
+                            if(it.quickApp.type == QuickAppType.EMPTY)
+                                vm.moveApp(it.pos)
+                            else {
+                                AlertDialog.Builder(this).showDialog(
+                                    message = "있는데 덮어 씌우겠습니까?",
+                                    postiveBtText = "네",
+                                    negativeBtText = "아니요",
+                                    cbPostive = {
+                                        vm.moveApp(it.pos)
+                                    },
+                                    cbNegative = {
+                                        vm.cancelMoveApp()
+                                    })
+                            }
+                        }
+                        else vm.setPickedApp(it.quickApp, it.pos)
                     }
                 }
             })

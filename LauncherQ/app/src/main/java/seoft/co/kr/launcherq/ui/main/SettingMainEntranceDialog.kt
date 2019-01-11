@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Window
 import kotlinx.android.synthetic.main.dialog_setting_main_entrance.*
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
 import seoft.co.kr.launcherq.ui.setting.BgScreenSettingActivity
 
 
@@ -26,6 +27,12 @@ class SettingMainEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(c
     fun initListener(){
         tvBgScreenSetting.setOnClickListener { v ->
             context.startActivity(Intent(context,BgScreenSettingActivity::class.java))
+            dismiss()
+        }
+
+        // TODO need to remove : for 앱 세팅바로가기
+        tvBgEtcSetting.setOnClickListener { v ->
+            context.startActivity(Intent(context,ArrangeActivity::class.java))
             dismiss()
         }
     }
