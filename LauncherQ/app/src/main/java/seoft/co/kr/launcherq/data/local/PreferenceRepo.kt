@@ -1,12 +1,10 @@
 package seoft.co.kr.launcherq.data.local
 
-import android.content.Context
 import android.preference.PreferenceManager
 import com.google.gson.reflect.TypeToken
 import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
 
 class PreferenceRepo {
 
@@ -137,7 +135,7 @@ class PreferenceRepo {
                 QuickApp(
                     CommonApp("","","",false),
                     QuickAppType.EMPTY,
-                    emptyArray())
+                    mutableListOf())
             )}
             jsonStr = SC.gson.toJson(tmpApps,object : TypeToken<MutableList<QuickApp>>(){}.type)
         }

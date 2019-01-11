@@ -1,12 +1,8 @@
 package seoft.co.kr.launcherq
 
-import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.data.model.QuickApp
@@ -30,9 +26,9 @@ class ExampleInstrumentedTest {
 //        assertEquals("seoft.co.kr.launcherq", appContext.packageName)
 
         val quickApps = mutableListOf(
-            QuickApp(CommonApp("AAA","AAA","AAA",true), QuickAppType.EMPTY, emptyArray()),
-            QuickApp(CommonApp("BBB","BBB","BBB",true), QuickAppType.EMPTY, emptyArray()),
-            QuickApp(CommonApp("CCC","CCC","CCC",true), QuickAppType.EMPTY, emptyArray())
+            QuickApp(CommonApp("AAA","AAA","AAA",true), QuickAppType.EMPTY, mutableListOf()),
+            QuickApp(CommonApp("BBB","BBB","BBB",true), QuickAppType.EMPTY, mutableListOf()),
+            QuickApp(CommonApp("CCC","CCC","CCC",true), QuickAppType.EMPTY, mutableListOf())
         )
 
         Repo.preference.setQuickApps(quickApps,0)

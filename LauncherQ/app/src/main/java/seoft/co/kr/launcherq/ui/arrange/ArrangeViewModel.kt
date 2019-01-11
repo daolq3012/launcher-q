@@ -15,11 +15,15 @@ import seoft.co.kr.launcherq.utill.toast
 class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     val TAG = "ArrangeViewModel#$#"
+    val SPLITTER = "#$#"
 
     companion object {
         val NONE_PICK = "NONE_PICK"
     }
-    val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"","",false), QuickAppType.EMPTY, emptyArray() )
+
+    // for when enter this act, can not do anything
+    val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"","",false), QuickAppType.EMPTY, mutableListOf() )
+    val EMPTY_COMMON_APP = CommonApp("","","",false)
 
     var gridCnt = 3
     var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
@@ -46,7 +50,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun setPickedApp(quickApp: QuickApp, pos:Int){
 
         insertingApp?.let {
-            saveAppToCurPos(it,pos)
+            saveCommonAppToCurPos(it,pos)
         } ?: let {
             pickedApp.set(quickApp)
             arrayPos = pos
@@ -54,11 +58,20 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     }
 
 
-    fun saveAppToCurPos(commonApp: CommonApp, pos:Int = arrayPos) {
+    fun saveCommonAppToCurPos(commonApp: CommonApp, pos:Int = arrayPos) {
 
         val changedLiveDataApps = liveDataApps.value!!
-        changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP, emptyArray() )
+        changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP, mutableListOf() )
         insertingApp = null
+        repo.preference.setQuickApps(changedLiveDataApps ,dir)
+        refreshAppGrid()
+        arrayPos = -1
+    }
+
+    fun saveQuickAppToCurPos(quickApp: QuickApp, pos:Int = arrayPos) {
+
+        val changedLiveDataApps = liveDataApps.value!!
+        changedLiveDataApps[pos] = quickApp
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
         arrayPos = -1
@@ -67,10 +80,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun deleteAppToFromPos(pos:Int = arrayPos, dir_:Int = dir) {
 
         val changedLiveDataApps = repo.preference.getQuickApps(dir_)
-        changedLiveDataApps[pos] = QuickApp(
-            CommonApp(
-            "","","",false
-        ), QuickAppType.EMPTY, emptyArray() )
+        changedLiveDataApps[pos] = QuickApp(EMPTY_COMMON_APP, QuickAppType.EMPTY, mutableListOf() )
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir_)
         refreshAppGrid()
@@ -85,7 +95,18 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         deleteAppToFromPos(moveBefPos,moveBefDir)
 
         val changedLiveDataApps = liveDataApps.value!!
-        changedLiveDataApps[toPos] = changingQuickApp
+
+        if(changedLiveDataApps[toPos].type == QuickAppType.FOLDER) {
+            changedLiveDataApps[toPos] = changedLiveDataApps[toPos].apply {
+                with(changingQuickApp.commonApp) {
+                    // one app save to string (pkgname#$#detailname#$#label)
+                    cmds.add("${pkgName}${SPLITTER}${detailName}${SPLITTER}${label}")
+                }
+            }
+        } else {
+            changedLiveDataApps[toPos] = changingQuickApp
+        }
+
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
         arrayPos = -1
@@ -121,6 +142,13 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickFolder(){
         "clickFolder".i()
+        saveQuickAppToCurPos(
+            QuickApp(
+                EMPTY_COMMON_APP,
+                QuickAppType.FOLDER,
+                mutableListOf()
+                )
+            ,arrayPos)
     }
 
     fun clickTwoDepth(){

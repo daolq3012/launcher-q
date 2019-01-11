@@ -114,7 +114,7 @@ fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms
 
     when(arrangeBottoms) {
         // when empty
-        ArrangeViewModel.ArrangeBottoms.ADD -> {
+        ArrangeViewModel.ArrangeBottoms.ADD,ArrangeViewModel.ArrangeBottoms.FOLDER -> {
             if(pickedApp.type == QuickAppType.EMPTY) {
                 ll.isClickable = true
                 tv.setTextColor(Color.GREEN)
@@ -131,10 +131,6 @@ fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms
                 ll.isClickable = true
                 tv.setTextColor(Color.GREEN)
             }
-        }
-        ArrangeViewModel.ArrangeBottoms.FOLDER -> {
-            tv.setTextColor(Color.GREEN)
-
         }
         ArrangeViewModel.ArrangeBottoms.EXPERT -> {
             tv.setTextColor(Color.GREEN)

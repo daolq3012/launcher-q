@@ -3,7 +3,7 @@ package seoft.co.kr.launcherq.data.model
 data class QuickApp(
     var commonApp: CommonApp,
     var type: QuickAppType,
-    var cmds: Array<String>
+    var cmds: MutableList<String>
 )
 
 enum class QuickAppType{

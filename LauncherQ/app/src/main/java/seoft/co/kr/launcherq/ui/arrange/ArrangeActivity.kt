@@ -16,6 +16,7 @@ import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.databinding.ActivityArrangeBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.select.SelectActivity
+import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.observeActMsg
 import seoft.co.kr.launcherq.utill.showDialog
 
@@ -55,20 +56,26 @@ class ArrangeActivity : AppCompatActivity() {
                         this,
                         it.take(gridCnt * gridCnt).toMutableList()
                     ){
+                        it.quickApp.toString().i(TAG)
+
                         if(vm.isMoving) {
-                            if(it.quickApp.type == QuickAppType.EMPTY)
-                                vm.moveApp(it.pos)
-                            else {
-                                AlertDialog.Builder(this).showDialog(
-                                    message = "있는데 덮어 씌우겠습니까?",
-                                    postiveBtText = "네",
-                                    negativeBtText = "아니요",
-                                    cbPostive = {
-                                        vm.moveApp(it.pos)
-                                    },
-                                    cbNegative = {
-                                        vm.cancelMoveApp()
-                                    })
+                            when(it.quickApp.type) {
+                                QuickAppType.EMPTY -> vm.moveApp(it.pos)
+                                // with folder
+                                else -> {
+                                    AlertDialog.Builder(this).showDialog(
+                                        message =
+                                        if(it.quickApp.type == QuickAppType.FOLDER) "폴더 안에 넣으시겠습니까?"
+                                        else "있는데 덮어 씌우겠습니까?",
+                                        postiveBtText = "네",
+                                        negativeBtText = "아니요",
+                                        cbPostive = {
+                                            vm.moveApp(it.pos)
+                                        },
+                                        cbNegative = {
+                                            vm.cancelMoveApp()
+                                        })
+                                }
                             }
                         }
                         else vm.setPickedApp(it.quickApp, it.pos)
@@ -98,7 +105,7 @@ class ArrangeActivity : AppCompatActivity() {
 
         if(resultCode == Activity.RESULT_OK && requestCode == APP_SELECT_REQ_CODE) {
             data?.run {
-                vm.saveAppToCurPos(
+                vm.saveCommonAppToCurPos(
                     CommonApp(
                         getStringExtra(PKG_NAME),
                         getStringExtra(LABEL),
