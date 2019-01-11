@@ -13,7 +13,10 @@ import android.os.Bundle
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
+import android.widget.RelativeLayout
+import kotlinx.android.synthetic.main.activity_main.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.databinding.ActivityMainBinding
@@ -21,6 +24,7 @@ import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.main.RequestManager.Companion.REQ_PERMISSIONS
 import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.observeActMsg
+import seoft.co.kr.launcherq.utill.toPixel
 
 
 class MainActivity : AppCompatActivity() {
@@ -98,7 +102,47 @@ class MainActivity : AppCompatActivity() {
         gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(this,screenSize))
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    var startX = 0
+    var startY = 0
+    var distance = 300
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        if(event.action == MotionEvent.ACTION_DOWN) {
+
+            var optX = 0
+            var optY = 0
+
+            startX = event.x.toInt()
+            startY = event.y.toInt()
+
+            if(startX + distance.toPixel()/2 > screenSize.x ) optX = startX + distance.toPixel()/2 - screenSize.x
+            else if(startX - distance.toPixel()/2 < 0 ) optX = startX - distance.toPixel()/2
+
+            if(startY + distance.toPixel()/2 > screenSize.y ) optY = startY + distance.toPixel()/2 - screenSize.y
+            else if(startY - distance.toPixel()/2 < 0 ) optY = startY - distance.toPixel()/2
+
+            val params = RelativeLayout.LayoutParams(distance.toPixel(), distance.toPixel())
+                .apply { setMargins(startX - distance.toPixel()/2 - optX, startY - distance.toPixel()/2 - optY,0,0) }
+
+            rlAppStarter.layoutParams = params
+            rlAppStarter.visibility = View.VISIBLE
+
+        } else if(event.action == MotionEvent.ACTION_MOVE) {
+
+        } else if(event.action == MotionEvent.ACTION_UP) {
+
+        }
+
+
+
+
+
+
+
+
+
+
         gestureDetectorCompat.onTouchEvent(event)
         return super.onTouchEvent(event)
     }

@@ -2,6 +2,7 @@ package seoft.co.kr.launcherq.utill
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
+import android.content.res.Resources
 import android.databinding.ObservableField
 import android.graphics.Color
 import android.support.annotation.IdRes
@@ -62,6 +63,10 @@ fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(
 // Int extentions
 
 fun Int.toStrColor() = String.format("#%08X", this)
+
+fun Int.toPixel() = (this * Resources.getSystem().displayMetrics.density).toInt()
+fun Int.toDp() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
 
 // view
 
