@@ -2,14 +2,15 @@ package seoft.co.kr.launcherq.utill
 
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
+import seoft.co.kr.launcherq.ui.arrange.ArrangeViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -102,18 +103,45 @@ fun setOnOffButton(bt: Button, type: WidgetInfoType, useTime:Boolean,useAmpm:Boo
     else bt.text = SC.OFF_WIDGET
 }
 
-//@BindingAdapter("type","useTime","useAmpm","useDate","useDow","useText")
-//fun setBottoms(ll:LinearLayout, commonApp: CommonApp, ) {
-//
-//    val isUse = when(type) {
-//        WidgetInfoType.TIME -> useTime
-//        WidgetInfoType.AMPM -> useAmpm
-//        WidgetInfoType.DATE -> useDate
-//        WidgetInfoType.DOW -> useDow
-//        WidgetInfoType.TEXT -> useText
-//        else -> false
-//    }
-//
-//    if (isUse) bt.text = SC.ON_WIDGET
-//    else bt.text = SC.OFF_WIDGET
-//}
+@BindingAdapter("tv","pickedApp","arrangeBottoms")
+fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms: ArrangeViewModel.ArrangeBottoms) {
+
+    if(pickedApp.commonApp.pkgName == ArrangeViewModel.NONE_PICK) {
+        ll.isClickable = false
+        tv.setTextColor(Color.RED)
+        return
+    }
+
+    when(arrangeBottoms) {
+        // when empty
+        ArrangeViewModel.ArrangeBottoms.ADD -> {
+            if(pickedApp.type == QuickAppType.EMPTY) {
+                ll.isClickable = true
+                tv.setTextColor(Color.GREEN)
+            } else {
+                ll.isClickable = false
+                tv.setTextColor(Color.RED)
+            }
+        }
+        ArrangeViewModel.ArrangeBottoms.DELETE, ArrangeViewModel.ArrangeBottoms.MOVE, ArrangeViewModel.ArrangeBottoms.TWO_DEPTH -> {
+            if(pickedApp.type == QuickAppType.EMPTY) {
+                ll.isClickable = false
+                tv.setTextColor(Color.RED)
+            } else {
+                ll.isClickable = true
+                tv.setTextColor(Color.GREEN)
+            }
+        }
+        ArrangeViewModel.ArrangeBottoms.FOLDER -> {
+            tv.setTextColor(Color.GREEN)
+
+        }
+        ArrangeViewModel.ArrangeBottoms.EXPERT -> {
+            tv.setTextColor(Color.GREEN)
+
+        }
+    }
+
+
+
+}

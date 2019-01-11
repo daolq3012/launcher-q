@@ -14,12 +14,16 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     val TAG = "ArrangeViewModel#$#"
 
+    companion object {
+        val NONE_PICK = "NONE_PICK"
+    }
+    val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"","",false), QuickAppType.EMPTY, emptyArray() )
+
     var gridCnt = 3
     var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
 
     var dir = 0
-
-    val pickedApp = ObservableField(QuickApp(CommonApp("","","",false), QuickAppType.EMPTY, emptyArray() ) )
+    val pickedApp = ObservableField( NONE_PICKED_APP)
 
     var insertingApp: CommonApp? = null
 
@@ -27,6 +31,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun refreshAppGrid() {
+        pickedApp.set(NONE_PICKED_APP)
         gridCnt = repo.preference.getGridCount()
         liveDataApps.value = repo.preference.getQuickApps(dir)
     }
@@ -47,27 +52,51 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         }
     }
 
-    fun clickTop() {
-        dir = 0
-        refreshAppGrid()
+    fun clickAdd(){
+        "clickAdd".i()
     }
 
-    fun clickRight() {
-        dir = 1
-        refreshAppGrid()
+    fun clickDelete(){
+        "clickDelete".i()
     }
 
-    fun clickBottom() {
-        dir = 2
-        refreshAppGrid()
+    fun clickMove(){
+        "clickMove".i()
     }
 
-    fun clickLeft() {
-        dir = 3
-        refreshAppGrid()
+    fun clickFolder(){
+        "clickFolder".i()
+    }
+
+    fun clickTwoDepth(){
+        "clickTwoDepth".i()
+    }
+
+    fun clickExpert(){
+        "clickExpert".i()
     }
 
 
+    fun clickTop() { dir = 0
+        refreshAppGrid() }
+
+    fun clickRight() { dir = 1
+        refreshAppGrid() }
+
+    fun clickBottom() { dir = 2
+        refreshAppGrid() }
+
+    fun clickLeft() { dir = 3
+        refreshAppGrid() }
+
+    enum class ArrangeBottoms{
+        ADD,
+        DELETE,
+        MOVE,
+        FOLDER,
+        TWO_DEPTH,
+        EXPERT
+    }
 
 
 }
