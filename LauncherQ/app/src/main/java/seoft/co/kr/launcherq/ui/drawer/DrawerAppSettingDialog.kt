@@ -107,3 +107,4 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
     }
 
 }
+
