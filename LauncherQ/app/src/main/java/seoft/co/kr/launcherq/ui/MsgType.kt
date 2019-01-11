@@ -8,6 +8,7 @@ enum class MsgType {
     UPDATE_APPS,
     SHOW_SETTING_DAILOG,
     CLEAR_SEARCH_EDIT_TEXT,
+    SELECT_APP,
 //    REFRESH_SETTING,
 }
 

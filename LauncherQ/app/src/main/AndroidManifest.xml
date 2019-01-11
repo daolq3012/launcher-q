@@ -38,6 +38,8 @@
                 android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ui.arrange.ArrangeActivity">
         </activity>
+        <activity android:name=".ui.select.SelectActivity">
+        </activity>
     </application>
 
 </manifest>

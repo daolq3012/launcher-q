@@ -1,7 +1,9 @@
 package seoft.co.kr.launcherq.ui.arrange
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -10,6 +12,8 @@ import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.databinding.ActivityArrangeBinding
+import seoft.co.kr.launcherq.ui.MsgType
+import seoft.co.kr.launcherq.ui.select.SelectActivity
 import seoft.co.kr.launcherq.utill.observeActMsg
 
 class ArrangeActivity : AppCompatActivity() {
@@ -17,19 +21,25 @@ class ArrangeActivity : AppCompatActivity() {
     val TAG = "ArrangeActivity#$#"
 
     private lateinit var binding: ActivityArrangeBinding
+    val APP_SELECT_REQ_CODE = 1234
+
+    lateinit var vm : ArrangeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_arrange)
 
-        val vm = ViewModelProviders.of(this,ArrangeViewModel(Repo).create()).get(ArrangeViewModel::class.java)
+        vm = ViewModelProviders.of(this,ArrangeViewModel(Repo).create()).get(ArrangeViewModel::class.java)
         binding.vm = vm
         binding.executePendingBindings()
 
         vm.observeActMsg(this, Observer {
             when(it) {
-
+                MsgType.SELECT_APP -> {
+                    val intent = Intent(applicationContext,SelectActivity::class.java)
+                    startActivityForResult(intent,APP_SELECT_REQ_CODE)
+                }
             }
         })
 
@@ -51,18 +61,35 @@ class ArrangeActivity : AppCompatActivity() {
 
         vm.dir = intent.getIntExtra(DIR,0)
 
-        intent.getStringExtra(PKG_NAME)?.let {
-            vm.insertingApp = CommonApp(
-                intent.getStringExtra(PKG_NAME),
-                intent.getStringExtra(LABEL),
-                intent.getStringExtra(DETAIL_NAME),
-                false)
+        with(intent){
+            getStringExtra(PKG_NAME)?.let {
+                vm.insertingApp = CommonApp(
+                    getStringExtra(PKG_NAME),
+                    getStringExtra(LABEL),
+                    getStringExtra(DETAIL_NAME),
+                    false)
+            }
         }
 
         vm.refreshAppGrid()
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if(resultCode == Activity.RESULT_OK && requestCode == APP_SELECT_REQ_CODE) {
+            data?.run {
+                vm.saveAppToCurPos(
+                    CommonApp(
+                        getStringExtra(PKG_NAME),
+                        getStringExtra(LABEL),
+                        getStringExtra(DETAIL_NAME),
+                        false))
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 
     companion object {
         val DIR = "DIR"
@@ -75,5 +102,6 @@ class ArrangeActivity : AppCompatActivity() {
 }
 
 // TODO LIST
-// 그리드뷰 내에서 클릭해서 현 클릭상황 알 수 있게 (ui로도 표시)
+// 그리드뷰 내에서 클릭해서 현 클릭상황 알 수 있게 (ui로도 표시) - ok
 //        3. 그리드 크기 적당히
+//          4. 버튼 여러상황일때 누를수있거나없거나 데이터넣거나 뺴거나 저장하거나

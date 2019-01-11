@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+                name="vm"
+                type="seoft.co.kr.launcherq.ui.select.SelectViewModel" />
+    </data>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.select.SelectActivity">
+
+
+        <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:title="앱 선택"
+                    app:titleTextColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="?attr/colorPrimary"
+                    android:theme="?attr/actionBarTheme">
+
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+                android:layout_below="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/gvApps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</layout>

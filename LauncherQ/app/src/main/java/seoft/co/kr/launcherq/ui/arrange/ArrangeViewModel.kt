@@ -6,6 +6,7 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.i
 
@@ -24,6 +25,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     var dir = 0
     val pickedApp = ObservableField( NONE_PICKED_APP)
+    var arrayPos = -1
 
     var insertingApp: CommonApp? = null
 
@@ -36,24 +38,34 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         liveDataApps.value = repo.preference.getQuickApps(dir)
     }
 
-    fun setPickedApp(quickApp: QuickApp,pos:Int){
+    fun setPickedApp(quickApp: QuickApp, pos:Int){
         "setPickedApp".i(TAG)
         quickApp.toString().i(TAG)
-        pos.toString().i(TAG)
 
         insertingApp?.let {
-            val changedLiveDataApps = liveDataApps.value!!
-            changedLiveDataApps[pos] = QuickApp(insertingApp!!, QuickAppType.ONE_APP, emptyArray() )
-            insertingApp = null
-            repo.preference.setQuickApps(changedLiveDataApps ,dir)
-            refreshAppGrid()
+            saveAppToCurPos(insertingApp!!,pos)
         } ?: let {
             pickedApp.set(quickApp)
+            arrayPos = pos
         }
+    }
+
+
+    fun saveAppToCurPos(commonApp: CommonApp, pos:Int = arrayPos) {
+
+        commonApp.toString().i()
+
+        val changedLiveDataApps = liveDataApps.value!!
+        changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP, emptyArray() )
+        insertingApp = null
+        repo.preference.setQuickApps(changedLiveDataApps ,dir)
+        refreshAppGrid()
+        arrayPos = -1
     }
 
     fun clickAdd(){
         "clickAdd".i()
+        toActMsg(MsgType.SELECT_APP)
     }
 
     fun clickDelete(){
@@ -88,6 +100,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickLeft() { dir = 3
         refreshAppGrid() }
+
 
     enum class ArrangeBottoms{
         ADD,
