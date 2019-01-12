@@ -17,10 +17,7 @@ import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.databinding.ActivityArrangeBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.select.SelectActivity
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.observeActMsg
-import seoft.co.kr.launcherq.utill.showDialog
-import seoft.co.kr.launcherq.utill.value
+import seoft.co.kr.launcherq.utill.*
 
 class ArrangeActivity : AppCompatActivity() {
 
@@ -108,8 +105,12 @@ class ArrangeActivity : AppCompatActivity() {
 
     private fun openFolder(pickedApp: QuickApp) {
 
+        if(pickedApp.cmds.isEmpty()) {
+            "폴더가 비어있습니다".toast()
+        }
+
         val afd = ArrangeFolderDialog(this,pickedApp.cmds){
-            it.toString().i(TAG)
+            vm.deleteCommonAppFromFolder(it)
         }
         afd.show()
 

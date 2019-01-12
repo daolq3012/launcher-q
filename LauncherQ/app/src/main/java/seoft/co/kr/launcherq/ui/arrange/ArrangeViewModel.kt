@@ -6,6 +6,7 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.data.model.toSaveString
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.i
@@ -18,7 +19,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     val TAG = "ArrangeViewModel#$#"
 
     companion object {
-        val SPLITTER = "#$#"
         val NONE_PICK = "NONE_PICK"
     }
 
@@ -31,7 +31,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     var dir = 0
     val pickedApp = ObservableField( NONE_PICKED_APP)
-    var arrayPos = -1
+    var curPos = -1
 
     var insertingApp: CommonApp? = null
 
@@ -45,8 +45,11 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun refreshAppGrid() {
         pickedApp.set(NONE_PICKED_APP)
         gridCnt = repo.preference.getGridCount()
-//        liveDataApps.value = emptyList<QuickApp>().toMutableList() // for refresh when insert app into folder
         liveDataApps.value = repo.preference.getQuickApps(dir)
+
+        curPos = -1
+        isMoving = false
+
     }
 
     /**
@@ -58,51 +61,48 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
             saveCommonAppToCurPos(it,pos)
         } ?: let {
             pickedApp.set(quickApp)
-            arrayPos = pos
+            curPos = pos
         }
     }
 
     /**
      * save common app to [empty place] or [in folder]
      */
-    fun saveCommonAppToCurPos(commonApp: CommonApp, pos:Int = arrayPos) {
+    fun saveCommonAppToCurPos(commonApp: CommonApp, pos:Int = curPos) {
 
         val changedLiveDataApps = liveDataApps.value!!
 
         if(pickedApp.value().type == QuickAppType.EMPTY)  changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP, mutableListOf() )
         else if(pickedApp.value().type == QuickAppType.FOLDER){
-            changedLiveDataApps[pos] = changedLiveDataApps[pos].apply {
-                with(commonApp) {
-                    cmds.add("${pkgName}${SPLITTER}${detailName}${SPLITTER}${label}") // one app save to string (pkgname#$#detailname#$#label)
-                }
-            }
+            changedLiveDataApps[pos].cmds.add(commonApp.toSaveString())
             changedLiveDataApps[pos].commonApp.isHide = false // for unset select effect
 
         }
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
-        arrayPos = -1
+//        curPos = -1
 
     }
 
-    fun saveQuickAppToCurPos(quickApp: QuickApp, pos:Int = arrayPos) {
+    fun saveQuickAppToCurPos(quickApp: QuickApp, pos:Int = curPos) {
 
         val changedLiveDataApps = liveDataApps.value!!
-        changedLiveDataApps[pos] = quickApp
+            .apply { this[pos]=quickApp }
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
-        arrayPos = -1
+//        curPos = -1
     }
 
-    fun deleteAppToFromPos(pos:Int = arrayPos, dir_:Int = dir) {
+    fun deleteAppToFromPos(pos:Int = curPos, dir_:Int = dir) {
 
-        val changedLiveDataApps = repo.preference.getQuickApps(dir_)
-        changedLiveDataApps[pos] = QuickApp(EMPTY_COMMON_APP, QuickAppType.EMPTY, mutableListOf() )
+        val changedLiveDataApps = repo.preference.getQuickApps(dir_).apply {
+            this[pos] = QuickApp(EMPTY_COMMON_APP, QuickAppType.EMPTY, mutableListOf() )
+        }
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir_)
         refreshAppGrid()
-        arrayPos = -1
+//        curPos = -1
     }
 
     /**
@@ -114,28 +114,31 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
         val changedLiveDataApps = liveDataApps.value!!
 
-        if(changedLiveDataApps[toPos].type == QuickAppType.FOLDER) {
-            changedLiveDataApps[toPos] = changedLiveDataApps[toPos].apply {
-                with(changingQuickApp.commonApp) {
-                    // one app save to string (pkgname#$#detailname#$#label)
-                    cmds.add("${pkgName}${SPLITTER}${detailName}${SPLITTER}${label}")
-                }
-            }
-        } else {
-            changedLiveDataApps[toPos] = changingQuickApp
-        }
+        if(changedLiveDataApps[toPos].type == QuickAppType.FOLDER) changedLiveDataApps[toPos].cmds.add(changingQuickApp.commonApp.toSaveString())
+        else changedLiveDataApps[toPos] = changingQuickApp
 
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
-        arrayPos = -1
-        isMoving = false
+//        curPos = -1
+//        isMoving = false
     }
 
     fun cancelMoveApp() {
         refreshAppGrid()
-        arrayPos = -1
+//        curPos = -1
         moveBefDir = -1
-        isMoving = false
+//        isMoving = false
+    }
+
+    fun deleteCommonAppFromFolder(cApp: CommonApp) {
+
+        val changedLiveDataApps = liveDataApps.value!!.apply {
+            this[curPos].cmds.remove(cApp.toSaveString())
+            this[curPos].commonApp.isHide = false
+        }
+
+        repo.preference.setQuickApps(changedLiveDataApps ,dir)
+        refreshAppGrid()
     }
 
 
@@ -152,7 +155,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun clickMove(){
         "clickMove".i()
         isMoving = true
-        moveBefPos = arrayPos
+        moveBefPos = curPos
         moveBefDir = dir
 
         "이동할곳을 선택해주세요".toast()
@@ -166,7 +169,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
                     EMPTY_COMMON_APP,
                     QuickAppType.FOLDER,
                     mutableListOf() ),
-                arrayPos
+                curPos
             )
         } else if(pickedApp.value().type == QuickAppType.FOLDER) {
             toActMsg(MsgType.OPEN_FOLDER)
@@ -193,8 +196,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickLeft() { dir = 3
         refreshAppGrid() }
-
-
 
     enum class ArrangeBottoms{
         ADD,

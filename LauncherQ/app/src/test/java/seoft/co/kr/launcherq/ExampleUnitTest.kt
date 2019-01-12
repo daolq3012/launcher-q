@@ -1,8 +1,7 @@
 package seoft.co.kr.launcherq
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -117,4 +116,21 @@ class ExampleUnitTest {
     fun String.p(){println(this)}
     fun Int.p(){println(this.toString())}
 
+    @Test
+    fun ktTest3(){
+        val ll = mutableListOf("AA","BB","CC")
+
+        ll.remove("AA")
+
+        ll.forEach {
+            println(it)
+        }
+
+
+
+
+    }
+
 }
+
+
