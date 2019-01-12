@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_arrange.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
+import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.databinding.ActivityArrangeBinding
 import seoft.co.kr.launcherq.ui.MsgType
@@ -19,6 +20,7 @@ import seoft.co.kr.launcherq.ui.select.SelectActivity
 import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.observeActMsg
 import seoft.co.kr.launcherq.utill.showDialog
+import seoft.co.kr.launcherq.utill.value
 
 class ArrangeActivity : AppCompatActivity() {
 
@@ -43,6 +45,9 @@ class ArrangeActivity : AppCompatActivity() {
                 MsgType.SELECT_APP -> {
                     val intent = Intent(applicationContext,SelectActivity::class.java)
                     startActivityForResult(intent,APP_SELECT_REQ_CODE)
+                }
+                MsgType.OPEN_FOLDER -> {
+                    openFolder(vm.pickedApp.value())
                 }
             }
         })
@@ -101,6 +106,15 @@ class ArrangeActivity : AppCompatActivity() {
 
     }
 
+    private fun openFolder(pickedApp: QuickApp) {
+
+        val afd = ArrangeFolderDialog(this,pickedApp.cmds){
+            it.toString().i(TAG)
+        }
+        afd.show()
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         if(resultCode == Activity.RESULT_OK && requestCode == APP_SELECT_REQ_CODE) {
@@ -130,4 +144,5 @@ class ArrangeActivity : AppCompatActivity() {
 // TODO LIST
 // 그리드뷰 내에서 클릭해서 현 클릭상황 알 수 있게 (ui로도 표시) - ok
 //        3. 그리드 크기 적당히
-//          4. 버튼 여러상황일때 누를수있거나없거나 데이터넣거나 뺴거나 저장하거나
+//          4. 버튼 여러상황일때 누를수있거나없거나 데이터넣거나 뺴거나 저장하거나 - ok
+//           5.   전문가, 투댑스 추가

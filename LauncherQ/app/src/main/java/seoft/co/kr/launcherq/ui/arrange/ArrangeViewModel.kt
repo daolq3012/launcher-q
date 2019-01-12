@@ -10,14 +10,15 @@ import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.toast
+import seoft.co.kr.launcherq.utill.value
 
 
 class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     val TAG = "ArrangeViewModel#$#"
-    val SPLITTER = "#$#"
 
     companion object {
+        val SPLITTER = "#$#"
         val NONE_PICK = "NONE_PICK"
     }
 
@@ -44,9 +45,13 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun refreshAppGrid() {
         pickedApp.set(NONE_PICKED_APP)
         gridCnt = repo.preference.getGridCount()
+//        liveDataApps.value = emptyList<QuickApp>().toMutableList() // for refresh when insert app into folder
         liveDataApps.value = repo.preference.getQuickApps(dir)
     }
 
+    /**
+     * set pic app to [empty place] or [in folder]
+     */
     fun setPickedApp(quickApp: QuickApp, pos:Int){
 
         insertingApp?.let {
@@ -57,15 +62,28 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         }
     }
 
-
+    /**
+     * save common app to [empty place] or [in folder]
+     */
     fun saveCommonAppToCurPos(commonApp: CommonApp, pos:Int = arrayPos) {
 
         val changedLiveDataApps = liveDataApps.value!!
-        changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP, mutableListOf() )
+
+        if(pickedApp.value().type == QuickAppType.EMPTY)  changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP, mutableListOf() )
+        else if(pickedApp.value().type == QuickAppType.FOLDER){
+            changedLiveDataApps[pos] = changedLiveDataApps[pos].apply {
+                with(commonApp) {
+                    cmds.add("${pkgName}${SPLITTER}${detailName}${SPLITTER}${label}") // one app save to string (pkgname#$#detailname#$#label)
+                }
+            }
+            changedLiveDataApps[pos].commonApp.isHide = false // for unset select effect
+
+        }
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
         arrayPos = -1
+
     }
 
     fun saveQuickAppToCurPos(quickApp: QuickApp, pos:Int = arrayPos) {
@@ -142,13 +160,17 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickFolder(){
         "clickFolder".i()
-        saveQuickAppToCurPos(
-            QuickApp(
-                EMPTY_COMMON_APP,
-                QuickAppType.FOLDER,
-                mutableListOf()
-                )
-            ,arrayPos)
+        if(pickedApp.value().type == QuickAppType.EMPTY) {
+            saveQuickAppToCurPos(
+                QuickApp(
+                    EMPTY_COMMON_APP,
+                    QuickAppType.FOLDER,
+                    mutableListOf() ),
+                arrayPos
+            )
+        } else if(pickedApp.value().type == QuickAppType.FOLDER) {
+            toActMsg(MsgType.OPEN_FOLDER)
+        }
     }
 
     fun clickTwoDepth(){

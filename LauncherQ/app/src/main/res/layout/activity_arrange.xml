@@ -217,7 +217,7 @@
                               app:arrangeBottoms="@{bottoms.FOLDER}"
                               android:padding="15dp" >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:text="폴더 생성" android:id="@+id/tvFolder" />
+                              android:text="폴더" android:id="@+id/tvFolder" />
                 </LinearLayout>
 
                 <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />

@@ -5,7 +5,6 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
-import seoft.co.kr.launcherq.utill.i
 
 class SelectViewModel(val repo: Repo): ViewModelHelper() {
 
@@ -15,7 +14,6 @@ class SelectViewModel(val repo: Repo): ViewModelHelper() {
 
     override fun start() {
         val instApps = InstalledAppUtil().getInstalledApps()
-        instApps.forEach { it.toString().i() }
         liveDataCommonApps.value = instApps
     }
 

@@ -14,10 +14,7 @@ import seoft.co.kr.launcherq.utill.App
 
 class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>, val cb:(CallbackArrangeGrid)->Unit) : BaseAdapter() {
 
-
-
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
-
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val item = inflater.inflate(R.layout.item_arrange_app,null)
@@ -35,11 +32,8 @@ class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>,
             cb.invoke(CallbackArrangeGrid(qApps[pos],pos))
         }
 
-
-        if(qApps[pos].commonApp.isHide)
-            item.ivSelect.visibility = View.VISIBLE
-        else
-            item.ivSelect.visibility = View.INVISIBLE
+        if(qApps[pos].commonApp.isHide) item.ivSelect.visibility = View.VISIBLE
+        else item.ivSelect.visibility = View.INVISIBLE
 
         return item
     }

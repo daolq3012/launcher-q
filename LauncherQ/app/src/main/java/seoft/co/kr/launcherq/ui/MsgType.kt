@@ -9,6 +9,7 @@ enum class MsgType {
     SHOW_SETTING_DAILOG,
     CLEAR_SEARCH_EDIT_TEXT,
     SELECT_APP,
+    OPEN_FOLDER,
 //    REFRESH_SETTING,
 }
 

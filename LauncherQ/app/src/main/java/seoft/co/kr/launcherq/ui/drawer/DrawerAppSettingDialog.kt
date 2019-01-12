@@ -10,12 +10,12 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.dialog_setting_drawer_app.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.data.model.QuickAppType
 
 
 class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppSettingType)->Unit ) : Dialog(context) {
 
     val TAG = "DrawerAppSettingDialog#$#"
-
 
     val grids = mutableListOf<GridView>()
     val emptyTextViews = mutableListOf<TextView>()
@@ -47,9 +47,9 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
 
         for(i in 0 until 4){
 
-            val apps = repo.preference.getQuickApps(i).map { it.commonApp }
+            val apps = repo.preference.getQuickApps(i)//.map { it.commonApp }
 
-            if(apps.all { it.pkgName == "" }){
+            if(apps.all { it.type == QuickAppType.EMPTY}){
                 grids[i].visibility = View.GONE
             } else {
                 grids[i].numColumns = gridCnt

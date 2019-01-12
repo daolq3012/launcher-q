@@ -118,12 +118,15 @@ fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms
             if(pickedApp.type == QuickAppType.EMPTY) {
                 ll.isClickable = true
                 tv.setTextColor(Color.GREEN)
+            } else if(pickedApp.type == QuickAppType.FOLDER) {
+                ll.isClickable = true
+                tv.setTextColor(Color.GREEN)
             } else {
                 ll.isClickable = false
                 tv.setTextColor(Color.RED)
             }
         }
-        ArrangeViewModel.ArrangeBottoms.DELETE, ArrangeViewModel.ArrangeBottoms.MOVE, ArrangeViewModel.ArrangeBottoms.TWO_DEPTH -> {
+        ArrangeViewModel.ArrangeBottoms.DELETE, ArrangeViewModel.ArrangeBottoms.MOVE -> {
             if(pickedApp.type == QuickAppType.EMPTY) {
                 ll.isClickable = false
                 tv.setTextColor(Color.RED)
@@ -132,9 +135,23 @@ fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms
                 tv.setTextColor(Color.GREEN)
             }
         }
+        ArrangeViewModel.ArrangeBottoms.TWO_DEPTH -> {
+            if(pickedApp.type == QuickAppType.EMPTY || pickedApp.type == QuickAppType.FOLDER) {
+                ll.isClickable = false
+                tv.setTextColor(Color.RED)
+            } else {
+                ll.isClickable = true
+                tv.setTextColor(Color.GREEN)
+            }
+        }
         ArrangeViewModel.ArrangeBottoms.EXPERT -> {
-            tv.setTextColor(Color.GREEN)
-
+            if(pickedApp.type == QuickAppType.FOLDER){
+                ll.isClickable = false
+                tv.setTextColor(Color.RED)
+            } else {
+                ll.isClickable = true
+                tv.setTextColor(Color.GREEN)
+            }
         }
     }
 
