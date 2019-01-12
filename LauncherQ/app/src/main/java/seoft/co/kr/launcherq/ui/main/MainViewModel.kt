@@ -20,6 +20,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     val useDow : ObservableField<Boolean> by lazy { ObservableField(repo.preference.getBgDowUse()) }
     val useText : ObservableField<Boolean> by lazy { ObservableField(repo.preference.getBgTextUse()) }
 
+
     override fun start() {
 
         repo.preference.run {
@@ -29,11 +30,11 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
                 setIsFirst(false)
             }
         }
+
+
     }
 
-    fun resetBgBitmap(){
-        bgBitmap.set(repo.backgroundRepo.loadBitmap())
-    }
+    fun resetBgBitmap(){ bgBitmap.set(repo.backgroundRepo.loadBitmap()) }
 
     fun resetBgWidgets(){
         repo.preference.run {

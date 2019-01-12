@@ -14,6 +14,7 @@ class SC{
 //        var NUMBER_OF_COLUMNS = 5
 
         var needResetBgSetting = false
+        var needResetUxSetting = false
 
         val gson = Gson()
 
