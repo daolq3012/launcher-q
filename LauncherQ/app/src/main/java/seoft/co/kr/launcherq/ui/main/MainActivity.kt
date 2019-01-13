@@ -19,6 +19,7 @@ import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.databinding.ActivityMainBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.main.RequestManager.Companion.REQ_PERMISSIONS
@@ -67,14 +68,38 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        vm.liveDataApps.observe(this,
+            Observer {
+                it?.let {
+                    val gridCnt = vm.gridCnt
+                    gvApps.numColumns = gridCnt
+                    gvApps.adapter = MainGridAdapter(
+                        this,
+                        it.take(gridCnt * gridCnt).toMutableList()
+                    ){
+                        runApp(it)
+                    }
+                }
+            })
+
         inits()
         requestManager = RequestManager(this)
 
     }
 
+
+    /**
+     * 앱 터치/때기 -> 실행
+     * 앱 웨잇 -> 2뎁스 실행
+     * 서랍 터치/때기/웨잇 -> 서랍열기 ( 2뎁스와 같은 UI? )
+     */
+
+    fun runApp(quickApp: QuickApp) {
+
+    }
+
     override fun onResume() {
         super.onResume()
-
 
         if(SC.needResetBgSetting)
             resetSettingAct()
@@ -176,6 +201,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             rlAppStarter.visibility = View.VISIBLE
+            gvApps.visibility = View.INVISIBLE
             step = TOUCH_START
 
         } else if(event.action == MotionEvent.ACTION_MOVE) {
@@ -188,8 +214,7 @@ class MainActivity : AppCompatActivity() {
                 with(coordinates) {
                     for (i in 0 until 4) {
                         if (this[i][0].x < curX && curX < this[i][1].x &&
-                            this[i][0].y < curY && curY < this[i][1].y
-                        ) {
+                            this[i][0].y < curY && curY < this[i][1].y ) {
                             var optX = 0
                             var optY = 0
 
@@ -205,9 +230,10 @@ class MainActivity : AppCompatActivity() {
                             val params = RelativeLayout.LayoutParams(oneStepSize.toPixel(), oneStepSize.toPixel())
                                 .apply { setMargins(oneStartX - oneStepSize.toPixel()/2 - optX, oneStartY - oneStepSize.toPixel()/2 - optY,0,0) }
                             gvApps.layoutParams = params
-
-
                             gvApps.visibility = View.VISIBLE
+
+                            vm.setAppsFromDir(i)
+
                             rlAppStarter.visibility = View.INVISIBLE
                             step = OPEN_ONE
                         }
@@ -216,19 +242,20 @@ class MainActivity : AppCompatActivity() {
 
             } else if(step == OPEN_ONE) {
 
+
+
+            } else if(step == OPEN_TWO) {
+
+
+
             }
+
 
 
         } else if(event.action == MotionEvent.ACTION_UP) {
 
             rlAppStarter.visibility = View.INVISIBLE
         }
-
-
-
-
-
-
 
 
 
@@ -240,7 +267,6 @@ class MainActivity : AppCompatActivity() {
     fun showSettingInMainDialog(){
         val simd = SettingMainEntranceDialog(this){}
         simd.show()
-
     }
 
     // call when called resetSettingInVM in ViewModel

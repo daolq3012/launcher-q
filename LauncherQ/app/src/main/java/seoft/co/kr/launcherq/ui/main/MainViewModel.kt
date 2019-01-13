@@ -1,9 +1,11 @@
 package seoft.co.kr.launcherq.ui.main
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.graphics.Bitmap
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
 
@@ -20,6 +22,9 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     val useDow : ObservableField<Boolean> by lazy { ObservableField(repo.preference.getBgDowUse()) }
     val useText : ObservableField<Boolean> by lazy { ObservableField(repo.preference.getBgTextUse()) }
 
+    var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
+
+    var gridCnt = 3
 
     override fun start() {
 
@@ -60,6 +65,10 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     }
 
+    fun setAppsFromDir(dir: Int) {
+        liveDataApps.value = repo.preference.getQuickApps(dir)
+
+    }
 
 
 }

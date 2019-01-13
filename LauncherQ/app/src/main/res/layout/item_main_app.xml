@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="100dp" android:layout_height="100dp" android:id="@+id/rlMainApp">
+
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/ivIcon"/>
+
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/ivEtc"
+               android:src="@mipmap/ic_launcher" android:visibility="invisible"
+    />
+
+</RelativeLayout>
