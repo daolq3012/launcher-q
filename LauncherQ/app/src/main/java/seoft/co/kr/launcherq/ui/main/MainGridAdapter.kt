@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.item_main_app.view.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
 
-class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, val cb:(QuickApp)->Unit) : BaseAdapter() {
+/**
+ * need to insert pixel value into gridItemSize param
+ */
+class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, val gridItemSize:Int, val cb:(QuickApp)->Unit) : BaseAdapter() {
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
 
@@ -23,6 +27,10 @@ class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, va
             QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_green)
             QuickAppType.ONE_APP -> item.ivIcon.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
         }
+
+        val params = RelativeLayout.LayoutParams(gridItemSize, gridItemSize)
+        item.ivEtc.layoutParams = params
+        item.ivIcon.layoutParams = params
 
         item.rlMainApp.setOnClickListener { _ -> cb.invoke(qApps[pos]) }
 

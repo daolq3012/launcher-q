@@ -37,6 +37,10 @@ class PreferenceRepo {
 
     private val SP_QL_GRID_COUNT = "SP_QL_GRID_COUNT"
 
+    private val SP_QL_GRID_VIEW_SIZE = "SP_QL_GRID_VIEW_SIZE"
+
+    private val SP_QL_DISTANCE= "SP_QL_DISTANCE"
+
     private val SP_ON_APPS = "SP_ON_APPS"
 
 
@@ -149,6 +153,21 @@ class PreferenceRepo {
 
     fun getGridCount() : Int{
         return mPrefs.getInt(SP_QL_GRID_COUNT,3)
+    }
+
+
+    fun setGridViewSize(gridViewSize : Int) {
+        mPrefs.edit().putInt(SP_QL_GRID_VIEW_SIZE, gridViewSize).apply()
+    }
+    fun getGridViewSize() : Int{
+        return mPrefs.getInt(SP_QL_GRID_VIEW_SIZE,180)
+    }
+
+    fun setDistance(distance : Int) {
+        mPrefs.edit().putInt(SP_QL_DISTANCE, distance).apply()
+    }
+    fun getDistance() : Int{
+        return mPrefs.getInt(SP_QL_DISTANCE,150)
     }
 
 

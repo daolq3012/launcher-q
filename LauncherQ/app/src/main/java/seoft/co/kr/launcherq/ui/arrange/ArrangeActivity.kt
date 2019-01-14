@@ -56,7 +56,8 @@ class ArrangeActivity : AppCompatActivity() {
                     gvApps.numColumns = gridCnt
                     gvApps.adapter = ArrangeImageAdapter(
                         this,
-                        it.take(gridCnt * gridCnt).toMutableList()
+                        it.take(gridCnt * gridCnt).toMutableList(),
+                        resources.getDimension(R.dimen.grid_view_size_in_arrange).toInt()/gridCnt // 388 same to
                     ){
                         it.quickApp.toString().i(TAG)
 

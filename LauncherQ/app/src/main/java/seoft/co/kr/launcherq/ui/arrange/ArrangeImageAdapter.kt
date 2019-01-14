@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.item_arrange_app.view.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.model.QuickApp
@@ -12,7 +13,10 @@ import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
 
 
-class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>, val cb:(CallbackArrangeGrid)->Unit) : BaseAdapter() {
+/**
+ * need to insert pixel value into itemSize param
+ */
+class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>, val itemSize:Int, val cb:(CallbackArrangeGrid)->Unit) : BaseAdapter() {
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
 
@@ -34,6 +38,10 @@ class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>,
 
         if(qApps[pos].commonApp.isHide) item.ivSelect.visibility = View.VISIBLE
         else item.ivSelect.visibility = View.INVISIBLE
+
+        val params = RelativeLayout.LayoutParams(itemSize,itemSize)
+        item.ivSelect.layoutParams = params
+        item.ivIcon.layoutParams = params
 
         return item
     }

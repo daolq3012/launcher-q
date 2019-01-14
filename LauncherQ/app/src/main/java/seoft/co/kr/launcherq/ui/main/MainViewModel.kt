@@ -8,6 +8,7 @@ import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
+import seoft.co.kr.launcherq.utill.toPixel
 
 class MainViewModel(val repo: Repo): ViewModelHelper() {
 
@@ -24,19 +25,30 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
 
-    var gridCnt = 3
+    var gridCnt = 0
+    var gridViewSize = 0
+    var gridItemSize = 0
+    var distance = 0
 
     override fun start() {
 
         repo.preference.run {
             if(isFirstLaunch()) {
                 appInit()
-
                 setIsFirst(false)
             }
         }
 
+        resetGridValue()
 
+    }
+
+    fun resetGridValue(){
+        distance = repo.preference.getDistance()
+
+        gridCnt = repo.preference.getGridCount()
+        gridViewSize = repo.preference.getGridViewSize()
+        gridItemSize = gridViewSize.toPixel()/gridCnt
     }
 
     fun resetBgBitmap(){ bgBitmap.set(repo.backgroundRepo.loadBitmap()) }

@@ -47,7 +47,7 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
 
         for(i in 0 until 4){
 
-            val apps = repo.preference.getQuickApps(i)//.map { it.commonApp }
+            val apps = repo.preference.getQuickApps(i)
 
             if(apps.all { it.type == QuickAppType.EMPTY}){
                 grids[i].visibility = View.GONE
@@ -55,9 +55,9 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
                 grids[i].numColumns = gridCnt
                 grids[i].adapter = SimpleImageAdapter(
                     context,
-                    78 / gridCnt,
+                    (context.resources.getDimension(R.dimen.grid_size_in_app_setting_view_minus_2_for_padding)).toInt() / gridCnt,
                     apps.take(gridCnt * gridCnt).toMutableList()
-                ) // 78 is @dimen/grid_size_in_app_setting_view - 2
+                )
             }
         }
 

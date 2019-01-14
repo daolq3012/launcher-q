@@ -2,5 +2,7 @@
 <resources>
     <dimen name="grid_parent_size_in_app_setting_view">100dp</dimen>
     <dimen name="grid_size_in_app_setting_view">80dp</dimen>
+    <dimen name="grid_size_in_app_setting_view_minus_2_for_padding">78dp</dimen>
+    <dimen name="grid_view_size_in_arrange">240dp</dimen>
 
 </resources>

@@ -26,7 +26,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"","",false), QuickAppType.EMPTY, mutableListOf() )
     val EMPTY_COMMON_APP = CommonApp("","","",false)
 
-    var gridCnt = 3
+    var gridCnt = 0
     var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
 
     var dir = 0

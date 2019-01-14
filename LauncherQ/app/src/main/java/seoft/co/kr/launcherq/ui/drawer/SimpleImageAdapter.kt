@@ -1,8 +1,6 @@
 package seoft.co.kr.launcherq.ui.drawer
 
 import android.content.Context
-import android.util.DisplayMetrics
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -23,9 +21,7 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: M
         view?.let {
             iv = view as ImageView
         }?: let {
-            val dm = context.resources.displayMetrics
-
-            iv.layoutParams = ViewGroup.LayoutParams(toPixels(gridInterval,dm),toPixels(gridInterval,dm))
+            iv.layoutParams = ViewGroup.LayoutParams(gridInterval,gridInterval)
             iv.scaleType = ImageView.ScaleType.FIT_XY
         }
 
@@ -41,15 +37,6 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: M
     override fun getItem(pos: Int) = null
     override fun getItemId(p0: Int): Long = 0
     override fun getCount(): Int = qApps.count()
-
-    fun toPixels(dp: Int, metrics: DisplayMetrics): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), metrics).toInt()
-    }
-// TODO
-// 픽셀맞추기중
-// 그리드뷰 뜨는거 픽셀맞추고
-// 저장세이브 계쏙진행
-// 혹 잘되면 QuickImageAdapter도 적용
 
 
 }
