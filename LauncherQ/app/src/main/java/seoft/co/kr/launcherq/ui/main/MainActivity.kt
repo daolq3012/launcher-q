@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private val OPEN_ONE = 2
     private val OPEN_TWO = 3
 
+    var step = NONE
 
     private val timeReceiver :  TimeReceiver by lazy {
         TimeReceiver()
@@ -144,32 +145,17 @@ class MainActivity : AppCompatActivity() {
         gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(this,screenSize))
     }
 
-//    var startX = 0
-//    var startY = 0
-//    var distance = 150
-//    var BOUNDARY = 50
-    var step = NONE
-//    var oneStepSize = 200
-
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         if(event.action == MotionEvent.ACTION_DOWN) {
 
            val distance = vm.distance
-            /*val optPoint = */mc.calcOpenTouchStart(event.x.toInt(),event.y.toInt(), distance, screenSize)
+
+            mc.calcOpenTouchStart(event.x.toInt(),event.y.toInt(), distance, screenSize)
             val params = RelativeLayout.LayoutParams(distance.toPixel()*2, distance.toPixel()*2)
                 .apply { setMargins(mc.startViewMarginPointX, mc.startViewMarginPointY,0,0) }
 
-//            val rstMidX = startX - optPoint.x
-//            val rstMidY = startY - optPoint.y
-
             rlAppStarter.layoutParams = params
-
-//            val rstNormalBoundary = BOUNDARY.toPixel()
-//            val rstLargeBoundary = BOUNDARY.toPixel()*2
-//            val rstDistance = distance.toPixel()
-
-
 
             rlAppStarter.visibility = View.VISIBLE
             gvApps.visibility = View.INVISIBLE
@@ -185,21 +171,13 @@ class MainActivity : AppCompatActivity() {
                 val curX = event.x.toInt()
                 val curY = event.y.toInt()
 
+                // check cur touch in boundary
                 with(mc.coordinates) {
                     for (i in 0 until 4) {
                         if (this[i][0].x < curX && curX < this[i][1].x &&
                             this[i][0].y < curY && curY < this[i][1].y ) {
-//                            var optX = 0
-//                            var optY = 0
 
                             mc.calcOpenOneStep(curX, curY,gvSize,screenSize)
-
-
-//                            if(curX + gvSize.toPixel()/2 > screenSize.x ) optX = curX + gvSize.toPixel()/2 - screenSize.x
-//                            else if(curX - gvSize.toPixel()/2 < 0 ) optX = curX - gvSize.toPixel()/2
-//
-//                            if(curY + gvSize.toPixel()/2 > screenSize.y ) optY = curY + gvSize.toPixel()/2 - screenSize.y
-//                            else if(curY - gvSize.toPixel()/2 < 0 ) optY = curY - gvSize.toPixel()/2
 
                             val params = RelativeLayout.LayoutParams(gvSize.toPixel(), gvSize.toPixel())
                                 .apply { setMargins(mc.gridViewMarginPointX, mc.gridViewMarginPointY,0,0) }
