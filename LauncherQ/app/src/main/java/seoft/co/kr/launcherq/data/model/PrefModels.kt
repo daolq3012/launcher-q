@@ -3,9 +3,45 @@ package seoft.co.kr.launcherq.data.model
 data class QuickApp(
     var commonApp: CommonApp,
     var type: QuickAppType,
-    var cmds: MutableList<String>
+    var cmds: MutableList<String> = mutableListOf(),
+    var expert: Expert? = null,
+    var isPicked: Boolean = false,
+    var hasImg: Boolean = false
+
+
+)
+//{
+//    constructor(commonApp: CommonApp,type: QuickAppType) : this(commonApp,type, mutableListOf(),null,false,false)
+//
+//}
+
+
+data class Expert(
+    var useOne:CustomIntent?,
+    var useTwo:MutableList<CustomIntent>
 )
 
+data class CustomIntent(
+    var action:String? = null,
+    var uriData:String? = null,
+    var type:String? = null,
+    var categorys: MutableList<String> = mutableListOf(),
+    var flag : Int = -1,
+    var addFlag : MutableList<Int> = mutableListOf(),
+    var pkgName :String ? = null,
+    var customComponentName:CustomComponentName? = null,
+    var className : ClassName? = null
+)
+
+data class CustomComponentName(
+    var compName : String? = null,
+    var compCls : String? = null
+)
+
+data class ClassName(
+    var pkgName : String? = null,
+    var clsName : String? = null
+)
 enum class QuickAppType{
     EMPTY,
     ONE_APP,

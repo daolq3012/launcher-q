@@ -30,13 +30,13 @@ class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>,
         }
 
         item.rlArrangeApp.setOnClickListener { _ ->
-            qApps.forEach { it.commonApp.isHide = false }
-            qApps[pos].commonApp.isHide = true
+            qApps.forEach { it.isPicked = false }
+            qApps[pos].isPicked = true
             notifyDataSetChanged()
             cb.invoke(CallbackArrangeGrid(qApps[pos],pos))
         }
 
-        if(qApps[pos].commonApp.isHide) item.ivSelect.visibility = View.VISIBLE
+        if(qApps[pos].isPicked) item.ivSelect.visibility = View.VISIBLE
         else item.ivSelect.visibility = View.INVISIBLE
 
         val params = RelativeLayout.LayoutParams(itemSize,itemSize)

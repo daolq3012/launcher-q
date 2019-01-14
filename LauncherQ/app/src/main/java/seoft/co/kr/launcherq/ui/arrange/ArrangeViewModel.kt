@@ -23,7 +23,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     // for when enter this act, can not do anything
-    val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"","",false), QuickAppType.EMPTY, mutableListOf() )
+    val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"","",false), QuickAppType.EMPTY)
     val EMPTY_COMMON_APP = CommonApp("","","",false)
 
     var gridCnt = 0
@@ -48,8 +48,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         liveDataApps.value = repo.preference.getQuickApps(dir)
 
         curPos = -1
-        isMoving = false
-
     }
 
     /**
@@ -72,10 +70,10 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
         val changedLiveDataApps = liveDataApps.value!!
 
-        if(pickedApp.value().type == QuickAppType.EMPTY)  changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP, mutableListOf() )
+        if(pickedApp.value().type == QuickAppType.EMPTY)  changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP)
         else if(pickedApp.value().type == QuickAppType.FOLDER){
             changedLiveDataApps[pos].cmds.add(commonApp.toSaveString())
-            changedLiveDataApps[pos].commonApp.isHide = false // for unset select effect
+            changedLiveDataApps[pos].isPicked = false // for unset select effect
 
         }
         insertingApp = null
@@ -97,7 +95,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun deleteAppToFromPos(pos:Int = curPos, dir_:Int = dir) {
 
         val changedLiveDataApps = repo.preference.getQuickApps(dir_).apply {
-            this[pos] = QuickApp(EMPTY_COMMON_APP, QuickAppType.EMPTY, mutableListOf() )
+            this[pos] = QuickApp(EMPTY_COMMON_APP, QuickAppType.EMPTY)
         }
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir_)
@@ -110,6 +108,13 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
      */
     fun moveApp(toPos: Int) {
         val changingQuickApp = repo.preference.getQuickApps(moveBefDir)[moveBefPos]
+
+        if(changingQuickApp.type == QuickAppType.FOLDER && liveDataApps.value!![toPos].type == QuickAppType.FOLDER ) {
+            "폴더안에 폴더를 넣을 수 없습니다".toast()
+            cancelMoveApp()
+            return
+        }
+
         deleteAppToFromPos(moveBefPos,moveBefDir)
 
         val changedLiveDataApps = liveDataApps.value!!
@@ -118,23 +123,24 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         else changedLiveDataApps[toPos] = changingQuickApp
 
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
-        refreshAppGrid()
 //        curPos = -1
 //        isMoving = false
+        cancelMoveApp()
     }
 
     fun cancelMoveApp() {
         refreshAppGrid()
-//        curPos = -1
+        curPos = -1
+        isMoving = false
         moveBefDir = -1
-//        isMoving = false
+        moveBefPos = -1
     }
 
     fun deleteCommonAppFromFolder(cApp: CommonApp) {
 
         val changedLiveDataApps = liveDataApps.value!!.apply {
             this[curPos].cmds.remove(cApp.toSaveString())
-            this[curPos].commonApp.isHide = false
+            this[curPos].isPicked = false
         }
 
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
@@ -165,10 +171,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         "clickFolder".i()
         if(pickedApp.value().type == QuickAppType.EMPTY) {
             saveQuickAppToCurPos(
-                QuickApp(
-                    EMPTY_COMMON_APP,
-                    QuickAppType.FOLDER,
-                    mutableListOf() ),
+                QuickApp( EMPTY_COMMON_APP, QuickAppType.FOLDER),
                 curPos
             )
         } else if(pickedApp.value().type == QuickAppType.FOLDER) {

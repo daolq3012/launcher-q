@@ -138,8 +138,7 @@ class PreferenceRepo {
             for(i in 0 until 16) { tmpApps.add(
                 QuickApp(
                     CommonApp("","","",false),
-                    QuickAppType.EMPTY,
-                    mutableListOf())
+                    QuickAppType.EMPTY)
             )}
             jsonStr = SC.gson.toJson(tmpApps,object : TypeToken<MutableList<QuickApp>>(){}.type)
         }

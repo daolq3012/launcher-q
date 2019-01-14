@@ -3,10 +3,6 @@ package seoft.co.kr.launcherq
 import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.CommonApp
-import seoft.co.kr.launcherq.data.model.QuickApp
-import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.i
 
 /**
@@ -25,22 +21,43 @@ class ExampleInstrumentedTest {
 //        val appContext = InstrumentationRegistry.getTargetContext()
 //        assertEquals("seoft.co.kr.launcherq", appContext.packageName)
 
-        val quickApps = mutableListOf(
-            QuickApp(CommonApp("AAA","AAA","AAA",true), QuickAppType.EMPTY, mutableListOf()),
-            QuickApp(CommonApp("BBB","BBB","BBB",true), QuickAppType.EMPTY, mutableListOf()),
-            QuickApp(CommonApp("CCC","CCC","CCC",true), QuickAppType.EMPTY, mutableListOf())
-        )
+//        val quickApps = mutableListOf(
+//            QuickApp(CommonApp("AAA","AAA","AAA",true), QuickAppType.EMPTY ),
+//            QuickApp(CommonApp("BBB","BBB","BBB",true), QuickAppType.EMPTY),
+//            QuickApp(CommonApp("CCC","CCC","CCC",true), QuickAppType.EMPTY)
+//        )
+//
+//        Repo.preference.setQuickApps(quickApps,0)
+//
+//        val rst = Repo.preference.getQuickApps(0)
+//
+//        rst.map {
+//            println(it.toString())
+//            it.toString().i(TAG)
+//        }
+    }
 
-        Repo.preference.setQuickApps(quickApps,0)
 
-        val rst = Repo.preference.getQuickApps(0)
+    @Test
+    fun t2() {
+        val p1 = Person()
+        val p2 = Person("BB")
+        val p3 = Person("BB",33)
+        val p4 = Person(age = 44)
 
-        rst.map {
-            println(it.toString())
-            it.toString().i(TAG)
-        }
+        p1.toString().i(TAG)
+        p2.toString().i(TAG)
+        p3.toString().i(TAG)
+        p4.toString().i(TAG)
 
 
 
     }
+
+    data class Person(
+        var name :String = "AA",
+        var age :Int= 22
+    )
+
+
 }
