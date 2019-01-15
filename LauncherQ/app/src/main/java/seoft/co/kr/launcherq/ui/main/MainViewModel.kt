@@ -29,6 +29,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     var gridViewSize = 0
     var gridItemSize = 0
     var distance = 0
+    var twoStepOpenInterval = 0 // 1 is 200ms
 
     override fun start() {
 
@@ -49,6 +50,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         gridCnt = repo.preference.getGridCount()
         gridViewSize = repo.preference.getGridViewSize()
         gridItemSize = gridViewSize.toPixel()/gridCnt
+        twoStepOpenInterval = repo.preference.getTwoStepOpenInterval()
     }
 
     fun resetBgBitmap(){ bgBitmap.set(repo.backgroundRepo.loadBitmap()) }

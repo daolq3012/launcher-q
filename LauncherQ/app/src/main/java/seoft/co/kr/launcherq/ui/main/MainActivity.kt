@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.graphics.Point
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
@@ -22,6 +23,7 @@ import seoft.co.kr.launcherq.databinding.ActivityMainBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.main.RequestManager.Companion.REQ_PERMISSIONS
 import seoft.co.kr.launcherq.utill.SC
+import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.observeActMsg
 import seoft.co.kr.launcherq.utill.toPixel
 
@@ -43,6 +45,10 @@ class MainActivity : AppCompatActivity() {
     private val OPEN_TWO = 3
 
     var step = NONE
+
+    var curPosInOneStep = -1
+    var befPosInOneStep = -1
+    var curPosKeepCnt = 0
 
     private val timeReceiver :  TimeReceiver by lazy {
         TimeReceiver()
@@ -77,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                         it.take(gridCnt * gridCnt).toMutableList(),
                         vm.gridItemSize
                         ){
-                        runApp(it)
+                        runOneStepApp(it)
                     }
                 }
             })
@@ -94,7 +100,7 @@ class MainActivity : AppCompatActivity() {
      * 서랍 터치/때기/웨잇 -> 서랍열기 ( 2뎁스와 같은 UI? )
      */
 
-    fun runApp(quickApp: QuickApp) {
+    fun runOneStepApp(quickApp: QuickApp) {
         when(quickApp.type){
             QuickAppType.ONE_APP -> {
                 val compname = ComponentName(quickApp.commonApp.pkgName, quickApp.commonApp.detailName)
@@ -109,6 +115,14 @@ class MainActivity : AppCompatActivity() {
             QuickAppType.FOLDER -> { }
 
         }
+    }
+
+    fun openTwoStep(quickApp: QuickApp) {
+
+        "openTwoStep ${quickApp.toString()}".i(TAG)
+
+
+
     }
 
     override fun onResume() {
@@ -172,12 +186,12 @@ class MainActivity : AppCompatActivity() {
                 val curY = event.y.toInt()
 
                 // check cur touch in boundary
-                with(mc.coordinates) {
+                with(mc.starterCoordinates) {
                     for (i in 0 until 4) {
                         if (this[i][0].x < curX && curX < this[i][1].x &&
                             this[i][0].y < curY && curY < this[i][1].y ) {
 
-                            mc.calcOpenOneStep(curX, curY,gvSize,screenSize)
+                            mc.calcOpenOneStep(curX, curY,gvSize,screenSize,vm.gridCnt)
 
                             val params = RelativeLayout.LayoutParams(gvSize.toPixel(), gvSize.toPixel())
                                 .apply { setMargins(mc.gridViewMarginPointX, mc.gridViewMarginPointY,0,0) }
@@ -188,12 +202,16 @@ class MainActivity : AppCompatActivity() {
 
                             rlAppStarter.visibility = View.INVISIBLE
                             step = OPEN_ONE
+
+                            intervalStart()
+
                         }
                     }
                 }
 
             } else if(step == OPEN_ONE) {
 
+                curPosInOneStep = mc.calcInboundOneStep(event.x.toInt(),event.y.toInt(),vm.gridCnt)
 
 
             } else if(step == OPEN_TWO) {
@@ -205,8 +223,19 @@ class MainActivity : AppCompatActivity() {
 
 
         } else if(event.action == MotionEvent.ACTION_UP) {
-
             rlAppStarter.visibility = View.INVISIBLE
+            gvApps.visibility = View.INVISIBLE
+
+            if(step == OPEN_ONE) {
+                val pos = mc.calcInboundOneStep(event.x.toInt(),event.y.toInt(),vm.gridCnt)
+                if(pos != -1 && vm.liveDataApps.value!![pos].type != QuickAppType.EMPTY)  {
+                    runOneStepApp(vm.liveDataApps.value!![pos])
+                }
+
+
+            }
+
+            step = NONE
         }
 
 
@@ -215,6 +244,44 @@ class MainActivity : AppCompatActivity() {
         gestureDetectorCompat.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
+
+    fun intervalStart(){
+
+        curPosInOneStep = -1
+        befPosInOneStep = -1
+        curPosKeepCnt = 0
+
+        intervaling()
+    }
+
+    fun intervaling(){
+        Handler().postDelayed({
+
+            if(step != OPEN_ONE) return@postDelayed
+
+            if(curPosInOneStep == -1 || vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EMPTY) {
+                intervalStart()
+                return@postDelayed
+            }
+
+            if(befPosInOneStep != curPosInOneStep) curPosKeepCnt = 0
+
+            if(curPosKeepCnt >= vm.twoStepOpenInterval){
+
+                openTwoStep(vm.liveDataApps.value!![curPosInOneStep])
+
+                gvApps.visibility = View.INVISIBLE
+                step = NONE
+                return@postDelayed
+            }
+
+            curPosKeepCnt++
+
+            befPosInOneStep = curPosInOneStep
+            intervaling()
+        },200)
+    }
+
 
     fun showSettingInMainDialog(){
         val simd = SettingMainEntranceDialog(this){}

@@ -41,6 +41,8 @@ class PreferenceRepo {
 
     private val SP_QL_DISTANCE= "SP_QL_DISTANCE"
 
+    private val SP_QL_TWO_STEP_OPEN_INTERVAL = "SP_QL_TWO_STEP_OPEN_INTERVAL"
+
     private val SP_ON_APPS = "SP_ON_APPS"
 
 
@@ -169,6 +171,12 @@ class PreferenceRepo {
         return mPrefs.getInt(SP_QL_DISTANCE,150)
     }
 
+    fun getTwoStepOpenInterval(interval : Int) {
+        mPrefs.edit().putInt(SP_QL_TWO_STEP_OPEN_INTERVAL, interval).apply()
+    }
+    fun getTwoStepOpenInterval(): Int {
+        return mPrefs.getInt(SP_QL_TWO_STEP_OPEN_INTERVAL,8)
+    }
 
 
 }
