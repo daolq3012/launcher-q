@@ -10,6 +10,7 @@ enum class MsgType {
     CLEAR_SEARCH_EDIT_TEXT,
     SELECT_APP,
     OPEN_FOLDER,
+    PICK_TWO_STEP_ITEM,
 //    REFRESH_SETTING,
 }
 

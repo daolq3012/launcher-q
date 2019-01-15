@@ -5,7 +5,10 @@ import android.databinding.ObservableField
 import android.graphics.Bitmap
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
 import seoft.co.kr.launcherq.utill.toPixel
@@ -25,11 +28,15 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
 
+    val EMPTY_QUICK_APP = QuickApp(CommonApp("","","",false),QuickAppType.EMPTY)
+    val twoStepApp = ObservableField<QuickApp>(EMPTY_QUICK_APP)
+
     var gridCnt = 0
     var gridViewSize = 0
     var gridItemSize = 0
     var distance = 0
     var twoStepOpenInterval = 0 // 1 is 200ms
+    var lastestDir = 0
 
     override fun start() {
 
@@ -43,6 +50,8 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         resetGridValue()
 
     }
+
+    fun emptyTwoStepApp(){ twoStepApp.set(EMPTY_QUICK_APP) }
 
     fun resetGridValue(){
         distance = repo.preference.getDistance()
@@ -80,9 +89,12 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun setAppsFromDir(dir: Int) {
+        lastestDir = dir
         liveDataApps.value = repo.preference.getQuickApps(dir)
-
     }
 
+    fun clickTwoStepItem(pos:Int) {
+        toActMsg(MsgType.PICK_TWO_STEP_ITEM,pos)
+    }
 
 }

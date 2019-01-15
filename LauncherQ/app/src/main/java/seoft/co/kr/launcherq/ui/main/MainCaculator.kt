@@ -20,8 +20,10 @@ class MainCaculator{
     private var optPointForStartViewY = 0
 
 
+    // use this params when open one step gridview & two step after long click in open two step
     var gridViewMarginPointX = 0
     var gridViewMarginPointY = 0
+
     private var optPointForGridViewX = 0
     private var optPointForGridViewY = 0
 
@@ -199,5 +201,15 @@ class MainCaculator{
     }
 
 
+    fun calcOpenTwoStep(curX: Int, curY: Int, screenSize: Point, width:Int,height:Int):Point {
+        var optPointX = 0
+        var optPointY = 0
+
+        if (curX + width / 2 > screenSize.x) optPointX = curX + width / 2 - screenSize.x
+        else if (curX - width / 2 < 0) optPointX = curX - width / 2
+        if (curY + height / 2 > screenSize.y) optPointX = curY + height / 2 - screenSize.y
+        else if (curY - height / 2 < 0) optPointY = curY - height / 2
+        return Point( curX - width / 2 - optPointX, curY - height / 2 - optPointY )
+    }
 
 }

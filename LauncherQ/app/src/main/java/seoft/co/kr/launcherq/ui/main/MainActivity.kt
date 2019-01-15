@@ -21,11 +21,9 @@ import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.databinding.ActivityMainBinding
 import seoft.co.kr.launcherq.ui.MsgType
+import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
 import seoft.co.kr.launcherq.ui.main.RequestManager.Companion.REQ_PERMISSIONS
-import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.observeActMsg
-import seoft.co.kr.launcherq.utill.toPixel
+import seoft.co.kr.launcherq.utill.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,11 +42,15 @@ class MainActivity : AppCompatActivity() {
     private val OPEN_ONE = 2
     private val OPEN_TWO = 3
 
+    val TIME_INTERVAL = 200L
+
     var step = NONE
 
     var curPosInOneStep = -1
     var befPosInOneStep = -1
     var curPosKeepCnt = 0
+
+    var twoStepStartPos = Point()
 
     private val timeReceiver :  TimeReceiver by lazy {
         TimeReceiver()
@@ -70,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         vm.observeActMsg(this, Observer {
             when(it) {
                 MsgType.START_ACTIVITY -> startActivity(Intent(applicationContext,vm.msg as Class<*>))
+                MsgType.PICK_TWO_STEP_ITEM -> runTwoStepApp(vm.msg as Int)
             }
         })
 
@@ -83,7 +86,18 @@ class MainActivity : AppCompatActivity() {
                         it.take(gridCnt * gridCnt).toMutableList(),
                         vm.gridItemSize
                         ){
-                        runOneStepApp(it)
+                        if(it.isLongClick)
+                            when (it.quickApp.type) {
+                                QuickAppType.EXPERT, QuickAppType.FOLDER, QuickAppType.TWO_APP -> openTwoStep(it.quickApp, true)
+                                else -> {
+                                    val intent = Intent(applicationContext, ArrangeActivity::class.java)
+                                        .apply { putExtra(ArrangeActivity.DIR,vm.lastestDir) }
+
+                                    startActivity(intent)
+                                }
+                            }
+                        else
+                            runOneStepApp(it.quickApp)
                     }
                 }
             })
@@ -92,13 +106,6 @@ class MainActivity : AppCompatActivity() {
         requestManager = RequestManager(this)
 
     }
-
-
-    /**
-     * 앱 터치/때기 -> 실행
-     * 앱 웨잇 -> 2뎁스 실행
-     * 서랍 터치/때기/웨잇 -> 서랍열기 ( 2뎁스와 같은 UI? )
-     */
 
     fun runOneStepApp(quickApp: QuickApp) {
         when(quickApp.type){
@@ -111,22 +118,86 @@ class MainActivity : AppCompatActivity() {
                         component = compname
                     }
                 applicationContext.startActivity(actintent)
+                step = NONE
+                gvApps.visibility = View.INVISIBLE
             }
-            QuickAppType.FOLDER -> { }
+            QuickAppType.FOLDER -> {
+                openTwoStep(quickApp)
+            }
 
         }
     }
 
-    fun openTwoStep(quickApp: QuickApp) {
+    /**
+     * call this method after first open two step view
+     *
+     * we can use two step when type is FOLDER, TWO_APP, EXPERT
+     * else type never call this method
+     */
+    private fun runTwoStepApp(pos:Int) {
 
-        "openTwoStep ${quickApp.toString()}".i(TAG)
+        with(vm.twoStepApp.value()) {
+            when (type) {
+                QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
+                    cmds[pos].i(TAG)
+                }
+                QuickAppType.EXPERT -> {
+                    expert!!.useTwo[pos].toString().i(TAG)
+                }
+                else ->{}
+            }
+        }
 
+        vm.emptyTwoStepApp()
+        step = NONE
+    }
 
+    /**
+     * open two step view use this method
+     * set visibilty use update Observable value [twoStepApp] and auto update view using databinding
+     * if isLongClick -> open position is using before gridview margin [mc.gridViewMarginPointX]
+     * default Click -> open position is detach finger point position, is updating in onTouch listener value is [marginPoint]
+     *
+     * first, check two step item count
+     * second, calc height using item count
+     * third, adjust size to view
+     */
+    fun openTwoStep(quickApp: QuickApp, isLongClick :Boolean = false) {
+        vm.twoStepApp.set(quickApp)
+        gvApps.visibility = View.INVISIBLE
+        step = OPEN_TWO
 
+        var twoStepItemCnt = 0
+
+        when (quickApp.type) {
+            QuickAppType.FOLDER, QuickAppType.TWO_APP -> twoStepItemCnt = quickApp.cmds.size
+            QuickAppType.EXPERT -> twoStepItemCnt = quickApp.expert!!.useTwo.size
+        }
+
+        if(twoStepItemCnt == 0) {
+            //TODO empty 예외처리
+        }
+
+        // need same to dp value from xml view
+        val width = resources.getDimension(R.dimen.two_step_bg_width).toInt()
+        val height = resources.getDimension(R.dimen.two_step_item_height).toInt() * twoStepItemCnt
+
+        val marginPoint = mc.calcOpenTwoStep(twoStepStartPos.x, twoStepStartPos.y, screenSize, width, height)
+        val params = RelativeLayout.LayoutParams(width, height)
+            .apply { setMargins(
+                if(isLongClick) mc.gridViewMarginPointX else marginPoint.x,
+                if(isLongClick) mc.gridViewMarginPointY else marginPoint.y,
+                0,0) }
+
+        llTwoStepBg.layoutParams = params
     }
 
     override fun onResume() {
         super.onResume()
+
+        gvApps.visibility = View.INVISIBLE
+        step = NONE
+        vm.emptyTwoStepApp()
 
         if(SC.needResetBgSetting)
             resetSettingAct()
@@ -163,6 +234,8 @@ class MainActivity : AppCompatActivity() {
 
         if(event.action == MotionEvent.ACTION_DOWN) {
 
+            vm.emptyTwoStepApp()
+
            val distance = vm.distance
 
             mc.calcOpenTouchStart(event.x.toInt(),event.y.toInt(), distance, screenSize)
@@ -180,7 +253,6 @@ class MainActivity : AppCompatActivity() {
             val gvSize = vm.gridViewSize
 
             if(step == TOUCH_START) {
-
 
                 val curX = event.x.toInt()
                 val curY = event.y.toInt()
@@ -210,36 +282,21 @@ class MainActivity : AppCompatActivity() {
                 }
 
             } else if(step == OPEN_ONE) {
-
-                curPosInOneStep = mc.calcInboundOneStep(event.x.toInt(),event.y.toInt(),vm.gridCnt)
-
-
-            } else if(step == OPEN_TWO) {
-
-
-
+                twoStepStartPos.x = event.x.toInt()
+                twoStepStartPos.y = event.y.toInt()
+                curPosInOneStep = mc.calcInboundOneStep(twoStepStartPos.x,twoStepStartPos.y,vm.gridCnt)
             }
-
-
-
         } else if(event.action == MotionEvent.ACTION_UP) {
             rlAppStarter.visibility = View.INVISIBLE
-            gvApps.visibility = View.INVISIBLE
 
             if(step == OPEN_ONE) {
                 val pos = mc.calcInboundOneStep(event.x.toInt(),event.y.toInt(),vm.gridCnt)
                 if(pos != -1 && vm.liveDataApps.value!![pos].type != QuickAppType.EMPTY)  {
                     runOneStepApp(vm.liveDataApps.value!![pos])
                 }
-
-
             }
 
-            step = NONE
         }
-
-
-
 
         gestureDetectorCompat.onTouchEvent(event)
         return super.onTouchEvent(event)
@@ -268,10 +325,13 @@ class MainActivity : AppCompatActivity() {
 
             if(curPosKeepCnt >= vm.twoStepOpenInterval){
 
+                if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.ONE_APP) {
+                    intervalStart()
+                    return@postDelayed
+                }
+
                 openTwoStep(vm.liveDataApps.value!![curPosInOneStep])
 
-                gvApps.visibility = View.INVISIBLE
-                step = NONE
                 return@postDelayed
             }
 
@@ -279,7 +339,7 @@ class MainActivity : AppCompatActivity() {
 
             befPosInOneStep = curPosInOneStep
             intervaling()
-        },200)
+        },TIME_INTERVAL)
     }
 
 

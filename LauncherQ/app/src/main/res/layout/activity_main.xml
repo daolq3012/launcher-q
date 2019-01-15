@@ -89,8 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <!--android:visibility="invisible"-->
             <RelativeLayout android:layout_width="300dp" android:layout_height="300dp" android:id="@+id/rlAppStarter"
+                android:visibility="invisible"
             >
 
                 <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@mipmap/ic_launcher"
@@ -107,6 +107,86 @@
             <GridView android:layout_width="200dp" android:layout_height="200dp" android:visibility="invisible"
                       android:id="@+id/gvApps" android:background="#789123"
             />
+
+            <!--android:visibility="invisible"-->
+            <LinearLayout android:layout_width="@dimen/two_step_bg_width" android:layout_height="@dimen/two_step_bg_height"
+                          app:visibiltyTwoStepBg="@{vm.twoStepApp}"
+                          android:background="#f1f1f1"
+                          android:orientation="vertical" android:id="@+id/llTwoStepBg" >
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                              android:onClick="@{()->vm.clickTwoStepItem(0)}"
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{0}" >
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
+                              app:text="@{vm.twoStepApp}" app:pos="@{0}"
+                    />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
+                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
+                    />
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                              android:onClick="@{()->vm.clickTwoStepItem(1)}"
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{1}" >
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
+                              app:text="@{vm.twoStepApp}" app:pos="@{1}"
+                    />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
+                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
+                    />
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                              android:onClick="@{()->vm.clickTwoStepItem(2)}"
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{2}" >
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
+                              app:text="@{vm.twoStepApp}" app:pos="@{2}"
+                    />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
+                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
+                    />
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                              android:onClick="@{()->vm.clickTwoStepItem(3)}"
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{3}" >
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
+                              app:text="@{vm.twoStepApp}" app:pos="@{3}"
+                    />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
+                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
+                    />
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                              android:onClick="@{()->vm.clickTwoStepItem(4)}"
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{4}" >
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
+                              app:text="@{vm.twoStepApp}" app:pos="@{4}"
+                    />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
+                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
+                    />
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                              android:onClick="@{()->vm.clickTwoStepItem(5)}"
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{5}" >
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
+                              app:text="@{vm.twoStepApp}" app:pos="@{5}"
+                    />
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
 
 
         </RelativeLayout>

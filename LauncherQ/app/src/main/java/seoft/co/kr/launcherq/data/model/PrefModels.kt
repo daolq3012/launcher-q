@@ -10,11 +10,6 @@ data class QuickApp(
 
 
 )
-//{
-//    constructor(commonApp: CommonApp,type: QuickAppType) : this(commonApp,type, mutableListOf(),null,false,false)
-//
-//}
-
 
 data class Expert(
     var useOne:CustomIntent?,
@@ -22,6 +17,7 @@ data class Expert(
 )
 
 data class CustomIntent(
+    var name:String,
     var action:String? = null,
     var uriData:String? = null,
     var type:String? = null,

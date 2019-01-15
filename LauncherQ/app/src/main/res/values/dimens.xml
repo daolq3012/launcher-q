@@ -5,4 +5,9 @@
     <dimen name="grid_size_in_app_setting_view_minus_2_for_padding">78dp</dimen>
     <dimen name="grid_view_size_in_arrange">240dp</dimen>
 
+    <dimen name="two_step_bg_width">180dp</dimen>
+    <dimen name="two_step_bg_height">240dp</dimen>
+
+    <dimen name="two_step_item_height">40dp</dimen>      <!--  = two_step_bg_height / 6 -->
+
 </resources>

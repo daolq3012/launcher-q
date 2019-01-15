@@ -15,7 +15,7 @@ import seoft.co.kr.launcherq.utill.App
 /**
  * need to insert pixel value into gridItemSize param
  */
-class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, val gridItemSize:Int, val cb:(QuickApp)->Unit) : BaseAdapter() {
+class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, val gridItemSize:Int, val cb:(CallbackMainGrid)->Unit) : BaseAdapter() {
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
 
@@ -32,7 +32,10 @@ class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, va
         item.ivEtc.layoutParams = params
         item.ivIcon.layoutParams = params
 
-        item.rlMainApp.setOnClickListener { _ -> cb.invoke(qApps[pos]) }
+        item.rlMainApp.setOnClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],false)) }
+        item.rlMainApp.setOnLongClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],true))
+        true
+        }
 
         return item
     }
@@ -42,3 +45,5 @@ class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, va
     override fun getCount(): Int = qApps.count()
 
 }
+
+data class CallbackMainGrid(var quickApp: QuickApp, var isLongClick:Boolean)
