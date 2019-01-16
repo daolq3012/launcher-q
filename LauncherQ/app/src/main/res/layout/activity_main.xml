@@ -11,6 +11,9 @@
         <variable
                 name="widgetType"
                 type="seoft.co.kr.launcherq.data.model.WidgetInfoType" />
+        <variable
+                name="stepView"
+                type="seoft.co.kr.launcherq.ui.main.StepView" />
     </data>
 
     <RelativeLayout
@@ -90,7 +93,7 @@
                 android:layout_height="match_parent">
 
             <RelativeLayout android:layout_width="300dp" android:layout_height="300dp" android:id="@+id/rlAppStarter"
-                android:visibility="invisible"
+                android:visibility="invisible" app:step="@{vm.step}" app:stepView="@{stepView.APP_STARTER}"
             >
 
                 <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@mipmap/ic_launcher"
@@ -106,12 +109,13 @@
 
             <GridView android:layout_width="200dp" android:layout_height="200dp" android:visibility="invisible"
                       android:id="@+id/gvApps" android:background="#789123"
+                      app:step="@{vm.step}" app:stepView="@{stepView.ONE_STEP}"
             />
 
-            <!--android:visibility="invisible"-->
             <LinearLayout android:layout_width="@dimen/two_step_bg_width" android:layout_height="@dimen/two_step_bg_height"
-                          app:visibiltyTwoStepBg="@{vm.twoStepApp}"
+                          android:visibility="invisible" app:visibiltyTwoStepBg="@{vm.twoStepApp}"
                           android:background="#f1f1f1"
+                          app:step="@{vm.step}" app:stepView="@{stepView.TWO_STEP}"
                           android:orientation="vertical" android:id="@+id/llTwoStepBg" >
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"

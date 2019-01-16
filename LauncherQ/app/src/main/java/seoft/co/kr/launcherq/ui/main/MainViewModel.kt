@@ -31,6 +31,8 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     val EMPTY_QUICK_APP = QuickApp(CommonApp("","","",false),QuickAppType.EMPTY)
     val twoStepApp = ObservableField<QuickApp>(EMPTY_QUICK_APP)
 
+    val step = ObservableField<Step>(Step.NONE)
+
     var gridCnt = 0
     var gridViewSize = 0
     var gridItemSize = 0
@@ -97,4 +99,17 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         toActMsg(MsgType.PICK_TWO_STEP_ITEM,pos)
     }
 
+}
+
+enum class Step{
+    NONE,
+    TOUCH_START,
+    OPEN_ONE,
+    OPEN_TWO,
+}
+
+enum class StepView{
+    APP_STARTER,
+    ONE_STEP,
+    TWO_STEP,
 }

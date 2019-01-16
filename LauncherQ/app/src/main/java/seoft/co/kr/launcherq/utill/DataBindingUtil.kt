@@ -6,7 +6,10 @@ import android.graphics.Color
 import android.view.View
 import android.widget.*
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.*
+import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import seoft.co.kr.launcherq.ui.arrange.ArrangeViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -153,46 +156,4 @@ fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms
     }
 
 }
-
-
-@BindingAdapter("visibiltyTwoStepBg")
-fun setVisibiltyTwoStepBg(ll:LinearLayout, twoStepApp:QuickApp) {
-    if(twoStepApp.type == QuickAppType.EMPTY) ll.visibility = View.INVISIBLE
-    else ll.visibility = View.VISIBLE
-}
-
-@BindingAdapter("visibiltyTwoStepItem","pos")
-fun setVisibiltyTwoStepItem(ll:LinearLayout, twoStepApp:QuickApp, pos:Int) {
-
-    when (twoStepApp.type) {
-        QuickAppType.ONE_APP, QuickAppType.EMPTY -> return
-        QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
-            ll.visibility = if(twoStepApp.cmds.size > pos) View.VISIBLE
-            else View.GONE
-        }
-        QuickAppType.EXPERT -> {
-            ll.visibility = if(twoStepApp.expert!!.useTwo.size > pos) View.VISIBLE
-            else View.GONE
-        }
-    }
-}
-
-@BindingAdapter("text","pos")
-fun setTextTwoStepItem(tv:TextView, twoStepApp:QuickApp, pos:Int) {
-
-    when (twoStepApp.type) {
-        QuickAppType.ONE_APP, QuickAppType.EMPTY -> return
-        QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
-            with(twoStepApp.cmds){
-                if(this.size > pos) tv.text = this[pos].toCommonApp().label
-            }
-        }
-        QuickAppType.EXPERT -> {
-            with(twoStepApp.expert!!.useTwo){
-                if(this.size > pos) tv.text = this[pos].name
-            }
-        }
-    }
-}
-
 
