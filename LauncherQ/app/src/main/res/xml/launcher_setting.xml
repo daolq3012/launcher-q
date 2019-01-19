@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="거리/수치/민감도 설정">
+        <PreferenceScreen
+                android:key="clickGridCnt"
+                android:title="gridCnt"
+                android:summary="배경을 단색으로 설정합니다"/>
+        <PreferenceScreen
+                android:key="clickViewSIze"
+                android:title="gridViewSize"
+                android:summary="배경을 임의의 이미지로 설정합니다"/>
+        <PreferenceScreen
+                android:key="clickDistance"
+                android:title="distance"
+                android:summary="배경을 임의의 이미지로 설정합니다"/>
+        <PreferenceScreen
+                android:key="clickInterval"
+                android:title="interval"
+                android:summary="배경을 임의의 이미지로 설정합니다"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

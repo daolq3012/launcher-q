@@ -32,13 +32,14 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     val twoStepApp = ObservableField<QuickApp>(EMPTY_QUICK_APP)
 
     val step = ObservableField<Step>(Step.NONE)
+    var lastestDir = 0
+    var gridItemSize = 0
 
+    // loading property
     var gridCnt = 0
     var gridViewSize = 0
-    var gridItemSize = 0
     var distance = 0
     var twoStepOpenInterval = 0 // 1 is 200ms
-    var lastestDir = 0
 
     override fun start() {
 

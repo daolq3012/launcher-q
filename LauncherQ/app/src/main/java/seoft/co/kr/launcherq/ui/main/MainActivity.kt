@@ -138,8 +138,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        vm.emptyTwoStepApp()
-        vm.step.set(Step.NONE)
+        clearViews()
     }
 
     /**
@@ -323,6 +322,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun showSettingInMainDialog(){
+        clearViews()
         val simd = SettingMainEntranceDialog(this){}
         simd.show()
     }
@@ -344,7 +344,15 @@ class MainActivity : AppCompatActivity() {
                 if(this == Intent.ACTION_TIME_TICK) vm.resetBgWidgets()
             }
         }
+    }
 
+    override fun onBackPressed() {
+        clearViews()
+    }
+
+    fun clearViews(){
+        vm.step.set(Step.NONE)
+        vm.emptyTwoStepApp()
     }
 
 }
