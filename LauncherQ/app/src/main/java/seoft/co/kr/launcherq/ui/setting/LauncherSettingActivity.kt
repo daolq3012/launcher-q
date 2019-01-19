@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
 import seoft.co.kr.launcherq.R
-import seoft.co.kr.launcherq.utill.i
+import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.setupActionBar
 
 
@@ -56,39 +57,44 @@ class LauncherSettingActivity: AppCompatActivity() {
 
         fun initListener(){
             findPreference("clickGridCnt").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "그리드 카운트", "개", 3,3,4){
-                    "$it".i(TAG)
+                val snd = SelectNumberDialog(activity!!, "그리드 카운트", "개",
+                    Repo.preference.getGridCount(), 3,4){
+                    Repo.preference.setGridCount(it)
+                    SC.needResetUxSetting = true
                 }
                 snd.show()
                 true
             }
 
             findPreference("clickViewSIze").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "뷰 사이즈","DP",180,150,250){
-                    "$it".i(TAG)
+                val snd = SelectNumberDialog(activity!!, "뷰 사이즈","DP",
+                    Repo.preference.getGridViewSize(),150,250){
+                    Repo.preference.setGridViewSize(it)
+                    SC.needResetUxSetting = true
                 }
                 snd.show()
                 true
             }
 
             findPreference("clickDistance").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "원스탭 열기 거리","DP",150,100,200){
-                    "$it".i(TAG)
+                val snd = SelectNumberDialog(activity!!, "원스탭 열기 거리","DP",
+                    Repo.preference.getDistance(),100,200){
+                    Repo.preference.setDistance(it)
+                    SC.needResetUxSetting = true
                 }
                 snd.show()
                 true
             }
 
             findPreference("clickInterval").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "투스탭 열기 유지 시간 간격","",8,4,12){
-                    "$it".i(TAG)
+                val snd = SelectNumberDialog(activity!!, "투스탭 열기 유지 시간 간격","",
+                    Repo.preference.getTwoStepOpenInterval(),2,12){
+                    Repo.preference.setTwoStepOpenInterval(it)
+                    SC.needResetUxSetting = true
                 }
                 snd.show()
                 true
             }
-
-
-
         }
 
     }

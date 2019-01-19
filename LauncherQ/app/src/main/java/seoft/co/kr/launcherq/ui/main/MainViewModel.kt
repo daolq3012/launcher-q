@@ -50,13 +50,13 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
             }
         }
 
-        resetGridValue()
+        resetUxValue()
 
     }
 
     fun emptyTwoStepApp(){ twoStepApp.set(EMPTY_QUICK_APP) }
 
-    fun resetGridValue(){
+    fun resetUxValue(){
         distance = repo.preference.getDistance()
 
         gridCnt = repo.preference.getGridCount()

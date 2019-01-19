@@ -171,7 +171,7 @@ class PreferenceRepo {
         return mPrefs.getInt(SP_QL_DISTANCE,150)
     }
 
-    fun getTwoStepOpenInterval(interval : Int) {
+    fun setTwoStepOpenInterval(interval : Int) {
         mPrefs.edit().putInt(SP_QL_TWO_STEP_OPEN_INTERVAL, interval).apply()
     }
     fun getTwoStepOpenInterval(): Int {

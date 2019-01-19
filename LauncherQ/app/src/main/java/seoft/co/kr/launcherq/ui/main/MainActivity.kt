@@ -186,10 +186,10 @@ class MainActivity : AppCompatActivity() {
         vm.step.set(Step.NONE)
         vm.emptyTwoStepApp()
 
-        if(SC.needResetBgSetting)
-            resetSettingAct()
-        else
-            vm.resetBgWidgets() // when onresume but don't need setting reset, example) quit another app, clock refresh
+        if(SC.needResetBgSetting) resetBgSetting() // reset whole properties
+        else vm.resetBgWidgets() // when onresume but don't need setting reset, example) quit another app, clock refresh
+
+        if(SC.needResetUxSetting) resetUxSetting()
 
         registerReceiver(timeReceiver, IntentFilter().apply {
             addAction(Intent.ACTION_TIME_TICK)
@@ -328,14 +328,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     // call when called resetSettingInVM in ViewModel
-    // TODO need to add function of resetGridValue()
-    fun resetSettingAct(){
+    fun resetBgSetting(){
         vm.setDeviceXY(screenSize.x,screenSize.y)
         vm.resetBgBitmap()
         vm.resetBgWidgets()
-        vm.resetGridValue()
         SC.needResetBgSetting = false
+    }
 
+    fun resetUxSetting(){
+        vm.resetUxValue()
+        SC.needResetUxSetting = false
     }
 
     inner class TimeReceiver : BroadcastReceiver(){
