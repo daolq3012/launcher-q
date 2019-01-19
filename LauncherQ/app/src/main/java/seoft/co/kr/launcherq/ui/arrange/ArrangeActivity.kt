@@ -39,8 +39,18 @@ class ArrangeActivity : AppCompatActivity() {
 
         vm.observeActMsg(this, Observer {
             when(it) {
+
+                // SHOW_OPTIONS has show drawer, etc... when select app activity
                 MsgType.SELECT_APP -> {
-                    val intent = Intent(applicationContext,SelectActivity::class.java)
+                    val intent = Intent(applicationContext,SelectActivity::class.java).apply {
+                        putExtra(SelectActivity.SHOW_OPTIONS,true)
+                    }
+                    startActivityForResult(intent,APP_SELECT_REQ_CODE)
+                }
+                MsgType.SELECT_APP_IN_FOLDER -> {
+                    val intent = Intent(applicationContext,SelectActivity::class.java).apply {
+                        putExtra(SelectActivity.SHOW_OPTIONS,false)
+                    }
                     startActivityForResult(intent,APP_SELECT_REQ_CODE)
                 }
                 MsgType.OPEN_FOLDER -> {
@@ -126,7 +136,9 @@ class ArrangeActivity : AppCompatActivity() {
                         getStringExtra(PKG_NAME),
                         getStringExtra(LABEL),
                         getStringExtra(DETAIL_NAME),
-                        false))
+                        false,
+                        getBooleanExtra(IS_EXCEPT,false)
+                    ))
             }
         }
 
@@ -138,6 +150,7 @@ class ArrangeActivity : AppCompatActivity() {
         val PKG_NAME = "PKG_NAME"
         val LABEL = "LABEL"
         val DETAIL_NAME = "DETAIL_NAME"
+        val IS_EXCEPT = "IS_EXCEPT"
     }
 
 

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.item_main_app.view.*
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
@@ -22,11 +23,20 @@ class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, va
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val item = inflater.inflate(R.layout.item_main_app,null)
 
-        when(qApps[pos].type) {
-            QuickAppType.EMPTY -> item.ivIcon.setImageResource(R.drawable.ic_close_white)
-            QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_green)
-            QuickAppType.ONE_APP -> item.ivIcon.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
+        if(qApps[pos].commonApp.isExcept) {
+
+            when(qApps[pos].commonApp.pkgName) {
+                CAppException.DRAWER.get -> item.ivIcon.setImageResource(R.drawable.ic_widgets_orange)
+            }
+
+        } else {
+            when(qApps[pos].type) {
+                QuickAppType.EMPTY -> item.ivIcon.setImageResource(R.drawable.ic_close_white)
+                QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_green)
+                QuickAppType.ONE_APP -> item.ivIcon.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
+            }
         }
+
 
         val params = RelativeLayout.LayoutParams(gridItemSize, gridItemSize)
         item.ivEtc.layoutParams = params

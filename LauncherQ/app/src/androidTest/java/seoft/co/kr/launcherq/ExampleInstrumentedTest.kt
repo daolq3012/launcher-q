@@ -3,6 +3,7 @@ package seoft.co.kr.launcherq
 import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.utill.i
 
 /**
@@ -59,5 +60,9 @@ class ExampleInstrumentedTest {
         var age :Int= 22
     )
 
+    @Test
+    fun t3(){
+        CAppException.values().forEach { it.get.i(TAG) }
+    }
 
 }

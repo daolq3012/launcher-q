@@ -3,6 +3,8 @@ package seoft.co.kr.launcherq.ui.select
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.databinding.ItemSelectBinding
 import seoft.co.kr.launcherq.utill.App
@@ -37,8 +39,22 @@ class SelectRecyclerViewAdapter(var cb:(commonApp: CommonApp)->Unit)
 
         fun bind(cApps_: CommonApp) {
 
-            binding.ivApp.setImageDrawable(App.get.packageManager.getApplicationIcon(cApps_.pkgName))
-            binding.tvApp.text = cApps_.label
+
+
+            if(cApps_.isExcept) {
+
+                when(cApps_.pkgName) {
+                    CAppException.DRAWER.get -> {
+                        binding.ivApp.setImageResource(R.drawable.ic_widgets_orange)
+                        binding.tvApp.text = "서랍"
+                    }
+                }
+
+            } else {
+                binding.ivApp.setImageDrawable(App.get.packageManager.getApplicationIcon(cApps_.pkgName))
+                binding.tvApp.text = cApps_.label
+            }
+
 
             binding.root.setOnClickListener { _ ->
                 cb.invoke(cApps_)

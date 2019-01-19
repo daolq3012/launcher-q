@@ -16,11 +16,13 @@ import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.databinding.ActivityMainBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
+import seoft.co.kr.launcherq.ui.drawer.DrawerActivity
 import seoft.co.kr.launcherq.ui.main.RequestManager.Companion.REQ_PERMISSIONS
 import seoft.co.kr.launcherq.utill.*
 
@@ -101,15 +103,26 @@ class MainActivity : AppCompatActivity() {
     fun runOneStepApp(quickApp: QuickApp) {
         when(quickApp.type){
             QuickAppType.ONE_APP -> {
-                val compname = ComponentName(quickApp.commonApp.pkgName, quickApp.commonApp.detailName)
-                val actintent = Intent(Intent.ACTION_MAIN)
-                    .apply {
-                        addCategory(Intent.CATEGORY_LAUNCHER)
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                        component = compname
+
+                if(quickApp.commonApp.isExcept) {
+                    when(quickApp.commonApp.pkgName) {
+                        CAppException.DRAWER.get -> {
+                            startActivity( Intent(applicationContext, DrawerActivity::class.java) )
+                        }
                     }
-                applicationContext.startActivity(actintent)
+
+                } else {
+                    val compname = ComponentName(quickApp.commonApp.pkgName, quickApp.commonApp.detailName)
+                    val actintent = Intent(Intent.ACTION_MAIN)
+                        .apply {
+                            addCategory(Intent.CATEGORY_LAUNCHER)
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                            component = compname
+                        }
+                    applicationContext.startActivity(actintent)
+                }
                 vm.step.set(Step.NONE)
+
             }
             QuickAppType.FOLDER -> {
                 openTwoStep(quickApp)

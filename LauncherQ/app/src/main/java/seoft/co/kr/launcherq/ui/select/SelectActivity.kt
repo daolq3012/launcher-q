@@ -12,6 +12,7 @@ import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.databinding.ActivitySelectBinding
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.DETAIL_NAME
+import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.IS_EXCEPT
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.LABEL
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.PKG_NAME
 import seoft.co.kr.launcherq.utill.observeActMsg
@@ -23,11 +24,13 @@ class SelectActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySelectBinding
     private val selectRecyclerViewAdapter = SelectRecyclerViewAdapter {
+
         val rstIntent = Intent()
             .apply {
                 putExtra(PKG_NAME,it.pkgName)
                 putExtra(DETAIL_NAME,it.detailName)
                 putExtra(LABEL,it.label)
+                putExtra(IS_EXCEPT,it.isExcept)
             }
 
         setResult(Activity.RESULT_OK,rstIntent)
@@ -57,6 +60,7 @@ class SelectActivity : AppCompatActivity() {
                 selectRecyclerViewAdapter.replaceData(it)
             } })
 
+        vm.showOptions = intent.getBooleanExtra(SHOW_OPTIONS,false)
 
         vm.start()
 
@@ -77,5 +81,8 @@ class SelectActivity : AppCompatActivity() {
         return true
     }
 
+    companion object {
+        val SHOW_OPTIONS = "SHOW_OPTIONS"
+    }
 
 }

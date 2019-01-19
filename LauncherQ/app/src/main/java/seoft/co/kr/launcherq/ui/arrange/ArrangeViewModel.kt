@@ -79,8 +79,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
-//        curPos = -1
-
     }
 
     fun saveQuickAppToCurPos(quickApp: QuickApp, pos:Int = curPos) {
@@ -89,7 +87,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
             .apply { this[pos]=quickApp }
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
         refreshAppGrid()
-//        curPos = -1
     }
 
     fun deleteAppToFromPos(pos:Int = curPos, dir_:Int = dir) {
@@ -100,7 +97,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir_)
         refreshAppGrid()
-//        curPos = -1
     }
 
     /**
@@ -123,8 +119,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         else changedLiveDataApps[toPos] = changingQuickApp
 
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
-//        curPos = -1
-//        isMoving = false
         cancelMoveApp()
     }
 
@@ -149,17 +143,17 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
 
     fun clickAdd(){
-        "clickAdd".i()
-        toActMsg(MsgType.SELECT_APP)
+        toActMsg(
+            if(pickedApp.value().type == QuickAppType.FOLDER) MsgType.SELECT_APP_IN_FOLDER
+            else MsgType.SELECT_APP
+        )
     }
 
     fun clickDelete(){
-        "clickDelete".i()
         deleteAppToFromPos()
     }
 
     fun clickMove(){
-        "clickMove".i()
         isMoving = true
         moveBefPos = curPos
         moveBefDir = dir
@@ -168,7 +162,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun clickFolder(){
-        "clickFolder".i()
         if(pickedApp.value().type == QuickAppType.EMPTY) {
             saveQuickAppToCurPos(
                 QuickApp( EMPTY_COMMON_APP, QuickAppType.FOLDER),
