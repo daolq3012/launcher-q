@@ -1,5 +1,7 @@
 package seoft.co.kr.launcherq.data.model
 
+import seoft.co.kr.launcherq.R
+
 data class CommonApp(
     val pkgName:String,
     val label:String = "",
@@ -10,11 +12,11 @@ data class CommonApp(
 
 /**
  * Have exception :
- * drawer -> pkgName : DRAWER
+ * get:String -> pkgName
  */
-enum class CAppException(val get:String){
-    DRAWER("DRAWER"),
-    TEST("TEST"),
+enum class CAppException(val get:String, val rss:Int, val title:String){
+    DRAWER("DRAWER", R.drawable.ic_widgets_orange,"서랍"),
+    CALL("CALL", R.drawable.ic_call_orange,"전화"),
 }
 
 val SPLITTER = "#$#"

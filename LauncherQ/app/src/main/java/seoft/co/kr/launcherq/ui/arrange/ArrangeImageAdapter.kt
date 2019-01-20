@@ -26,9 +26,9 @@ class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>,
 
         if(qApps[pos].commonApp.isExcept) {
 
-            when(qApps[pos].commonApp.pkgName) {
-                CAppException.DRAWER.get -> item.ivIcon.setImageResource(R.drawable.ic_widgets_orange)
-            }
+            item.ivIcon.setImageResource(
+                CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange
+            )
 
         } else {
             when (qApps[pos].type) {

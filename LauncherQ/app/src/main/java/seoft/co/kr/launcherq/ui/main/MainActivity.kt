@@ -106,9 +106,8 @@ class MainActivity : AppCompatActivity() {
 
                 if(quickApp.commonApp.isExcept) {
                     when(quickApp.commonApp.pkgName) {
-                        CAppException.DRAWER.get -> {
-                            startActivity( Intent(applicationContext, DrawerActivity::class.java) )
-                        }
+                        CAppException.DRAWER.get -> startActivity( Intent(applicationContext, DrawerActivity::class.java) )
+                        CAppException.CALL.get -> startActivity( Intent(Intent.ACTION_DIAL,null))
                     }
 
                 } else {
