@@ -202,8 +202,14 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
                                 categorys = arrayListOf("android.intent.category.LAUNCHER"),
                                 addFlag = arrayListOf(268435456, 2097152),
                                 customComponentName =  CustomComponentName("com.android.chrome","com.google.android.apps.chrome.Main")
+                            ),
+                            arrayListOf(
+                                CustomIntent(
+                                    name="네이버",
+                                    action="android.intent.action.VIEW",
+                                    uriData = "http://naver.com"
+                                )
                             )
-//                            요기 채워서 테스트할 차례
                         )
                         )
 

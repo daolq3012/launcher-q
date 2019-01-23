@@ -1,5 +1,7 @@
 package seoft.co.kr.launcherq.data.model
 
+import android.content.Intent.*
+
 data class QuickApp(
     var commonApp: CommonApp,
     var type: QuickAppType,
@@ -22,26 +24,27 @@ data class Expert(
 
 data class CustomIntent(
     var name:String,
-    var action:String? = null,
+    var action:String = ACTION_DEFAULT,
     var uriData:String? = null,
     var type:String? = null,
-    var categorys: MutableList<String>? = null,
-    var flag : Int = -1,
+    var categorys: MutableList<String> = arrayListOf(CATEGORY_DEFAULT),
+    var flag : Int = FLAG_GRANT_READ_URI_PERMISSION,
     var addFlag : MutableList<Int>? = null,
     var pkgName :String ? = null,
-    var customComponentName:CustomComponentName? = null,
-    var className : ClassName? = null
+    var customComponentName:CustomComponentName? = null
+//    var className : ClassName? = null
 )
 
 data class CustomComponentName(
-    var compName : String? = null,
-    var compCls : String? = null
+    var compName : String,
+    var compCls : String
 )
 
-data class ClassName(
-    var pkgName : String? = null,
-    var clsName : String? = null
-)
+//data class ClassName(
+//    var pkgName : String? = null,
+//    var clsName : String? = null
+//)
+
 enum class QuickAppType{
     EMPTY,
     ONE_APP,

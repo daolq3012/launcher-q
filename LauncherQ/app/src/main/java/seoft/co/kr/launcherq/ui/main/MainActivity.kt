@@ -6,6 +6,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.graphics.Point
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.view.GestureDetectorCompat
@@ -16,9 +17,7 @@ import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.CAppException
-import seoft.co.kr.launcherq.data.model.QuickApp
-import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.databinding.ActivityMainBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
@@ -115,18 +114,9 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 } else {
-
                     "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName}".i(TAG)
                     "quickApp.commonApp.detailName : ${quickApp.commonApp.detailName}".i(TAG)
-
-                    val compname = ComponentName(quickApp.commonApp.pkgName, quickApp.commonApp.detailName)
-                    val actintent = Intent(Intent.ACTION_MAIN)
-                        .apply {
-                            addCategory(Intent.CATEGORY_LAUNCHER)
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                            component = compname
-                        }
-                    applicationContext.startActivity(actintent)
+                    runAppFromPkgNameDetailName(quickApp.commonApp.pkgName,quickApp.commonApp.detailName)
                 }
                 vm.step.set(Step.NONE)
 
@@ -134,9 +124,62 @@ class MainActivity : AppCompatActivity() {
             QuickAppType.FOLDER -> {
                 openTwoStep(quickApp)
             }
+            QuickAppType.EXPERT -> {
+                if(quickApp.commonApp.pkgName != "" && quickApp.commonApp.detailName != "")
+                    runAppFromPkgNameDetailName(quickApp.commonApp.pkgName,quickApp.commonApp.detailName)
+                else if(quickApp.expert!!.useOne != null) {
+                    runExpertApp(quickApp.expert!!.useOne!!)
+                }
+                vm.step.set(Step.NONE)
+            }
             else -> {}
         }
     }
+
+    private fun runExpertApp(customIntent: CustomIntent) {
+        val tmpIntent = Intent()
+
+        try {
+
+            tmpIntent.action = customIntent.action
+            customIntent.uriData?.let { tmpIntent.data = Uri.parse(it) }
+            customIntent.type?.let { tmpIntent.type = it }
+            customIntent.categorys.forEach { tmpIntent.addCategory(it) }
+            intent.setFlags(customIntent.flag)
+            customIntent.addFlag?.run {
+                forEach { tmpIntent.addFlags(it) }
+            }
+            customIntent.pkgName?.let { tmpIntent.`package` = it }
+            customIntent.customComponentName?.let {
+                tmpIntent.component = ComponentName(it.compName!!,it.compCls!!)
+            }
+            startActivity(tmpIntent)
+
+        } catch (e:Exception) {
+
+            "############# CALL EXCEPTION #############".i(TAG)
+            e.toString().i(TAG)
+            e.printStackTrace().i(TAG)
+            "##########################################".i(TAG)
+
+            e.toString().toast()
+        }
+
+
+
+    }
+
+    fun runAppFromPkgNameDetailName(pkgName:String, detailName:String){
+        val compname = ComponentName(pkgName, detailName)
+        val actintent = Intent(Intent.ACTION_MAIN)
+            .apply {
+                addCategory(Intent.CATEGORY_LAUNCHER)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                component = compname
+            }
+        applicationContext.startActivity(actintent)
+    }
+
 
     /**
      * call this method after first open two step view
@@ -151,9 +194,12 @@ class MainActivity : AppCompatActivity() {
             when (type) {
                 QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
                     cmds[pos].i(TAG)
+                    val cApp = cmds[pos].toCommonApp()
+                    runAppFromPkgNameDetailName(cApp.pkgName,cApp.detailName)
                 }
                 QuickAppType.EXPERT -> {
                     expert!!.useTwo!![pos].i(TAG)
+                    runExpertApp(expert!!.useTwo!![pos])
                 }
                 else ->{}
             }
@@ -186,7 +232,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if(twoStepItemCnt == 0) {
-            //TODO empty 예외처리
+            "Two step is empty".toast()
+            vm.step.set(Step.NONE)
         }
 
         // need same to dp value from xml view
