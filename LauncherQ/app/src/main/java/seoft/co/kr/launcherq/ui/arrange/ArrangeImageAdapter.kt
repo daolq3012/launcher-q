@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.ui.arrange
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +13,31 @@ import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
+import seoft.co.kr.launcherq.utill.SC
+import java.io.File
+import java.io.FileInputStream
 
 
 /**
  * need to insert pixel value into itemSize param
  */
-class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>, val itemSize:Int, val cb:(CallbackArrangeGrid)->Unit) : BaseAdapter() {
+class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>, val itemSize:Int, val curDir:Int, val cb:(CallbackArrangeGrid)->Unit) : BaseAdapter() {
+
+    val TAG = "ArrangeImageAdapter#$#"
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val item = inflater.inflate(R.layout.item_arrange_app,null)
 
-        if(qApps[pos].commonApp.isExcept) {
+        if(qApps[pos].hasImg) {
+
+            // SC.imgDir is saved in BackgroundRepo class
+            val f = File(SC.imgDir,"$curDir#$pos")
+            val b = BitmapFactory.decodeStream(FileInputStream(f))
+            item.ivIcon.setImageBitmap(b)
+        }
+        else if(qApps[pos].commonApp.isExcept) {
 
             item.ivIcon.setImageResource(
                 CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange
@@ -38,6 +51,7 @@ class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>,
                 QuickAppType.EXPERT -> item.ivIcon.setImageResource(R.drawable.ic_build_orange)
             }
         }
+
 
         item.rlArrangeApp.setOnClickListener { _ ->
             qApps.forEach { it.isPicked = false }

@@ -81,7 +81,8 @@ class MainActivity : AppCompatActivity() {
         gvApps.adapter = MainGridAdapter(
             this,
             quickApps.take(gridCnt * gridCnt).toMutableList(),
-            vm.gridItemSize
+            vm.gridItemSize,
+            vm.lastestDir
         ){
             if(it.isLongClick)
                 when (it.quickApp.type) {

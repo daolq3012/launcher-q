@@ -7,13 +7,16 @@ import android.graphics.BitmapFactory
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.utill.App
+import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.SC.Companion.IMAGE_DIR_NAME
 import seoft.co.kr.launcherq.utill.SC.Companion.IMAGE_FILE_NAME
-import seoft.co.kr.launcherq.utill.i
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
+/**
+ * SC.imgDir is saved in this class
+ */
 class BackgroundRepo{
 
     val TAG = "BackgroundRepo#$#"
@@ -27,8 +30,11 @@ class BackgroundRepo{
         val fos = FileOutputStream(myPath)
         bitmap.compress(Bitmap.CompressFormat.PNG,100,fos)
 
+        SC.imgDir = dir.absolutePath
+
         Repo.preference.setBgImageBitmapPath(dir.absolutePath)
     }
+
 
     fun loadBitmap(): Bitmap {
 
@@ -40,6 +46,8 @@ class BackgroundRepo{
             saveBitmap(bitImg, App.get.applicationContext)
             path = Repo.preference.getBgImageBitmapPath()
         }
+
+        SC.imgDir = path
 
         val f = File(path, IMAGE_FILE_NAME)
         return BitmapFactory.decodeStream(FileInputStream(f))

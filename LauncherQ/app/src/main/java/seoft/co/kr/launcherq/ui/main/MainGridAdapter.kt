@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.ui.main
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +13,27 @@ import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
+import seoft.co.kr.launcherq.utill.SC
+import java.io.File
+import java.io.FileInputStream
 
 /**
  * need to insert pixel value into gridItemSize param
  */
-class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, val gridItemSize:Int, val cb:(CallbackMainGrid)->Unit) : BaseAdapter() {
+class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, val gridItemSize:Int, val curDir:Int, val cb:(CallbackMainGrid)->Unit) : BaseAdapter() {
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val item = inflater.inflate(R.layout.item_main_app,null)
 
-        if(qApps[pos].commonApp.isExcept) {
+        if(qApps[pos].hasImg) {
+
+            // SC.imgDir is saved in BackgroundRepo class
+            val f = File(SC.imgDir,"$curDir#$pos")
+            val b = BitmapFactory.decodeStream(FileInputStream(f))
+            item.ivIcon.setImageBitmap(b)
+        } else if(qApps[pos].commonApp.isExcept) {
 
             item.ivIcon.setImageResource(
                 CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange

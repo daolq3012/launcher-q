@@ -18,6 +18,8 @@ class SC{
 
         val gson = Gson()
 
+//        var test =""
+        lateinit var imgDir:String
 
     }
 

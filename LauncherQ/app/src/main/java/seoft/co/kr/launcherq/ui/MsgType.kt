@@ -12,6 +12,7 @@ enum class MsgType {
     SELECT_APP_IN_FOLDER,
     OPEN_FOLDER,
     PICK_TWO_STEP_ITEM,
+    OPEN_ICON_SETTER,
 //    REFRESH_SETTING,
 }
 

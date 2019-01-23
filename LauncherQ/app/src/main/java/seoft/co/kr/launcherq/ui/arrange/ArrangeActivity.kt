@@ -3,11 +3,16 @@ package seoft.co.kr.launcherq.ui.arrange
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_arrange.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
@@ -18,6 +23,8 @@ import seoft.co.kr.launcherq.databinding.ActivityArrangeBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.select.SelectActivity
 import seoft.co.kr.launcherq.utill.*
+import java.io.File
+import java.io.FileOutputStream
 
 class ArrangeActivity : AppCompatActivity() {
 
@@ -53,8 +60,24 @@ class ArrangeActivity : AppCompatActivity() {
                     }
                     startActivityForResult(intent,APP_SELECT_REQ_CODE)
                 }
-                MsgType.OPEN_FOLDER -> {
-                    openFolder(vm.pickedApp.value())
+                MsgType.OPEN_FOLDER -> openFolder(vm.pickedApp.value())
+                MsgType.OPEN_ICON_SETTER ->{
+                    if(vm.msg as Boolean) {
+                        SelectorDialog(this,
+                            "선택하세요",
+                            SelectorDialog.DialogSelectorInfo("수정"),
+                            SelectorDialog.DialogSelectorInfo("삭제"),
+                            cb = {
+                                when(it) {
+                                    1 -> selectIcon()
+                                    2 -> vm.setHasImage(false)
+                                }
+                            }
+                        ).create()
+                    } else {
+                        selectIcon()
+                    }
+
                 }
             }
         })
@@ -67,7 +90,8 @@ class ArrangeActivity : AppCompatActivity() {
                     gvApps.adapter = ArrangeImageAdapter(
                         this,
                         it.take(gridCnt * gridCnt).toMutableList(),
-                        resources.getDimension(R.dimen.grid_view_size_in_arrange).toInt()/gridCnt // 388 same to
+                        resources.getDimension(R.dimen.grid_view_size_in_arrange).toInt()/gridCnt, // 388 same to
+                        vm.dir
                     ){
                         it.quickApp.toString().i(TAG)
 
@@ -114,10 +138,16 @@ class ArrangeActivity : AppCompatActivity() {
 
     }
 
+    fun selectIcon(){
+        CropImage.startPickImageActivity(this)
+    }
+
+
     private fun openFolder(pickedApp: QuickApp) {
 
         if(pickedApp.cmds.isEmpty()) {
             "폴더가 비어있습니다".toast()
+            return
         }
 
         val afd = ArrangeFolderDialog(this,pickedApp.cmds){
@@ -140,6 +170,29 @@ class ArrangeActivity : AppCompatActivity() {
                         getBooleanExtra(IS_EXCEPT,false)
                     ))
             }
+        } else if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val imageUri = CropImage.getPickImageResultUri(this, data)
+
+            CropImage.activity(imageUri)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setAspectRatio(vm.myIconPixel, vm.myIconPixel)
+                .start(this)
+
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val result = CropImage.getActivityResult(data)
+            val bitImg = MediaStore.Images.Media.getBitmap(this.contentResolver,result.uri)
+
+            val cw = ContextWrapper(applicationContext)
+            val dir = cw.getDir("imageDir", Context.MODE_PRIVATE)
+            val myPath = File(dir, "${vm.dir}#${vm.curPos}")
+
+            val fos = FileOutputStream(myPath)
+            bitImg.compress(Bitmap.CompressFormat.PNG,100,fos)
+
+//            SC.test = dir.absolutePath
+//            SC.test.i(TAG)
+
+            vm.setHasImage(true)
         }
 
         super.onActivityResult(requestCode, resultCode, data)

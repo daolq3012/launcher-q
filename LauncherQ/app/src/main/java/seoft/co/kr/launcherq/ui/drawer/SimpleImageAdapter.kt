@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.ui.drawer
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -10,9 +11,12 @@ import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
+import seoft.co.kr.launcherq.utill.SC
+import java.io.File
+import java.io.FileInputStream
 
 
-class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: MutableList<QuickApp>) : BaseAdapter() {
+class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: MutableList<QuickApp>, val curDir:Int) : BaseAdapter() {
 
     val TAG = "SimpleImageAdapter#$#"
 
@@ -26,7 +30,14 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: M
             iv.scaleType = ImageView.ScaleType.FIT_XY
         }
 
-        if(qApps[pos].commonApp.isExcept) iv.setImageResource( CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange )
+        if(qApps[pos].hasImg) {
+
+            // SC.imgDir is saved in BackgroundRepo class
+            val f = File(SC.imgDir,"$curDir#$pos")
+            val b = BitmapFactory.decodeStream(FileInputStream(f))
+            iv.setImageBitmap(b)
+        }
+        else if(qApps[pos].commonApp.isExcept) iv.setImageResource( CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange )
         else {
             when(qApps[pos].type) {
                 QuickAppType.ONE_APP,QuickAppType.TWO_APP -> iv.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))

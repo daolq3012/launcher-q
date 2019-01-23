@@ -36,7 +36,10 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     var moveBefPos = -1
     var moveBefDir = -1
 
+    var myIconPixel = 0
+
     override fun start() {
+        myIconPixel = repo.preference.getMyIconPixel()
     }
 
     fun refreshAppGrid() {
@@ -142,6 +145,122 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         refreshAppGrid()
     }
 
+    fun setHasImage(hasImg : Boolean) {
+        val changedLiveDataApps = liveDataApps.value!!.apply {
+            this[curPos].hasImg = hasImg
+            this[curPos].isPicked = false
+        }
+        repo.preference.setQuickApps(changedLiveDataApps ,dir)
+        refreshAppGrid()
+    }
+
+
+    fun saveExpertAppToCurPosForTest(pos:Int = curPos) {
+
+        val testCnt =3
+
+        if(testCnt == 1) {
+
+        } else if(testCnt == 2) {
+
+
+            val changedLiveDataApps = liveDataApps.value!!
+                .apply {
+                    this[pos] = QuickApp(EMPTY_COMMON_APP,
+                        QuickAppType.EXPERT,
+                        expert = Expert(
+                            CustomIntent(
+                                name="크롬",
+                                action="android.intent.action.MAIN",
+                                categorys = arrayListOf("android.intent.category.LAUNCHER"),
+                                addFlag = arrayListOf(268435456, 2097152),
+                                customComponentName =  CustomComponentName("com.android.chrome","com.google.android.apps.chrome.Main")
+                            ),
+                            arrayListOf(
+                                CustomIntent(
+                                    name="네이버",
+                                    action="android.intent.action.VIEW",
+                                    uriData = "http://naver.com"
+                                ),
+                                CustomIntent(
+                                    name="구글",
+                                    action="android.intent.action.VIEW",
+                                    uriData = "http://google.com"
+                                ),
+                                CustomIntent(
+                                    name="스텍오버플로우",
+                                    action="android.intent.action.VIEW",
+                                    uriData = "https://stackoverflow.com"
+                                )
+                            )
+                        )
+                    )
+
+                }
+            repo.preference.setQuickApps(changedLiveDataApps ,dir)
+            refreshAppGrid()
+
+
+        }
+        else if(testCnt == 3) {
+
+
+            val changedLiveDataApps = liveDataApps.value!!
+                .apply {
+                    this[pos] = QuickApp(CommonApp("seoft.co.kr.chatfactory",
+                        "챗팩",
+                        "seoft.co.kr.chatfactory.ui.splash.SplashActivity"
+                        ),
+                        QuickAppType.EXPERT,
+                        expert = Expert(null,
+                            arrayListOf(
+                                CustomIntent(
+                                    name="엄마",
+                                    action="android.intent.action.DIAL",
+                                    uriData = "tel:0123456789"
+                                ),
+                                CustomIntent(
+                                    name="bb",
+                                    action="android.intent.action.DIAL",
+                                    uriData = "tel:789456123"
+                                ),
+                                CustomIntent(
+                                    name="cc",
+                                    action="android.intent.action.DIAL",
+                                    uriData = "tel:11111111"
+                                )
+                            )
+                        )
+                    )
+
+                }
+            repo.preference.setQuickApps(changedLiveDataApps ,dir)
+            refreshAppGrid()
+
+
+        }
+
+//전문가모드 설정 ui작성후 진행
+
+
+    }
+
+    /**
+     * Expert mode situaction
+     *
+     * 1. 기존앱 + 2스탭 설정 ( ex
+     * 2. 빈 앱 + 2스탭 설정 ( ex 설정 집합들 바로가기,
+     * 3. 설정앱 + 2스탭 설정 ( ex
+     * 4. 설정앱 ( ex 설정 바로가기,
+     */
+    /**
+     * not null -> use this
+     * null check commonApp was empty ->
+     *                                  not empty -> use that
+     *                                  empty -> not use
+     */
+
+
 
     fun clickAdd(){
         toActMsg(
@@ -182,64 +301,10 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         saveExpertAppToCurPosForTest()
     }
 
-    fun saveExpertAppToCurPosForTest(pos:Int = curPos) {
-
-        val testCnt =2
-
-        if(testCnt == 1) {
-
-        } else if(testCnt == 2) {
-
-
-            val changedLiveDataApps = liveDataApps.value!!
-                .apply {
-                    this[pos] = QuickApp(EMPTY_COMMON_APP,
-                        QuickAppType.EXPERT,
-                        expert = Expert(
-                            CustomIntent(
-                                name="크롬",
-                                action="android.intent.action.MAIN",
-                                categorys = arrayListOf("android.intent.category.LAUNCHER"),
-                                addFlag = arrayListOf(268435456, 2097152),
-                                customComponentName =  CustomComponentName("com.android.chrome","com.google.android.apps.chrome.Main")
-                            ),
-                            arrayListOf(
-                                CustomIntent(
-                                    name="네이버",
-                                    action="android.intent.action.VIEW",
-                                    uriData = "http://naver.com"
-                                )
-                            )
-                        )
-                        )
-
-                }
-            repo.preference.setQuickApps(changedLiveDataApps ,dir)
-            refreshAppGrid()
-
-
-        }
-
-
-
+    fun clickIcon(){
+        "clickIcon".i()
+        toActMsg(MsgType.OPEN_ICON_SETTER, pickedApp.value().hasImg)
     }
-
-    /**
-     * Expert mode situaction
-     *
-     * 1. 기존앱 + 2스탭 설정 ( ex
-     * 2. 빈 앱 + 2스탭 설정 ( ex 설정 집합들 바로가기,
-     * 3. 설정앱 + 2스탭 설정 ( ex
-     * 4. 설정앱 ( ex 설정 바로가기,
-     */
-    /**
-     * not null -> use this
-     * null check commonApp was empty ->
-     *                                  not empty -> use that
-     *                                  empty -> not use
-     */
-
-
 
     fun clickTop() { dir = 0
         refreshAppGrid() }
@@ -259,7 +324,8 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         MOVE,
         FOLDER,
         TWO_DEPTH,
-        EXPERT
+        EXPERT,
+        ICON
     }
 
 

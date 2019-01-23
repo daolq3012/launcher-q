@@ -56,7 +56,8 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
                 grids[i].adapter = SimpleImageAdapter(
                     context,
                     (context.resources.getDimension(R.dimen.grid_size_in_app_setting_view_minus_2_for_padding)).toInt() / gridCnt,
-                    apps.take(gridCnt * gridCnt).toMutableList()
+                    apps.take(gridCnt * gridCnt).toMutableList(),
+                    i
                 )
             }
         }
