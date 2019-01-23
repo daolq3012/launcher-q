@@ -3,10 +3,7 @@ package seoft.co.kr.launcherq.ui.arrange
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.CommonApp
-import seoft.co.kr.launcherq.data.model.QuickApp
-import seoft.co.kr.launcherq.data.model.QuickAppType
-import seoft.co.kr.launcherq.data.model.toSaveString
+import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.i
@@ -109,6 +106,10 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
             "폴더안에 폴더를 넣을 수 없습니다".toast()
             cancelMoveApp()
             return
+        } else if (changingQuickApp.type == QuickAppType.EXPERT && liveDataApps.value!![toPos].type == QuickAppType.FOLDER ) {
+            "폴더안에 전문가모드는 폴더안에 넣을 수 없습니다".toast()
+            cancelMoveApp()
+            return
         }
 
         deleteAppToFromPos(moveBefPos,moveBefDir)
@@ -178,7 +179,60 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickExpert(){
         "clickExpert".i()
+        saveExpertAppToCurPosForTest()
     }
+
+    fun saveExpertAppToCurPosForTest(pos:Int = curPos) {
+
+        val testCnt =2
+
+        if(testCnt == 1) {
+
+        } else if(testCnt == 2) {
+
+
+            val changedLiveDataApps = liveDataApps.value!!
+                .apply {
+                    this[pos] = QuickApp(EMPTY_COMMON_APP,
+                        QuickAppType.EXPERT,
+                        expert = Expert(
+                            CustomIntent(
+                                name="크롬",
+                                action="android.intent.action.MAIN",
+                                categorys = arrayListOf("android.intent.category.LAUNCHER"),
+                                addFlag = arrayListOf(268435456, 2097152),
+                                customComponentName =  CustomComponentName("com.android.chrome","com.google.android.apps.chrome.Main")
+                            )
+//                            요기 채워서 테스트할 차례
+                        )
+                        )
+
+                }
+            repo.preference.setQuickApps(changedLiveDataApps ,dir)
+            refreshAppGrid()
+
+
+        }
+
+
+
+    }
+
+    /**
+     * Expert mode situaction
+     *
+     * 1. 기존앱 + 2스탭 설정 ( ex
+     * 2. 빈 앱 + 2스탭 설정 ( ex 설정 집합들 바로가기,
+     * 3. 설정앱 + 2스탭 설정 ( ex
+     * 4. 설정앱 ( ex 설정 바로가기,
+     */
+    /**
+     * not null -> use this
+     * null check commonApp was empty ->
+     *                                  not empty -> use that
+     *                                  empty -> not use
+     */
+
 
 
     fun clickTop() { dir = 0

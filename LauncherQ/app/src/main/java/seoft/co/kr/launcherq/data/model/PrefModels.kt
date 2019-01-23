@@ -7,13 +7,17 @@ data class QuickApp(
     var expert: Expert? = null,
     var isPicked: Boolean = false,
     var hasImg: Boolean = false
-
-
 )
 
 data class Expert(
+    /**
+     * not null -> use this
+     * null check commonApp was empty ->
+     *                                  not empty -> use that
+     *                                  empty -> not use
+     */
     var useOne:CustomIntent?,
-    var useTwo:MutableList<CustomIntent>
+    var useTwo:MutableList<CustomIntent>? = null
 )
 
 data class CustomIntent(
@@ -21,9 +25,9 @@ data class CustomIntent(
     var action:String? = null,
     var uriData:String? = null,
     var type:String? = null,
-    var categorys: MutableList<String> = mutableListOf(),
+    var categorys: MutableList<String>? = null,
     var flag : Int = -1,
-    var addFlag : MutableList<Int> = mutableListOf(),
+    var addFlag : MutableList<Int>? = null,
     var pkgName :String ? = null,
     var customComponentName:CustomComponentName? = null,
     var className : ClassName? = null

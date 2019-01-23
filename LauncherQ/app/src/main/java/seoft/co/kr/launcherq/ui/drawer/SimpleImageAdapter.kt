@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
@@ -25,11 +26,15 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: M
             iv.scaleType = ImageView.ScaleType.FIT_XY
         }
 
-//        "cApps[pos].pkgName ${cApps[pos].pkgName.toString()}".i(TAG)
-        if(qApps[pos].type == QuickAppType.ONE_APP || qApps[pos].type == QuickAppType.TWO_APP)
-            iv.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
-        else if(qApps[pos].type == QuickAppType.FOLDER)
-            iv.setImageResource(R.drawable.ic_folder_green)
+        if(qApps[pos].commonApp.isExcept) iv.setImageResource( CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange )
+        else {
+            when(qApps[pos].type) {
+                QuickAppType.ONE_APP,QuickAppType.TWO_APP -> iv.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
+                QuickAppType.FOLDER -> iv.setImageResource(R.drawable.ic_folder_green)
+                QuickAppType.EXPERT -> iv.setImageResource(R.drawable.ic_build_orange)
+                else -> {}
+            }
+        }
 
         return iv
     }

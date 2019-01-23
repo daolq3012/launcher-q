@@ -225,6 +225,7 @@
                 <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1"
+                              android:visibility="gone"
                               android:padding="15dp"
                               android:onClick="@{()->vm.clickTwoDepth()}"
                               app:tv="@{tvTwoDepth}"

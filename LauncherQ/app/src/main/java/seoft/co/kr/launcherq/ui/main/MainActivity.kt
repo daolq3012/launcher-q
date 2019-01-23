@@ -86,19 +86,23 @@ class MainActivity : AppCompatActivity() {
         ){
             if(it.isLongClick)
                 when (it.quickApp.type) {
-                    QuickAppType.EXPERT, QuickAppType.FOLDER, QuickAppType.TWO_APP -> openTwoStep(it.quickApp, true)
-                    else -> {
-                        val intent = Intent(applicationContext, ArrangeActivity::class.java)
-                            .apply { putExtra(ArrangeActivity.DIR,vm.lastestDir) }
-
-                        startActivity(intent)
+                    QuickAppType.FOLDER, QuickAppType.TWO_APP -> openTwoStep(it.quickApp, true)
+                    QuickAppType.EXPERT -> {
+                        if(it.quickApp.expert!!.useTwo == null) openArrangeActivityWithDir()
+                        else openTwoStep(it.quickApp, true)
                     }
+                    else -> openArrangeActivityWithDir()
                 }
             else
                 runOneStepApp(it.quickApp)
         }
     }
 
+    fun openArrangeActivityWithDir() {
+        val intent = Intent(applicationContext, ArrangeActivity::class.java)
+            .apply { putExtra(ArrangeActivity.DIR,vm.lastestDir) }
+        startActivity(intent)
+    }
 
     fun runOneStepApp(quickApp: QuickApp) {
         when(quickApp.type){
@@ -111,6 +115,10 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 } else {
+
+                    "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName}".i(TAG)
+                    "quickApp.commonApp.detailName : ${quickApp.commonApp.detailName}".i(TAG)
+
                     val compname = ComponentName(quickApp.commonApp.pkgName, quickApp.commonApp.detailName)
                     val actintent = Intent(Intent.ACTION_MAIN)
                         .apply {
@@ -126,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             QuickAppType.FOLDER -> {
                 openTwoStep(quickApp)
             }
-
+            else -> {}
         }
     }
 
@@ -137,6 +145,7 @@ class MainActivity : AppCompatActivity() {
      * else type never call this method
      */
     private fun runTwoStepApp(pos:Int) {
+        "runTwoStepApp pos : $pos".i(TAG)
 
         with(vm.twoStepApp.value()) {
             when (type) {
@@ -144,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                     cmds[pos].i(TAG)
                 }
                 QuickAppType.EXPERT -> {
-                    expert!!.useTwo[pos].toString().i(TAG)
+                    expert!!.useTwo!![pos].i(TAG)
                 }
                 else ->{}
             }
@@ -162,6 +171,8 @@ class MainActivity : AppCompatActivity() {
      * first, check two step item count
      * second, calc height using item count
      * third, adjust size to view
+     *
+     * block expert don't have useTwo(is null) when before process
      */
     fun openTwoStep(quickApp: QuickApp, isLongClick :Boolean = false) {
         vm.twoStepApp.set(quickApp)
@@ -171,7 +182,7 @@ class MainActivity : AppCompatActivity() {
 
         when (quickApp.type) {
             QuickAppType.FOLDER, QuickAppType.TWO_APP -> twoStepItemCnt = quickApp.cmds.size
-            QuickAppType.EXPERT -> twoStepItemCnt = quickApp.expert!!.useTwo.size
+            QuickAppType.EXPERT -> twoStepItemCnt = quickApp.expert!!.useTwo!!.size
         }
 
         if(twoStepItemCnt == 0) {
@@ -316,6 +327,10 @@ class MainActivity : AppCompatActivity() {
             if(curPosKeepCnt >= vm.twoStepOpenInterval){
 
                 if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.ONE_APP) {
+                    intervalStart()
+                    return@postDelayed
+                } else if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EXPERT &&
+                    vm.liveDataApps.value!![curPosInOneStep].expert!!.useTwo == null) {
                     intervalStart()
                     return@postDelayed
                 }

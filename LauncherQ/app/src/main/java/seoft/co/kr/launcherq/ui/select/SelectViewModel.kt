@@ -19,8 +19,7 @@ class SelectViewModel(val repo: Repo): ViewModelHelper() {
         val instApps = InstalledAppUtil().getInstalledApps()
 
         // batch order is bottom to top
-        instApps.add(0, CommonApp(CAppException.DRAWER.get,isExcept = true))
-        instApps.add(0, CommonApp(CAppException.CALL.get,isExcept = true))
+        CAppException.values().forEach { instApps.add(0, CommonApp(it.get,isExcept = true)) }
 
         liveDataCommonApps.value = instApps
     }
