@@ -6,9 +6,11 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
+import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.toast
 import seoft.co.kr.launcherq.utill.value
+import java.io.File
 
 
 class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
@@ -115,6 +117,12 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
             return
         }
 
+        if(repo.preference.getQuickApps(moveBefDir)[moveBefPos].hasImg) {
+            // file manage ref : https://stackoverflow.com/questions/9292954/how-to-make-a-copy-of-a-file-in-android
+            File(SC.imgDir,"$moveBefDir#$moveBefPos").copyTo(File(SC.imgDir,"$dir#$toPos"),true)
+            File(SC.imgDir,"$moveBefDir#$moveBefPos").delete()
+        }
+
         deleteAppToFromPos(moveBefPos,moveBefDir)
 
         val changedLiveDataApps = liveDataApps.value!!
@@ -123,6 +131,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         else changedLiveDataApps[toPos] = changingQuickApp
 
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
+
         cancelMoveApp()
     }
 
@@ -240,9 +249,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
         }
 
-//전문가모드 설정 ui작성후 진행
-
-
     }
 
     /**
@@ -298,12 +304,31 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickExpert(){
         "clickExpert".i()
-        saveExpertAppToCurPosForTest()
+//        saveExpertAppToCurPosForTest()
+//        expertSetting.set(true)
+        toActMsg(MsgType.OPEN_EXPERT_STATUS)
     }
+//
+//    one step
+//
+//    two step (+)
+//    aaaaaaaaaaaa(수정)(삭제)
+//    aaaaaaaaaaaa(수정)(삭제)
+//    aaaaaaaaaaaa(수정)(삭제)
+//    aaaaaaaaaaaa(수정)(삭제)
+//    aaaaaaaaaaaa(수정)(삭제)
+//
+//    요런식으로 다이얼로그 후
+//
+//    expertSetting.set(true) 이거 진행 ㄱㄱ
 
     fun clickIcon(){
         "clickIcon".i()
         toActMsg(MsgType.OPEN_ICON_SETTER, pickedApp.value().hasImg)
+    }
+
+    fun clickCancelExpertSetting(){
+        refreshAppGrid()
     }
 
     fun clickTop() { dir = 0

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.arrange.ExpertSettingActivity">
+
+    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+                                                android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" >
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" >
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="확인"
+                          android:gravity="center"
+                          android:padding="10dp" android:layout_weight="1" />
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="취소"
+                          android:gravity="center"
+                          android:padding="10dp" android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="name" />
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etName" />
+
+
+
+            <!---->
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="action" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
+                      android:padding="5dp"  android:id="@+id/tvAction" />
+
+<!---->
+
+
+
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="uri" />
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etUri" />
+
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="type" />
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etType" />
+
+            <!---->
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="action" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
+                      android:padding="5dp"  android:id="@+id/tvCategory" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="action" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
+                      android:padding="5dp"  android:id="@+id/tvSetFlag" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="action" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
+                      android:padding="5dp"  android:id="@+id/tvAddFlag" />
+
+<!---->
+
+
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="pkgName" />
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etPkgName" />
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="pkgName(componentName)" />
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etCnPkgName" />
+
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="cls(componentName)" />
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etCnCls" />
+
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

@@ -23,7 +23,14 @@ data class Expert(
 )
 
 data class CustomIntent(
+
+    /**
+     * empty or exist checking property
+     * "" > empty
+     * else > exist
+     */
     var name:String,
+
     var action:String = ACTION_DEFAULT,
     var uriData:String? = null,
     var type:String? = null,
@@ -32,18 +39,12 @@ data class CustomIntent(
     var addFlag : MutableList<Int>? = null,
     var pkgName :String ? = null,
     var customComponentName:CustomComponentName? = null
-//    var className : ClassName? = null
 )
 
 data class CustomComponentName(
     var compName : String,
     var compCls : String
 )
-
-//data class ClassName(
-//    var pkgName : String? = null,
-//    var clsName : String? = null
-//)
 
 enum class QuickAppType{
     EMPTY,

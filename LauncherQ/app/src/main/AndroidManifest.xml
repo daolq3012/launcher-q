@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="seoft.co.kr.launcherq">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="seoft.co.kr.launcherq">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -13,7 +14,8 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppThemeNoActionBar" tools:ignore="GoogleAppIndexingWarning">
+            android:theme="@style/AppThemeNoActionBar"
+            tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -40,6 +42,8 @@
         <activity android:name=".ui.arrange.ArrangeActivity">
         </activity>
         <activity android:name=".ui.select.SelectActivity">
+        </activity>
+        <activity android:name=".ui.arrange.ExpertSettingActivity">
         </activity>
     </application>
 

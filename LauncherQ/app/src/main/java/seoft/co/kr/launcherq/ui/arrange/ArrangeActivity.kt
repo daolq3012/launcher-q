@@ -31,7 +31,8 @@ class ArrangeActivity : AppCompatActivity() {
     val TAG = "ArrangeActivity#$#"
 
     private lateinit var binding: ActivityArrangeBinding
-    val APP_SELECT_REQ_CODE = 1234
+    val REQ_CODE_APP_SELECT = 1234
+    val REQ_CODE_EXPERT_SETTING = 1235
 
     lateinit var vm : ArrangeViewModel
 
@@ -52,13 +53,13 @@ class ArrangeActivity : AppCompatActivity() {
                     val intent = Intent(applicationContext,SelectActivity::class.java).apply {
                         putExtra(SelectActivity.SHOW_OPTIONS,true)
                     }
-                    startActivityForResult(intent,APP_SELECT_REQ_CODE)
+                    startActivityForResult(intent,REQ_CODE_APP_SELECT)
                 }
                 MsgType.SELECT_APP_IN_FOLDER -> {
                     val intent = Intent(applicationContext,SelectActivity::class.java).apply {
                         putExtra(SelectActivity.SHOW_OPTIONS,false)
                     }
-                    startActivityForResult(intent,APP_SELECT_REQ_CODE)
+                    startActivityForResult(intent,REQ_CODE_APP_SELECT)
                 }
                 MsgType.OPEN_FOLDER -> openFolder(vm.pickedApp.value())
                 MsgType.OPEN_ICON_SETTER ->{
@@ -78,6 +79,19 @@ class ArrangeActivity : AppCompatActivity() {
                         selectIcon()
                     }
 
+                }
+                MsgType.OPEN_EXPERT_STATUS ->{
+                    val esd = ExpertStatusDialog(this,vm.pickedApp.value()){
+                        SC.qApp4SetExpert = vm.pickedApp.value()
+
+                        val intent = Intent(applicationContext,ExpertSettingActivity::class.java).apply {
+                            putExtra(ExpertSettingActivity.ES_TYPE,it.cmdType)
+                            putExtra(ExpertSettingActivity.ES_POS,it.pos)
+                        }
+
+                        startActivityForResult(intent,REQ_CODE_EXPERT_SETTING)
+                    }
+                    esd.show()
                 }
             }
         })
@@ -159,7 +173,7 @@ class ArrangeActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if(resultCode == Activity.RESULT_OK && requestCode == APP_SELECT_REQ_CODE) {
+        if(resultCode == Activity.RESULT_OK && requestCode == REQ_CODE_APP_SELECT) {
             data?.run {
                 vm.saveCommonAppToCurPos(
                     CommonApp(

@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.utill
 
 import com.google.gson.Gson
+import seoft.co.kr.launcherq.data.model.QuickApp
 
 class SC{
     companion object {
@@ -20,6 +21,8 @@ class SC{
 
 //        var test =""
         lateinit var imgDir:String
+
+        var qApp4SetExpert : QuickApp? = null
 
     }
 
