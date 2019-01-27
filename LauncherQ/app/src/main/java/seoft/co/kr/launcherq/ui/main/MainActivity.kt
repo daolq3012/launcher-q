@@ -199,8 +199,8 @@ class MainActivity : AppCompatActivity() {
                     runAppFromPkgNameDetailName(cApp.pkgName,cApp.detailName)
                 }
                 QuickAppType.EXPERT -> {
-                    expert!!.useTwo!![pos].i(TAG)
-                    runExpertApp(expert!!.useTwo!![pos])
+                    expert!!.useTwo!![pos]!!.i(TAG)
+                    runExpertApp(expert!!.useTwo!![pos]!!)
                 }
                 else ->{}
             }
@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity() {
 
         when (quickApp.type) {
             QuickAppType.FOLDER, QuickAppType.TWO_APP -> twoStepItemCnt = quickApp.cmds.size
-            QuickAppType.EXPERT -> twoStepItemCnt = quickApp.expert!!.useTwo!!.size
+            QuickAppType.EXPERT -> twoStepItemCnt = quickApp.expert!!.useTwo!!.count { it != null }
         }
 
         if(twoStepItemCnt == 0) {

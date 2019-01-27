@@ -25,8 +25,13 @@ fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int) {
             else View.GONE
         }
         QuickAppType.EXPERT -> {
-            ll.visibility = if(twoStepApp.expert!!.useTwo!!.size > pos) View.VISIBLE
-            else View.GONE
+
+            with(twoStepApp.expert!!.useTwo) {
+                ll.visibility = if(this!![pos] != null) View.VISIBLE else View.GONE
+            }
+
+//            ll.visibility = if(twoStepApp.expert!!.useTwo!!.size > pos) View.VISIBLE
+//            else View.GONE
         }
     }
 }
@@ -43,7 +48,8 @@ fun setTextTwoStepItem(tv: TextView, twoStepApp: QuickApp, pos:Int) {
         }
         QuickAppType.EXPERT -> {
             with(twoStepApp.expert!!.useTwo){
-                if(this!!.size > pos) tv.text = this[pos].name
+                if(this!![pos] != null) tv.text = this[pos]!!.name
+//                if(this!!.size > pos) tv.text = this[pos]!!.name
             }
         }
     }

@@ -91,6 +91,18 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         refreshAppGrid()
     }
 
+    fun saveExpertedQuickAppToCurPos() {
+
+        val changedLiveDataApps = liveDataApps.value!!
+            .apply {
+                this[curPos]=SC.qApp4SetExpert!!
+                this[curPos].isPicked = false // for unset select effect
+            }
+        repo.preference.setQuickApps(changedLiveDataApps ,dir)
+        refreshAppGrid()
+        SC.qApp4SetExpert = null
+    }
+
     fun deleteAppToFromPos(pos:Int = curPos, dir_:Int = dir) {
 
         val changedLiveDataApps = repo.preference.getQuickApps(dir_).apply {
@@ -305,22 +317,8 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun clickExpert(){
         "clickExpert".i()
 //        saveExpertAppToCurPosForTest()
-//        expertSetting.set(true)
         toActMsg(MsgType.OPEN_EXPERT_STATUS)
     }
-//
-//    one step
-//
-//    two step (+)
-//    aaaaaaaaaaaa(수정)(삭제)
-//    aaaaaaaaaaaa(수정)(삭제)
-//    aaaaaaaaaaaa(수정)(삭제)
-//    aaaaaaaaaaaa(수정)(삭제)
-//    aaaaaaaaaaaa(수정)(삭제)
-//
-//    요런식으로 다이얼로그 후
-//
-//    expertSetting.set(true) 이거 진행 ㄱㄱ
 
     fun clickIcon(){
         "clickIcon".i()

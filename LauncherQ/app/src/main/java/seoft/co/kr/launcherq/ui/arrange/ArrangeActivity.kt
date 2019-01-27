@@ -85,7 +85,9 @@ class ArrangeActivity : AppCompatActivity() {
                         SC.qApp4SetExpert = vm.pickedApp.value()
 
                         val intent = Intent(applicationContext,ExpertSettingActivity::class.java).apply {
-                            putExtra(ExpertSettingActivity.ES_TYPE,it.cmdType)
+
+                            // TODO 삭제처리
+                           putExtra(ExpertSettingActivity.ES_TYPE,it.cmdType)
                             putExtra(ExpertSettingActivity.ES_POS,it.pos)
                         }
 
@@ -93,6 +95,7 @@ class ArrangeActivity : AppCompatActivity() {
                     }
                     esd.show()
                 }
+                else -> {}
             }
         })
 
@@ -203,10 +206,9 @@ class ArrangeActivity : AppCompatActivity() {
             val fos = FileOutputStream(myPath)
             bitImg.compress(Bitmap.CompressFormat.PNG,100,fos)
 
-//            SC.test = dir.absolutePath
-//            SC.test.i(TAG)
-
             vm.setHasImage(true)
+        } else if (requestCode == REQ_CODE_EXPERT_SETTING && resultCode == Activity.RESULT_OK) {
+            vm.saveExpertedQuickAppToCurPos()
         }
 
         super.onActivityResult(requestCode, resultCode, data)

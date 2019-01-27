@@ -17,9 +17,12 @@ data class Expert(
      * null check commonApp was empty ->
      *                                  not empty -> use that
      *                                  empty -> not use
+     *
+     * each property create from ExpertSettingActivity ( if use that )
+     *
      */
     var useOne:CustomIntent?,
-    var useTwo:MutableList<CustomIntent>? = null
+    var useTwo:MutableList<CustomIntent?>? = null
 )
 
 data class CustomIntent(
