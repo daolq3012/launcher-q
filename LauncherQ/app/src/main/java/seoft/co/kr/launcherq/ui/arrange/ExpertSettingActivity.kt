@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_expert_setting.*
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.utill.i
 
 class ExpertSettingActivity : AppCompatActivity() {
 
@@ -11,6 +12,8 @@ class ExpertSettingActivity : AppCompatActivity() {
 
     var pos = 0
     var cmdType = 0
+
+    val eos = ExpertOptionModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +30,27 @@ class ExpertSettingActivity : AppCompatActivity() {
     fun initListener(){
 
         tvAction.setOnClickListener { v ->
+            ExpertOptionDialog(this,eos.actions) {
+                it.i(TAG)
+            }.apply { show() }
+        }
 
+        tvCategory.setOnClickListener { _ ->
+            ExpertOptionDialog(this,eos.categorys) {
+                it.i(TAG)
+            }.apply { show() }
+        }
 
+        tvSetFlag.setOnClickListener { _ ->
+            ExpertOptionDialog(this,eos.flags) {
+                it.i(TAG)
+            }.apply { show() }
+        }
 
-
+        tvAddFlag.setOnClickListener { _ ->
+            ExpertOptionDialog(this,eos.flags) {
+                it.i(TAG)
+            }.apply { show() }
         }
 
 

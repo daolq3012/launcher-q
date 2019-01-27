@@ -4,9 +4,6 @@
 
     <data>
         <import type="android.view.View" />
-        <variable
-                name="room"
-                type="seoft.co.kr.launcherq.data.model.CommonApp" />
     </data>
 
 
