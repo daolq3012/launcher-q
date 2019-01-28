@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import seoft.co.kr.launcherq.data.model.ExpertOption
 import seoft.co.kr.launcherq.databinding.ItemExpertOptionBinding
 
-class ExpertOptionAdapter(var options : List<ExpertOption> ,var cb:(result: String)->Unit)
+class ExpertOptionAdapter(var options : List<ExpertOption> ,var cb:(result: ExpertOption)->Unit)
     : RecyclerView.Adapter<ExpertOptionAdapter.ViewHolder>() {
 
     val TAG = "ExpertOptionAdapter#$#"
@@ -22,7 +22,7 @@ class ExpertOptionAdapter(var options : List<ExpertOption> ,var cb:(result: Stri
 
     override fun getItemCount(): Int = options.size
 
-    class ViewHolder(private var binding: ItemExpertOptionBinding, var cb:(result: String)->Unit) :
+    class ViewHolder(private var binding: ItemExpertOptionBinding, var cb:(result: ExpertOption)->Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(expertOption: ExpertOption) {
@@ -30,7 +30,7 @@ class ExpertOptionAdapter(var options : List<ExpertOption> ,var cb:(result: Stri
             binding.tvExeprtSetting.text = expertOption.name
 
             binding.root.setOnClickListener { _ ->
-                cb.invoke(expertOption.result)
+                cb.invoke(expertOption)
             }
 
             binding.executePendingBindings()

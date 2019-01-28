@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.dialog_expert_option.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.model.ExpertOption
 
-class ExpertOptionDialog(context: Context, val expertOptions: List<ExpertOption>, val cb:(String)->Unit ) : Dialog(context) {
+class ExpertOptionDialog(context: Context, val expertOptions: List<ExpertOption>, val cb:(ExpertOption)->Unit ) : Dialog(context) {
 
     val TAG = "ExpertOptionDialog#$#"
 

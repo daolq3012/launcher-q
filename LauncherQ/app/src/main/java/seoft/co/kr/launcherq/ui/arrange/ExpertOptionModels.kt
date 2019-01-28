@@ -1,10 +1,20 @@
 package seoft.co.kr.launcherq.ui.arrange
 
+import android.content.Intent
 import seoft.co.kr.launcherq.data.model.ExpertOption
 
+/**
+ * use result property to QuickApp when saving
+ * use name property to setting view when loading
+ */
 class ExpertOptionModels {
 
+    val actionDefault = Intent.ACTION_DEFAULT
+    val flagDefault = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    val categoryDefault = Intent.CATEGORY_DEFAULT
+
     val actions = arrayListOf(
+        ExpertOption("DELETE", actionDefault),
         ExpertOption("ACTION_AIRPLANE_MODE_CHANGED","android.intent.action.AIRPLANE_MODE"),
         ExpertOption("ACTION_ALL_APPS","android.intent.action.ALL_APPS"),
         ExpertOption("ACTION_ANSWER","android.intent.action.ANSWER"),
@@ -134,6 +144,7 @@ class ExpertOptionModels {
 
 
     val categorys = arrayListOf(
+        ExpertOption("CLEAR",""),
         ExpertOption("CATEGORY_ALTERNATIVE","android.intent.category.ALTERNATIVE"),
         ExpertOption("CATEGORY_APP_BROWSER","android.intent.category.APP_BROWSER"),
         ExpertOption("CATEGORY_APP_CALCULATOR","android.intent.category.APP_CALCULATOR"),
@@ -173,7 +184,8 @@ class ExpertOptionModels {
 
         )
 
-    val flags = arrayListOf(
+    val flags = mutableListOf(
+        // add delete & clear from caller
         ExpertOption("FLAG_ACTIVITY_BROUGHT_TO_FRONT","4194304"),
         ExpertOption("FLAG_ACTIVITY_CLEAR_TASK","32768"),
         ExpertOption("FLAG_ACTIVITY_CLEAR_TOP","67108864"),

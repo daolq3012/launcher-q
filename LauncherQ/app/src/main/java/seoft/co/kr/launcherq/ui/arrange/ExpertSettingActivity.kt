@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_expert_setting.*
 import seoft.co.kr.launcherq.R
-import seoft.co.kr.launcherq.data.model.CustomComponentName
-import seoft.co.kr.launcherq.data.model.CustomIntent
-import seoft.co.kr.launcherq.data.model.Expert
-import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
+import seoft.co.kr.launcherq.utill.toEditable
 import seoft.co.kr.launcherq.utill.toast
 
 class ExpertSettingActivity : AppCompatActivity() {
@@ -22,6 +19,11 @@ class ExpertSettingActivity : AppCompatActivity() {
 
     val eos = ExpertOptionModels()
     lateinit var curCustomIntent : CustomIntent
+
+    var eomAction = ExpertOption("DELETE", eos.actionDefault)
+    var eomCategorys = mutableListOf<ExpertOption>()
+    var eomSetFlag = ExpertOption("SET DEFAULT",eos.flagDefault.toString())
+    var eomAddFlag = mutableListOf<ExpertOption>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,20 +49,43 @@ class ExpertSettingActivity : AppCompatActivity() {
                 }
             }
 
+            etName.text =  curCustomIntent.name.toEditable()
+            etUri.text =  curCustomIntent.uriData?.toEditable() ?: "".toEditable()
+            etType.text =  curCustomIntent.type?.toEditable() ?: "".toEditable()
+            etPkgName.text =  curCustomIntent.pkgName?.toEditable() ?: "".toEditable()
+            etCnPkgName.text =  curCustomIntent.customComponentName?.compName?.toEditable() ?: "".toEditable()
+            etCnCls.text =  curCustomIntent.customComponentName?.compCls?.toEditable() ?: "".toEditable()
+
+            with(eos.actions.find { it.result == curCustomIntent.action }){
+                tvAction.text = this!!.name
+                eomAction = this
+            }
+
+            with(eos.flags.find { it.result.toInt() == curCustomIntent.flag }){
+                tvSetFlag.text = this!!.name
+                eomSetFlag = this
+            }
+
+
+            curCustomIntent.categorys.forEach {
+                val cur = it
+                eos.categorys.find { it.result ==  cur }?.let { eomCategorys.add(it) }
+            }
+            tvCategory.text = eomCategorys.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+
+
+            curCustomIntent.addFlag?.let {
+                it.forEach {
+                    val cur = it
+                    eos.flags.find { it.result.toInt() ==  cur }?.let { eomAddFlag.add(it) }
+                }
+
+                tvAddFlag.text = eomAddFlag.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+            }
+
         } else { // add
             curCustomIntent = CustomIntent("")
-
         }
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -69,25 +94,51 @@ class ExpertSettingActivity : AppCompatActivity() {
 
         tvAction.setOnClickListener { v ->
             ExpertOptionDialog(this,eos.actions) {
-                it.i(TAG)
+                eomAction = it
+                tvAction.text = if(eomAction.result == eos.actionDefault) "추가하기" else eomAction.name
             }.apply { show() }
         }
 
         tvCategory.setOnClickListener { _ ->
             ExpertOptionDialog(this,eos.categorys) {
-                it.i(TAG)
+
+                if(it.result.isEmpty()) {
+                    eomCategorys.clear()
+                    tvCategory.text = "추가하기"
+                    return@ExpertOptionDialog
+                }
+                eomCategorys.add(it)
+
+                tvCategory.text = eomCategorys.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+
             }.apply { show() }
         }
 
         tvSetFlag.setOnClickListener { _ ->
-            ExpertOptionDialog(this,eos.flags) {
-                it.i(TAG)
+            ExpertOptionDialog(this,eos.flags
+                .toMutableList()
+                .apply { add(0,ExpertOption("SET DEFAULT",eos.flagDefault.toString()) )}) {
+
+                eomSetFlag = it
+                tvSetFlag.text = if(eomSetFlag.result.toInt() == eos.flagDefault) "FLAG_GRANT_READ_URI_PERMISSION" else eomSetFlag.name
             }.apply { show() }
         }
 
         tvAddFlag.setOnClickListener { _ ->
-            ExpertOptionDialog(this,eos.flags) {
-                it.i(TAG)
+            ExpertOptionDialog(this,eos.flags
+                .toMutableList()
+                    .apply { add(0,ExpertOption("CLEAR","") )}) {
+
+                if(it.result.isEmpty()) {
+                    eomAddFlag.clear()
+                    tvAddFlag.text = "추가하기"
+                    return@ExpertOptionDialog
+                }
+                eomAddFlag.add(it)
+
+                tvAddFlag.text = eomAddFlag.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+
+
             }.apply { show() }
         }
 
@@ -107,12 +158,19 @@ class ExpertSettingActivity : AppCompatActivity() {
 
                 val tmpCustomComponentName = CustomComponentName(etCnPkgName.text.toString(),etCnCls.text.toString())
 
-                if(!(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == ""))
-                    customComponentName = tmpCustomComponentName
+                if(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == "") customComponentName = null
+                else customComponentName = tmpCustomComponentName
+
+                action = eomAction.result
+
+                if(eomCategorys.isEmpty()) categorys = mutableListOf("CATEGORY_DEFAULT", eos.categoryDefault)
+                else categorys = eomCategorys.map { it.result }.toMutableList()
+
+                flag = eomSetFlag.result.toInt()
+
+                if(eomAddFlag.isNotEmpty()) addFlag = eomAddFlag.map { it.result.toInt() }.toMutableList()
+                else addFlag = null
             }
-
-
-
 
             if(SC.qApp4SetExpert!!.expert == null)
                 SC.qApp4SetExpert!!.expert = Expert(null)
