@@ -132,7 +132,7 @@ class MainCaculator{
         else if(curX - gvSize.toPixel()/2 < 0 ) optPointForGridViewX = curX - gvSize.toPixel()/2
 
         // when out top or bottom
-        if(curY + gvSize.toPixel()/2 > screenSize.y ) optPointForGridViewX = curY + gvSize.toPixel()/2 - screenSize.y
+        if(curY + gvSize.toPixel()/2 > screenSize.y ) optPointForGridViewY = curY + gvSize.toPixel()/2 - screenSize.y
         else if(curY - gvSize.toPixel()/2 < 0 ) optPointForGridViewY = curY - gvSize.toPixel()/2
 
         // calc marginPoint for show starterview on cur finger point
