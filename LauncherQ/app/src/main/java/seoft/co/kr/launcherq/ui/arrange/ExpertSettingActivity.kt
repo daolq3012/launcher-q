@@ -10,6 +10,9 @@ import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.toEditable
 import seoft.co.kr.launcherq.utill.toast
 
+/**
+ * this activity is not mvvm structure
+ */
 class ExpertSettingActivity : AppCompatActivity() {
 
     val TAG = "ExpertSettingActivity#$#"
@@ -20,7 +23,7 @@ class ExpertSettingActivity : AppCompatActivity() {
     val eos = ExpertOptionModels()
     lateinit var curCustomIntent : CustomIntent
 
-    var eomAction = ExpertOption("DELETE", eos.actionDefault)
+    var eomAction = ExpertOption("ACTION_DEFAULT", eos.actionDefault)
     var eomCategorys = mutableListOf<ExpertOption>()
     var eomSetFlag = ExpertOption("SET DEFAULT",eos.flagDefault.toString())
     var eomAddFlag = mutableListOf<ExpertOption>()
@@ -95,7 +98,7 @@ class ExpertSettingActivity : AppCompatActivity() {
         tvAction.setOnClickListener { v ->
             ExpertOptionDialog(this,eos.actions) {
                 eomAction = it
-                tvAction.text = if(eomAction.result == eos.actionDefault) "추가하기" else eomAction.name
+                tvAction.text = /*if(eomAction.result == eos.actionDefault) "추가하기" else*/ eomAction.name
             }.apply { show() }
         }
 
@@ -104,7 +107,7 @@ class ExpertSettingActivity : AppCompatActivity() {
 
                 if(it.result.isEmpty()) {
                     eomCategorys.clear()
-                    tvCategory.text = "추가하기"
+                    tvCategory.text = "CATEGORY_DEFAULT\n추가하기"
                     return@ExpertOptionDialog
                 }
                 eomCategorys.add(it)
@@ -158,12 +161,12 @@ class ExpertSettingActivity : AppCompatActivity() {
 
                 val tmpCustomComponentName = CustomComponentName(etCnPkgName.text.toString(),etCnCls.text.toString())
 
-                if(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == "") customComponentName = null
-                else customComponentName = tmpCustomComponentName
+                customComponentName = if(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == "") null
+                else tmpCustomComponentName
 
                 action = eomAction.result
 
-                if(eomCategorys.isEmpty()) categorys = mutableListOf("CATEGORY_DEFAULT", eos.categoryDefault)
+                if(eomCategorys.isEmpty()) categorys = mutableListOf(eos.categoryDefault)
                 else categorys = eomCategorys.map { it.result }.toMutableList()
 
                 flag = eomSetFlag.result.toInt()
@@ -201,5 +204,7 @@ class ExpertSettingActivity : AppCompatActivity() {
         val ES_TYPE = "ES_TYPE"
 
     }
+
+//    좀더 테스트? 하고 삭제기능 ㄱㄱ
 
 }

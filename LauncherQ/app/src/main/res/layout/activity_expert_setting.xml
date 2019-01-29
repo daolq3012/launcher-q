@@ -34,7 +34,7 @@
             <!---->
 
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="action" />
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ACTION_DEFAULT"
                       android:padding="5dp"  android:id="@+id/tvAction" />
 
 <!---->
@@ -52,11 +52,11 @@
             <!---->
 
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="category" />
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CATEGORY_DEFAULT\n추가하기"
                       android:padding="5dp"  android:id="@+id/tvCategory" />
 
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="setFlag" />
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="FLAG_GRANT_READ_URL_PERMISSION"
                       android:padding="5dp"  android:id="@+id/tvSetFlag" />
 
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="addFlag" />

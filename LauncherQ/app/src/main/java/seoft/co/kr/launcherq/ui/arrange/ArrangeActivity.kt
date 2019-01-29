@@ -82,12 +82,17 @@ class ArrangeActivity : AppCompatActivity() {
                 }
                 MsgType.OPEN_EXPERT_STATUS ->{
                     val esd = ExpertStatusDialog(this,vm.pickedApp.value()){
+
+                        if(it.cmdType == 2) {
+
+                            vm.deleteExpert(it.pos)
+
+                            return@ExpertStatusDialog
+                        }
+
                         SC.qApp4SetExpert = vm.pickedApp.value()
-
                         val intent = Intent(applicationContext,ExpertSettingActivity::class.java).apply {
-
-                            // TODO 삭제처리
-                           putExtra(ExpertSettingActivity.ES_TYPE,it.cmdType)
+                            putExtra(ExpertSettingActivity.ES_TYPE,it.cmdType)
                             putExtra(ExpertSettingActivity.ES_POS,it.pos)
                         }
 

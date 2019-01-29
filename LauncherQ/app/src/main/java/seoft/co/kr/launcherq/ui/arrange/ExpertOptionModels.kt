@@ -14,7 +14,7 @@ class ExpertOptionModels {
     val categoryDefault = Intent.CATEGORY_DEFAULT
 
     val actions = arrayListOf(
-        ExpertOption("DELETE", actionDefault),
+        ExpertOption("ACTION_DEFAULT", actionDefault),
         ExpertOption("ACTION_AIRPLANE_MODE_CHANGED","android.intent.action.AIRPLANE_MODE"),
         ExpertOption("ACTION_ALL_APPS","android.intent.action.ALL_APPS"),
         ExpertOption("ACTION_ANSWER","android.intent.action.ANSWER"),

@@ -113,6 +113,42 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         refreshAppGrid()
     }
 
+
+    /**
+     * curLiveData's expert is always not null
+     * remove selected CustomIntent Obj
+     * set null when remain only useTwo or useOne
+     */
+    fun deleteExpert(expertPos:Int) {
+
+        val changedLiveDataApps = liveDataApps.value!!
+        changedLiveDataApps[curPos].expert!!.apply {
+            if(expertPos == 0) this.useOne = null
+            else {
+                // remove null object ~ +5 LINE
+                useTwo!![expertPos-1] = null
+                if(useTwo!!.all { it == null }) useTwo = null
+            }
+            if(useTwo == null && useOne == null)
+                changedLiveDataApps[curPos].expert = null
+        }
+
+        with(changedLiveDataApps[curPos]) {
+            if(expert == null && commonApp.pkgName.isEmpty()){
+                deleteAppToFromPos(curPos)
+                return
+            } else if (expert == null && commonApp.pkgName.isNotEmpty()){
+                this.type = QuickAppType.ONE_APP
+            }
+
+        }
+
+        changedLiveDataApps[curPos].isPicked = false // for unset select effect
+
+        repo.preference.setQuickApps(changedLiveDataApps ,dir)
+        refreshAppGrid()
+    }
+
     /**
      * 해당 함수 호출 전 clickMove()에서 이동 전의 앱정보를 저장해놓음
      */
@@ -146,6 +182,8 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
         cancelMoveApp()
     }
+
+
 
     fun cancelMoveApp() {
         refreshAppGrid()
@@ -310,9 +348,9 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         }
     }
 
-    fun clickTwoDepth(){
-        "clickTwoDepth".i()
-    }
+//    fun clickTwoDepth(){
+//        "clickTwoDepth".i()
+//    }
 
     fun clickExpert(){
         "clickExpert".i()

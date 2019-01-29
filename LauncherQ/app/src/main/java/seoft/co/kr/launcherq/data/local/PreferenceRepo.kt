@@ -79,7 +79,7 @@ class PreferenceRepo {
     fun getDrawerColumnNum() = mPrefs.getInt(SP_DRAWER_COLUMN_NUM,5) // default is 5
 
     fun setDrawerItemNum(num:Int) { mPrefs.edit().putInt(SP_DRAWER_ITEM_NUM,num).apply() }
-    fun getDrawerItemNum() = mPrefs.getInt(SP_DRAWER_ITEM_NUM,25) // default is 5
+    fun getDrawerItemNum() = mPrefs.getInt(SP_DRAWER_ITEM_NUM,25) // default is 25
 
     fun setBgWidgetInfos(bgwi: BackgroundWidgetInfos) {
         mPrefs.edit().putString(SP_BG_WIDGET_INFOS,SC.gson.toJson(bgwi)).apply()
@@ -177,7 +177,7 @@ class PreferenceRepo {
         mPrefs.edit().putInt(SP_QL_TWO_STEP_OPEN_INTERVAL, interval).apply()
     }
     fun getTwoStepOpenInterval(): Int {
-        return mPrefs.getInt(SP_QL_TWO_STEP_OPEN_INTERVAL,8)
+        return mPrefs.getInt(SP_QL_TWO_STEP_OPEN_INTERVAL,5)
     }
 
     fun setMyIconPixel(size : Int) {

@@ -65,6 +65,29 @@ class MainCaculator{
         rstMidX = startX - optPointForStartViewX
         rstMidY = startY - optPointForStartViewY
 
+/////////// logging for catch error
+//
+//        "screenSize $screenSize".i(TAG)
+//
+//        "X $optPointForStartViewX".i(TAG)
+//        "Y $optPointForStartViewY".i(TAG)
+//
+//        "startX $startX".i(TAG)
+//        "startY $startY".i(TAG)
+//
+//        "rstMidX $rstMidX".i(TAG)
+//        "rstMidX $rstMidY".i(TAG)
+//
+//        "startViewMarginPointX $startViewMarginPointX".i(TAG)
+//        "startViewMarginPointY $startViewMarginPointY".i(TAG)
+//
+//        "distance.toPixel() ${distance.toPixel()}".i(TAG)
+//
+//        " ".i(TAG)
+//        " ".i(TAG)
+//
+
+
         // optimize open boundary ( *2 는 위치에 따라 가로 혹은 세로 범위를 늘려 접근률을 높이기 위함 )
         val rstNormalBoundary = BOUNDARY.toPixel()
         val rstLargeBoundary = BOUNDARY.toPixel()*2

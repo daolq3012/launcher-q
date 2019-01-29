@@ -230,18 +230,18 @@
                               android:text="폴더" android:id="@+id/tvFolder" />
                 </LinearLayout>
 
-                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />
+                <!--<View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />-->
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1"
-                              android:visibility="gone"
-                              android:padding="15dp"
-                              android:onClick="@{()->vm.clickTwoDepth()}"
-                              app:tv="@{tvTwoDepth}"
-                              app:pickedApp="@{vm.pickedApp}"
-                              app:arrangeBottoms="@{bottoms.TWO_DEPTH}">
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:text="투댑스 설정" android:id="@+id/tvTwoDepth" />
-                </LinearLayout>
+                <!--<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1"-->
+                              <!--android:visibility="gone"-->
+                              <!--android:padding="15dp"-->
+                              <!--android:onClick="@{()->vm.clickTwoDepth()}"-->
+                              <!--app:tv="@{tvTwoDepth}"-->
+                              <!--app:pickedApp="@{vm.pickedApp}"-->
+                              <!--app:arrangeBottoms="@{bottoms.TWO_DEPTH}">-->
+                    <!--<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"-->
+                              <!--android:text="투댑스 설정" android:id="@+id/tvTwoDepth" />-->
+                <!--</LinearLayout>-->
 
                 <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />
 
