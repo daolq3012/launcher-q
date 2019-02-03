@@ -285,7 +285,12 @@ class MainActivity : AppCompatActivity() {
 
     fun inits(){
         windowManager.defaultDisplay.getRealSize( screenSize )
-        gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(this,screenSize))
+        gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(this){
+            when(it) {
+                MainGestureListener.MainGestureListenerCmd.LONG_PRESS -> { if (vm.step != Step.OPEN_ONE) showSettingInMainDialog() }
+                MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> {}
+            }
+        })
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
