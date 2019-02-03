@@ -1,6 +1,5 @@
 package seoft.co.kr.launcherq.ui.main
 
-import android.graphics.Point
 import android.view.GestureDetector
 import android.view.MotionEvent
 
