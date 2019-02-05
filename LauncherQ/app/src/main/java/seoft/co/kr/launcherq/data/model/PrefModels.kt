@@ -42,7 +42,18 @@ data class CustomIntent(
     var addFlag : MutableList<Int>? = null,
     var pkgName :String ? = null,
     var customComponentName:CustomComponentName? = null
-)
+) {
+    fun checkLaunchDefaultMethod()
+        = ( uriData == null &&
+            type == null &&
+            addFlag == null &&
+            customComponentName == null &&
+            categorys.size == 1 &&
+            categorys.get(0) == CATEGORY_DEFAULT &&
+            pkgName != null )
+
+
+}
 
 data class CustomComponentName(
     var compName : String,

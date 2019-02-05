@@ -3,12 +3,14 @@ package seoft.co.kr.launcherq.ui.main
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.*
+import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Process
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
@@ -44,6 +46,10 @@ class MainActivity : AppCompatActivity() {
     var curPosKeepCnt = 0
 
     var twoStepStartPos = Point()
+
+    companion object {
+        val launcherApps : LauncherApps by lazy { App.get.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps }
+    }
 
     private val timeReceiver :  TimeReceiver by lazy { TimeReceiver() }
 
@@ -86,6 +92,12 @@ class MainActivity : AppCompatActivity() {
         ){
             if(it.isLongClick)
                 when (it.quickApp.type) {
+
+                    // TODO SHORT_CUT
+
+                    QuickAppType.ONE_APP -> {
+                        if(getShortcutFromApp(it.quickApp.commonApp.pkgName).isNotEmpty()) openTwoStep(it.quickApp, true)
+                    }
                     QuickAppType.FOLDER, QuickAppType.TWO_APP -> openTwoStep(it.quickApp, true)
                     QuickAppType.EXPERT -> {
                         if(it.quickApp.expert!!.useTwo == null) openArrangeActivityWithDir()
@@ -104,6 +116,30 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
+    fun getShortcutFromApp(pkgName: String) : List<Shortcut> {
+
+        val shortcutQuery = LauncherApps.ShortcutQuery().apply {
+            setQueryFlags(
+                LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
+                LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST or
+                LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+            setPackage(pkgName)
+
+        }
+
+        return try {
+            launcherApps.getShortcuts(shortcutQuery,Process.myUserHandle())?.map {
+                Shortcut(it.id, it.`package`, it.shortLabel.toString(), it)
+            } ?: emptyList()
+        } catch ( e:java.lang.Exception) {
+            emptyList()
+        }
+
+
+
+    }
+
     fun runOneStepApp(quickApp: QuickApp) {
         when(quickApp.type){
             QuickAppType.ONE_APP -> {
@@ -111,14 +147,15 @@ class MainActivity : AppCompatActivity() {
                 if(quickApp.commonApp.isExcept) {
                     when(quickApp.commonApp.pkgName) {
                         CAppException.DRAWER.get -> startActivity( Intent(applicationContext, DrawerActivity::class.java) )
-                        CAppException.CALL.get -> startActivity( Intent(Intent.ACTION_DIAL,null))
+//                        CAppException.CALL.get -> startActivity( Intent(Intent.ACTION_DIAL,null))
                     }
 
                 } else {
                     "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName}".i(TAG)
                     "quickApp.commonApp.detailName : ${quickApp.commonApp.detailName}".i(TAG)
-                    runAppFromPkgNameDetailName(quickApp.commonApp.pkgName,quickApp.commonApp.detailName)
+                    launchApp(quickApp.commonApp.pkgName)
                 }
+
                 vm.step.set(Step.NONE)
 
             }
@@ -127,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             }
             QuickAppType.EXPERT -> {
                 if(quickApp.commonApp.pkgName != "" && quickApp.commonApp.detailName != "")
-                    runAppFromPkgNameDetailName(quickApp.commonApp.pkgName,quickApp.commonApp.detailName)
+                    launchApp(quickApp.commonApp.pkgName)
                 else if(quickApp.expert!!.useOne != null) {
                     runExpertApp(quickApp.expert!!.useOne!!)
                 }
@@ -137,31 +174,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun runExpertApp(customIntent: CustomIntent) {
-        val tmpIntent = Intent()
+
+        if(customIntent.checkLaunchDefaultMethod()) {
+            startActivity(packageManager.getLaunchIntentForPackage(customIntent.pkgName))
+            return
+        }
 
         try {
-
-            tmpIntent.action = customIntent.action
-            customIntent.uriData?.let { tmpIntent.data = Uri.parse(it) }
-            customIntent.type?.let { tmpIntent.type = it }
-            customIntent.categorys.forEach { tmpIntent.addCategory(it) }
-            intent.setFlags(customIntent.flag)
-            customIntent.addFlag?.run {
-                forEach { tmpIntent.addFlags(it) }
-            }
-            customIntent.pkgName?.let { tmpIntent.`package` = it }
-            customIntent.customComponentName?.let {
-                tmpIntent.component = ComponentName(it.compName!!,it.compCls!!)
+            val tmpIntent = Intent().apply {
+                action = customIntent.action
+                customIntent.uriData?.let { data = Uri.parse(it) }
+                customIntent.type?.let { type = it }
+                customIntent.categorys.forEach { addCategory(it) }
+                intent.setFlags(customIntent.flag)
+                customIntent.addFlag?.run {
+                    forEach { addFlags(it) }
+                }
+                customIntent.pkgName?.let { `package` = it }
+                customIntent.customComponentName?.let {
+                    component = ComponentName(it.compName,it.compCls)
+                }
             }
             startActivity(tmpIntent)
 
         } catch (e:Exception) {
 
-            "############# CALL EXCEPTION #############".i(TAG)
+            "############# CATCH EXCEPTION #############".i(TAG)
             e.toString().i(TAG)
             e.printStackTrace().i(TAG)
-            "##########################################".i(TAG)
+            "###########################################".i(TAG)
 
             e.toString().toast()
         }
@@ -170,15 +213,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun runAppFromPkgNameDetailName(pkgName:String, detailName:String){
-        val compname = ComponentName(pkgName, detailName)
-        val actintent = Intent(Intent.ACTION_MAIN)
-            .apply {
-                addCategory(Intent.CATEGORY_LAUNCHER)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                component = compname
-            }
-        applicationContext.startActivity(actintent)
+    fun launchApp(pkgName:String){
+        startActivity(packageManager.getLaunchIntentForPackage(pkgName))
     }
 
 
@@ -196,7 +232,7 @@ class MainActivity : AppCompatActivity() {
                 QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
                     cmds[pos].i(TAG)
                     val cApp = cmds[pos].toCommonApp()
-                    runAppFromPkgNameDetailName(cApp.pkgName,cApp.detailName)
+                    launchApp(cApp.pkgName)
                 }
                 QuickAppType.EXPERT -> {
                     expert!!.useTwo!![pos]!!.i(TAG)
@@ -219,6 +255,10 @@ class MainActivity : AppCompatActivity() {
      * second, calc height using item count
      * third, adjust size to view
      *
+     * but, item was updated in databinding apater
+     *
+     * using shortcut when quickApp was pure ONE_APP type
+     *
      * block expert don't have useTwo(is null) when before process
      */
     fun openTwoStep(quickApp: QuickApp, isLongClick :Boolean = false) {
@@ -230,6 +270,7 @@ class MainActivity : AppCompatActivity() {
         when (quickApp.type) {
             QuickAppType.FOLDER, QuickAppType.TWO_APP -> twoStepItemCnt = quickApp.cmds.size
             QuickAppType.EXPERT -> twoStepItemCnt = quickApp.expert!!.useTwo!!.count { it != null }
+            QuickAppType.ONE_APP -> twoStepItemCnt = getShortcutFromApp(quickApp.commonApp.pkgName).size
         }
 
         if(twoStepItemCnt == 0) {
@@ -250,6 +291,9 @@ class MainActivity : AppCompatActivity() {
 
         llTwoStepBg.layoutParams = params
     }
+
+
+
 
     override fun onResume() {
         super.onResume()
@@ -379,6 +423,7 @@ class MainActivity : AppCompatActivity() {
 
             if(curPosKeepCnt >= vm.twoStepOpenInterval){
 
+                // TODO SHORT_CUT
                 if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.ONE_APP) {
                     intervalStart()
                     return@postDelayed

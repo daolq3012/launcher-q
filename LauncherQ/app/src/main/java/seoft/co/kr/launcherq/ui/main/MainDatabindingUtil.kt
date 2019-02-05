@@ -1,6 +1,8 @@
 package seoft.co.kr.launcherq.ui.main
 
+import android.content.pm.LauncherApps
 import android.databinding.BindingAdapter
+import android.os.Process
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -37,19 +39,34 @@ fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int) {
 }
 
 @BindingAdapter("text","pos")
-fun setTextTwoStepItem(tv: TextView, twoStepApp: QuickApp, pos:Int) {
+fun setTextTwoStepItem(tv: TextView, qApp: QuickApp, pos:Int) {
 
-    when (twoStepApp.type) {
-        QuickAppType.ONE_APP, QuickAppType.EMPTY -> return
+    when (qApp.type) {
+        QuickAppType.EMPTY -> return
         QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
-            with(twoStepApp.cmds){
+            with(qApp.cmds){
                 if(this.size > pos) tv.text = this[pos].toCommonApp().label
             }
         }
         QuickAppType.EXPERT -> {
-            with(twoStepApp.expert!!.useTwo){
+            with(qApp.expert!!.useTwo){
                 if(this!![pos] != null) tv.text = this[pos]!!.name
 //                if(this!!.size > pos) tv.text = this[pos]!!.name
+            }
+        }
+        QuickAppType.ONE_APP -> {
+
+            val shortcutQuery = LauncherApps.ShortcutQuery().apply {
+                setQueryFlags(
+                    LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
+                            LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST or
+                            LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                setPackage(qApp.commonApp.pkgName)
+
+            }
+
+            with(MainActivity.launcherApps.getShortcuts(shortcutQuery, Process.myUserHandle())!!){
+                if(this.size > pos) tv.text = this[pos].shortLabel
             }
         }
     }

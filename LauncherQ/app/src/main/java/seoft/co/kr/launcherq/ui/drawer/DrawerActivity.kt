@@ -2,7 +2,6 @@ package seoft.co.kr.launcherq.ui.drawer
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.ComponentName
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Point
@@ -29,11 +28,6 @@ class DrawerActivity : AppCompatActivity() {
 
     val TAG = "DrawerActivity#$#"
 
-    // ref : http://iw90.tistory.com/238
-    // finish drawer when scroll bottom to top
-    // distance is device size /  FINISH_ACTION_SENSITIVE(6)
-//    val FINISH_ACTION_SENSITIVE = 6
-
     private lateinit var binding: ActivityDrawerBinding
 
     lateinit var vm : DrawerViewModel
@@ -42,9 +36,6 @@ class DrawerActivity : AppCompatActivity() {
     var recyclerViews:ArrayList<RecyclerView> = arrayListOf()
 
     var screenSize : Point = Point()
-
-//    var befY = 0
-//    var afterY = 0
 
     lateinit var selectedApp : CommonApp
 
@@ -211,16 +202,7 @@ class DrawerActivity : AppCompatActivity() {
     }
 
     fun launchApp(cApp:CommonApp) {
-
-        // launch app
-        applicationContext.startActivity(
-            Intent(Intent.ACTION_MAIN)
-                .apply {
-                    addCategory(Intent.CATEGORY_LAUNCHER)
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                    component = ComponentName(cApp.pkgName, cApp.detailName)
-                }
-        )
+        startActivity(packageManager.getLaunchIntentForPackage(cApp.pkgName))
     }
 
     override fun onRestart() {

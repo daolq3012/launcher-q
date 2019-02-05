@@ -74,7 +74,7 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                 }
                 WidgetInfoType.TEXT -> {
                     val strs = etc.split("%%")
-                    it.text = strs[(0 until strs.size).random()]
+                    it.text = strs[ Random().nextInt(strs.size)]
                 }
 
             }

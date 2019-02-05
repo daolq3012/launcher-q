@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.utill
 
 import android.content.Intent
+import android.content.pm.PackageManager.MATCH_ALL
 import seoft.co.kr.launcherq.data.model.CommonApp
 
 class InstalledAppUtil {
@@ -11,19 +12,10 @@ class InstalledAppUtil {
         val intent = Intent(Intent.ACTION_MAIN, null)
             .apply { addCategory(Intent.CATEGORY_LAUNCHER) }
 
-        return packageManager.queryIntentActivities(intent,0)
-            .map {
-                it.activityInfo.run {
-                    CommonApp(
-                        packageName,
-                        loadLabel(packageManager).toString(),
-                        name,
-//                    it.loadIcon(packageManager),
-                        false
-                    )
-                }
-
-            }.toMutableList()
+        return packageManager.queryIntentActivities(intent,MATCH_ALL)
+            .map { it.activityInfo }
+            .map { CommonApp( it.packageName, it.loadLabel(packageManager).toString(), it.name, /*it.loadIcon(packageManager),*/ false ) }
+            .toMutableList()
     }
 
 }
