@@ -17,7 +17,9 @@
 
             android:theme="@style/AppThemeNoActionBar"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.main.MainActivity"
+                  android:theme="@style/AppThemeNoActionBar"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.HOME"/>
@@ -48,6 +50,14 @@
         <activity android:name=".ui.arrange.ExpertSettingActivity"
                   android:windowSoftInputMode="adjustResize" >
         </activity>
+
+        <provider android:name=".ui.main.LQProvider"
+                  android:authorities="seoft.co.kr.launcherq.ui.main.LQProvider"
+                  android:enabled="true"
+                  android:exported="true"
+                  android:readPermission="seoft.co.kr.launcherq.READ_DATABASE"
+                  android:writePermission="seoft.co.kr.launcherq.WRITE_DATABASE" />
+
     </application>
 
 </manifest>

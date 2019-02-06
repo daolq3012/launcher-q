@@ -93,11 +93,7 @@ class MainActivity : AppCompatActivity() {
             if(it.isLongClick)
                 when (it.quickApp.type) {
 
-                    // TODO SHORT_CUT
-
-                    QuickAppType.ONE_APP -> {
-                        if(getShortcutFromApp(it.quickApp.commonApp.pkgName).isNotEmpty()) openTwoStep(it.quickApp, true)
-                    }
+                    QuickAppType.ONE_APP -> if(getShortcutFromApp(it.quickApp.commonApp.pkgName).isNotEmpty()) openTwoStep(it.quickApp, true)
                     QuickAppType.FOLDER, QuickAppType.TWO_APP -> openTwoStep(it.quickApp, true)
                     QuickAppType.EXPERT -> {
                         if(it.quickApp.expert!!.useTwo == null) openArrangeActivityWithDir()
@@ -125,7 +121,6 @@ class MainActivity : AppCompatActivity() {
                 LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST or
                 LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
             setPackage(pkgName)
-
         }
 
         return try {
@@ -135,9 +130,6 @@ class MainActivity : AppCompatActivity() {
         } catch ( e:java.lang.Exception) {
             emptyList()
         }
-
-
-
     }
 
     fun runOneStepApp(quickApp: QuickApp) {
@@ -209,14 +201,11 @@ class MainActivity : AppCompatActivity() {
             e.toString().toast()
         }
 
-
-
     }
 
     fun launchApp(pkgName:String){
         startActivity(packageManager.getLaunchIntentForPackage(pkgName))
     }
-
 
     /**
      * call this method after first open two step view
@@ -229,6 +218,11 @@ class MainActivity : AppCompatActivity() {
 
         with(vm.twoStepApp.value()) {
             when (type) {
+
+                QuickAppType.ONE_APP -> {
+                    val shortCutApp = getShortcutFromApp(vm.twoStepApp.value().commonApp.pkgName)[pos]
+                    launcherApps.startShortcut(shortCutApp.packageName, shortCutApp.id, null, null, Process.myUserHandle())
+                }
                 QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
                     cmds[pos].i(TAG)
                     val cApp = cmds[pos].toCommonApp()
@@ -291,9 +285,6 @@ class MainActivity : AppCompatActivity() {
 
         llTwoStepBg.layoutParams = params
     }
-
-
-
 
     override fun onResume() {
         super.onResume()
@@ -423,8 +414,7 @@ class MainActivity : AppCompatActivity() {
 
             if(curPosKeepCnt >= vm.twoStepOpenInterval){
 
-                // TODO SHORT_CUT
-                if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.ONE_APP) {
+                if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.ONE_APP && getShortcutFromApp(vm.liveDataApps.value!![curPosInOneStep].commonApp.pkgName).isEmpty()) {
                     intervalStart()
                     return@postDelayed
                 } else if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EXPERT &&
