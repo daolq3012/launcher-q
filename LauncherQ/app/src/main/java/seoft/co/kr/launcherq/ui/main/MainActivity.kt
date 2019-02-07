@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val screenSize = Point()
     private val mc = MainCaculator()
 
+    val LQ_DATA = "LQ_DATA"
     val TIME_INTERVAL = 200L
 
     var curPosInOneStep = -1
@@ -205,6 +206,18 @@ class MainActivity : AppCompatActivity() {
 
     fun launchApp(pkgName:String){
         startActivity(packageManager.getLaunchIntentForPackage(pkgName))
+    }
+
+    fun launchAppFromOptions(pkgName:String, detailName:String, data: String = ""){
+        val compname = ComponentName(pkgName, detailName)
+        val actintent = Intent(Intent.ACTION_MAIN)
+            .apply {
+                addCategory(Intent.CATEGORY_LAUNCHER)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                component = compname
+                putExtra(LQ_DATA,data)
+            }
+        applicationContext.startActivity(actintent)
     }
 
     /**
@@ -437,6 +450,56 @@ class MainActivity : AppCompatActivity() {
 
 
     fun showSettingInMainDialog(){
+
+        // TEST/////////////////
+
+//        val URL = "content://${LQProvider.PROVIDER_NAME}"
+//
+//        val students = Uri.parse(URL)
+//
+//        val cursor = contentResolver.query(students, null, null, null, null)
+//
+//        cursor?.run {
+//            if(moveToFirst()) {
+//                while(true){
+//                    "${getString(getColumnIndex(LQProvider._ID))}  ${getString(getColumnIndex(LQProvider.PKG_NAME))}  ${getString(getColumnIndex(LQProvider.INFO))}".i(TAG)
+//                    "${getString(getColumnIndex(LQProvider._ID))}  ${getString(getColumnIndex(LQProvider.PKG_NAME))}  ${getString(getColumnIndex(LQProvider.INFO))}".toast()
+//                    if(!moveToNext()) break
+//                }
+//            }
+//        }
+//        cursor?.close()
+
+//        val cr = contentResolver
+//        val uri =  cr.query(LQProvider.CONTENT_URI,ContentValues())
+
+//        1. 컨텐트 프로바이더 LQ 꺼 재대로짜고 LQ내에서 CRUD 함 하고 (메인수준) 서브플젝도 하기(메인수준)
+//        2. LQ꺼 프로바이더 REPO로 빼고 서브플젝은 그냥 객채화 잘하기
+//        3. 라이브러리화 하기
+
+//        val k = uri.pathSegments
+//        k.get(0)
+
+
+
+
+
+
+
+
+        ////////////////////
+
+
+
+
+
+
+
+
+
+
+//        launchAppFromOptions("seoft.co.kr.twostepexample","seoft.co.kr.twostepexample.AActivity","data")
+
         clearViews()
         val simd = SettingMainEntranceDialog(this){}
         simd.show()

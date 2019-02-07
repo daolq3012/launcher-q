@@ -1,4 +1,4 @@
-package seoft.co.kr.launcherq.ui.main
+package seoft.co.kr.launcherq.utill
 
 import android.content.*
 import android.database.Cursor
@@ -8,18 +8,20 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 import android.text.TextUtils
-import seoft.co.kr.launcherq.utill.i
 
 class LQProvider :ContentProvider(){
 
     val TAG = "LQProvider#$#"
 
-    val PKG_NAME = "pkgName"
-    val INFO = "info"
-    val _ID = "_id"
-    val PROVIDER_NAME = "seoft.co.kr.launcherq.LQProvider"
-    val URL = "content://$PROVIDER_NAME/apps"
-    val CONTENT_URI = Uri.parse(URL)
+    companion object {
+        val PKG_NAME = "pkgName"
+        val DETAIL_NAME = "detailName"
+        val DATA = "data"
+        val _ID = "_id"
+        val PROVIDER_NAME = "seoft.co.kr.launcherq.utill.LQProvider"
+        val URL = "content://$PROVIDER_NAME/apps"
+        val CONTENT_URI = Uri.parse(URL)
+    }
 
     private val APP_PROJECTION_MAP: HashMap<String, String>? = null
 
@@ -36,7 +38,7 @@ class LQProvider :ContentProvider(){
     val DATABASE_NAME = "LQ"
     val APPS_TABLE_NAME = "apps"
     val DATABASE_VERSION = 1
-    val CREATE_DB_TABLE = " CREATE TABLE $APPS_TABLE_NAME ($_ID INTEGER PRIMARY KEY AUTOINCREMENT, $PKG_NAME TEXT NOT NULL, $INFO TEXT NOT NULL);"
+    val CREATE_DB_TABLE = " CREATE TABLE $APPS_TABLE_NAME ($_ID INTEGER PRIMARY KEY AUTOINCREMENT, $PKG_NAME TEXT NOT NULL, $DETAIL_NAME TEXT NOT NULL, $DATA TEXT NOT NULL);"
 
 
     inner class DatabaseHelper(context: Context?, name: String?, factory: SQLiteDatabase.CursorFactory?, version: Int) : SQLiteOpenHelper(context, name, factory, version) {

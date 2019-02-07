@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <permission android:name="seoft.co.kr.launcherq.READ_DATABASE" android:protectionLevel="normal" />
+    <permission android:name="seoft.co.kr.launcherq.WRITE_DATABASE" android:protectionLevel="normal" />
+
     <application
             android:name=".utill.App"
             android:allowBackup="true"
@@ -51,8 +54,8 @@
                   android:windowSoftInputMode="adjustResize" >
         </activity>
 
-        <provider android:name=".ui.main.LQProvider"
-                  android:authorities="seoft.co.kr.launcherq.ui.main.LQProvider"
+        <provider android:name=".utill.LQProvider"
+                  android:authorities="seoft.co.kr.launcherq.utill.LQProvider"
                   android:enabled="true"
                   android:exported="true"
                   android:readPermission="seoft.co.kr.launcherq.READ_DATABASE"
