@@ -17,10 +17,9 @@ class CommandContentProvider : ContentProvider(){
 
         val URI_COMMAND = Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}")
 
-        fun getUriFromId(id:Long):Uri{
-            return Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}/$id")
+        fun getUriFromPkgName(pkgName:String):Uri{
+            return Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}/-1?${Command.COLUMN_PKG_NAME}=$pkgName")
         }
-
     }
 
 
@@ -50,8 +49,7 @@ class CommandContentProvider : ContentProvider(){
                 cursor = commandDao.selectAll()
             }
             CODE_COMMAND_ITEM -> {
-//                cursor = commandDao.selectById(ContentUris.parseId(uri))
-                cursor = commandDao.selectById(ContentUris.parseId(uri))
+                cursor = commandDao.selectByPkgName( uri.getQueryParameter(Command.COLUMN_PKG_NAME))
             }
             else -> cursor = null
         }
@@ -62,7 +60,7 @@ class CommandContentProvider : ContentProvider(){
     override fun getType(uri: Uri): String? {
         return when(MATCHER.match(uri)){
             CODE_COMMAND_DIR -> "vnd.android.cursor.dir/$AUTHORITY.${Command.TABLE_NAME}"
-            CODE_COMMAND_ITEM -> "vnd.android.cursor.item/$AUTHORITY .${Command.TABLE_NAME}"
+            CODE_COMMAND_ITEM -> "vnd.android.cursor.item/$AUTHORITY.${Command.TABLE_NAME}"
             else -> throw IllegalArgumentException("Unknown URI: $uri")
         }
     }
@@ -81,25 +79,18 @@ class CommandContentProvider : ContentProvider(){
 
     }
 
-    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int {
-        when(MATCHER.match(uri)){
-            CODE_COMMAND_DIR -> throw IllegalArgumentException("Invalid URI, cannot insert with ID: $uri")
-            CODE_COMMAND_ITEM -> {
-                val command = Command.fromContentValues(values!!)
-                command.id = ContentUris.parseId(uri)
-                val cnt = Repo.localDBRepo.commandDao().update(command)
-                context.contentResolver.notifyChange(uri,null)
-                return cnt
-            }
-            else -> throw IllegalArgumentException("Unknown URI: $uri")
-        }
-    }
+    /**
+     * not used update
+     */
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int
+            = throw Exception("not used update method")
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         when(MATCHER.match(uri)){
             CODE_COMMAND_DIR -> throw IllegalArgumentException("Invalid URI, cannot insert with ID: $uri")
             CODE_COMMAND_ITEM -> {
-                val cnt = Repo.localDBRepo.commandDao().deleteById(ContentUris.parseId(uri))
+//                val cnt = Repo.localDBRepo.commandDao().deleteById(ContentUris.parseId(uri))
+                val cnt = Repo.localDBRepo.commandDao().deleteByPkgName(uri.getQueryParameter(Command.COLUMN_PKG_NAME))
                 context.contentResolver.notifyChange(uri,null)
                 return cnt
             }
@@ -134,7 +125,8 @@ class CommandContentProvider : ContentProvider(){
             }
             CODE_COMMAND_ITEM -> throw IllegalArgumentException("Invalid URI, cannot insert with ID: $uri")
             else -> throw IllegalArgumentException("Unknown URI: $uri")
-        }    }
+        }
+    }
 
 
 }

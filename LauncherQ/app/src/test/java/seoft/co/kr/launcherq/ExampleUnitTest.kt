@@ -126,9 +126,23 @@ class ExampleUnitTest {
             println(it)
         }
 
+    }
 
-
-
+    @Test
+    fun ktTest4(){
+//        val uri = Uri.parse("content://seoft.co.kr.launcherq.utill.CommandContentProvider/COMMAND/15")
+//
+//        with(uri) {
+//            println(scheme)
+//            println(schemeSpecificPart)
+//            println(authority)
+//            println(userInfo)
+//            println(host)
+//            println(port)
+//            println(path)
+//            println(query)
+//            println(fragment)
+//        }
     }
 
 }

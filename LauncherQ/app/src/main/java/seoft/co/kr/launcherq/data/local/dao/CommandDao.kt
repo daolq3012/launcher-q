@@ -22,8 +22,14 @@ interface CommandDao{
     @Query("SELECT * FROM ${Command.TABLE_NAME} WHERE ${Command.COLUMN_ID} = :id")
     fun selectById(id: Long): Cursor
 
+    @Query("SELECT * FROM ${Command.TABLE_NAME} WHERE ${Command.COLUMN_PKG_NAME} = :pkgName")
+    fun selectByPkgName(pkgName: String): Cursor
+
     @Query("DELETE FROM ${Command.TABLE_NAME} WHERE ${Command.COLUMN_ID} = :id")
     fun deleteById(id: Long): Int
+
+    @Query("DELETE FROM ${Command.TABLE_NAME} WHERE ${Command.COLUMN_PKG_NAME} = :pkgName")
+    fun deleteByPkgName(pkgName: String): Int
 
     @Update
     fun update(cmd: Command): Int

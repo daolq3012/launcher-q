@@ -34,9 +34,9 @@ data class Command(
         const val COLUMN_ID = BaseColumns._ID
         const val COLUMN_PKG_NAME = "pkg_name"
         const val COLUMN_CLASS = "cls"
-        const val COLUMN_NORMAL_MSG = "normalMessage"
+        const val COLUMN_NORMAL_MSG = "normal_message"
         const val COLUMN_USE_EDIT= "use_text"
-        const val COLUMN_EDIT_MSG = "editMessage"
+        const val COLUMN_EDIT_MSG = "edit_message"
 
         fun fromContentValues(values: ContentValues) : Command {
             with(values) {

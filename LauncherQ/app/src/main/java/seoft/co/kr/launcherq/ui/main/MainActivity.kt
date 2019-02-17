@@ -455,37 +455,37 @@ class MainActivity : AppCompatActivity() {
          * provider test code
          */
 
-        var insertCmd = Command.toContentValues(
-            Command(id = null, pkgName = "AA",cls = "AA",normalMessage = "AA",useEdit = false, editMessage = "AA")
+        var insertCmd =  arrayOf(
+            Command.toContentValues(Command(id = null, pkgName = "AA",cls = "AA",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
+            Command.toContentValues(Command(id = null, pkgName = "BB",cls = "BB",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
+            Command.toContentValues(Command(id = null, pkgName = "CC",cls = "CC",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
+            Command.toContentValues(Command(id = null, pkgName = "AA",cls = "AA",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
+            Command.toContentValues(Command(id = null, pkgName = "BB",cls = "BB",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
+            Command.toContentValues(Command(id = null, pkgName = "CC",cls = "CC",normalMessage = "CC",useEdit = false, editMessage = "C3C"))
         )
 
-        var kk = contentResolver.insert(CommandContentProvider.URI_COMMAND ,insertCmd)
-        kk.toString().i(TAG)
+        contentResolver.bulkInsert(CommandContentProvider.URI_COMMAND ,insertCmd)
 
-        insertCmd = Command.toContentValues(
-            Command(id = null, pkgName = "BB",cls = "BB",normalMessage = "BB",useEdit = false, editMessage = "BB")
-        )
+        "=============".i(TAG)
 
-        kk = contentResolver.insert(CommandContentProvider.URI_COMMAND ,insertCmd)
-        kk.toString().i(TAG)
+        val asdf = contentResolver.query(CommandContentProvider.getUriFromPkgName("AA"),null,null,null,null)
+        Command.cursorToCommands(asdf).forEach { it.toString().i(TAG) }
 
-        insertCmd = Command.toContentValues(
-            Command(id = null, pkgName = "CC",cls = "CC",normalMessage = "CC",useEdit = false, editMessage = "CC")
-        )
-
-        kk = contentResolver.insert(CommandContentProvider.URI_COMMAND ,insertCmd)
-        kk.toString().i(TAG)
+        "=============".i(TAG)
 
         val kkk = contentResolver.query(CommandContentProvider.URI_COMMAND ,null,null,null,null)
+        Command.cursorToCommands(kkk).forEach { it.toString().i(TAG) }
 
-        while(kkk.moveToNext()){
-            val lll = kkk.getString(kkk.getColumnIndex(Command.COLUMN_PKG_NAME))
-            lll.toString().i(TAG)
-        }
+        "=============".i(TAG)
+
+        contentResolver.delete(CommandContentProvider.getUriFromPkgName("AA"),null,null)
+
+        val kkkk = contentResolver.query(CommandContentProvider.URI_COMMAND ,null,null,null,null)
+        Command.cursorToCommands(kkkk).forEach { it.toString().i(TAG) }
+        "=============".i(TAG)
 
 
-
-        // TEST/////////////////
+        //TEST/////////////////
 
 //        val URL = "content://${LQProvider.PROVIDER_NAME}"
 //

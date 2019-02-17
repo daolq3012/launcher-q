@@ -15,20 +15,25 @@ data class Command(
     ) {
     companion object {
 
+        /////////////////////////////////////////////////
         // in CommandContentProvider's companion objects in LauncherQ
         val AUTHORITY = "seoft.co.kr.launcherq.utill.CommandContentProvider"
         val URI_COMMAND = Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}")
-        fun getUriFromId(id:Long): Uri {
-            return Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}/$id")
+        fun getUriFromPkgName(pkgName:String):Uri{
+            return Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}/-1?${Command.COLUMN_PKG_NAME}=$pkgName")
         }
+        //
+        /////////////////////////////////////////////////
+
+
 
         const val TABLE_NAME = "COMMAND"
         const val COLUMN_ID = BaseColumns._ID
         const val COLUMN_PKG_NAME = "pkg_name"
         const val COLUMN_CLASS = "cls"
-        const val COLUMN_NORMAL_MSG = "normalMessage"
-        const val COLUMN_EDIT_MSG = "editMessage"
+        const val COLUMN_NORMAL_MSG = "normal_message"
         const val COLUMN_USE_EDIT= "use_text"
+        const val COLUMN_EDIT_MSG = "edit_message"
 
         fun fromContentValues(values: ContentValues) : Command {
             with(values) {
@@ -53,6 +58,7 @@ data class Command(
                     put(COLUMN_EDIT_MSG,cmd.editMessage)
                 }
         }
+
 
         fun cursorToCommands(cursor: Cursor) : List<Command> {
             val cmds = mutableListOf<Command>()

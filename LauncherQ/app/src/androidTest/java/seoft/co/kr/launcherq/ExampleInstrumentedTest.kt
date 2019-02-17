@@ -1,5 +1,6 @@
 package seoft.co.kr.launcherq
 
+import android.net.Uri
 import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -63,6 +64,37 @@ class ExampleInstrumentedTest {
     @Test
     fun t3(){
         CAppException.values().forEach { it.get.i(TAG) }
+    }
+
+    @Test
+    fun t4(){
+        val uri = Uri.parse("content://seoft.co.kr.launcherq.utill.CommandContentProvider/COMMAND/15?pkgName=abc")
+
+        with(uri) {
+            (scheme).i(TAG)
+            (schemeSpecificPart).i(TAG)
+            (authority).i(TAG)
+            (host).i(TAG)
+            (port).i(TAG)
+            (path).i(TAG)
+            (query).i(TAG)
+            (getQueryParameter("pkgName")).i(TAG)
+//            (fragment).i(TAG)
+        }
+
+        /**
+         * RESULT IS
+         * content
+         * //seoft.co.kr.launcherq.utill.CommandContentProvider/COMMAND/15
+         * seoft.co.kr.launcherq.utill.CommandContentProvider
+         * seoft.co.kr.launcherq.utill.CommandContentProvider
+         * -1
+         * /COMMAND/15
+         * pkgName=abc
+         * abc
+         */
+
+
     }
 
 }
