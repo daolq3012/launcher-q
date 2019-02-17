@@ -451,6 +451,40 @@ class MainActivity : AppCompatActivity() {
 
     fun showSettingInMainDialog(){
 
+        /**
+         * provider test code
+         */
+
+        var insertCmd = Command.toContentValues(
+            Command(id = null, pkgName = "AA",cls = "AA",normalMessage = "AA",useEdit = false, editMessage = "AA")
+        )
+
+        var kk = contentResolver.insert(CommandContentProvider.URI_COMMAND ,insertCmd)
+        kk.toString().i(TAG)
+
+        insertCmd = Command.toContentValues(
+            Command(id = null, pkgName = "BB",cls = "BB",normalMessage = "BB",useEdit = false, editMessage = "BB")
+        )
+
+        kk = contentResolver.insert(CommandContentProvider.URI_COMMAND ,insertCmd)
+        kk.toString().i(TAG)
+
+        insertCmd = Command.toContentValues(
+            Command(id = null, pkgName = "CC",cls = "CC",normalMessage = "CC",useEdit = false, editMessage = "CC")
+        )
+
+        kk = contentResolver.insert(CommandContentProvider.URI_COMMAND ,insertCmd)
+        kk.toString().i(TAG)
+
+        val kkk = contentResolver.query(CommandContentProvider.URI_COMMAND ,null,null,null,null)
+
+        while(kkk.moveToNext()){
+            val lll = kkk.getString(kkk.getColumnIndex(Command.COLUMN_PKG_NAME))
+            lll.toString().i(TAG)
+        }
+
+
+
         // TEST/////////////////
 
 //        val URL = "content://${LQProvider.PROVIDER_NAME}"
