@@ -14,30 +14,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val lqProvider = LQProvider(this)
 
 
         bt.setOnClickListener { _ ->
+            var insertCmd = Command.toContentValues(
+                Command(id = null, pkgName = "AA",cls = "AA",normalMessage = "AA",useEdit = false, editMessage = "AA")
+            )
 
-            with(lqProvider){
-                remove("seoft.co.kr.twostepexample")
+            var kk = contentResolver.insert(Command.URI_COMMAND ,insertCmd)
+            kk.toString().i(TAG)
 
-                insert("seoft.co.kr.twostepexample", "seoft.co.kr.twostepexample.AActivity#$#THIS_IS_A")
-                insert("seoft.co.kr.twostepexample", "seoft.co.kr.twostepexample.BActivity#$#THIS_IS_B")
-                null
-            }
+            insertCmd = Command.toContentValues(
+                Command(id = null, pkgName = "BB",cls = "BB",normalMessage = "BB",useEdit = false, editMessage = "BB")
+            )
+
+            kk = contentResolver.insert(Command.URI_COMMAND ,insertCmd)
+            kk.toString().i(TAG)
+
+            insertCmd = Command.toContentValues(
+                Command(id = null, pkgName = "CC",cls = "CC",normalMessage = "CC",useEdit = false, editMessage = "CC")
+            )
+
+            kk = contentResolver.insert(Command.URI_COMMAND ,insertCmd)
+            kk.toString().i(TAG)
+
+
 
         }
 
         bt2.setOnClickListener { _ ->
-            lqProvider.select("seoft.co.kr.twostepexample").forEach{
-                Log.i(TAG,it.toString())
-            }
+            val kkk = contentResolver.query(Command.URI_COMMAND ,null,null,null,null)
 
-            Log.i(TAG,"#############")
-
-            lqProvider.select("seoft.co.kr.twostepexample","seoft.co.kr.twostepexample.AActivity#$#THIS_IS_A").forEach{
-                Log.i(TAG,it.toString())
+            Command.cursorToCommands(kkk).forEach{
+                it.toString().i(TAG)
             }
 
         }

@@ -1,42 +1,34 @@
-package seoft.co.kr.launcherq.data.model
+package seoft.co.kr.twostepexample
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
 import android.content.ContentValues
 import android.database.Cursor
+import android.net.Uri
 import android.provider.BaseColumns
 
-@Entity(tableName = Command.TABLE_NAME)
 data class Command(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = COLUMN_ID)
     var id : Long? = null,
-
-    @ColumnInfo(name = COLUMN_PKG_NAME)
     var pkgName:String,
-
-    @ColumnInfo(name = COLUMN_CLASS)
     var cls:String,
-
-    @ColumnInfo(name = COLUMN_NORMAL_MSG)
     var normalMessage:String="",
-
-    @ColumnInfo(name = COLUMN_USE_EDIT)
     var useEdit:Boolean=false,
-
-    @ColumnInfo(name = COLUMN_EDIT_MSG)
     var editMessage:String=""
-
     ) {
     companion object {
+
+        // in CommandContentProvider's companion objects in LauncherQ
+        val AUTHORITY = "seoft.co.kr.launcherq.utill.CommandContentProvider"
+        val URI_COMMAND = Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}")
+        fun getUriFromId(id:Long): Uri {
+            return Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}/$id")
+        }
+
         const val TABLE_NAME = "COMMAND"
         const val COLUMN_ID = BaseColumns._ID
         const val COLUMN_PKG_NAME = "pkg_name"
         const val COLUMN_CLASS = "cls"
         const val COLUMN_NORMAL_MSG = "normalMessage"
-        const val COLUMN_USE_EDIT= "use_text"
         const val COLUMN_EDIT_MSG = "editMessage"
+        const val COLUMN_USE_EDIT= "use_text"
 
         fun fromContentValues(values: ContentValues) : Command {
             with(values) {

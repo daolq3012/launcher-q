@@ -50,6 +50,7 @@ class CommandContentProvider : ContentProvider(){
                 cursor = commandDao.selectAll()
             }
             CODE_COMMAND_ITEM -> {
+//                cursor = commandDao.selectById(ContentUris.parseId(uri))
                 cursor = commandDao.selectById(ContentUris.parseId(uri))
             }
             else -> cursor = null
