@@ -6,6 +6,7 @@ import android.os.Process
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import seoft.co.kr.launcherq.data.model.Command
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.data.model.toCommonApp
@@ -17,13 +18,17 @@ fun setVisibiltyTwoStepBg(ll: LinearLayout, twoStepApp: QuickApp) {
     else ll.visibility = View.VISIBLE
 }
 
-@BindingAdapter("visibiltyTwoStepItem","pos")
-fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int) {
+@BindingAdapter("visibiltyTwoStepItem","pos", "twoAppList")
+fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int, twoAppList:List<Command>) {
 
     when (twoStepApp.type) {
         QuickAppType.ONE_APP, QuickAppType.EMPTY -> return
-        QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
+        QuickAppType.FOLDER -> {
             ll.visibility = if(twoStepApp.cmds.size > pos) View.VISIBLE
+            else View.GONE
+        }
+        QuickAppType.TWO_APP -> {
+            ll.visibility = if(twoAppList.size > pos) View.VISIBLE
             else View.GONE
         }
         QuickAppType.EXPERT -> {
@@ -38,14 +43,19 @@ fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int) {
     }
 }
 
-@BindingAdapter("text","pos")
-fun setTextTwoStepItem(tv: TextView, qApp: QuickApp, pos:Int) {
+@BindingAdapter("text","pos","twoAppList")
+fun setTextTwoStepItem(tv: TextView, qApp: QuickApp, pos:Int, twoAppList:List<Command>) {
 
     when (qApp.type) {
         QuickAppType.EMPTY -> return
-        QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
+        QuickAppType.FOLDER -> {
             with(qApp.cmds){
                 if(this.size > pos) tv.text = this[pos].toCommonApp().label
+            }
+        }
+        QuickAppType.TWO_APP -> {
+            with(twoAppList){
+                if(size > pos ) tv.text = this[pos].title
             }
         }
         QuickAppType.EXPERT -> {

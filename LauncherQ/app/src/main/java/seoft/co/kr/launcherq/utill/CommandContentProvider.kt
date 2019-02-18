@@ -71,6 +71,7 @@ class CommandContentProvider : ContentProvider(){
                 val id = Repo.localDBRepo.commandDao()
                     .insert(Command.fromContentValues(values))
                 context.contentResolver.notifyChange(uri,null)
+                SC.needResetTwoStepSetting = true
                 return ContentUris.withAppendedId(uri,id)
             }
             CODE_COMMAND_ITEM -> throw IllegalArgumentException("Invalid URI, cannot insert with ID: $uri")
@@ -92,6 +93,7 @@ class CommandContentProvider : ContentProvider(){
 //                val cnt = Repo.localDBRepo.commandDao().deleteById(ContentUris.parseId(uri))
                 val cnt = Repo.localDBRepo.commandDao().deleteByPkgName(uri.getQueryParameter(Command.COLUMN_PKG_NAME))
                 context.contentResolver.notifyChange(uri,null)
+                SC.needResetTwoStepSetting = true
                 return cnt
             }
             else -> throw IllegalArgumentException("Unknown URI: $uri")
@@ -101,7 +103,7 @@ class CommandContentProvider : ContentProvider(){
     override fun applyBatch(operations: ArrayList<ContentProviderOperation>): Array<ContentProviderResult> {
 
         Repo.localDBRepo.beginTransaction()
-
+        SC.needResetTwoStepSetting = true
         try {
             val results = super.applyBatch(operations)
             Repo.localDBRepo.setTransactionSuccessful()
@@ -115,13 +117,12 @@ class CommandContentProvider : ContentProvider(){
         when(MATCHER.match(uri)){
             CODE_COMMAND_DIR -> {
 
-                val commands = arrayListOf<Command>()
+                val commands = valuesArray
+                    .map { Command.fromContentValues(it) }
+                    .toTypedArray()
 
-                valuesArray.forEach {
-                    commands.add(Command.fromContentValues(it))
-                }
-
-                return Repo.localDBRepo.commandDao().insertAll(commands.toTypedArray()).size
+                SC.needResetTwoStepSetting = true
+                return Repo.localDBRepo.commandDao().insertAll(commands).size
             }
             CODE_COMMAND_ITEM -> throw IllegalArgumentException("Invalid URI, cannot insert with ID: $uri")
             else -> throw IllegalArgumentException("Unknown URI: $uri")

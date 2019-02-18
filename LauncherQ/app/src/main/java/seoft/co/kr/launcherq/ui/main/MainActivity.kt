@@ -12,7 +12,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Process
 import android.support.v4.view.GestureDetectorCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
 import android.view.MotionEvent
 import android.view.WindowManager
 import android.widget.RelativeLayout
@@ -39,7 +41,10 @@ class MainActivity : AppCompatActivity() {
     private val screenSize = Point()
     private val mc = MainCaculator()
 
-    val LQ_DATA = "LQ_DATA"
+    val NORMAL_MESSAGE = "NORMAL_MESSAGE"
+    val EDIT_MESSAGE = "EDIT_MESSAGE"
+
+
     val TIME_INTERVAL = 200L
 
     var curPosInOneStep = -1
@@ -82,6 +87,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     *  check QuickAppType.TWO_APP when change command datas using content provider from another app AND resume
+     */
     fun refreshGrid(quickApps : MutableList<QuickApp>){
         val gridCnt = vm.gridCnt
         gvApps.numColumns = gridCnt
@@ -135,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
     fun runOneStepApp(quickApp: QuickApp) {
         when(quickApp.type){
-            QuickAppType.ONE_APP -> {
+            QuickAppType.ONE_APP,QuickAppType.TWO_APP -> {
 
                 if(quickApp.commonApp.isExcept) {
                     when(quickApp.commonApp.pkgName) {
@@ -208,17 +216,46 @@ class MainActivity : AppCompatActivity() {
         startActivity(packageManager.getLaunchIntentForPackage(pkgName))
     }
 
-    fun launchAppFromOptions(pkgName:String, detailName:String, data: String = ""){
-        val compname = ComponentName(pkgName, detailName)
+    /**
+     *
+     * three call situation
+     *
+     * 1. cmd's useEdit = false > run app
+     * 2. cmd's useEdit = true & not input editContent > open input dialog
+     * 3. cmd's useEdit = true & input editContent > run app with useEdit property
+     */
+    fun launchAppFromCommand(cmd:Command, editContent : String? = null){
+
+        val compname = ComponentName(cmd.pkgName, cmd.cls)
         val actintent = Intent(Intent.ACTION_MAIN)
             .apply {
                 addCategory(Intent.CATEGORY_LAUNCHER)
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
                 component = compname
-                putExtra(LQ_DATA,data)
+                putExtra(NORMAL_MESSAGE,cmd.normalMessage)
             }
-        applicationContext.startActivity(actintent)
+        if(cmd.useEdit) {
+            editContent?.let {
+                actintent.putExtra(EDIT_MESSAGE,editContent)
+                applicationContext.startActivity(actintent)
+            } ?: run {
+                AlertDialog.Builder(this@MainActivity).showDialogWithInput(
+                    title = "입력",
+                    postiveBtText = "확인",
+                    negativeBtText = "취소",
+                    cbPostive = {
+                        launchAppFromCommand(cmd,it)
+                    },
+                    cbNegative = {},
+                    inputType = InputType.TYPE_CLASS_TEXT,
+                    text = ""
+                )
+            }
+        } else {
+            applicationContext.startActivity(actintent)
+        }
     }
+
 
     /**
      * call this method after first open two step view
@@ -236,10 +273,15 @@ class MainActivity : AppCompatActivity() {
                     val shortCutApp = getShortcutFromApp(vm.twoStepApp.value().commonApp.pkgName)[pos]
                     launcherApps.startShortcut(shortCutApp.packageName, shortCutApp.id, null, null, Process.myUserHandle())
                 }
-                QuickAppType.FOLDER, QuickAppType.TWO_APP -> {
+                QuickAppType.FOLDER -> {
                     cmds[pos].i(TAG)
                     val cApp = cmds[pos].toCommonApp()
                     launchApp(cApp.pkgName)
+                }
+                QuickAppType.TWO_APP -> {
+                    // TODO
+//                    val cmds = vm.getTwoAppLaunchList(vm.twoStepApp.value().commonApp.pkgName )
+                    launchAppFromCommand(vm.twoAppList[pos])
                 }
                 QuickAppType.EXPERT -> {
                     expert!!.useTwo!![pos]!!.i(TAG)
@@ -272,12 +314,13 @@ class MainActivity : AppCompatActivity() {
         vm.twoStepApp.set(quickApp)
         vm.step.set(Step.OPEN_TWO)
 
-        var twoStepItemCnt = 0
 
-        when (quickApp.type) {
-            QuickAppType.FOLDER, QuickAppType.TWO_APP -> twoStepItemCnt = quickApp.cmds.size
-            QuickAppType.EXPERT -> twoStepItemCnt = quickApp.expert!!.useTwo!!.count { it != null }
-            QuickAppType.ONE_APP -> twoStepItemCnt = getShortcutFromApp(quickApp.commonApp.pkgName).size
+        val twoStepItemCnt = when (quickApp.type) {
+            QuickAppType.FOLDER -> quickApp.cmds.size
+            QuickAppType.TWO_APP -> vm.getTwoAppLaunchListAndSet(quickApp.commonApp.pkgName).size // TODO
+            QuickAppType.EXPERT -> quickApp.expert!!.useTwo!!.count { it != null }
+            QuickAppType.ONE_APP -> getShortcutFromApp(quickApp.commonApp.pkgName).size
+            else -> 0
         }
 
         if(twoStepItemCnt == 0) {
@@ -309,6 +352,7 @@ class MainActivity : AppCompatActivity() {
         else vm.resetBgWidgets() // when onresume but don't need setting reset, example) quit another app, clock refresh
 
         if(SC.needResetUxSetting) resetUxSetting()
+        if(SC.needResetTwoStepSetting) resetTwoStepSetting()
 
         registerReceiver(timeReceiver, IntentFilter().apply {
             addAction(Intent.ACTION_TIME_TICK)
@@ -451,89 +495,6 @@ class MainActivity : AppCompatActivity() {
 
     fun showSettingInMainDialog(){
 
-        /**
-         * provider test code
-         */
-
-        var insertCmd =  arrayOf(
-            Command.toContentValues(Command(id = null, pkgName = "AA",cls = "AA",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
-            Command.toContentValues(Command(id = null, pkgName = "BB",cls = "BB",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
-            Command.toContentValues(Command(id = null, pkgName = "CC",cls = "CC",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
-            Command.toContentValues(Command(id = null, pkgName = "AA",cls = "AA",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
-            Command.toContentValues(Command(id = null, pkgName = "BB",cls = "BB",normalMessage = "CC",useEdit = false, editMessage = "C3C")),
-            Command.toContentValues(Command(id = null, pkgName = "CC",cls = "CC",normalMessage = "CC",useEdit = false, editMessage = "C3C"))
-        )
-
-        contentResolver.bulkInsert(CommandContentProvider.URI_COMMAND ,insertCmd)
-
-        "=============".i(TAG)
-
-        val asdf = contentResolver.query(CommandContentProvider.getUriFromPkgName("AA"),null,null,null,null)
-        Command.cursorToCommands(asdf).forEach { it.toString().i(TAG) }
-
-        "=============".i(TAG)
-
-        val kkk = contentResolver.query(CommandContentProvider.URI_COMMAND ,null,null,null,null)
-        Command.cursorToCommands(kkk).forEach { it.toString().i(TAG) }
-
-        "=============".i(TAG)
-
-        contentResolver.delete(CommandContentProvider.getUriFromPkgName("AA"),null,null)
-
-        val kkkk = contentResolver.query(CommandContentProvider.URI_COMMAND ,null,null,null,null)
-        Command.cursorToCommands(kkkk).forEach { it.toString().i(TAG) }
-        "=============".i(TAG)
-
-
-        //TEST/////////////////
-
-//        val URL = "content://${LQProvider.PROVIDER_NAME}"
-//
-//        val students = Uri.parse(URL)
-//
-//        val cursor = contentResolver.query(students, null, null, null, null)
-//
-//        cursor?.run {
-//            if(moveToFirst()) {
-//                while(true){
-//                    "${getString(getColumnIndex(LQProvider._ID))}  ${getString(getColumnIndex(LQProvider.PKG_NAME))}  ${getString(getColumnIndex(LQProvider.INFO))}".i(TAG)
-//                    "${getString(getColumnIndex(LQProvider._ID))}  ${getString(getColumnIndex(LQProvider.PKG_NAME))}  ${getString(getColumnIndex(LQProvider.INFO))}".toast()
-//                    if(!moveToNext()) break
-//                }
-//            }
-//        }
-//        cursor?.close()
-
-//        val cr = contentResolver
-//        val uri =  cr.query(LQProvider.CONTENT_URI,ContentValues())
-
-//        1. 컨텐트 프로바이더 LQ 꺼 재대로짜고 LQ내에서 CRUD 함 하고 (메인수준) 서브플젝도 하기(메인수준)
-//        2. LQ꺼 프로바이더 REPO로 빼고 서브플젝은 그냥 객채화 잘하기
-//        3. 라이브러리화 하기
-
-//        val k = uri.pathSegments
-//        k.get(0)
-
-
-
-
-
-
-
-
-        ////////////////////
-
-
-
-
-
-
-
-
-
-
-//        launchAppFromOptions("seoft.co.kr.twostepexample","seoft.co.kr.twostepexample.AActivity","data")
-
         clearViews()
         val simd = SettingMainEntranceDialog(this){}
         simd.show()
@@ -550,6 +511,11 @@ class MainActivity : AppCompatActivity() {
     fun resetUxSetting(){
         vm.resetUxValue()
         SC.needResetUxSetting = false
+    }
+
+    fun resetTwoStepSetting(){
+        vm.resetTwoStepValues()
+        SC.needResetTwoStepSetting = false
     }
 
     inner class TimeReceiver : BroadcastReceiver(){

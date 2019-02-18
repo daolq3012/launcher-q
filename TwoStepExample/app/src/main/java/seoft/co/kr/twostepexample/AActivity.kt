@@ -11,10 +11,11 @@ class AActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_a)
 
-        val getValue = intent.getStringExtra("LQ_DATA")
+        val getNormalMsg = intent.getStringExtra(Command.NORMAL_MESSAGE)
+        val getEditMsg = intent.getStringExtra(Command.EDIT_MESSAGE)
 
-        textView.text = getValue
-        Toast.makeText(this,getValue,Toast.LENGTH_LONG).show()
+        textView.text = "$getNormalMsg $getEditMsg"
+        Toast.makeText(this,"$getNormalMsg $getEditMsg",Toast.LENGTH_LONG).show()
 
     }
 }

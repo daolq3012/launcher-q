@@ -4,10 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.graphics.Bitmap
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
-import seoft.co.kr.launcherq.data.model.CommonApp
-import seoft.co.kr.launcherq.data.model.QuickApp
-import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
@@ -30,6 +27,8 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     val EMPTY_QUICK_APP = QuickApp(CommonApp("","","",false),QuickAppType.EMPTY)
     val twoStepApp = ObservableField<QuickApp>(EMPTY_QUICK_APP)
+
+    var twoAppList = emptyList<Command>() // set when call openTwoStep in mainActivity
 
     val step = ObservableField<Step>(Step.NONE)
     var lastestDir = 0
@@ -56,6 +55,11 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     fun emptyTwoStepApp(){ twoStepApp.set(EMPTY_QUICK_APP) }
 
+    fun getTwoAppLaunchListAndSet(pkgName:String): List<Command> {
+        twoAppList = repo.commandRepo.selectFromPkgName(pkgName)
+        return twoAppList
+    }
+
     fun resetUxValue(){
         distance = repo.preference.getDistance()
 
@@ -63,6 +67,24 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         gridViewSize = repo.preference.getGridViewSize()
         gridItemSize = gridViewSize.toPixel()/gridCnt
         twoStepOpenInterval = repo.preference.getTwoStepOpenInterval()
+    }
+
+    fun resetTwoStepValues(){
+
+        for( i in 0 until 4) {
+            val tmpApps = repo.preference.getQuickApps(i)
+            tmpApps.forEachIndexed { i, quickApp ->
+                if(repo.commandRepo.selectFromPkgName(quickApp.commonApp.pkgName).isNotEmpty() &&
+                    tmpApps[i].type == QuickAppType.ONE_APP) {
+                    tmpApps[i].type = QuickAppType.TWO_APP
+                } else if(repo.commandRepo.selectFromPkgName(quickApp.commonApp.pkgName).isEmpty() &&
+                    tmpApps[i].type == QuickAppType.TWO_APP) {
+                    tmpApps[i].type = QuickAppType.ONE_APP
+                }
+            }
+            repo.preference.setQuickApps(tmpApps,i)
+        }
+
     }
 
     fun resetBgBitmap(){ bgBitmap.set(repo.backgroundRepo.loadBitmap()) }
@@ -88,9 +110,6 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     fun appInit(){
         val installedApps = InstalledAppUtil().getInstalledApps()
         repo.preference.setDrawerApps(installedApps)
-
-
-
     }
 
     fun setAppsFromDir(dir: Int) {

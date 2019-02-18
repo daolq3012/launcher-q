@@ -16,6 +16,7 @@ class SC{
 
         var needResetBgSetting = false
         var needResetUxSetting = false
+        var needResetTwoStepSetting = false
 
         val gson = Gson()
 

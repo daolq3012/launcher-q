@@ -114,6 +114,8 @@ class PreferenceRepo {
 
     fun setQuickApps(apps : MutableList<QuickApp>,dir:Int) {
 
+        SC.needResetTwoStepSetting = true
+
         var key = ""
         when(dir) {
             0 -> key = SP_QL_TOP_APPS

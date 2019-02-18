@@ -120,10 +120,10 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
                               android:onClick="@{()->vm.clickTwoStepItem(0)}"
-                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{0}" >
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}" >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{0}"
+                              app:text="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}"
                     />
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
                           android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
@@ -132,10 +132,10 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
                               android:onClick="@{()->vm.clickTwoStepItem(1)}"
-                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{1}" >
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}" >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{1}"
+                              app:text="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}"
                     />
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
                           android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
@@ -144,10 +144,10 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
                               android:onClick="@{()->vm.clickTwoStepItem(2)}"
-                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{2}" >
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}"  >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{2}"
+                              app:text="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}"
                     />
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
                           android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
@@ -156,10 +156,10 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
                               android:onClick="@{()->vm.clickTwoStepItem(3)}"
-                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{3}" >
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}"  >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{3}"
+                              app:text="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}"
                     />
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
                           android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
@@ -168,10 +168,10 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
                               android:onClick="@{()->vm.clickTwoStepItem(4)}"
-                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{4}" >
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}"  >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{4}"
+                              app:text="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}"
                     />
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
                           android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
@@ -180,10 +180,10 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
                               android:onClick="@{()->vm.clickTwoStepItem(5)}"
-                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{5}" >
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}"  >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{5}"
+                              app:text="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}"
                     />
                 </LinearLayout>
 
