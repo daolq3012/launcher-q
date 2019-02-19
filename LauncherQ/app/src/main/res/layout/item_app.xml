@@ -16,6 +16,7 @@
     />
 
     <TextView
+            android:textColor="@color/black"
             android:textSize="12dp"
             tools:text="Launcher Q"
             android:gravity="center"

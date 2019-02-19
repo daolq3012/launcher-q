@@ -37,9 +37,6 @@ class SelectRecyclerViewAdapter(var cb:(commonApp: CommonApp)->Unit)
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cApps_: CommonApp) {
-
-
-
             if(cApps_.isExcept) {
 
                 val cae = CAppException.values().find { it.get == cApps_.pkgName }?:return
@@ -51,7 +48,6 @@ class SelectRecyclerViewAdapter(var cb:(commonApp: CommonApp)->Unit)
                 binding.ivApp.setImageDrawable(App.get.packageManager.getApplicationIcon(cApps_.pkgName))
                 binding.tvApp.text = cApps_.label
             }
-
 
             binding.root.setOnClickListener { _ ->
                 cb.invoke(cApps_)

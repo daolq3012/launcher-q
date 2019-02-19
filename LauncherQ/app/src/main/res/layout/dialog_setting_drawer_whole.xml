@@ -7,15 +7,15 @@
         android:orientation="vertical">
 
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="20dp"
-              android:text="앱 배치 ( 세로 * 가로 )" android:textSize="15dp" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="17dp"
+              android:text="앱 배치 ( 세로 * 가로 )" android:textSize="14dp" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="15dp"
         android:orientation="horizontal"   android:gravity="center" >
 
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvNumY"
-                  tools:text="4" android:textSize="50dp" android:textColor="@color/black"
+                  tools:text="4" android:textSize="30dp" android:textColor="@color/black"
                   android:paddingLeft="20dp"
                   android:paddingRight="20dp" />
 
@@ -23,25 +23,30 @@
                    android:src="@drawable/ic_close_white" />
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvNumX"
-                  tools:text="5" android:textSize="50dp" android:textColor="@color/black"
+                  tools:text="5" android:textSize="30dp" android:textColor="@color/black"
                   android:paddingLeft="20dp"
                   android:paddingRight="20dp" />
 
     </LinearLayout>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="5dp"
-              android:text="" android:id="@+id/tvHide" android:textSize="15dp" />
+    <View android:background="@color/c2" android:layout_width="match_parent" android:layout_height="1dp" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="17dp"
+              android:text="" android:id="@+id/tvHide" android:textSize="14dp"  />
+
+    <View android:background="@color/c2" android:layout_width="match_parent" android:layout_height="1dp" />
+
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:orientation="horizontal"   android:gravity="right" >
 
         <TextView
                 android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                android:text="확인" android:id="@+id/tvOk" android:textColor="@color/black" android:textSize="12dp" />
+                android:text="확인" android:id="@+id/tvOk" android:textColor="@color/black" android:textSize="14dp" />
 
         <TextView
                 android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                android:text="취소" android:id="@+id/tvCancel" android:textColor="@color/black" android:textSize="12dp" />
+                android:text="취소" android:id="@+id/tvCancel" android:textColor="@color/black" android:textSize="14dp" />
 
     </LinearLayout>
 

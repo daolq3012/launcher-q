@@ -135,7 +135,7 @@ fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms
                 tv.setTextColor(Color.GREEN)
             }
         }
-        ArrangeViewModel.ArrangeBottoms.TWO_DEPTH -> {
+        ArrangeViewModel.ArrangeBottoms.TWO_STEP -> {
             if(pickedApp.type == QuickAppType.EMPTY || pickedApp.type == QuickAppType.FOLDER) {
                 ll.isClickable = false
                 tv.setTextColor(Color.RED)

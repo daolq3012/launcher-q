@@ -35,55 +35,35 @@
                     app:isUse="@{vm.useDate}"
                     app:type="@{widgetType.DATE}"
                     android:id="@+id/tvDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-            />
+                    style="@style/MainContent" />
 
             <TextView
                     app:bgwi="@{vm.bgwi}"
                     app:isUse="@{vm.useTime}"
                     app:type="@{widgetType.TIME}"
                     android:id="@+id/tvTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-            />
+                    style="@style/MainContent" />
 
             <TextView
                     app:bgwi="@{vm.bgwi}"
                     app:isUse="@{vm.useAmpm}"
                     app:type="@{widgetType.AMPM}"
                     android:id="@+id/tvAmpm"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-            />
+                    style="@style/MainContent" />
 
             <TextView
                     app:bgwi="@{vm.bgwi}"
                     app:isUse="@{vm.useDow}"
                     app:type="@{widgetType.DOW}"
                     android:id="@+id/tvDow"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-            />
+                    style="@style/MainContent" />
 
             <TextView
                     app:bgwi="@{vm.bgwi}"
                     app:isUse="@{vm.useText}"
                     app:type="@{widgetType.TEXT}"
                     android:id="@+id/tvText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-            />
+                    style="@style/MainContent" />
 
         </RelativeLayout>
 
@@ -96,19 +76,15 @@
                 android:visibility="invisible" app:step="@{vm.step}" app:stepView="@{stepView.APP_STARTER}"
             >
 
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@mipmap/ic_launcher"
-                           android:layout_centerVertical="true" android:layout_alignParentEnd="true"/>
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@mipmap/ic_launcher"
-                           android:layout_alignParentStart="true" android:layout_centerVertical="true"/>
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@mipmap/ic_launcher"
-                           android:layout_centerHorizontal="true" android:layout_alignParentTop="true"/>
-                <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@mipmap/ic_launcher"
-                           android:layout_centerHorizontal="true" android:layout_alignParentBottom="true"/>
+                <ImageView style="@style/MainOneStepOpener" android:src="@drawable/ic_arrow_right" android:layout_centerVertical="true" android:layout_alignParentEnd="true"/>
+                <ImageView style="@style/MainOneStepOpener" android:src="@drawable/ic_arrow_left" android:layout_alignParentStart="true" android:layout_centerVertical="true"/>
+                <ImageView style="@style/MainOneStepOpener" android:src="@drawable/ic_arrow_up" android:layout_centerHorizontal="true" android:layout_alignParentTop="true"/>
+                <ImageView style="@style/MainOneStepOpener" android:src="@drawable/ic_arrow_down" android:layout_centerHorizontal="true" android:layout_alignParentBottom="true"/>
 
             </RelativeLayout>
 
             <GridView android:layout_width="200dp" android:layout_height="200dp" android:visibility="invisible"
-                      android:id="@+id/gvApps" android:background="#789123"
+                      android:id="@+id/gvApps" android:background="#00FFFFFF"
                       app:step="@{vm.step}" app:stepView="@{stepView.ONE_STEP}"
             />
 
@@ -118,89 +94,56 @@
                           app:step="@{vm.step}" app:stepView="@{stepView.TWO_STEP}"
                           android:orientation="vertical" android:id="@+id/llTwoStepBg" >
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
-                              android:onClick="@{()->vm.clickTwoStepItem(0)}"
-                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}" >
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}"
-                    />
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
-                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
-                    />
+                <LinearLayout style="@style/MainTwoStepLinearLayout"
+                              android:onClick="@{()->vm.clickTwoStepItem(0)}" app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}" >
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}" />
+                    <View style="@style/MainTwoStepLine" />
+
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                <LinearLayout style="@style/MainTwoStepLinearLayout"
                               android:onClick="@{()->vm.clickTwoStepItem(1)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}" >
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}"
+                    <TextView style="@style/MainTwoStepTextView"  app:text="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}"
                     />
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
-                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
-                    />
+                    <View style="@style/MainTwoStepLine" />
+
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                <LinearLayout style="@style/MainTwoStepLinearLayout"
                               android:onClick="@{()->vm.clickTwoStepItem(2)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}"
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}"
                     />
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
-                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
-                    />
+                    <View style="@style/MainTwoStepLine" />
+
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                <LinearLayout style="@style/MainTwoStepLinearLayout"
                               android:onClick="@{()->vm.clickTwoStepItem(3)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}"
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}"
                     />
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
-                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
-                    />
+                    <View style="@style/MainTwoStepLine" />
+
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                <LinearLayout style="@style/MainTwoStepLinearLayout"
                               android:onClick="@{()->vm.clickTwoStepItem(4)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}"
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}"
                     />
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#c1c1c1"
-                          android:layout_marginLeft="3dp" android:layout_marginRight="3dp"
-                    />
+                    <View style="@style/MainTwoStepLine" />
+
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="@dimen/two_step_item_height" android:orientation="vertical"
+                <LinearLayout style="@style/MainTwoStepLinearLayout"
                               android:onClick="@{()->vm.clickTwoStepItem(5)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:padding="10dp" android:gravity="center" tools:text="안녕하세요"
-                              app:text="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}"
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}"
                     />
                 </LinearLayout>
-
-
-
-
             </LinearLayout>
-
-
         </RelativeLayout>
-
-
-
-
-
-
     </RelativeLayout>
-
-
 </layout>

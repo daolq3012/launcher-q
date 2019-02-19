@@ -17,4 +17,101 @@
     </style>
 
 
+    <style name="MainContent" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
+
+    <style name="MainTwoStepLinearLayout" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/two_step_item_height</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+
+    <style name="MainTwoStepTextView" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="MainTwoStepLine" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#c1c1c1</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:layout_marginRight">3dp</item>
+    </style>
+
+
+    <style name="MainOneStepOpener" >
+        <item name="android:layout_width">12dp</item>
+        <item name="android:layout_height">12dp</item>
+    </style>
+
+
+    <style name="ExpertStatusDialogLinearLayout" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ExpertStatusDialogTextView" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="ExpertStatusDialogTextViewAdd" parent="ExpertStatusDialogTextView">
+        <item name="android:text">추가</item>
+    </style>
+
+    <style name="ExpertStatusDialogTextViewEdit" parent="ExpertStatusDialogTextView">
+        <item name="android:text">수정</item>
+    </style>
+
+    <style name="ExpertStatusDialogTextViewDelete" parent="ExpertStatusDialogTextView">
+        <item name="android:text">삭제</item>
+    </style>
+
+    <style name="SettingDrawerDialogAppBoxOutter">
+        <item name="android:layout_width">@dimen/grid_size_in_app_setting_view</item>
+        <item name="android:layout_height">@dimen/grid_size_in_app_setting_view</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">#123123</item>
+        <item name="android:padding">1dp</item>
+    </style>
+
+    <style name="SettingDrawerDialogAppBoxInner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="SettingDrawerDialogAppBoxGridView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SettingDrawerDialogAppBoxTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:text">EMPTY</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

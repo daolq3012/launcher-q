@@ -348,8 +348,8 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         }
     }
 
-//    fun clickTwoDepth(){
-//        "clickTwoDepth".i()
+//    fun clickTwoStep(){
+//        "clickTwoStep".i()
 //    }
 
     fun clickExpert(){
@@ -384,7 +384,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         DELETE,
         MOVE,
         FOLDER,
-        TWO_DEPTH,
+        TWO_STEP,
         EXPERT,
         ICON
     }

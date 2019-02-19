@@ -8,204 +8,52 @@
     <!-- -->
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:gravity="center"
-              android:text="ONE STEP" android:textSize="30dp"
-    />
+              android:gravity="center" android:text="ONE STEP" android:textSize="30dp" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-    >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="추가" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvAddOne"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="수정" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvEditOne"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="삭제" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvDelOne"
-        />
+    <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
+        <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddOne" />
+        <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditOne" />
+        <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelOne" />
 
     </LinearLayout>
-
-    <!---->
-
     <Space android:layout_width="1dp" android:layout_height="20dp"/>
-
-    <!---->
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:gravity="center"
-              android:text="TWO STEP" android:textSize="30dp"
-    />
-
-    <!---->
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-    >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="1" android:textSize="20dp" android:padding="5dp"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="추가" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvAddTwo0"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="수정" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvEditTwo0"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="삭제" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvDelTwo0"
-        />
-
+              android:gravity="center" android:text="TWO STEP" android:textSize="30dp" />
+    <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
+        <TextView style="@style/ExpertStatusDialogTextView" android:text="1" />
+        <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo0" />
+        <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo0" />
+        <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo0" />
     </LinearLayout>
-
-
-    <!---->
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-    >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="2" android:textSize="20dp" android:padding="5dp"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="추가" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvAddTwo2"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="수정" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvEditTwo2"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="삭제" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvDelTwo2"
-        />
-
+    <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
+        <TextView style="@style/ExpertStatusDialogTextView" android:text="2" />
+        <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo2"/>
+        <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo2" />
+        <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo2" />
     </LinearLayout>
-
-
-    <!---->
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-    >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="3" android:textSize="20dp" android:padding="5dp"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="추가" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvAddTwo1"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="수정" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvEditTwo1"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="삭제" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvDelTwo1"
-        />
-
+    <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
+        <TextView style="@style/ExpertStatusDialogTextView" android:text="3" />
+        <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo1" />
+        <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo1" />
+        <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo1" />
     </LinearLayout>
-
-
-    <!---->
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-    >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="4" android:textSize="20dp" android:padding="5dp"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="추가" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvAddTwo3"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="수정" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvEditTwo3"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="삭제" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvDelTwo3"
-        />
-
+    <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
+        <TextView style="@style/ExpertStatusDialogTextView" android:text="4" />
+        <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo3" />
+        <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo3" />
+        <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo3" />
     </LinearLayout>
-
-
-    <!---->
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-    >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="5" android:textSize="20dp" android:padding="5dp"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="추가" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvAddTwo4"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="수정" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvEditTwo4"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="삭제" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvDelTwo4"
-        />
-
+    <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
+        <TextView style="@style/ExpertStatusDialogTextView" android:text="5" />
+        <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo4" />
+        <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo4" />
+        <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo4" />
     </LinearLayout>
-
-
-    <!---->
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-    >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="6" android:textSize="20dp" android:padding="5dp"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="추가" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvAddTwo5"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="수정" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvEditTwo5"
-        />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="삭제" android:textSize="20dp" android:padding="5dp"
-                  android:id="@+id/tvDelTwo5"
-        />
-
+    <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
+        <TextView style="@style/ExpertStatusDialogTextView" android:text="6" />
+        <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo5" />
+        <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo5" />
+        <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo5" />
     </LinearLayout>
-
-
-
-
-
 
 </LinearLayout>
