@@ -167,12 +167,12 @@ class ArrangeActivity : AppCompatActivity() {
 
     private fun openFolder(pickedApp: QuickApp) {
 
-        if(pickedApp.cmds.isEmpty()) {
+        if(pickedApp.dir.isEmpty()) {
             "폴더가 비어있습니다".toast()
             return
         }
 
-        val afd = ArrangeFolderDialog(this,pickedApp.cmds){
+        val afd = ArrangeFolderDialog(this,pickedApp.dir){
             vm.deleteCommonAppFromFolder(it)
         }
         afd.show()

@@ -24,7 +24,7 @@ fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int, two
     when (twoStepApp.type) {
         QuickAppType.ONE_APP, QuickAppType.EMPTY -> return
         QuickAppType.FOLDER -> {
-            ll.visibility = if(twoStepApp.cmds.size > pos) View.VISIBLE
+            ll.visibility = if(twoStepApp.dir.size > pos) View.VISIBLE
             else View.GONE
         }
         QuickAppType.TWO_APP -> {
@@ -49,7 +49,7 @@ fun setTextTwoStepItem(tv: TextView, qApp: QuickApp, pos:Int, twoAppList:List<Co
     when (qApp.type) {
         QuickAppType.EMPTY -> return
         QuickAppType.FOLDER -> {
-            with(qApp.cmds){
+            with(qApp.dir){
                 if(this.size > pos) tv.text = this[pos].toCommonApp().label
             }
         }

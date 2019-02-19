@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import seoft.co.manage_two_step.Command
+import seoft.co.manage_two_step.CommandRepo
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +19,12 @@ class MainActivity : AppCompatActivity() {
 
         bt.setOnClickListener { _ ->
             val insertCmd =  listOf(
+                Command(id = null, title = "AActivity", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.AActivity",normalMessage = "AA",useEdit = true),
+                Command(id = null, title = "BActivity with param", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.BActivity",normalMessage = "BB",useEdit = false),
+                Command(id = null, title = "AActivity", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.AActivity",normalMessage = "AA",useEdit = true),
+                Command(id = null, title = "BActivity with param", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.BActivity",normalMessage = "BB",useEdit = false),
+                Command(id = null, title = "AActivity", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.AActivity",normalMessage = "AA",useEdit = true),
+                Command(id = null, title = "BActivity with param", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.BActivity",normalMessage = "BB",useEdit = false),
                 Command(id = null, title = "AActivity", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.AActivity",normalMessage = "AA",useEdit = true),
                 Command(id = null, title = "BActivity with param", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.BActivity",normalMessage = "BB",useEdit = false)
             )

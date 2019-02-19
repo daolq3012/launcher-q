@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':manage_two_step'

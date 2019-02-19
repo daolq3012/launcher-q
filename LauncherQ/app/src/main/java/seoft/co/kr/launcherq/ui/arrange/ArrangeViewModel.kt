@@ -74,7 +74,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
         if(pickedApp.value().type == QuickAppType.EMPTY)  changedLiveDataApps[pos] = QuickApp(commonApp, QuickAppType.ONE_APP)
         else if(pickedApp.value().type == QuickAppType.FOLDER){
-            changedLiveDataApps[pos].cmds.add(commonApp.toSaveString())
+            changedLiveDataApps[pos].dir.add(commonApp.toSaveString())
             changedLiveDataApps[pos].isPicked = false // for unset select effect
 
         }
@@ -175,7 +175,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
         val changedLiveDataApps = liveDataApps.value!!
 
-        if(changedLiveDataApps[toPos].type == QuickAppType.FOLDER) changedLiveDataApps[toPos].cmds.add(changingQuickApp.commonApp.toSaveString())
+        if(changedLiveDataApps[toPos].type == QuickAppType.FOLDER) changedLiveDataApps[toPos].dir.add(changingQuickApp.commonApp.toSaveString())
         else changedLiveDataApps[toPos] = changingQuickApp
 
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
@@ -196,7 +196,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun deleteCommonAppFromFolder(cApp: CommonApp) {
 
         val changedLiveDataApps = liveDataApps.value!!.apply {
-            this[curPos].cmds.remove(cApp.toSaveString())
+            this[curPos].dir.remove(cApp.toSaveString())
             this[curPos].isPicked = false
         }
 

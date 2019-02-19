@@ -5,7 +5,7 @@ import android.content.Intent.*
 data class QuickApp(
     var commonApp: CommonApp,
     var type: QuickAppType,
-    var cmds: MutableList<String> = mutableListOf(),
+    var dir: MutableList<String> = mutableListOf(),
     var expert: Expert? = null,
     var isPicked: Boolean = false,
     var hasImg: Boolean = false

@@ -56,7 +56,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     fun emptyTwoStepApp(){ twoStepApp.set(EMPTY_QUICK_APP) }
 
     fun getTwoAppLaunchListAndSet(pkgName:String): List<Command> {
-        twoAppList = repo.commandRepo.selectFromPkgName(pkgName)
+        twoAppList = repo.commandRepo.selectFromPkgName(pkgName).take(6)
         return twoAppList
     }
 

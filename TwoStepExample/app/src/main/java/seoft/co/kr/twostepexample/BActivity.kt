@@ -1,9 +1,10 @@
 package seoft.co.kr.twostepexample
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_a.*
+import seoft.co.manage_two_step.Command
 
 class BActivity : AppCompatActivity() {
 

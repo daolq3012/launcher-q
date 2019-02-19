@@ -130,19 +130,9 @@ class ExampleUnitTest {
 
     @Test
     fun ktTest4(){
-//        val uri = Uri.parse("content://seoft.co.kr.launcherq.utill.CommandContentProvider/COMMAND/15")
-//
-//        with(uri) {
-//            println(scheme)
-//            println(schemeSpecificPart)
-//            println(authority)
-//            println(userInfo)
-//            println(host)
-//            println(port)
-//            println(path)
-//            println(query)
-//            println(fragment)
-//        }
+
+        listOf(1,2,3,4,5,6,7,8,9,0,11,22,33,44).take(5).forEach { println(it.toString()) }
+
     }
 
 }
