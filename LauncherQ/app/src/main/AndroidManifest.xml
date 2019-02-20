@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <permission android:name="seoft.co.kr.launcherq.READ_DATABASE" android:protectionLevel="normal" />
     <permission android:name="seoft.co.kr.launcherq.WRITE_DATABASE" android:protectionLevel="normal" />
@@ -53,6 +54,17 @@
         <activity android:name=".ui.arrange.ExpertSettingActivity"
                   android:windowSoftInputMode="adjustResize" >
         </activity>
+
+        <receiver android:name=".utill.ShutdownConfigAdminReceiver"
+                  android:label="@string/sample_device_admin"
+                  android:description="@string/sample_device_admin_description"
+                  android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data android:name="android.app.device_admin"
+                       android:resource="@xml/device_turn_off" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
 
         <provider android:name=".utill.CommandContentProvider"
                   android:authorities="seoft.co.kr.launcherq.utill.CommandContentProvider"

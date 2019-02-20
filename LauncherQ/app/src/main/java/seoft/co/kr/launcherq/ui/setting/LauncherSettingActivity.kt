@@ -88,7 +88,7 @@ class LauncherSettingActivity: AppCompatActivity() {
 
             findPreference("clickInterval").setOnPreferenceClickListener { view ->
                 val snd = SelectNumberDialog(activity!!, "투스탭 열기 유지 시간 간격","",
-                    Repo.preference.getTwoStepOpenInterval(),2,12){
+                    Repo.preference.getTwoStepOpenInterval(),4,24){
                     Repo.preference.setTwoStepOpenInterval(it)
                     SC.needResetUxSetting = true
                 }

@@ -17,6 +17,7 @@
     </data>
 
     <RelativeLayout
+            android:background="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.main.MainActivity">
@@ -72,6 +73,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
+            <!--app:aa="@{vm.curPosInOneStep}" app:bb="@{vm.lastestDir}" app:cc="@{vm.liveDataApps}"-->
+            <ImageView android:layout_width="100dp" android:layout_height="100dp" android:visibility="invisible"
+                       android:layout_centerHorizontal="true" android:layout_marginTop="100dp" android:id="@+id/ivPreview" />
+
             <RelativeLayout android:layout_width="300dp" android:layout_height="300dp" android:id="@+id/rlAppStarter"
                 android:visibility="invisible" app:step="@{vm.step}" app:stepView="@{stepView.APP_STARTER}"
             >
@@ -93,55 +99,34 @@
                           android:background="#f1f1f1"
                           app:step="@{vm.step}" app:stepView="@{stepView.TWO_STEP}"
                           android:orientation="vertical" android:id="@+id/llTwoStepBg" >
-
-                <LinearLayout style="@style/MainTwoStepLinearLayout"
-                              android:onClick="@{()->vm.clickTwoStepItem(0)}" app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}" >
+                <LinearLayout style="@style/MainTwoStepLinearLayout" android:onClick="@{()->vm.clickTwoStepItem(0)}"
+                              app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}" >
                     <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{0}" app:twoAppList="@{vm.twoAppList}" />
                     <View style="@style/MainTwoStepLine" />
-
                 </LinearLayout>
-
-                <LinearLayout style="@style/MainTwoStepLinearLayout"
-                              android:onClick="@{()->vm.clickTwoStepItem(1)}"
+                <LinearLayout style="@style/MainTwoStepLinearLayout" android:onClick="@{()->vm.clickTwoStepItem(1)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}" >
-                    <TextView style="@style/MainTwoStepTextView"  app:text="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}"
-                    />
+                    <TextView style="@style/MainTwoStepTextView"  app:text="@{vm.twoStepApp}" app:pos="@{1}" app:twoAppList="@{vm.twoAppList}" />
                     <View style="@style/MainTwoStepLine" />
-
                 </LinearLayout>
-
-                <LinearLayout style="@style/MainTwoStepLinearLayout"
-                              android:onClick="@{()->vm.clickTwoStepItem(2)}"
+                <LinearLayout style="@style/MainTwoStepLinearLayout" android:onClick="@{()->vm.clickTwoStepItem(2)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}"
-                    />
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{2}" app:twoAppList="@{vm.twoAppList}" />
                     <View style="@style/MainTwoStepLine" />
-
                 </LinearLayout>
-
-                <LinearLayout style="@style/MainTwoStepLinearLayout"
-                              android:onClick="@{()->vm.clickTwoStepItem(3)}"
+                <LinearLayout style="@style/MainTwoStepLinearLayout" android:onClick="@{()->vm.clickTwoStepItem(3)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}"
-                    />
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{3}" app:twoAppList="@{vm.twoAppList}" />
                     <View style="@style/MainTwoStepLine" />
-
                 </LinearLayout>
-
-                <LinearLayout style="@style/MainTwoStepLinearLayout"
-                              android:onClick="@{()->vm.clickTwoStepItem(4)}"
+                <LinearLayout style="@style/MainTwoStepLinearLayout" android:onClick="@{()->vm.clickTwoStepItem(4)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}"
-                    />
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{4}" app:twoAppList="@{vm.twoAppList}" />
                     <View style="@style/MainTwoStepLine" />
-
                 </LinearLayout>
-
-                <LinearLayout style="@style/MainTwoStepLinearLayout"
-                              android:onClick="@{()->vm.clickTwoStepItem(5)}"
+                <LinearLayout style="@style/MainTwoStepLinearLayout" android:onClick="@{()->vm.clickTwoStepItem(5)}"
                               app:visibiltyTwoStepItem="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}"  >
-                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}"
-                    />
+                    <TextView style="@style/MainTwoStepTextView" app:text="@{vm.twoStepApp}" app:pos="@{5}" app:twoAppList="@{vm.twoAppList}" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

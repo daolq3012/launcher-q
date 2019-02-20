@@ -1,11 +1,13 @@
 package seoft.co.kr.launcherq.ui.main
 
+import android.app.admin.DevicePolicyManager
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.*
 import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
+import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +18,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,6 +31,8 @@ import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
 import seoft.co.kr.launcherq.ui.drawer.DrawerActivity
 import seoft.co.kr.launcherq.ui.main.RequestManager.Companion.REQ_PERMISSIONS
 import seoft.co.kr.launcherq.utill.*
+import java.io.File
+import java.io.FileInputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,11 +46,13 @@ class MainActivity : AppCompatActivity() {
     private val screenSize = Point()
     private val mc = MainCaculator()
 
+    lateinit var devicePolicyManager : DevicePolicyManager
+
     val NORMAL_MESSAGE = "NORMAL_MESSAGE"
     val EDIT_MESSAGE = "EDIT_MESSAGE"
 
 
-    val TIME_INTERVAL = 200L
+    val TIME_INTERVAL = 100L
 
     var curPosInOneStep = -1
     var befPosInOneStep = -1
@@ -148,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                 if(quickApp.commonApp.isExcept) {
                     when(quickApp.commonApp.pkgName) {
                         CAppException.DRAWER.get -> startActivity( Intent(applicationContext, DrawerActivity::class.java) )
-//                        CAppException.CALL.get -> startActivity( Intent(Intent.ACTION_DIAL,null))
+                        CAppException.CALL.get -> startActivity( Intent(Intent.ACTION_DIAL,null))
                     }
 
                 } else {
@@ -309,9 +316,10 @@ class MainActivity : AppCompatActivity() {
      * block expert don't have useTwo(is null) when before process
      */
     fun openTwoStep(quickApp: QuickApp, isLongClick :Boolean = false) {
+        ivPreview.visibility = View.INVISIBLE
+
         vm.twoStepApp.set(quickApp)
         vm.step.set(Step.OPEN_TWO)
-
 
         val twoStepItemCnt = when (quickApp.type) {
             QuickAppType.FOLDER -> quickApp.dir.size
@@ -343,6 +351,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        ivPreview.visibility = View.INVISIBLE
+
         vm.step.set(Step.NONE)
         vm.emptyTwoStepApp()
 
@@ -352,17 +362,15 @@ class MainActivity : AppCompatActivity() {
         if(SC.needResetUxSetting) resetUxSetting()
         if(SC.needResetTwoStepSetting) resetTwoStepSetting()
 
-        registerReceiver(timeReceiver, IntentFilter().apply {
-            addAction(Intent.ACTION_TIME_TICK)
-        })
-
     }
 
-    override fun onStop() {
-        super.onStop()
+//    override fun onStop() {
+//        super.onStop()
+//
+//        unregisterReceiver(timeReceiver)
+//    }
+//    on
 
-        unregisterReceiver(timeReceiver)
-    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -375,12 +383,26 @@ class MainActivity : AppCompatActivity() {
 
     fun inits(){
         windowManager.defaultDisplay.getRealSize( screenSize )
+
         gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(this){
             when(it) {
-                MainGestureListener.MainGestureListenerCmd.LONG_PRESS -> { if (vm.step != Step.OPEN_ONE) showSettingInMainDialog() }
-                MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> {}
+                MainGestureListener.MainGestureListenerCmd.LONG_PRESS -> { if (vm.step.value() != Step.OPEN_ONE) showSettingInMainDialog() }
+                MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> { devicePolicyManager.lockNow() }
             }
         })
+
+        registerReceiver(timeReceiver, IntentFilter().apply {
+            addAction(Intent.ACTION_TIME_TICK)
+        })
+
+        devicePolicyManager = applicationContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        val cn = ComponentName(applicationContext, ShutdownConfigAdminReceiver::class.java)
+        if (!devicePolicyManager.isAdminActive(cn)) {
+            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+                .apply { putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cn) }
+            startActivityForResult(intent, 0)
+        }
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -430,6 +452,8 @@ class MainActivity : AppCompatActivity() {
                 twoStepStartPos.x = event.x.toInt()
                 twoStepStartPos.y = event.y.toInt()
                 curPosInOneStep = mc.calcInboundOneStep(twoStepStartPos.x,twoStepStartPos.y,vm.gridCnt)
+
+
             }
         } else if(event.action == MotionEvent.ACTION_UP) {
             if(vm.step.value() == Step.TOUCH_START) { vm.step.set(Step.NONE) }
@@ -451,7 +475,6 @@ class MainActivity : AppCompatActivity() {
         curPosInOneStep = -1
         befPosInOneStep = -1
         curPosKeepCnt = 0
-
         intervaling()
     }
 
@@ -461,20 +484,55 @@ class MainActivity : AppCompatActivity() {
             if(vm.step.value() != Step.OPEN_ONE) return@postDelayed
 
             if(curPosInOneStep == -1 || vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EMPTY) {
+                ivPreview.visibility = View.INVISIBLE
                 intervalStart()
                 return@postDelayed
             }
 
-            if(befPosInOneStep != curPosInOneStep) curPosKeepCnt = 0
+            if(befPosInOneStep != curPosInOneStep) {
+                curPosKeepCnt = 0
+
+                /**
+                 * ##################
+                 * [START]
+                 * NOT ADJUST MVVM's DATABINDING, with intervalStart()'s ivPreview
+                 */
+                ivPreview.visibility = View.VISIBLE
+                val tmpCurApp = vm.liveDataApps.value!![curPosInOneStep]
+                if(tmpCurApp.hasImg) {
+                    // SC.imgDir is saved in BackgroundRepo class
+                    val f = File(SC.imgDir,"${vm.lastestDir}#$curPosInOneStep")
+                    val b = BitmapFactory.decodeStream(FileInputStream(f))
+                    ivPreview.setImageBitmap(b)
+                } else if(tmpCurApp.commonApp.isExcept) {
+                    ivPreview.setImageResource(
+                        CAppException.values().find { it.get == tmpCurApp.commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange
+                    )
+                } else {
+                    when(tmpCurApp.type) {
+                        QuickAppType.FOLDER -> ivPreview.setImageResource(R.drawable.ic_folder_green)
+                        QuickAppType.ONE_APP, QuickAppType.TWO_APP -> ivPreview.setImageDrawable(
+                            App.get.packageManager.getApplicationIcon(tmpCurApp.commonApp.pkgName))
+                        QuickAppType.EXPERT -> ivPreview.setImageResource(R.drawable.ic_build_orange)
+                    }
+                }
+                /**
+                 * [END]
+                 *  ##################
+                 */
+
+            }
 
             if(curPosKeepCnt >= vm.twoStepOpenInterval){
 
                 if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.ONE_APP && getShortcutFromApp(vm.liveDataApps.value!![curPosInOneStep].commonApp.pkgName).isEmpty()) {
                     intervalStart()
+                    ivPreview.visibility = View.VISIBLE
                     return@postDelayed
                 } else if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EXPERT &&
                     vm.liveDataApps.value!![curPosInOneStep].expert!!.useTwo == null) {
                     intervalStart()
+                    ivPreview.visibility = View.VISIBLE
                     return@postDelayed
                 }
 

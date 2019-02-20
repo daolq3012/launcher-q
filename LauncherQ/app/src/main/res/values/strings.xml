@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Launcher Q</string>
+
+
+    <string name="sample_device_admin">SAMPLE DEVICE ADMIN</string>
+    <string name="sample_device_admin_description">DESCRIPTION</string>
+
+
+
+
 </resources>

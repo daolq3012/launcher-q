@@ -101,4 +101,7 @@ fun setVisibilty(view:View, step:Step, stepView:StepView) {
     }
 }
 
-
+//@BindingAdapter("aa","bb","cc")
+//fun asdf(iv: ImageView, curPosInOneStep:Int, dir:Int, liveDataApps:MutableList<QuickApp>){
+//
+//}

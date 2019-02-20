@@ -179,14 +179,14 @@ class PreferenceRepo {
         mPrefs.edit().putInt(SP_QL_TWO_STEP_OPEN_INTERVAL, interval).apply()
     }
     fun getTwoStepOpenInterval(): Int {
-        return mPrefs.getInt(SP_QL_TWO_STEP_OPEN_INTERVAL,5)
+        return mPrefs.getInt(SP_QL_TWO_STEP_OPEN_INTERVAL,10)
     }
 
     fun setMyIconPixel(size : Int) {
         mPrefs.edit().putInt(SP_MY_ICON_PIXEL, size).apply()
     }
     fun getMyIconPixel(): Int {
-        return mPrefs.getInt(SP_MY_ICON_PIXEL,128)
+        return mPrefs.getInt(SP_MY_ICON_PIXEL,32)
     }
 
 

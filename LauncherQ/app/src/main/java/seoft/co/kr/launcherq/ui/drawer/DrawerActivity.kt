@@ -100,7 +100,7 @@ class DrawerActivity : AppCompatActivity() {
                 rv.layoutManager = lm
                 rv.adapter = appAdapter
 //            rv.addItemDecoration(SPID(100))
-                rv.addItemDecoration(GridSpacingItemDecoration(it.columnNum, 50))
+                rv.addItemDecoration(GridSpacingItemDecoration(it.columnNum, 30))
 
 //                rv.setOnTouchListener { view, motionEvent ->
 //                    when(motionEvent.action) {
