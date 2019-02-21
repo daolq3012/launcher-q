@@ -11,4 +11,20 @@
     <color name="white">#ffffff</color>
     <color name="gray">#6e6e6e</color>
 
+    <color name="transparent">#B3000000</color>
+    <!--
+투명도
+100% — FF
+90% — E6
+80% — CC
+70% — B3
+60% — 99
+50% — 80
+40% — 66
+30% — 4D
+20% — 33
+10% — 1A
+0% — 00
+-->
+    <color name="clear">#00000000</color>
 </resources>

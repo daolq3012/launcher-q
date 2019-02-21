@@ -66,6 +66,19 @@ class MainActivity : AppCompatActivity() {
 
     private val timeReceiver :  TimeReceiver by lazy { TimeReceiver() }
 
+    /**
+     * DIRECT USE XML IDs
+     * ##################
+     * gvApps
+     * ivPreview
+     * tvPreview
+     * llPreview
+     * pbTwoStepGage
+     * llTwoStepBg
+     * rlAppStarter
+     * ##################
+     */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,9 +101,13 @@ class MainActivity : AppCompatActivity() {
         })
 
         vm.liveDataApps.observe(this, Observer { it?.let { refreshGrid(it) } })
+        vm.twoStepOpenInterval.observe(this, Observer { pbTwoStepGage.max = it!! })
+
 
         inits()
         requestManager = RequestManager(this)
+
+
 
     }
 
@@ -134,8 +151,8 @@ class MainActivity : AppCompatActivity() {
         val shortcutQuery = LauncherApps.ShortcutQuery().apply {
             setQueryFlags(
                 LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
-                LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST or
-                LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                        LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST or
+                        LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
             setPackage(pkgName)
         }
 
@@ -316,7 +333,7 @@ class MainActivity : AppCompatActivity() {
      * block expert don't have useTwo(is null) when before process
      */
     fun openTwoStep(quickApp: QuickApp, isLongClick :Boolean = false) {
-        ivPreview.visibility = View.INVISIBLE
+        turnOnPreview(false)
 
         vm.twoStepApp.set(quickApp)
         vm.step.set(Step.OPEN_TWO)
@@ -351,7 +368,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        ivPreview.visibility = View.INVISIBLE
+        turnOnPreview(false)
 
         vm.step.set(Step.NONE)
         vm.emptyTwoStepApp()
@@ -411,7 +428,7 @@ class MainActivity : AppCompatActivity() {
 
             vm.emptyTwoStepApp()
 
-           val distance = vm.distance
+            val distance = vm.distance
 
             mc.calcOpenTouchStart(event.x.toInt(),event.y.toInt(), distance, screenSize)
             val params = RelativeLayout.LayoutParams(distance.toPixel()*2, distance.toPixel()*2)
@@ -461,6 +478,8 @@ class MainActivity : AppCompatActivity() {
                 val pos = mc.calcInboundOneStep(event.x.toInt(),event.y.toInt(),vm.gridCnt)
                 if(pos != -1 && vm.liveDataApps.value!![pos].type != QuickAppType.EMPTY)  {
                     runOneStepApp(vm.liveDataApps.value!![pos])
+                } else {
+                    turnOnPreview(false)
                 }
             }
 
@@ -472,6 +491,8 @@ class MainActivity : AppCompatActivity() {
 
     fun intervalStart(){
 
+        pbTwoStepGage.progress = 0
+        pbTwoStepGage.visibility = View.INVISIBLE
         curPosInOneStep = -1
         befPosInOneStep = -1
         curPosKeepCnt = 0
@@ -484,21 +505,17 @@ class MainActivity : AppCompatActivity() {
             if(vm.step.value() != Step.OPEN_ONE) return@postDelayed
 
             if(curPosInOneStep == -1 || vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EMPTY) {
-                ivPreview.visibility = View.INVISIBLE
+                turnOnPreview(false,false)
                 intervalStart()
                 return@postDelayed
             }
 
+            val tmpCurApp = vm.liveDataApps.value!![curPosInOneStep]
+
             if(befPosInOneStep != curPosInOneStep) {
                 curPosKeepCnt = 0
 
-                /**
-                 * ##################
-                 * [START]
-                 * NOT ADJUST MVVM's DATABINDING, with intervalStart()'s ivPreview
-                 */
-                ivPreview.visibility = View.VISIBLE
-                val tmpCurApp = vm.liveDataApps.value!![curPosInOneStep]
+                turnOnPreview(true)
                 if(tmpCurApp.hasImg) {
                     // SC.imgDir is saved in BackgroundRepo class
                     val f = File(SC.imgDir,"${vm.lastestDir}#$curPosInOneStep")
@@ -511,41 +528,60 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     when(tmpCurApp.type) {
                         QuickAppType.FOLDER -> ivPreview.setImageResource(R.drawable.ic_folder_green)
-                        QuickAppType.ONE_APP, QuickAppType.TWO_APP -> ivPreview.setImageDrawable(
-                            App.get.packageManager.getApplicationIcon(tmpCurApp.commonApp.pkgName))
+                        QuickAppType.ONE_APP, QuickAppType.TWO_APP ->
+                            ivPreview.setImageDrawable( App.get.packageManager.getApplicationIcon(tmpCurApp.commonApp.pkgName) )
                         QuickAppType.EXPERT -> ivPreview.setImageResource(R.drawable.ic_build_orange)
                     }
                 }
-                /**
-                 * [END]
-                 *  ##################
-                 */
 
-            }
+                tvPreview.text = if(tmpCurApp.commonApp.isExcept){
+                    CAppException.values().find { it.get == tmpCurApp.commonApp.pkgName }?.title
+                } else {
+                    when (tmpCurApp.type) {
+                        QuickAppType.FOLDER -> "폴더"
+                        QuickAppType.ONE_APP, QuickAppType.TWO_APP -> tmpCurApp.commonApp.label
+                        QuickAppType.EXPERT -> "Expert"
+                        else -> ""
+                    }
+                }
 
-            if(curPosKeepCnt >= vm.twoStepOpenInterval){
-
-                if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.ONE_APP && getShortcutFromApp(vm.liveDataApps.value!![curPosInOneStep].commonApp.pkgName).isEmpty()) {
+                if(tmpCurApp.type == QuickAppType.ONE_APP && getShortcutFromApp(tmpCurApp.commonApp.pkgName).isEmpty()) {
                     intervalStart()
-                    ivPreview.visibility = View.VISIBLE
                     return@postDelayed
-                } else if(vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EXPERT &&
-                    vm.liveDataApps.value!![curPosInOneStep].expert!!.useTwo == null) {
+                } else if(tmpCurApp.type == QuickAppType.EXPERT &&
+                    tmpCurApp.expert!!.useTwo == null) {
                     intervalStart()
-                    ivPreview.visibility = View.VISIBLE
                     return@postDelayed
                 }
 
-                openTwoStep(vm.liveDataApps.value!![curPosInOneStep])
 
+            }
+
+            if(curPosKeepCnt >= vm.twoStepOpenInterval.value!!){
+                openTwoStep(tmpCurApp)
                 return@postDelayed
             }
 
             curPosKeepCnt++
 
+            pbTwoStepGage.visibility = View.VISIBLE
+            pbTwoStepGage.progress = curPosKeepCnt
+
             befPosInOneStep = curPosInOneStep
             intervaling()
         },TIME_INTERVAL)
+    }
+
+    fun turnOnPreview(on:Boolean,maintainTransparent:Boolean = true){
+        if(on){
+            llPreview.visibility = View.VISIBLE
+            rlTransparent.setBackgroundResource(R.color.transparent)
+        } else {
+            llPreview.visibility = View.INVISIBLE
+            if(maintainTransparent) rlTransparent.setBackgroundResource(R.color.clear)
+            pbTwoStepGage.visibility = View.INVISIBLE
+            pbTwoStepGage.progress = 0
+        }
     }
 
 

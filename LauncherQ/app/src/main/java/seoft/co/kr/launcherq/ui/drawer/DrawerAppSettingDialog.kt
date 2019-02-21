@@ -96,6 +96,12 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
             cb.invoke(DrawerAppSettingType.SET_HIDE)
             dismiss()
         }
+
+        tvRemove.setOnClickListener { v ->
+            cb.invoke(DrawerAppSettingType.SET_REMOVE)
+            dismiss()
+        }
+
     }
 
     enum class DrawerAppSettingType{
@@ -105,6 +111,7 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
         SET_LEFT,
         SET_RIGHT,
         SET_BOTTOM,
+        SET_REMOVE,
     }
 
 }

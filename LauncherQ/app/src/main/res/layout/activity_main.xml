@@ -17,19 +17,21 @@
     </data>
 
     <RelativeLayout
-            android:background="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.main.MainActivity">
 
+        <ImageView
+                app:bgImg="@{vm.bgBitmap}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
         <RelativeLayout
+                android:id="@+id/rlTransparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <ImageView
-                    app:bgImg="@{vm.bgBitmap}"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+
 
             <TextView
                     app:bgwi="@{vm.bgwi}"
@@ -74,9 +76,26 @@
                 android:layout_height="match_parent">
 
 
-            <!--app:aa="@{vm.curPosInOneStep}" app:bb="@{vm.lastestDir}" app:cc="@{vm.liveDataApps}"-->
-            <ImageView android:layout_width="100dp" android:layout_height="100dp" android:visibility="invisible"
-                       android:layout_centerHorizontal="true" android:layout_marginTop="100dp" android:id="@+id/ivPreview" />
+            <!-- [android:layout_height=180] is sum of child's height -->
+            <LinearLayout android:layout_width="300dp" android:layout_height="180dp" android:visibility="invisible"
+                          android:gravity="center_horizontal" android:background="@color/c2" android:orientation="vertical"
+                          android:layout_centerHorizontal="true" android:layout_marginTop="50dp" android:id="@+id/llPreview" >
+
+                <View android:layout_width="1dp" android:layout_height="40dp" />
+
+                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:id="@+id/ivPreview" />
+
+                <View android:layout_width="1dp" android:layout_height="8dp" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvPreview"
+                          android:textSize="16sp" android:textColor="@color/black" />
+
+                <View android:layout_width="1dp" android:layout_height="8dp" />
+
+                <ProgressBar android:layout_width="100dp" android:layout_height="8dp" android:id="@+id/pbTwoStepGage"
+                             android:max="99" style="?android:attr/progressBarStyleHorizontal" />
+
+            </LinearLayout>
 
             <RelativeLayout android:layout_width="300dp" android:layout_height="300dp" android:id="@+id/rlAppStarter"
                 android:visibility="invisible" app:step="@{vm.step}" app:stepView="@{stepView.APP_STARTER}"

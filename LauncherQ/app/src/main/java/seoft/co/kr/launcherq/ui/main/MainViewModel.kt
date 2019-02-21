@@ -38,7 +38,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     var gridCnt = 0
     var gridViewSize = 0
     var distance = 0 // = square of 1/2
-    var twoStepOpenInterval = 0 // 1 is 200ms
+    var twoStepOpenInterval = MutableLiveData<Int>() // 1 is 200ms
 
     override fun start() {
 
@@ -66,7 +66,8 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         gridCnt = repo.preference.getGridCount()
         gridViewSize = repo.preference.getGridViewSize()
         gridItemSize = gridViewSize.toPixel()/gridCnt
-        twoStepOpenInterval = repo.preference.getTwoStepOpenInterval()
+        twoStepOpenInterval.value = repo.preference.getTwoStepOpenInterval()
+
     }
 
     fun resetTwoStepValues(){

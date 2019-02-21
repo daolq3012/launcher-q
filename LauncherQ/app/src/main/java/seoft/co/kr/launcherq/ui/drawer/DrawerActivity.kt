@@ -6,6 +6,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Point
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -23,6 +24,7 @@ import seoft.co.kr.launcherq.ui.drawer.DrawerViewModel.DrawerMode
 import seoft.co.kr.launcherq.utill.i
 import seoft.co.kr.launcherq.utill.observeActMsg
 import seoft.co.kr.launcherq.utill.toast
+
 
 class DrawerActivity : AppCompatActivity() {
 
@@ -162,6 +164,16 @@ class DrawerActivity : AppCompatActivity() {
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_RIGHT -> startArrangeActivity(1,dApp)
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_BOTTOM -> startArrangeActivity(2,dApp)
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_LEFT -> startArrangeActivity(3,dApp)
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_REMOVE -> {
+
+
+                    val intent = Intent(Intent.ACTION_DELETE).
+                        apply {
+                            data = Uri.parse("package:${dApp.pkgName}")
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                    startActivity(intent)
+                }
 
             }
         }.show()

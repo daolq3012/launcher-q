@@ -105,6 +105,23 @@
             android:layout_height="wrap_content" />
 
 
+    <View
+            android:background="@color/c2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+    />
+
+    <TextView
+            android:id="@+id/tvRemove"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="앱 삭제"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
 
 
 
