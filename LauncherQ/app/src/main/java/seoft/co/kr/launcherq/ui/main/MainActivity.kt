@@ -333,6 +333,7 @@ class MainActivity : AppCompatActivity() {
      * block expert don't have useTwo(is null) when before process
      */
     fun openTwoStep(quickApp: QuickApp, isLongClick :Boolean = false) {
+
         turnOnPreview(false)
 
         vm.twoStepApp.set(quickApp)
@@ -489,11 +490,11 @@ class MainActivity : AppCompatActivity() {
         return super.onTouchEvent(event)
     }
 
-    fun intervalStart(){
+    fun intervalStart(passCurPosInOneStep :Boolean = false){
 
         pbTwoStepGage.progress = 0
-        pbTwoStepGage.visibility = View.INVISIBLE
-        curPosInOneStep = -1
+        pbTwoStepGage.visibility = View.GONE
+        if(passCurPosInOneStep) curPosInOneStep = -1
         befPosInOneStep = -1
         curPosKeepCnt = 0
         intervaling()
@@ -506,7 +507,7 @@ class MainActivity : AppCompatActivity() {
 
             if(curPosInOneStep == -1 || vm.liveDataApps.value!![curPosInOneStep].type == QuickAppType.EMPTY) {
                 turnOnPreview(false,false)
-                intervalStart()
+                intervalStart(false)
                 return@postDelayed
             }
 

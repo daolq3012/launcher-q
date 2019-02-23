@@ -55,7 +55,8 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                     // example ) 오전%%오후
                     val strs = etc.split("%%")
                     val sdf = SimpleDateFormat("a")
-                    val rst = if(sdf.format(Date()) == "AM") strs[0] else strs[1]
+                    val rst = if(sdf.format(Date()) == "AM" || sdf.format(Date()) == "오전") strs[0] else strs[1]
+
                     it.text = rst
                 }
                 WidgetInfoType.DATE -> {

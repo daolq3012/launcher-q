@@ -77,22 +77,17 @@
 
 
             <!-- [android:layout_height=180] is sum of child's height -->
-            <LinearLayout android:layout_width="300dp" android:layout_height="180dp" android:visibility="invisible"
-                          android:gravity="center_horizontal" android:background="@color/c2" android:orientation="vertical"
-                          android:layout_centerHorizontal="true" android:layout_marginTop="50dp" android:id="@+id/llPreview" >
+            <LinearLayout android:layout_width="160dp" android:layout_height="wrap_content" android:visibility="invisible"
+                          android:padding="20dp" android:layout_marginTop="50dp"
+                          android:gravity="center_horizontal" android:background="@drawable/layout_round_c2" android:orientation="vertical"
+                          android:layout_centerHorizontal="true" android:id="@+id/llPreview" >
 
-                <View android:layout_width="1dp" android:layout_height="40dp" />
-
-                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:id="@+id/ivPreview" />
-
-                <View android:layout_width="1dp" android:layout_height="8dp" />
-
+                <ImageView android:layout_width="50dp" android:layout_height="50dp" android:id="@+id/ivPreview" />
+                <View android:layout_width="1dp" android:layout_height="4dp" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvPreview"
-                          android:textSize="16sp" android:textColor="@color/black" />
-
-                <View android:layout_width="1dp" android:layout_height="8dp" />
-
-                <ProgressBar android:layout_width="100dp" android:layout_height="8dp" android:id="@+id/pbTwoStepGage"
+                          android:ellipsize="end" android:lines="1"
+                          android:textSize="12dp" android:textColor="@color/black" />
+                <ProgressBar android:layout_marginTop="4dp" android:layout_width="40dp" android:layout_height="6dp" android:id="@+id/pbTwoStepGage"
                              android:max="99" style="?android:attr/progressBarStyleHorizontal" />
 
             </LinearLayout>
