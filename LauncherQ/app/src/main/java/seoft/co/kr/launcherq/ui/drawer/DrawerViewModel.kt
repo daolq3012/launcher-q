@@ -1,14 +1,11 @@
 package seoft.co.kr.launcherq.ui.drawer
 
-import android.databinding.ObservableField
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
-import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.value
 
 class DrawerViewModel(val repo: Repo): ViewModelHelper() {
 

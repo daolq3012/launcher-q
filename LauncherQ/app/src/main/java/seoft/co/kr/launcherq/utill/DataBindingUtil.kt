@@ -18,9 +18,6 @@ import java.util.*
 @BindingAdapter("bgImg")
 fun setBgImg(imageView: ImageView, bitmap: Bitmap) { imageView.setImageBitmap(bitmap) }
 
-
-
-
 @BindingAdapter("bgwi","isUse","type")
 fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: WidgetInfoType) {
 

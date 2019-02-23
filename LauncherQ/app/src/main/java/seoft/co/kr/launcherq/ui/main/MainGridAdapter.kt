@@ -14,6 +14,7 @@ import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
+import seoft.co.kr.launcherq.utill.i
 import java.io.File
 import java.io.FileInputStream
 
@@ -21,6 +22,8 @@ import java.io.FileInputStream
  * need to insert pixel value into gridItemSize param
  */
 class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, val gridItemSize:Int, val curDir:Int, val cb:(CallbackMainGrid)->Unit) : BaseAdapter() {
+
+    val TAG = "MainGridAdapter#$#"
 
     override fun getView(pos: Int, view: View?, parent: ViewGroup?): View {
 
@@ -49,13 +52,12 @@ class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, va
 
 
         val params = RelativeLayout.LayoutParams(gridItemSize, gridItemSize)
-        item.ivEtc.layoutParams = params
         item.ivIcon.layoutParams = params
 
-        item.rlMainApp.setOnClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],false)) }
-        item.rlMainApp.setOnLongClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],true))
-        true
-        }
+        pos.i(TAG)
+        item.ivIcon.setOnClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],false)) }
+        item.ivIcon.setOnLongClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],true))
+        true }
 
         return item
     }
@@ -65,5 +67,6 @@ class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, va
     override fun getCount(): Int = qApps.count()
 
 }
+
 
 data class CallbackMainGrid(var quickApp: QuickApp, var isLongClick:Boolean)

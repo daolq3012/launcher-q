@@ -6,6 +6,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Point
 import android.graphics.Rect
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -21,9 +22,7 @@ import seoft.co.kr.launcherq.databinding.ActivityDrawerBinding
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
 import seoft.co.kr.launcherq.ui.drawer.DrawerViewModel.DrawerMode
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.observeActMsg
-import seoft.co.kr.launcherq.utill.toast
+import seoft.co.kr.launcherq.utill.*
 
 
 class DrawerActivity : AppCompatActivity() {
@@ -73,6 +72,7 @@ class DrawerActivity : AppCompatActivity() {
         windowManager.defaultDisplay.getRealSize( screenSize )
         viewPagerAdapter = DrawerPagerAdapter(recyclerViews)
         vpDrawer.adapter = viewPagerAdapter
+        rlRoot.background = BitmapDrawable(App.get.resources,SC.bgBitmap!!)
     }
 
 

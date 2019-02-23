@@ -5,7 +5,7 @@
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/ivIcon"/>
 
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/ivSelect"
-               android:src="@mipmap/ic_launcher" android:visibility="invisible"
+               android:src="@drawable/picker_img" android:visibility="invisible"
     />
 
 </RelativeLayout>

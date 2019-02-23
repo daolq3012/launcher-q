@@ -8,13 +8,16 @@ import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.InstalledAppUtil
+import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.toPixel
 
 class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     val TAG = "MainViewModel#$#"
 
-    val bgBitmap : ObservableField<Bitmap> by lazy { ObservableField(repo.backgroundRepo.loadBitmap()) }
+    val bgBitmap : ObservableField<Bitmap> by lazy { SC.bgBitmap = repo.backgroundRepo.loadBitmap()
+        ObservableField(SC.bgBitmap!!)
+    }
     val bgwi : ObservableField<BackgroundWidgetInfos> by lazy { ObservableField(repo.preference.getBgWidgetInfos()) }
 
     val useTime : ObservableField<Boolean> by lazy { ObservableField(repo.preference.getBgTimeUse()) }
@@ -88,7 +91,10 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     }
 
-    fun resetBgBitmap(){ bgBitmap.set(repo.backgroundRepo.loadBitmap()) }
+    fun resetBgBitmap(){
+        SC.bgBitmap = repo.backgroundRepo.loadBitmap()
+        bgBitmap.set(SC.bgBitmap)
+    }
 
     fun resetBgWidgets(){
         repo.preference.run {

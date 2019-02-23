@@ -10,13 +10,13 @@
     </data>
 
     <RelativeLayout
-            android:background="@color/gray"
+            android:id="@+id/rlRoot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.drawer.DrawerActivity">
 
-
         <LinearLayout
+                android:background="@color/transparent"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

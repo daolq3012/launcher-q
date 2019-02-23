@@ -46,7 +46,8 @@
 
         <activity
                 android:name=".ui.drawer.DrawerActivity"
-                android:windowSoftInputMode="stateHidden"/>
+                android:windowSoftInputMode="stateHidden|stateVisible|adjustPan"
+                />
         <activity android:name=".ui.arrange.ArrangeActivity">
         </activity>
         <activity android:name=".ui.select.SelectActivity">

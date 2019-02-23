@@ -45,7 +45,7 @@ class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>,
 
         } else {
             when (qApps[pos].type) {
-                QuickAppType.EMPTY -> item.ivIcon.setImageResource(R.drawable.ic_close_white)
+                QuickAppType.EMPTY -> item.ivIcon.setImageResource(R.drawable.ic_dot_black)
                 QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_green)
                 QuickAppType.ONE_APP, QuickAppType.TWO_APP -> item.ivIcon.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
                 QuickAppType.EXPERT -> item.ivIcon.setImageResource(R.drawable.ic_build_orange)

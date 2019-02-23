@@ -123,19 +123,22 @@ class MainActivity : AppCompatActivity() {
             vm.gridItemSize,
             vm.lastestDir
         ){
-            if(it.isLongClick)
+            if(it.isLongClick) {
                 when (it.quickApp.type) {
 
-                    QuickAppType.ONE_APP -> if(getShortcutFromApp(it.quickApp.commonApp.pkgName).isNotEmpty()) openTwoStep(it.quickApp, true)
+                    QuickAppType.ONE_APP -> {
+                        if (getShortcutFromApp(it.quickApp.commonApp.pkgName).isNotEmpty()) openTwoStep(it.quickApp,true)
+                        else openArrangeActivityWithDir()
+                    }
                     QuickAppType.FOLDER, QuickAppType.TWO_APP -> openTwoStep(it.quickApp, true)
                     QuickAppType.EXPERT -> {
-                        if(it.quickApp.expert!!.useTwo == null) openArrangeActivityWithDir()
+                        if (it.quickApp.expert!!.useTwo == null) openArrangeActivityWithDir()
                         else openTwoStep(it.quickApp, true)
                     }
                     else -> openArrangeActivityWithDir()
                 }
-            else
-                runOneStepApp(it.quickApp)
+            }
+            else runOneStepApp(it.quickApp)
         }
     }
 
@@ -176,8 +179,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 } else {
-                    "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName}".i(TAG)
-                    "quickApp.commonApp.detailName : ${quickApp.commonApp.detailName}".i(TAG)
+                    "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName}  quickApp.commonApp.detailName : ${quickApp.commonApp.detailName}".i(TAG)
                     launchApp(quickApp.commonApp.pkgName)
                 }
 
@@ -381,14 +383,6 @@ class MainActivity : AppCompatActivity() {
         if(SC.needResetTwoStepSetting) resetTwoStepSetting()
 
     }
-
-//    override fun onStop() {
-//        super.onStop()
-//
-//        unregisterReceiver(timeReceiver)
-//    }
-//    on
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
