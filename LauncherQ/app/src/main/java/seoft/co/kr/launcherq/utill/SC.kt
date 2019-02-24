@@ -29,6 +29,7 @@ class SC{
         var bgBitmap : Bitmap? = null
 
 
+
     }
 
 

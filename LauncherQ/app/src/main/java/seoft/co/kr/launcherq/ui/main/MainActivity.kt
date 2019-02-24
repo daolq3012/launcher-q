@@ -64,7 +64,8 @@ class MainActivity : AppCompatActivity() {
         val launcherApps : LauncherApps by lazy { App.get.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps }
     }
 
-    private val timeReceiver :  TimeReceiver by lazy { TimeReceiver() }
+    private val timeReceiver = TimeReceiver()
+    private val packageReceiver = PackageReceiver()
 
     /**
      * DIRECT USE XML IDs
@@ -403,9 +404,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        registerReceiver(timeReceiver, IntentFilter().apply {
-            addAction(Intent.ACTION_TIME_TICK)
-        })
+        registBroadcast()
 
         devicePolicyManager = applicationContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
         val cn = ComponentName(applicationContext, ShutdownConfigAdminReceiver::class.java)
@@ -415,6 +414,24 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, 0)
         }
 
+    }
+
+    fun registBroadcast(){
+        registerReceiver(timeReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
+        registerReceiver(packageReceiver, IntentFilter().apply {
+            addAction(Intent.ACTION_PACKAGE_ADDED)
+            addAction(Intent.ACTION_PACKAGE_INSTALL)
+            addAction(Intent.ACTION_PACKAGE_REMOVED)
+            addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED)
+            addDataScheme("package")
+        })
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(timeReceiver!=null) unregisterReceiver(timeReceiver)
+        if(packageReceiver!=null) unregisterReceiver(packageReceiver)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

@@ -70,12 +70,12 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <View style="@style/HorizontalGrayLineWithLeftRightMargin" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" />
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
 
     <TextView
             android:id="@+id/tvOrder"
             android:paddingTop="17dp"
-            android:paddingBottom="17dp"
+            android:paddingBottom="12dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
@@ -87,6 +87,8 @@
 
     <TextView
             android:id="@+id/tvHide"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
@@ -98,6 +100,8 @@
 
     <TextView
             android:id="@+id/tvRemove"
+            android:paddingTop="12dp"
+            android:paddingBottom="17dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"

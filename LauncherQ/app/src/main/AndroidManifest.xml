@@ -23,6 +23,9 @@
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.main.MainActivity"
                   android:theme="@style/AppThemeNoActionBar"
+                  android:launchMode="singleTask"
+                  android:clearTaskOnLaunch="true"
+                  android:resumeWhilePausing="true"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -48,13 +51,12 @@
                 android:name=".ui.drawer.DrawerActivity"
                 android:windowSoftInputMode="stateHidden|stateVisible|adjustPan"
                 />
-        <activity android:name=".ui.arrange.ArrangeActivity">
-        </activity>
-        <activity android:name=".ui.select.SelectActivity">
-        </activity>
+
+        <activity android:name=".ui.arrange.ArrangeActivity" />
+        <activity android:name=".ui.select.SelectActivity" />
         <activity android:name=".ui.arrange.ExpertSettingActivity"
-                  android:windowSoftInputMode="adjustResize" >
-        </activity>
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustResize" />
 
         <receiver android:name=".utill.ShutdownConfigAdminReceiver"
                   android:label="@string/sample_device_admin"
@@ -64,6 +66,17 @@
                        android:resource="@xml/device_turn_off" />
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".utill.PackageReceiver">
+            <intent-filter android:priority="999" >
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
 

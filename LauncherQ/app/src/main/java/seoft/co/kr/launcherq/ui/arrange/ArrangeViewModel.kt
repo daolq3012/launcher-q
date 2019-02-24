@@ -155,15 +155,16 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     fun moveApp(toPos: Int) {
         val changingQuickApp = repo.preference.getQuickApps(moveBefDir)[moveBefPos]
 
-        if(changingQuickApp.type == QuickAppType.FOLDER && liveDataApps.value!![toPos].type == QuickAppType.FOLDER ) {
-            "폴더안에 폴더를 넣을 수 없습니다".toast()
-            cancelMoveApp()
-            return
-        } else if (changingQuickApp.type == QuickAppType.EXPERT && liveDataApps.value!![toPos].type == QuickAppType.FOLDER ) {
-            "폴더안에 전문가모드는 폴더안에 넣을 수 없습니다".toast()
+        if(
+            (changingQuickApp.type == QuickAppType.FOLDER && liveDataApps.value!![toPos].type == QuickAppType.FOLDER) ||
+            (changingQuickApp.type == QuickAppType.EXPERT && liveDataApps.value!![toPos].type == QuickAppType.FOLDER) ||
+            (changingQuickApp.commonApp.isExcept && liveDataApps.value!![toPos].type == QuickAppType.FOLDER)
+        ) {
+            "해당 타입은 폴더안에 넣을 수 없습니다".toast()
             cancelMoveApp()
             return
         }
+
 
         if(repo.preference.getQuickApps(moveBefDir)[moveBefPos].hasImg) {
             // file manage ref : https://stackoverflow.com/questions/9292954/how-to-make-a-copy-of-a-file-in-android
