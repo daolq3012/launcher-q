@@ -2,88 +2,8 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="300dp" android:layout_height="match_parent"
+        android:background="@drawable/layout_round10_thick_white"
         android:orientation="vertical" >
-
-
-    <TableLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-            <View
-                    android:background="#456456"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            <GridView
-                    android:background="#123123"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            <View
-                    android:background="#3e3e3e"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-        </TableRow>
-
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-            <GridView
-                    android:background="#473737"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            <View
-                    android:background="#8a8a8a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            <GridView
-                    android:background="#e3e3e3"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-        </TableRow>
-
-
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-            <View
-                    android:background="#121212"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            <GridView
-                    android:background="#566567"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            <View
-                    android:background="#ababab"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-        </TableRow>
-    </TableLayout>
-
 
     <TableLayout
             android:layout_width="match_parent"
@@ -91,6 +11,7 @@
         <TableRow>
 
             <TextView
+                    android:textColor="@color/gray_for_font"
                     android:id="@+id/tvBgScreenSetting"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
@@ -101,13 +22,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-            <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/c2"
-            />
+            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/gray_for_line" />
 
             <TextView
+                    android:textColor="@color/gray_for_font"
                     android:id="@+id/tvBgEtcSetting"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
@@ -120,19 +38,13 @@
 
 
         </TableRow>
-
-        <TableRow
-                android:background="@color/c2" >
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-            />
-
+        <TableRow android:background="@color/gray_for_line" >
+            <View android:layout_width="match_parent" android:layout_height="1dp" />
         </TableRow>
         <TableRow>
 
             <TextView
+                    android:textColor="@color/gray_for_font"
                     android:id="@+id/tvThemeSetting"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
@@ -143,13 +55,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-            <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/c2"
-            />
+            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/gray_for_line" />
 
             <TextView
+                    android:textColor="@color/gray_for_font"
                     android:id="@+id/tvLauncherSetting"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
@@ -159,8 +68,6 @@
                     android:text="런처 설정"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-
         </TableRow>
     </TableLayout>
 

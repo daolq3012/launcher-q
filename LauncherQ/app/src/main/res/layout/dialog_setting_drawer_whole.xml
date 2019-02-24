@@ -4,19 +4,18 @@
         android:layout_width="match_parent" android:layout_height="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
         android:minWidth="250dp" android:gravity="center"
+        android:background="@drawable/layout_round10_thick_white"
         android:orientation="vertical">
 
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="17dp"
-              android:text="앱 배치 ( 세로 * 가로 )" android:textSize="14dp" />
+              android:textColor="@color/gray_for_font" android:text="앱 배치 ( 세로 * 가로 )" android:textSize="14dp" />
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="15dp"
         android:orientation="horizontal"   android:gravity="center" >
 
-
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvNumY"
-                  tools:text="4" android:textSize="30dp" android:textColor="@color/black"
-                  android:paddingLeft="20dp"
+                  tools:text="4" android:textSize="30dp" android:textColor="@color/black" android:paddingLeft="20dp"
                   android:paddingRight="20dp" />
 
         <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -29,26 +28,16 @@
 
     </LinearLayout>
 
-    <View android:background="@color/c2" android:layout_width="match_parent" android:layout_height="1dp" />
-
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="17dp"
-              android:text="" android:id="@+id/tvHide" android:textSize="14dp"  />
+              android:textColor="@color/gray_for_font" android:text="" android:id="@+id/tvHide" android:textSize="14dp"  />
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
 
-    <View android:background="@color/c2" android:layout_width="match_parent" android:layout_height="1dp" />
-
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal"   android:gravity="right" >
-
-        <TextView
-                android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                android:text="확인" android:id="@+id/tvOk" android:textColor="@color/black" android:textSize="14dp" />
-
-        <TextView
-                android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                android:text="취소" android:id="@+id/tvCancel" android:textColor="@color/black" android:textSize="14dp" />
-
-    </LinearLayout>
+    <RelativeLayout style="@style/DialogBottomRelativeLayout">
+        <View style="@style/DialogBottomMidLineView" android:id="@+id/midLine"  />
+        <TextView style="@style/DialogBottomButton" android:layout_toStartOf="@id/midLine" android:text="확인" android:id="@+id/tvOk" />
+        <TextView style="@style/DialogBottomButton" android:layout_toEndOf="@id/midLine" android:text="취소" android:id="@+id/tvCancel" />
+    </RelativeLayout>
 
 
 

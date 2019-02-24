@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.View
 import android.widget.*
+import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.data.model.QuickApp
@@ -104,60 +105,60 @@ fun setOnOffButton(bt: Button, type: WidgetInfoType, useTime:Boolean,useAmpm:Boo
 @BindingAdapter("tv","pickedApp","arrangeBottoms")
 fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms: ArrangeViewModel.ArrangeBottoms) {
 
+    val oColor = Color.BLACK
+    val xColor = App.get.getColor(R.color.gray_for_line)
+
     if(pickedApp.commonApp.pkgName == ArrangeViewModel.NONE_PICK) {
         ll.isClickable = false
-        tv.setTextColor(Color.RED)
+        tv.setTextColor(xColor)
         return
     }
 
     when(arrangeBottoms) {
         // when empty
-        ArrangeViewModel.ArrangeBottoms.ADD,ArrangeViewModel.ArrangeBottoms.FOLDER -> {
-            if(pickedApp.type == QuickAppType.EMPTY) {
+        ArrangeViewModel.ArrangeBottoms.ADD, ArrangeViewModel.ArrangeBottoms.FOLDER -> {
+            if(pickedApp.type == QuickAppType.EMPTY || pickedApp.type == QuickAppType.FOLDER) {
                 ll.isClickable = true
-                tv.setTextColor(Color.GREEN)
-            } else if(pickedApp.type == QuickAppType.FOLDER) {
-                ll.isClickable = true
-                tv.setTextColor(Color.GREEN)
+                tv.setTextColor(oColor)
             } else {
                 ll.isClickable = false
-                tv.setTextColor(Color.RED)
+                tv.setTextColor(xColor)
             }
         }
         ArrangeViewModel.ArrangeBottoms.DELETE, ArrangeViewModel.ArrangeBottoms.MOVE -> {
             if(pickedApp.type == QuickAppType.EMPTY) {
                 ll.isClickable = false
-                tv.setTextColor(Color.RED)
+                tv.setTextColor(xColor)
             } else {
                 ll.isClickable = true
-                tv.setTextColor(Color.GREEN)
+                tv.setTextColor(oColor)
             }
         }
         ArrangeViewModel.ArrangeBottoms.TWO_STEP -> {
             if(pickedApp.type == QuickAppType.EMPTY || pickedApp.type == QuickAppType.FOLDER) {
                 ll.isClickable = false
-                tv.setTextColor(Color.RED)
+                tv.setTextColor(xColor)
             } else {
                 ll.isClickable = true
-                tv.setTextColor(Color.GREEN)
+                tv.setTextColor(oColor)
             }
         }
         ArrangeViewModel.ArrangeBottoms.EXPERT -> {
             if(pickedApp.type == QuickAppType.FOLDER){
                 ll.isClickable = false
-                tv.setTextColor(Color.RED)
+                tv.setTextColor(xColor)
             } else {
                 ll.isClickable = true
-                tv.setTextColor(Color.GREEN)
+                tv.setTextColor(oColor)
             }
         }
         ArrangeViewModel.ArrangeBottoms.ICON -> {
             if(pickedApp.type == QuickAppType.EMPTY || pickedApp.type == QuickAppType.FOLDER) {
                 ll.isClickable = false
-                tv.setTextColor(Color.RED)
+                tv.setTextColor(xColor)
             } else {
                 ll.isClickable = true
-                tv.setTextColor(Color.GREEN)
+                tv.setTextColor(oColor)
             }
         }
     }

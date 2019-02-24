@@ -7,78 +7,47 @@
         android:orientation="vertical"
         tools:context=".ui.arrange.ExpertSettingActivity">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" >
 
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="확인"
-                  android:gravity="center" android:id="@+id/tvOk"
-                  android:padding="10dp" android:layout_weight="1" />
-
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="취소"
-                  android:gravity="center" android:id="@+id/tvCancel"
-                  android:padding="10dp" android:layout_weight="1" />
-
-    </LinearLayout>
+    <RelativeLayout style="@style/DialogBottomRelativeLayout">
+        <View style="@style/DialogBottomMidLineView" android:id="@+id/midLine"  />
+        <TextView style="@style/DialogBottomButton" android:layout_toStartOf="@id/midLine" android:text="확인" android:id="@+id/tvOk" />
+        <TextView style="@style/DialogBottomButton" android:layout_toEndOf="@id/midLine" android:text="취소" android:id="@+id/tvCancel" />
+    </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
                                                 android:layout_height="match_parent">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" >
 
-
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="name" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="name" />
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etName" />
-
-
-
-            <!---->
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="action" />
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ACTION_DEFAULT"
-                      android:padding="5dp"  android:id="@+id/tvAction" />
-
-<!---->
-
-
-
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="uri" />
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etUri" />
-
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="type" />
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etType" />
-
-            <!---->
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="category" />
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CATEGORY_DEFAULT\n추가하기"
-                      android:padding="5dp"  android:id="@+id/tvCategory" />
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="setFlag" />
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="FLAG_GRANT_READ_URL_PERMISSION"
-                      android:padding="5dp"  android:id="@+id/tvSetFlag" />
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="addFlag" />
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="추가하기"
-                      android:padding="5dp"  android:id="@+id/tvAddFlag" />
-
-<!---->
-
-
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="pkgName" />
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etPkgName" />
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="pkgName(componentName)" />
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etCnPkgName" />
-
-
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="cls(componentName)" />
-            <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/etCnCls" />
-
-
-
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="action" />
+            <TextView style="@style/ExpertSettingContentView" android:text="ACTION_DEFAULT" android:id="@+id/tvAction" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="uri" />
+            <EditText style="@style/ExpertSettingContentView" android:id="@+id/etUri" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="type" />
+            <EditText style="@style/ExpertSettingContentView" android:id="@+id/etType" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="category" />
+            <TextView style="@style/ExpertSettingContentView" android:text="CATEGORY_DEFAULT\n추가하기" android:id="@+id/tvCategory" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="setFlag" />
+            <TextView style="@style/ExpertSettingContentView" android:text="FLAG_ACTIVITY_NEW_TASK" android:id="@+id/tvSetFlag" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="addFlag" />
+            <TextView style="@style/ExpertSettingContentView" android:text="추가하기" android:id="@+id/tvAddFlag" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="pkgName" />
+            <EditText style="@style/ExpertSettingContentView" android:id="@+id/etPkgName" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="pkgName(componentName)" />
+            <EditText style="@style/ExpertSettingContentView" android:id="@+id/etCnPkgName" />
+            <View style="@style/HorizontalGrayLineWithAllMargin" />
+            <TextView style="@style/ExpertSettingTitleTextview" android:text="cls(componentName)" />
+            <EditText style="@style/ExpertSettingContentView" android:id="@+id/etCnCls" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

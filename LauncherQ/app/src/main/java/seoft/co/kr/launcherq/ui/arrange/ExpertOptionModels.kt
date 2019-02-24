@@ -10,7 +10,7 @@ import seoft.co.kr.launcherq.data.model.ExpertOption
 class ExpertOptionModels {
 
     val actionDefault = Intent.ACTION_DEFAULT
-    val flagDefault = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    val flagDefault = Intent.FLAG_ACTIVITY_NEW_TASK
     val categoryDefault = Intent.CATEGORY_DEFAULT
 
     val actions = arrayListOf(

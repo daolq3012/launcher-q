@@ -1,56 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="300dp" android:layout_height="match_parent"
-        android:padding="5dp"
+        android:layout_width="200dp" android:layout_height="match_parent"
         android:orientation="vertical" >
 
     <!-- -->
 
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:gravity="center" android:text="ONE STEP" android:textSize="30dp" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/black"
+              android:gravity="center" android:text="ONE STEP" android:textSize="26dp" />
+
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
 
     <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
         <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddOne" />
         <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditOne" />
         <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelOne" />
-
     </LinearLayout>
-    <Space android:layout_width="1dp" android:layout_height="20dp"/>
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:gravity="center" android:text="TWO STEP" android:textSize="30dp" />
+
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/black"
+              android:gravity="center" android:text="TWO STEP" android:textSize="26dp" />
+
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
+
     <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
-        <TextView style="@style/ExpertStatusDialogTextView" android:text="1" />
+        <!--<TextView style="@style/ExpertStatusDialogTextView" android:text="1" />-->
         <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo0" />
         <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo0" />
         <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo0" />
     </LinearLayout>
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
     <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
-        <TextView style="@style/ExpertStatusDialogTextView" android:text="2" />
+        <!--<TextView style="@style/ExpertStatusDialogTextView" android:text="2" />-->
         <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo2"/>
         <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo2" />
         <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo2" />
     </LinearLayout>
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
     <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
-        <TextView style="@style/ExpertStatusDialogTextView" android:text="3" />
+        <!--<TextView style="@style/ExpertStatusDialogTextView" android:text="3" />-->
         <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo1" />
         <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo1" />
         <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo1" />
     </LinearLayout>
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
     <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
-        <TextView style="@style/ExpertStatusDialogTextView" android:text="4" />
+        <!--<TextView style="@style/ExpertStatusDialogTextView" android:text="4" />-->
         <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo3" />
         <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo3" />
         <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo3" />
     </LinearLayout>
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
     <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
-        <TextView style="@style/ExpertStatusDialogTextView" android:text="5" />
+        <!--<TextView style="@style/ExpertStatusDialogTextView" android:text="5" />-->
         <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo4" />
         <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo4" />
         <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo4" />
     </LinearLayout>
+    <View style="@style/HorizontalGrayLineWithLeftRightMargin" />
     <LinearLayout style="@style/ExpertStatusDialogLinearLayout" >
-        <TextView style="@style/ExpertStatusDialogTextView" android:text="6" />
+        <!--<TextView style="@style/ExpertStatusDialogTextView" android:text="6" />-->
         <TextView style="@style/ExpertStatusDialogTextViewAdd" android:id="@+id/tvAddTwo5" />
         <TextView style="@style/ExpertStatusDialogTextViewEdit" android:id="@+id/tvEditTwo5" />
         <TextView style="@style/ExpertStatusDialogTextViewDelete" android:id="@+id/tvDelTwo5" />

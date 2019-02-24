@@ -123,7 +123,7 @@ class ExpertSettingActivity : AppCompatActivity() {
                 .apply { add(0,ExpertOption("SET DEFAULT",eos.flagDefault.toString()) )}) {
 
                 eomSetFlag = it
-                tvSetFlag.text = if(eomSetFlag.result.toInt() == eos.flagDefault) "FLAG_GRANT_READ_URI_PERMISSION" else eomSetFlag.name
+                tvSetFlag.text = if(eomSetFlag.result.toInt() == eos.flagDefault) "FLAG_ACTIVITY_NEW_TASK" else eomSetFlag.name
             }.apply { show() }
         }
 

@@ -38,7 +38,7 @@ data class CustomIntent(
     var uriData:String? = null,
     var type:String? = null,
     var categorys: MutableList<String> = arrayListOf(CATEGORY_DEFAULT),
-    var flag : Int = FLAG_GRANT_READ_URI_PERMISSION,
+    var flag : Int = FLAG_ACTIVITY_NEW_TASK,
     var addFlag : MutableList<Int>? = null,
     var pkgName :String ? = null,
     var customComponentName:CustomComponentName? = null

@@ -10,4 +10,7 @@
 
     <dimen name="two_step_item_height">40dp</dimen>      <!--  = two_step_bg_height / 6 -->
 
+    <dimen name="hori_line_le_ri_margin">5dp</dimen>
+
+
 </resources>
