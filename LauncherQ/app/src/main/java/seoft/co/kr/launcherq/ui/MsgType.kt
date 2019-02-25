@@ -14,6 +14,5 @@ enum class MsgType {
     PICK_TWO_STEP_ITEM,
     OPEN_ICON_SETTER,
     OPEN_EXPERT_STATUS,
-//    REFRESH_SETTING,
 }
 

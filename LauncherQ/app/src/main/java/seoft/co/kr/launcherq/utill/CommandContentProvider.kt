@@ -90,7 +90,6 @@ class CommandContentProvider : ContentProvider(){
         when(MATCHER.match(uri)){
             CODE_COMMAND_DIR -> throw IllegalArgumentException("Invalid URI, cannot insert with ID: $uri")
             CODE_COMMAND_ITEM -> {
-//                val cnt = Repo.localDBRepo.commandDao().deleteById(ContentUris.parseId(uri))
                 val cnt = Repo.localDBRepo.commandDao().deleteByPkgName(uri.getQueryParameter(Command.COLUMN_PKG_NAME))
                 context.contentResolver.notifyChange(uri,null)
                 SC.needResetTwoStepSetting = true

@@ -151,7 +151,6 @@ class ArrangeActivity : AppCompatActivity() {
                 vm.insertingApp = CommonApp(
                     getStringExtra(PKG_NAME),
                     getStringExtra(LABEL),
-//                    getStringExtra(DETAIL_NAME),
                     false)
             }
         }
@@ -187,7 +186,6 @@ class ArrangeActivity : AppCompatActivity() {
                     CommonApp(
                         getStringExtra(PKG_NAME),
                         getStringExtra(LABEL),
-//                        getStringExtra(DETAIL_NAME),
                         false,
                         getBooleanExtra(IS_EXCEPT,false)
                     ))
@@ -223,7 +221,6 @@ class ArrangeActivity : AppCompatActivity() {
         val DIR = "DIR"
         val PKG_NAME = "PKG_NAME"
         val LABEL = "LABEL"
-        val DETAIL_NAME = "DETAIL_NAME"
         val IS_EXCEPT = "IS_EXCEPT"
     }
 

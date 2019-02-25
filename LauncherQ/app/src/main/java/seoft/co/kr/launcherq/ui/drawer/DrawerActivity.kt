@@ -100,22 +100,8 @@ class DrawerActivity : AppCompatActivity() {
 
                 rv.layoutManager = lm
                 rv.adapter = appAdapter
-//            rv.addItemDecoration(SPID(100))
                 rv.addItemDecoration(GridSpacingItemDecoration(it.columnNum, 30))
 
-//                rv.setOnTouchListener { view, motionEvent ->
-//                    when(motionEvent.action) {
-//                        MotionEvent.ACTION_DOWN -> {
-//                            befY = motionEvent.y.toInt()
-//                        }
-//                        MotionEvent.ACTION_UP -> {
-//                            afterY = motionEvent.y.toInt()
-//                            if(befY - afterY > screenSize.y / FINISH_ACTION_SENSITIVE )
-//                                finish()
-//                        }
-//                    }
-//                    false
-//                }
 
                 recyclerViews.add(rv)
             }
@@ -186,7 +172,6 @@ class DrawerActivity : AppCompatActivity() {
                 putExtra(ArrangeActivity.DIR,dir)
                 putExtra(ArrangeActivity.PKG_NAME,app.pkgName)
                 putExtra(ArrangeActivity.LABEL,app.label)
-//                putExtra(ArrangeActivity.DETAIL_NAME,app.detailName)
             }
 
         startActivity(intent)
@@ -228,24 +213,10 @@ class DrawerActivity : AppCompatActivity() {
                     .toMutableList()
 
                 vm.loadDrawerList()
-            }/* else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.i(TAG, "onActivityResult: user canceled the (un)install")
-            } else if (resultCode == Activity.RESULT_FIRST_USER) {
-                Log.i(TAG, "onActivityResult: failed to (un)install")
-            }*/
+            }
         }
     }
 
-//    override fun onRestart() {
-//        super.onRestart()
-//
-//        vm.onRestartInVM()
-//    }
-
-//    override fun finish() {
-//        super.finish()
-//        overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
-//    }
 
     override fun onBackPressed() {
 
@@ -264,16 +235,16 @@ class DrawerActivity : AppCompatActivity() {
     ) : RecyclerView.ItemDecoration() {
 
         override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            val position = parent.getChildAdapterPosition(view) // item position
-            val column = position % spanCount // item column
+            val position = parent.getChildAdapterPosition(view)
+            val column = position % spanCount
 
-            outRect.left = spacing - column * spacing / spanCount // spacing - column * ((1f / spanCount) * spacing)
-            outRect.right = (column + 1) * spacing / spanCount // (column + 1) * ((1f / spanCount) * spacing)
+            outRect.left = spacing - column * spacing / spanCount
+            outRect.right = (column + 1) * spacing / spanCount
 
-            if (position < spanCount) { // top edge
+            if (position < spanCount) {
                 outRect.top = spacing
             }
-            outRect.bottom = ( spacing * 1.6 ).toInt() // item bottom
+            outRect.bottom = ( spacing * 1.6 ).toInt()
         }
     }
 }

@@ -19,7 +19,6 @@ class DrawerAppSettingDialog(context:Context, val repo: Repo, val cb:(DrawerAppS
 
     val grids = mutableListOf<GridView>()
     val emptyTextViews = mutableListOf<TextView>()
-//    val cApps = mutableListOf<MutableList<CommonApp>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

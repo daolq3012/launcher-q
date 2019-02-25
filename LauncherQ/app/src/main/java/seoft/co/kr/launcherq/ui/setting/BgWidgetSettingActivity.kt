@@ -1,10 +1,8 @@
 package seoft.co.kr.launcherq.ui.setting
 
-import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -154,9 +152,6 @@ class BgWidgetSettingActivity : AppCompatActivity() {
             inputType = InputType.TYPE_CLASS_TEXT,
             text = befStr
         )
-
-
-
     }
 
     override fun onPause() {

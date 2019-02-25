@@ -21,4 +21,4 @@ enum class CAppException(val get:String, val rss:Int, val title:String){
 
 val SPLITTER = "#$#"
 fun CommonApp.toSaveString() = "${pkgName}${SPLITTER}${label}${SPLITTER}"
-fun String.toCommonApp() = CommonApp(this.split(SPLITTER)[0],this.split(SPLITTER)[1],/*this.split(SPLITTER)[2],*/false,false)
+fun String.toCommonApp() = CommonApp(this.split(SPLITTER)[0],this.split(SPLITTER)[1],false,false)

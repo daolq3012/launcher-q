@@ -61,13 +61,6 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
         }
 
-        override fun onResume() {
-            super.onResume()
-//            widgetPreferencesScreens[1].isEnabled = Repo.preference.getBgTimeUse()
-//            widgetPreferencesScreens[3].isEnabled = Repo.preference.getBgDateUse()
-
-        }
-
         fun initListener(){
             findPreference("simpleColor").setOnPreferenceClickListener { view ->
                 openColorSetting()
@@ -103,9 +96,6 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
 
         fun openColorSetting(){
-
-//            val deviceWidth = Repo.preference.getDeviceX()
-//            val deviceHeight = Repo.preference.getDeviceY()
 
             val pickedColor = Repo.preference.getBgImageColor()
 

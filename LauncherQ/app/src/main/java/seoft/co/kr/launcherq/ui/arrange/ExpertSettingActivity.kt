@@ -98,7 +98,7 @@ class ExpertSettingActivity : AppCompatActivity() {
         tvAction.setOnClickListener { v ->
             ExpertOptionDialog(this,eos.actions) {
                 eomAction = it
-                tvAction.text = /*if(eomAction.result == eos.actionDefault) "추가하기" else*/ eomAction.name
+                tvAction.text = eomAction.name
             }.apply { show() }
         }
 

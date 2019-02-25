@@ -52,7 +52,7 @@ class ExpertStatusDialog(context: Context, val quickApp: QuickApp, val cb:(Exper
 
                 it.forEachIndexed { i, customIntent ->
 
-                    if(customIntent == null/*.name.isNotEmpty()*/) {
+                    if(customIntent == null) {
                         tvAdds[i].visibility = View.VISIBLE
                         tvEdits[i].visibility = View.GONE
                         tvDels[i].visibility = View.GONE

@@ -20,7 +20,6 @@ class SC{
 
         val gson = Gson()
 
-//        var test =""
         lateinit var imgDir:String
 
         var qApp4SetExpert : QuickApp? = null
@@ -29,7 +28,7 @@ class SC{
 
         lateinit var drawerApps : MutableList<CommonApp>
 
-        val EMPTY_QUICK_APP = QuickApp(CommonApp("","",/*"",*/false), QuickAppType.EMPTY)
+        val EMPTY_QUICK_APP = QuickApp(CommonApp("","",false), QuickAppType.EMPTY)
 
     }
 

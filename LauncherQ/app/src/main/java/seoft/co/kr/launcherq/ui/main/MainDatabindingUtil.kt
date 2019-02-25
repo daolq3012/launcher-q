@@ -36,9 +36,6 @@ fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int, two
             with(twoStepApp.expert!!.useTwo) {
                 ll.visibility = if(this!![pos] != null) View.VISIBLE else View.GONE
             }
-
-//            ll.visibility = if(twoStepApp.expert!!.useTwo!!.size > pos) View.VISIBLE
-//            else View.GONE
         }
     }
 }
@@ -100,8 +97,3 @@ fun setVisibilty(view:View, step:Step, stepView:StepView) {
         }
     }
 }
-
-//@BindingAdapter("aa","bb","cc")
-//fun asdf(iv: ImageView, curPosInOneStep:Int, dir:Int, liveDataApps:MutableList<QuickApp>){
-//
-//}

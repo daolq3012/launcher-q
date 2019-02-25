@@ -344,7 +344,7 @@ class MainActivity : AppCompatActivity() {
 
         val twoStepItemCnt = when (quickApp.type) {
             QuickAppType.FOLDER -> quickApp.dir.size
-            QuickAppType.TWO_APP -> vm.getTwoAppLaunchListAndSet(quickApp.commonApp.pkgName).size // TODO
+            QuickAppType.TWO_APP -> vm.getTwoAppLaunchListAndSet(quickApp.commonApp.pkgName).size
             QuickAppType.EXPERT -> quickApp.expert!!.useTwo!!.count { it != null }
             QuickAppType.ONE_APP -> getShortcutFromApp(quickApp.commonApp.pkgName).size
             else -> 0

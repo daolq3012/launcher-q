@@ -7,9 +7,3 @@ data class DrawerLoadInfo(
     val itemGridNum:Int,
     val columnNum:Int
 )
-
-//data class DrawerSettingInfo(
-//    val xNum:Int,
-//    val yNum:Int
-//
-//)

@@ -137,7 +137,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
         return packageManager.queryIntentActivities(intent,MATCH_ALL)
             .map { it.activityInfo }
-            .map { CommonApp( it.packageName, it.loadLabel(packageManager).toString()/*, it.name, it.loadIcon(packageManager)*/, false ) }
+            .map { CommonApp( it.packageName, it.loadLabel(packageManager).toString(), false ) }
             .toMutableList()
     }
 
