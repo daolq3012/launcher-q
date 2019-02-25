@@ -1,5 +1,6 @@
 package seoft.co.kr.launcherq.ui.drawer
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -28,6 +30,8 @@ import seoft.co.kr.launcherq.utill.*
 class DrawerActivity : AppCompatActivity() {
 
     val TAG = "DrawerActivity#$#"
+    val UNINSTALL_REQUEST_CODE = 101
+    lateinit var uninstallingPkgName : String
 
     private lateinit var binding: ActivityDrawerBinding
 
@@ -58,9 +62,6 @@ class DrawerActivity : AppCompatActivity() {
             }
         })
 
-
-
-
         initViews()
         vm.start()
     }
@@ -81,10 +82,8 @@ class DrawerActivity : AppCompatActivity() {
         recyclerViews.clear()
 
         drawerLoadInfo.let {
-            val pageSize = if (it.dApps.size % it.itemGridNum == 0)
-                it.dApps.size / it.itemGridNum
-            else
-                it.dApps.size / it.itemGridNum + 1
+            val pageSize = if (it.dApps.size % it.itemGridNum == 0) it.dApps.size / it.itemGridNum
+            else it.dApps.size / it.itemGridNum + 1
 
             for (i in 0 until pageSize) {
                 val rv = RecyclerView(this)
@@ -164,20 +163,20 @@ class DrawerActivity : AppCompatActivity() {
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_RIGHT -> startArrangeActivity(1,dApp)
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_BOTTOM -> startArrangeActivity(2,dApp)
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_LEFT -> startArrangeActivity(3,dApp)
-                DrawerAppSettingDialog.DrawerAppSettingType.SET_REMOVE -> {
-
-
-                    val intent = Intent(Intent.ACTION_DELETE).
-                        apply {
-                            data = Uri.parse("package:${dApp.pkgName}")
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
-                    startActivity(intent)
-                }
-
+                DrawerAppSettingDialog.DrawerAppSettingType.SET_REMOVE -> removeApp(dApp.pkgName)
             }
         }.show()
 
+    }
+
+    fun removeApp(pkgName:String) {
+        uninstallingPkgName = pkgName
+        val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE).
+            apply {
+                data = Uri.parse("package:$pkgName")
+                putExtra(Intent.EXTRA_RETURN_RESULT,true)
+            }
+        startActivityForResult(intent,UNINSTALL_REQUEST_CODE)
     }
 
     fun startArrangeActivity(dir:Int, app: CommonApp) {
@@ -187,7 +186,7 @@ class DrawerActivity : AppCompatActivity() {
                 putExtra(ArrangeActivity.DIR,dir)
                 putExtra(ArrangeActivity.PKG_NAME,app.pkgName)
                 putExtra(ArrangeActivity.LABEL,app.label)
-                putExtra(ArrangeActivity.DETAIL_NAME,app.detailName)
+//                putExtra(ArrangeActivity.DETAIL_NAME,app.detailName)
             }
 
         startActivity(intent)
@@ -217,11 +216,31 @@ class DrawerActivity : AppCompatActivity() {
         startActivity(packageManager.getLaunchIntentForPackage(cApp.pkgName))
     }
 
-    override fun onRestart() {
-        super.onRestart()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == UNINSTALL_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i(TAG, "onActivityResult: user accepted the (un)install")
 
-        vm.onRestartInVM()
+                // for prevent synchronized issue
+                SC.drawerApps = SC.drawerApps
+                    .filterNot { it.pkgName == uninstallingPkgName }
+                    .toMutableList()
+
+                vm.loadDrawerList()
+            }/* else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.i(TAG, "onActivityResult: user canceled the (un)install")
+            } else if (resultCode == Activity.RESULT_FIRST_USER) {
+                Log.i(TAG, "onActivityResult: failed to (un)install")
+            }*/
+        }
     }
+
+//    override fun onRestart() {
+//        super.onRestart()
+//
+//        vm.onRestartInVM()
+//    }
 
 //    override fun finish() {
 //        super.finish()
@@ -231,7 +250,7 @@ class DrawerActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         if(vm.drawerMode == DrawerMode.HIDE_MODE){
-            vm.loadDrawerList(false)
+            vm.loadDrawerList()
             vm.drawerMode = DrawerMode.LAUNCH_MODE
         }
         else

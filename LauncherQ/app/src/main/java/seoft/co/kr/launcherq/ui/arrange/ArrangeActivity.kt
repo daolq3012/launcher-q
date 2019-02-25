@@ -151,7 +151,7 @@ class ArrangeActivity : AppCompatActivity() {
                 vm.insertingApp = CommonApp(
                     getStringExtra(PKG_NAME),
                     getStringExtra(LABEL),
-                    getStringExtra(DETAIL_NAME),
+//                    getStringExtra(DETAIL_NAME),
                     false)
             }
         }
@@ -187,7 +187,7 @@ class ArrangeActivity : AppCompatActivity() {
                     CommonApp(
                         getStringExtra(PKG_NAME),
                         getStringExtra(LABEL),
-                        getStringExtra(DETAIL_NAME),
+//                        getStringExtra(DETAIL_NAME),
                         false,
                         getBooleanExtra(IS_EXCEPT,false)
                     ))

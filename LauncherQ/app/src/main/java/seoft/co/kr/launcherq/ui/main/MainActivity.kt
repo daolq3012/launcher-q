@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 } else {
-                    "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName}  quickApp.commonApp.detailName : ${quickApp.commonApp.detailName}".i(TAG)
+                    "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName} ".i(TAG)
                     launchApp(quickApp.commonApp.pkgName)
                 }
 
@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity() {
                 openTwoStep(quickApp)
             }
             QuickAppType.EXPERT -> {
-                if(quickApp.commonApp.pkgName != "" && quickApp.commonApp.detailName != "")
+                if(quickApp.commonApp.pkgName != "")
                     launchApp(quickApp.commonApp.pkgName)
                 else if(quickApp.expert!!.useOne != null) {
                     runExpertApp(quickApp.expert!!.useOne!!)
@@ -382,7 +382,6 @@ class MainActivity : AppCompatActivity() {
 
         if(SC.needResetUxSetting) resetUxSetting()
         if(SC.needResetTwoStepSetting) resetTwoStepSetting()
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

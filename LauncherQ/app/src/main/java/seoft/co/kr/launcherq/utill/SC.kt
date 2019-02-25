@@ -2,7 +2,9 @@ package seoft.co.kr.launcherq.utill
 
 import android.graphics.Bitmap
 import com.google.gson.Gson
+import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.data.model.QuickAppType
 
 class SC{
     companion object {
@@ -11,9 +13,6 @@ class SC{
 
         val ON_WIDGET = "ON"
         val OFF_WIDGET = "OFF"
-
-//        var ITEM_GRID_NUM = 15
-//        var NUMBER_OF_COLUMNS = 5
 
         var needResetBgSetting = false
         var needResetUxSetting = false
@@ -28,7 +27,9 @@ class SC{
 
         var bgBitmap : Bitmap? = null
 
+        lateinit var drawerApps : MutableList<CommonApp>
 
+        val EMPTY_QUICK_APP = QuickApp(CommonApp("","",/*"",*/false), QuickAppType.EMPTY)
 
     }
 

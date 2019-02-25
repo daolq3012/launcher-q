@@ -5,7 +5,9 @@ import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import seoft.co.kr.launcherq.data.model.CAppException
+import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.i
+
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -94,6 +96,19 @@ class ExampleInstrumentedTest {
          * abc
          */
 
+
+    }
+
+    @Test
+    fun t5(){
+
+        val pkgMng = App.get.getPackageManager()
+
+        val app = pkgMng.getApplicationInfo("com.google.android.music", 0)
+
+        val label = pkgMng.getApplicationLabel(app)
+
+        label.i(TAG)
 
     }
 

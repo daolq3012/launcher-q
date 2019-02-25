@@ -14,7 +14,6 @@ import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
 import java.io.File
 import java.io.FileInputStream
 
@@ -54,7 +53,6 @@ class MainGridAdapter(val context: Context, val qApps: MutableList<QuickApp>, va
         val params = RelativeLayout.LayoutParams(gridItemSize, gridItemSize)
         item.ivIcon.layoutParams = params
 
-        pos.i(TAG)
         item.ivIcon.setOnClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],false)) }
         item.ivIcon.setOnLongClickListener { _ -> cb.invoke(CallbackMainGrid(qApps[pos],true))
         true }

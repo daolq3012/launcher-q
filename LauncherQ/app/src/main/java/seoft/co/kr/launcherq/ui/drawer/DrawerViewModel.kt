@@ -1,35 +1,32 @@
 package seoft.co.kr.launcherq.ui.drawer
 
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
-import seoft.co.kr.launcherq.utill.InstalledAppUtil
-import seoft.co.kr.launcherq.utill.i
+import seoft.co.kr.launcherq.utill.SC
 
 class DrawerViewModel(val repo: Repo): ViewModelHelper() {
 
     val TAG = "DrawerViewModel#$#"
 
-    lateinit var drawerApps : MutableList<CommonApp>
+//    lateinit var drawerApps : MutableList<CommonApp>
     var drawerMode = DrawerMode.LAUNCH_MODE
 
     override fun start() {
-        isChangedAppsWithRefresh()
+//        isChangedAppsWithRefresh()
         loadDrawerList()
     }
 
-    fun onRestartInVM(){
-        if(isChangedAppsWithRefresh()){
-            loadDrawerList()
-        }
-    }
+//    fun onRestartInVM(){
+//        if(isChangedAppsWithRefresh()){
+//            loadDrawerList()
+//        }
+//    }
 
     fun loadDrawerList(isHideList:Boolean = false){
-
         toActMsg(MsgType.UPDATE_APPS,
             DrawerLoadInfo(
-                drawerApps
+                SC.drawerApps
                     .filter { it.isHide == isHideList  }
                     .toMutableList(),
                 repo.preference.getDrawerItemNum(),
@@ -38,46 +35,46 @@ class DrawerViewModel(val repo: Repo): ViewModelHelper() {
         )
     }
 
-    fun isChangedAppsWithRefresh() : Boolean {
-
-        val instApps = InstalledAppUtil().getInstalledApps()
-        drawerApps = repo.preference.getDrawerApps()
-        var isChanged = false
-        var tmpRst : Boolean
-
-        // remove deleted app in drawerApps & add new installed app to drawerApps
-        drawerApps = drawerApps
-            .filter { cApp ->
-                tmpRst = instApps.any { iApp ->
-                    iApp.pkgName == cApp.pkgName
-                }
-                if(!tmpRst) isChanged = true
-                tmpRst
-            }
-            .toMutableList()
-            .apply {
-                this.addAll(
-                    instApps
-                        .filter { cApp ->
-                            tmpRst = !drawerApps
-                                .any{ iApp ->
-                                    iApp.pkgName == cApp.pkgName
-                                }
-                            if(tmpRst) isChanged = true
-                            tmpRst
-
-                        }
-                        .toList()
-                )
-            }
-
-        save()
-
-        return isChanged
-    }
+//    fun isChangedAppsWithRefresh() : Boolean {
+//
+//        val instApps = InstalledAppUtil().getInstalledApps()
+//        drawerApps = repo.preference.getDrawerApps()
+//        var isChanged = false
+//        var tmpRst : Boolean
+//
+//        // remove deleted app in drawerApps & add new installed app to drawerApps
+//        drawerApps = drawerApps
+//            .filter { cApp ->
+//                tmpRst = instApps.any { iApp ->
+//                    iApp.pkgName == cApp.pkgName
+//                }
+//                if(!tmpRst) isChanged = true
+//                tmpRst
+//            }
+//            .toMutableList()
+//            .apply {
+//                this.addAll(
+//                    instApps
+//                        .filter { cApp ->
+//                            tmpRst = !drawerApps
+//                                .any{ iApp ->
+//                                    iApp.pkgName == cApp.pkgName
+//                                }
+//                            if(tmpRst) isChanged = true
+//                            tmpRst
+//
+//                        }
+//                        .toList()
+//                )
+//            }
+//
+//        save()
+//
+//        return isChanged
+//    }
 
     fun setHide(pkgName: String) {
-        drawerApps
+        SC.drawerApps
             .forEach {
                 if(it.pkgName == pkgName) it.isHide = true
             }
@@ -87,7 +84,7 @@ class DrawerViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun setUnhide(pkgName: String) {
-        drawerApps
+        SC.drawerApps
             .forEach {
                 if(it.pkgName == pkgName) it.isHide = false
             }
@@ -99,22 +96,18 @@ class DrawerViewModel(val repo: Repo): ViewModelHelper() {
         val fromIdx = getIndexFromPkgName(fromPkgName)
         val toIdx = getIndexFromPkgName(toPkgName)
 
-        if(fromIdx < toIdx)
-            drawerApps.add(toIdx + 1, drawerApps.get(fromIdx))
-        else
-            drawerApps.add(toIdx, drawerApps.get(fromIdx))
+        if(fromIdx < toIdx) SC.drawerApps.add(toIdx + 1, SC.drawerApps.get(fromIdx))
+        else SC.drawerApps.add(toIdx, SC.drawerApps.get(fromIdx))
 
-        drawerApps.removeAt(
-            if(fromIdx < toIdx) fromIdx else fromIdx + 1
-        )
+        SC.drawerApps.removeAt( if(fromIdx < toIdx) fromIdx else fromIdx + 1 )
         save()
         loadDrawerList()
 
     }
 
-    fun getIndexFromPkgName(pkgName_:String) = drawerApps.indexOfFirst{ it.pkgName == pkgName_ }
+    fun getIndexFromPkgName(pkgName_:String) = SC.drawerApps.indexOfFirst{ it.pkgName == pkgName_ }
 
-    fun save(){ repo.preference.setDrawerApps(drawerApps) }
+    fun save(){ repo.preference.setDrawerApps(SC.drawerApps) }
 
     fun clickOptionBt(){
         toActMsg(MsgType.SHOW_SETTING_DAILOG)
@@ -122,13 +115,11 @@ class DrawerViewModel(val repo: Repo): ViewModelHelper() {
 
     fun onTextChanged(searchText:CharSequence) {
 
-        drawerMode.i(TAG)
-
         if(drawerMode == DrawerMode.HIDE_MODE) return
 
         toActMsg(MsgType.UPDATE_APPS,
             DrawerLoadInfo(
-                drawerApps
+                SC.drawerApps
                     .filter { it.label.toLowerCase().contains(searchText.toString())  }
                     .filter { !it.isHide   }
                     .toMutableList(),

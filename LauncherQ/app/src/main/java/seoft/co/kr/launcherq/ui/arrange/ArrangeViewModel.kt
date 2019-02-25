@@ -22,8 +22,8 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     // for when enter this act, can not do anything
-    val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"","",false), QuickAppType.EMPTY)
-    val EMPTY_COMMON_APP = CommonApp("","","",false)
+    val NONE_PICKED_APP = QuickApp(CommonApp(NONE_PICK,"",/*"",*/false), QuickAppType.EMPTY)
+    val EMPTY_COMMON_APP = CommonApp("","",/*"",*/false)
 
     var gridCnt = 0
     var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
@@ -268,8 +268,8 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
             val changedLiveDataApps = liveDataApps.value!!
                 .apply {
                     this[pos] = QuickApp(CommonApp("seoft.co.kr.chatfactory",
-                        "챗팩",
-                        "seoft.co.kr.chatfactory.ui.splash.SplashActivity"
+                        "챗팩"
+//                        ,"seoft.co.kr.chatfactory.ui.splash.SplashActivity"
                         ),
                         QuickAppType.EXPERT,
                         expert = Expert(null,

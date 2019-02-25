@@ -2,7 +2,10 @@ package seoft.co.kr.launcherq.data.local
 
 import android.preference.PreferenceManager
 import com.google.gson.reflect.TypeToken
-import seoft.co.kr.launcherq.data.model.*
+import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.CommonApp
+import seoft.co.kr.launcherq.data.model.Info
+import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
 
@@ -141,11 +144,7 @@ class PreferenceRepo {
 
         if(jsonStr.isNullOrEmpty()) {
             val tmpApps = mutableListOf<QuickApp>()
-            for(i in 0 until 16) { tmpApps.add(
-                QuickApp(
-                    CommonApp("","","",false),
-                    QuickAppType.EMPTY)
-            )}
+            for(i in 0 until 16) { tmpApps.add(SC.EMPTY_QUICK_APP)}
             jsonStr = SC.gson.toJson(tmpApps,object : TypeToken<MutableList<QuickApp>>(){}.type)
         }
 

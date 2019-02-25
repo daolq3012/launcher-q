@@ -5,7 +5,7 @@ import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.ui.ViewModelHelper
-import seoft.co.kr.launcherq.utill.InstalledAppUtil
+import seoft.co.kr.launcherq.utill.SC
 
 class SelectViewModel(val repo: Repo): ViewModelHelper() {
 
@@ -16,7 +16,7 @@ class SelectViewModel(val repo: Repo): ViewModelHelper() {
     var showOptions = false
 
     override fun start() {
-        val instApps = InstalledAppUtil().getInstalledApps()
+        val instApps = SC.drawerApps.toMutableList()
 
         // batch order is bottom to top
         CAppException.values().forEach { instApps.add(0, CommonApp(it.get,isExcept = true)) }

@@ -14,7 +14,6 @@ import android.view.View
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.databinding.ActivitySelectBinding
-import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.DETAIL_NAME
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.IS_EXCEPT
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.LABEL
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity.Companion.PKG_NAME
@@ -33,7 +32,7 @@ class SelectActivity : AppCompatActivity() {
         val rstIntent = Intent()
             .apply {
                 putExtra(PKG_NAME,it.pkgName)
-                putExtra(DETAIL_NAME,it.detailName)
+//                putExtra(DETAIL_NAME,it.detailName)
                 putExtra(LABEL,it.label)
                 putExtra(IS_EXCEPT,it.isExcept)
             }
