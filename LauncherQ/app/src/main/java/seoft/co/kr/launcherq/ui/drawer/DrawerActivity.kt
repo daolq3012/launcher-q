@@ -1,5 +1,6 @@
 package seoft.co.kr.launcherq.ui.drawer
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -43,6 +45,14 @@ class DrawerActivity : AppCompatActivity() {
     var screenSize : Point = Point()
 
     lateinit var selectedApp : CommonApp
+
+    // ref : http://iw90.tistory.com/238
+    // finish drawer when scroll bottom to top
+    // distance is device size /  FINISH_ACTION_SENSITIVE(6)
+    val FINISH_ACTION_SENSITIVE = 6
+
+    var befY = 0
+    var afterY = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +87,7 @@ class DrawerActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     fun updateApps(drawerLoadInfo:DrawerLoadInfo) {
 
         recyclerViews.clear()
@@ -102,6 +113,25 @@ class DrawerActivity : AppCompatActivity() {
                 rv.adapter = appAdapter
                 rv.addItemDecoration(GridSpacingItemDecoration(it.columnNum, 30))
 
+                rv.setOnTouchListener { view, motionEvent ->
+                    when(motionEvent.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            befY = motionEvent.y.toInt()
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            afterY = motionEvent.y.toInt()
+                            if(befY - afterY > screenSize.y / FINISH_ACTION_SENSITIVE ) {
+                                finish()
+                                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
+                            }
+                            else if(befY - afterY < screenSize.y / FINISH_ACTION_SENSITIVE ){
+                                finish()
+                                overridePendingTransition( R.anim.slide_in_down, R.anim.slide_out_down )
+                            }
+                        }
+                    }
+                    false
+                }
 
                 recyclerViews.add(rv)
             }
@@ -109,6 +139,10 @@ class DrawerActivity : AppCompatActivity() {
 
         viewPagerAdapter.notifyDataSetChanged()
 
+    }
+
+    override fun finish() {
+        super.finish()
     }
 
     private fun clickApp(dApp: CommonApp) {

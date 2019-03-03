@@ -397,10 +397,15 @@ class MainActivity : AppCompatActivity() {
     fun inits(){
         windowManager.defaultDisplay.getRealSize( screenSize )
 
-        gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(this){
+        gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(Point(screenSize.x,screenSize.y)){
             when(it) {
                 MainGestureListener.MainGestureListenerCmd.LONG_PRESS -> { if (vm.step.value() != Step.OPEN_ONE) showSettingInMainDialog() }
                 MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> { devicePolicyManager.lockNow() }
+                MainGestureListener.MainGestureListenerCmd.FLING_UP -> {
+                    startActivity(
+                        Intent(applicationContext, DrawerActivity::class.java)
+                    )
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up); }
             }
         })
 
@@ -436,7 +441,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
-        if(event.action == MotionEvent.ACTION_DOWN) {
+        if(event.action == MotionEvent.ACTION_DOWN &&
+            // for prevent overlap fling up
+            (event.y <= screenSize.y - screenSize.y / 10 * 1.5)) {
 
             vm.emptyTwoStepApp()
 
