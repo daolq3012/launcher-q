@@ -3,12 +3,13 @@ package seoft.co.kr.launcherq.ui.select
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.databinding.ItemSelectBinding
 import seoft.co.kr.launcherq.utill.App
 
-class SelectRecyclerViewAdapter(var cb:(commonApp: CommonApp)->Unit)
+class SelectRecyclerViewAdapter(val repo:Repo, var cb:(commonApp: CommonApp)->Unit)
     : RecyclerView.Adapter<SelectRecyclerViewAdapter.ViewHolder>() {
 
     var cApps = mutableListOf<CommonApp>()
@@ -18,7 +19,7 @@ class SelectRecyclerViewAdapter(var cb:(commonApp: CommonApp)->Unit)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemSelectBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding,cb)
+        return ViewHolder(repo,binding,cb)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)
@@ -33,7 +34,7 @@ class SelectRecyclerViewAdapter(var cb:(commonApp: CommonApp)->Unit)
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private var binding: ItemSelectBinding, var cb:(commonApp: CommonApp)->Unit) :
+    class ViewHolder(val repo:Repo, private var binding: ItemSelectBinding, var cb:(commonApp: CommonApp)->Unit) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cApps_: CommonApp) {
@@ -45,7 +46,10 @@ class SelectRecyclerViewAdapter(var cb:(commonApp: CommonApp)->Unit)
                 binding.tvApp.text = cae.title
 
             } else {
-                binding.ivApp.setImageDrawable(App.get.packageManager.getApplicationIcon(cApps_.pkgName))
+                binding.ivApp.setImageDrawable(
+                    if(repo.imageCacheRepo.containsKey(cApps_.pkgName)) repo.imageCacheRepo.getDrawable(cApps_.pkgName)
+                    else App.get.packageManager.getApplicationIcon(cApps_.pkgName)
+                )
                 binding.tvApp.text = cApps_.label
             }
 

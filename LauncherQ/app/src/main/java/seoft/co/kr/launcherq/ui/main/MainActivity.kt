@@ -523,6 +523,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             val tmpCurApp = vm.liveDataApps.value!![curPosInOneStep]
+            val tmpPkgName = tmpCurApp.commonApp.pkgName
 
             if(befPosInOneStep != curPosInOneStep) {
                 curPosKeepCnt = 0
@@ -536,18 +537,21 @@ class MainActivity : AppCompatActivity() {
                     else ivPreview.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(File(SC.imgDir,"${vm.lastestDir}#$curPosInOneStep"))))
 
                 } else if(tmpCurApp.commonApp.isExcept) {
-                    ivPreview.setImageResource(CAppException.values().find { it.get == tmpCurApp.commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange)
+                    ivPreview.setImageResource(CAppException.values().find { it.get == tmpPkgName }?.rss ?: R.drawable.ic_error_orange)
                 } else {
                     when(tmpCurApp.type) {
                         QuickAppType.FOLDER -> ivPreview.setImageResource(R.drawable.ic_folder_green)
-                        QuickAppType.ONE_APP, QuickAppType.TWO_APP ->
-                            ivPreview.setImageDrawable( App.get.packageManager.getApplicationIcon(tmpCurApp.commonApp.pkgName) )
+                        QuickAppType.ONE_APP, QuickAppType.TWO_APP ->{
+                            ivPreview.setImageDrawable(
+                                if(Repo.imageCacheRepo.containsKey(tmpPkgName)) Repo.imageCacheRepo.getDrawable(tmpPkgName)
+                                else App.get.packageManager.getApplicationIcon(tmpPkgName) )
+                        }
                         QuickAppType.EXPERT -> ivPreview.setImageResource(R.drawable.ic_build_orange)
                     }
                 }
 
                 tvPreview.text = if(tmpCurApp.commonApp.isExcept){
-                    CAppException.values().find { it.get == tmpCurApp.commonApp.pkgName }?.title
+                    CAppException.values().find { it.get == tmpPkgName }?.title
                 } else {
                     when (tmpCurApp.type) {
                         QuickAppType.FOLDER -> "폴더"
@@ -557,7 +561,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if(tmpCurApp.type == QuickAppType.ONE_APP && getShortcutFromApp(tmpCurApp.commonApp.pkgName).isEmpty()) {
+                if(tmpCurApp.type == QuickAppType.ONE_APP && getShortcutFromApp(tmpPkgName).isEmpty()) {
                     intervalStart()
                     return@postDelayed
                 } else if(tmpCurApp.type == QuickAppType.EXPERT &&

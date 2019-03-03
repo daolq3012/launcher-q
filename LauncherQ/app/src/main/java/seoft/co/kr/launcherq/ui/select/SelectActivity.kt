@@ -27,7 +27,7 @@ class SelectActivity : AppCompatActivity() {
     val COLUMN_COUNT = 5
 
     private lateinit var binding: ActivitySelectBinding
-    private val selectRecyclerViewAdapter = SelectRecyclerViewAdapter {
+    private val selectRecyclerViewAdapter = SelectRecyclerViewAdapter(Repo) {
 
         val rstIntent = Intent()
             .apply {

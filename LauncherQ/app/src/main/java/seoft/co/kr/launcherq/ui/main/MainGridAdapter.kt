@@ -30,6 +30,8 @@ class MainGridAdapter(val context: Context, val repo: Repo, val qApps: MutableLi
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val item = inflater.inflate(R.layout.item_main_app,null)
 
+        val tmpPkgName = qApps[pos].commonApp.pkgName
+
         if(qApps[pos].hasImg) {
             val imgDir = "${curDir}#${pos}"
 
@@ -42,13 +44,17 @@ class MainGridAdapter(val context: Context, val repo: Repo, val qApps: MutableLi
         } else if(qApps[pos].commonApp.isExcept) {
 
             item.ivIcon.setImageResource(
-                CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange
+                CAppException.values().find { it.get == tmpPkgName }?.rss ?: R.drawable.ic_error_orange
             )
         } else {
             when(qApps[pos].type) {
                 QuickAppType.EMPTY -> item.ivIcon.setImageResource(R.drawable.dot_img)
                 QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_green)
-                QuickAppType.ONE_APP, QuickAppType.TWO_APP -> item.ivIcon.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
+                QuickAppType.ONE_APP, QuickAppType.TWO_APP -> {
+                    item.ivIcon.setImageDrawable(
+                        if(repo.imageCacheRepo.containsKey(tmpPkgName)) repo.imageCacheRepo.getDrawable(tmpPkgName)
+                        else App.get.packageManager.getApplicationIcon(tmpPkgName))
+                }
                 QuickAppType.EXPERT -> item.ivIcon.setImageResource(R.drawable.ic_build_orange)
             }
         }

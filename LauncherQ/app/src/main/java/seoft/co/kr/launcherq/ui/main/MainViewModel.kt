@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager.MATCH_ALL
 import android.databinding.ObservableField
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.ui.MsgType
@@ -12,6 +14,8 @@ import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.toPixel
+import java.io.File
+import java.io.FileInputStream
 
 class MainViewModel(val repo: Repo): ViewModelHelper() {
 
@@ -54,13 +58,29 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         }
 
         resetUxValue()
-        setImageCache()
-        SC.drawerApps = repo.preference.getDrawerApps()
+        initDrawerAndImageCache()
     }
 
-    fun setImageCache(){
+    fun initDrawerAndImageCache(){
 
-        repo.imageCacheRepo.setAll()
+        SC.drawerApps = repo.preference.getDrawerApps()
+
+        SC.drawerApps
+            .forEach {
+                repo.imageCacheRepo.saveCache(it.pkgName,App.get.packageManager.getApplicationIcon(it.pkgName))
+            }
+
+        // set custom icon images
+        for(dir in 0 until 4) {
+            val qApps = Repo.preference.getQuickApps(dir)
+            for ( pos in 0 until 16) {
+                val curDir = "${dir}#${pos}"
+                if(qApps[pos].hasImg) {
+                    val bitmap = BitmapFactory.decodeStream(FileInputStream(File(SC.imgDir,curDir)))
+                    repo.imageCacheRepo.saveCache(curDir,BitmapDrawable(App.get.resources, bitmap))
+                }
+            }
+        }
 
 
     }

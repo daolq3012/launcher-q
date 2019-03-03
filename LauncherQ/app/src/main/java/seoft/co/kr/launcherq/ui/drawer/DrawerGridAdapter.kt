@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.utill.App
 
-class DrawerGridAdapter(apps_ : List<CommonApp>, page:Int, itemGridNum:Int,
+class DrawerGridAdapter(apps_ : List<CommonApp>, val repo: Repo, page:Int, itemGridNum:Int,
                         var cbOnClick: (cApp:CommonApp)->Unit,
                         var cbOnLongClick: (cApp:CommonApp)->Unit) : RecyclerView.Adapter<DrawerGridAdapter.ViewHolder>(){
 
@@ -32,7 +33,9 @@ class DrawerGridAdapter(apps_ : List<CommonApp>, page:Int, itemGridNum:Int,
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         apps[pos].let{
-            val icon = App.get.packageManager.getApplicationIcon(it.pkgName)
+            val icon = if(repo.imageCacheRepo.containsKey(it.pkgName)) repo.imageCacheRepo.getDrawable(it.pkgName)
+                else App.get.packageManager.getApplicationIcon(it.pkgName)
+
             holder.apply {
                 ivIcon.setImageDrawable(icon)
                 tvName.text = it.label

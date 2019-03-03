@@ -88,7 +88,7 @@ class DrawerActivity : AppCompatActivity() {
             for (i in 0 until pageSize) {
                 val rv = RecyclerView(this)
                 val lm = GridLayoutManager(this, it.columnNum)
-                val appAdapter = DrawerGridAdapter(it.dApps, i, it.itemGridNum,
+                val appAdapter = DrawerGridAdapter(it.dApps, Repo,i, it.itemGridNum,
                     {
                         "clickApp ${it}".i(TAG)
                         clickApp(it)
