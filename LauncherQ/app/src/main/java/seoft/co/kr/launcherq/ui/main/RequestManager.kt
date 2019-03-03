@@ -1,7 +1,6 @@
 package seoft.co.kr.launcherq.ui.main
 
 import android.Manifest
-import android.content.Context
 import android.support.v7.app.AlertDialog
 import seoft.co.kr.launcherq.utill.showDialog
 import seoft.co.kr.launcherq.utill.toast
@@ -39,6 +38,17 @@ class RequestManager(val activity: MainActivity){
         )
     }
 
+    fun expandStatusbar(){
+
+        try {
+            val sbService = activity.application.getSystemService("statusbar") as Any
+            val statusbarManager = Class.forName("android.app.StatusBarManager")
+            val showSb = statusbarManager.getMethod("expandNotificationsPanel")
+            showSb.invoke(sbService)
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
 
 
 

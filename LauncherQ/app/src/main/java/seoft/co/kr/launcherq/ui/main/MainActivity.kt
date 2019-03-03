@@ -406,6 +406,7 @@ class MainActivity : AppCompatActivity() {
                         Intent(applicationContext, DrawerActivity::class.java)
                     )
                     overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up); }
+                MainGestureListener.MainGestureListenerCmd.FLING_DOWN -> requestManager.expandStatusbar()
             }
         })
 
@@ -441,9 +442,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
+        // for prevent overlap fling up
         if(event.action == MotionEvent.ACTION_DOWN &&
-            // for prevent overlap fling up
-            (event.y <= screenSize.y - screenSize.y / 10 * 1.5)) {
+            ((event.y <= screenSize.y - screenSize.y / 10 * (SC.FLING_BOTTOM_BOUNDARY/10F))
+            && (event.y >= screenSize.y / 10 * (SC.FLING_TOP_BOUNDARY/10F)))) {
 
             vm.emptyTwoStepApp()
 
@@ -457,6 +459,8 @@ class MainActivity : AppCompatActivity() {
 
             vm.step.set(Step.TOUCH_START)
 
+        } else if(event.action == MotionEvent.ACTION_DOWN){
+            clearViews()
         } else if(event.action == MotionEvent.ACTION_MOVE) {
 
             val gvSize = vm.gridViewSize

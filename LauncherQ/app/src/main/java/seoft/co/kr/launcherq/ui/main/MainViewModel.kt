@@ -102,6 +102,9 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         gridItemSize = gridViewSize.toPixel()/gridCnt
         twoStepOpenInterval.value = repo.preference.getTwoStepOpenInterval()
 
+        SC.FLING_BOTTOM_BOUNDARY = repo.preference.getBottomBoundary()
+        SC.FLING_TOP_BOUNDARY = repo.preference.getTopBoundary()
+
     }
 
     fun resetTwoStepValues(){

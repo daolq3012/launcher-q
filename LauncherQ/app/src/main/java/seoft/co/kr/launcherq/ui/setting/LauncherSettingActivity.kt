@@ -95,6 +95,26 @@ class LauncherSettingActivity: AppCompatActivity() {
                 snd.show()
                 true
             }
+
+            findPreference("clickBottomBoundary").setOnPreferenceClickListener { view ->
+                val snd = SelectNumberDialog(activity!!, "하단 드래그 터치 영역 %","",
+                    Repo.preference.getBottomBoundary(),0,49){
+                    Repo.preference.setBottomBoundary(it)
+                    SC.needResetUxSetting = true
+                }
+                snd.show()
+                true
+            }
+
+            findPreference("clickTopBoundary").setOnPreferenceClickListener { view ->
+                val snd = SelectNumberDialog(activity!!, "상단 드래그 터치 영역 %","",
+                    Repo.preference.getTopBoundary(),0,49){
+                    Repo.preference.setTopBoundary(it)
+                    SC.needResetUxSetting = true
+                }
+                snd.show()
+                true
+            }
         }
 
     }

@@ -50,6 +50,9 @@ class PreferenceRepo {
 
     private val SP_MY_ICON_PIXEL = "SP_MY_ICON_PIXEL"
 
+    private val SP_FLING_TOP_BOUNDARY = "SP_FLING_DOWN_BOUNDARY"
+    private val SP_FLING_BOTTOM_BOUNDARY = "SP_FLING_UP_BOUNDARY"
+
 
     fun isFirstLaunch() = mPrefs.getBoolean(SP_IS_FIRST_LAUNCH,true)
     fun setIsFirst(isFirst: Boolean) { mPrefs.edit().putBoolean(SP_IS_FIRST_LAUNCH,isFirst).apply() }
@@ -188,6 +191,19 @@ class PreferenceRepo {
         return mPrefs.getInt(SP_MY_ICON_PIXEL,32)
     }
 
+    fun setBottomBoundary(size : Int) {
+        mPrefs.edit().putInt(SP_FLING_TOP_BOUNDARY, size).apply()
+    }
+    fun getBottomBoundary(): Int {
+        return mPrefs.getInt(SP_FLING_TOP_BOUNDARY,15)
+    }
+
+    fun setTopBoundary(size : Int) {
+        mPrefs.edit().putInt(SP_FLING_BOTTOM_BOUNDARY, size).apply()
+    }
+    fun getTopBoundary(): Int {
+        return mPrefs.getInt(SP_FLING_BOTTOM_BOUNDARY,40)
+    }
 
 }
 

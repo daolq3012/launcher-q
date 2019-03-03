@@ -76,8 +76,6 @@ class DrawerActivity : AppCompatActivity() {
         vm.start()
     }
 
-
-
     fun initViews(){
 
         windowManager.defaultDisplay.getRealSize( screenSize )
@@ -85,7 +83,6 @@ class DrawerActivity : AppCompatActivity() {
         vpDrawer.adapter = viewPagerAdapter
         rlRoot.background = BitmapDrawable(App.get.resources,SC.bgBitmap!!)
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     fun updateApps(drawerLoadInfo:DrawerLoadInfo) {
@@ -124,7 +121,7 @@ class DrawerActivity : AppCompatActivity() {
                                 finish()
                                 overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
                             }
-                            else if(befY - afterY < screenSize.y / FINISH_ACTION_SENSITIVE ){
+                            else if(afterY - befY > screenSize.y / FINISH_ACTION_SENSITIVE ){
                                 finish()
                                 overridePendingTransition( R.anim.slide_in_down, R.anim.slide_out_down )
                             }
@@ -139,10 +136,6 @@ class DrawerActivity : AppCompatActivity() {
 
         viewPagerAdapter.notifyDataSetChanged()
 
-    }
-
-    override fun finish() {
-        super.finish()
     }
 
     private fun clickApp(dApp: CommonApp) {
@@ -250,7 +243,6 @@ class DrawerActivity : AppCompatActivity() {
             }
         }
     }
-
 
     override fun onBackPressed() {
 

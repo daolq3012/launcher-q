@@ -11,6 +11,8 @@
     <permission android:name="seoft.co.kr.launcherq.READ_DATABASE" android:protectionLevel="normal" />
     <permission android:name="seoft.co.kr.launcherq.WRITE_DATABASE" android:protectionLevel="normal" />
 
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
     <application
             android:name=".utill.App"
             android:allowBackup="true"
