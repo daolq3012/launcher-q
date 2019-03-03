@@ -33,9 +33,7 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: M
         if(qApps[pos].hasImg) {
 
             // SC.imgDir is saved in BackgroundRepo class
-            val f = File(SC.imgDir,"$curDir#$pos")
-            val b = BitmapFactory.decodeStream(FileInputStream(f))
-            iv.setImageBitmap(b)
+            iv.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(File(SC.imgDir,"$curDir#$pos"))))
         }
         else if(qApps[pos].commonApp.isExcept) iv.setImageResource( CAppException.values().find { it.get == qApps[pos].commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange )
         else {

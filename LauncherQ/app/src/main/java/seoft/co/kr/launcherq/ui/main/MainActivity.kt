@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity() {
         gvApps.numColumns = gridCnt
         gvApps.adapter = MainGridAdapter(
             this,
+            Repo,
             quickApps.take(gridCnt * gridCnt).toMutableList(),
             vm.gridItemSize,
             vm.lastestDir
@@ -528,14 +529,14 @@ class MainActivity : AppCompatActivity() {
 
                 turnOnPreview(true)
                 if(tmpCurApp.hasImg) {
-                    // SC.imgDir is saved in BackgroundRepo class
-                    val f = File(SC.imgDir,"${vm.lastestDir}#$curPosInOneStep")
-                    val b = BitmapFactory.decodeStream(FileInputStream(f))
-                    ivPreview.setImageBitmap(b)
+
+                    val dir = "${vm.lastestDir}#$curPosInOneStep"
+
+                    if(Repo.imageCacheRepo.containsKey(dir)) ivPreview.setImageDrawable(Repo.imageCacheRepo.getDrawable(dir))
+                    else ivPreview.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(File(SC.imgDir,"${vm.lastestDir}#$curPosInOneStep"))))
+
                 } else if(tmpCurApp.commonApp.isExcept) {
-                    ivPreview.setImageResource(
-                        CAppException.values().find { it.get == tmpCurApp.commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange
-                    )
+                    ivPreview.setImageResource(CAppException.values().find { it.get == tmpCurApp.commonApp.pkgName }?.rss ?: R.drawable.ic_error_orange)
                 } else {
                     when(tmpCurApp.type) {
                         QuickAppType.FOLDER -> ivPreview.setImageResource(R.drawable.ic_folder_green)

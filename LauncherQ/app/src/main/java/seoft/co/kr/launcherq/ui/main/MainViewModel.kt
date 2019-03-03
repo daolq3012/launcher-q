@@ -54,8 +54,18 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
         }
 
         resetUxValue()
+        setImageCache()
         SC.drawerApps = repo.preference.getDrawerApps()
     }
+
+    fun setImageCache(){
+
+        repo.imageCacheRepo.setAll()
+
+
+    }
+
+
 
     fun emptyTwoStepApp(){ twoStepApp.set(SC.EMPTY_QUICK_APP) }
 

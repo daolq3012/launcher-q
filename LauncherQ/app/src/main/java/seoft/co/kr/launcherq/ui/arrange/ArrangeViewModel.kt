@@ -2,14 +2,13 @@ package seoft.co.kr.launcherq.ui.arrange
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
-import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.toast
-import seoft.co.kr.launcherq.utill.value
+import seoft.co.kr.launcherq.utill.*
 import java.io.File
 
 
@@ -379,6 +378,14 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickLeft() { dir = 3
         refreshAppGrid() }
+
+    fun saveImageCache(dir: String, bitMap: Bitmap) {
+        repo.imageCacheRepo.saveCache(dir,BitmapDrawable(App.get.resources, bitMap))
+    }
+
+    fun removeImageCache(dir: String) {
+        repo.imageCacheRepo.removeCache(dir)
+    }
 
     enum class ArrangeBottoms{
         ADD,

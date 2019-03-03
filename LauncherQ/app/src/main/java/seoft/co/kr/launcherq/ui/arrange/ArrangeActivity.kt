@@ -8,6 +8,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AlertDialog
@@ -24,6 +25,7 @@ import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.select.SelectActivity
 import seoft.co.kr.launcherq.utill.*
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class ArrangeActivity : AppCompatActivity() {
@@ -71,7 +73,10 @@ class ArrangeActivity : AppCompatActivity() {
                             cb = {
                                 when(it) {
                                     1 -> selectIcon()
-                                    2 -> vm.setHasImage(false)
+                                    2 -> {
+                                        vm.removeImageCache("${vm.dir}#${vm.curPos}")
+                                        vm.setHasImage(false)
+                                    }
                                 }
                             }
                         ).create()
@@ -111,6 +116,7 @@ class ArrangeActivity : AppCompatActivity() {
                     gvApps.numColumns = gridCnt
                     gvApps.adapter = ArrangeImageAdapter(
                         this,
+                        Repo,
                         it.take(gridCnt * gridCnt).toMutableList(),
                         resources.getDimension(R.dimen.grid_view_size_in_arrange).toInt()/gridCnt, // 388 same to
                         vm.dir
@@ -208,6 +214,10 @@ class ArrangeActivity : AppCompatActivity() {
 
             val fos = FileOutputStream(myPath)
             bitImg.compress(Bitmap.CompressFormat.PNG,100,fos)
+//            bitImg.compress(Bitmap.CompressFormat.JPEG,100,fos)
+
+            val b = BitmapFactory.decodeStream(FileInputStream(myPath))
+            vm.saveImageCache("${vm.dir}#${vm.curPos}",b)
 
             vm.setHasImage(true)
         } else if (requestCode == REQ_CODE_EXPERT_SETTING && resultCode == Activity.RESULT_OK) {

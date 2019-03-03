@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.item_arrange_app.view.*
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.model.CAppException
 import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
@@ -21,7 +22,7 @@ import java.io.FileInputStream
 /**
  * need to insert pixel value into itemSize param
  */
-class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>, val itemSize:Int, val curDir:Int, val cb:(CallbackArrangeGrid)->Unit) : BaseAdapter() {
+class ArrangeImageAdapter(val context:Context, val repo: Repo, val qApps: MutableList<QuickApp>, val itemSize:Int, val curDir:Int, val cb:(CallbackArrangeGrid)->Unit) : BaseAdapter() {
 
     val TAG = "ArrangeImageAdapter#$#"
 
@@ -32,10 +33,15 @@ class ArrangeImageAdapter(val context:Context, val qApps: MutableList<QuickApp>,
 
         if(qApps[pos].hasImg) {
 
-            // SC.imgDir is saved in BackgroundRepo class
-            val f = File(SC.imgDir,"$curDir#$pos")
-            val b = BitmapFactory.decodeStream(FileInputStream(f))
-            item.ivIcon.setImageBitmap(b)
+            val imgDir = "${curDir}#${pos}"
+
+            if(repo.imageCacheRepo.containsKey(imgDir)) {
+                item.ivIcon.setImageDrawable(repo.imageCacheRepo.getDrawable(imgDir))
+            } else {
+                // SC.imgDir is saved in BackgroundRepo class
+                item.ivIcon.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(File(SC.imgDir,imgDir))))
+            }
+
         }
         else if(qApps[pos].commonApp.isExcept) {
 
