@@ -196,7 +196,9 @@ class MainActivity : AppCompatActivity() {
                     launchApp(quickApp.commonApp.pkgName)
                 else if(quickApp.expert!!.useOne != null) {
                     runExpertApp(quickApp.expert!!.useOne!!)
-                }
+                } else "Expert's one step is empty".toast()
+
+                turnOnPreview(false)
                 vm.step.set(Step.NONE)
             }
             else -> {}

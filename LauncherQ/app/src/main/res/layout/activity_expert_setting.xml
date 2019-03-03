@@ -8,11 +8,16 @@
         tools:context=".ui.arrange.ExpertSettingActivity">
 
 
-    <RelativeLayout style="@style/DialogBottomRelativeLayout">
-        <View style="@style/DialogBottomMidLineView" android:id="@+id/midLine"  />
-        <TextView style="@style/DialogBottomButton" android:layout_toStartOf="@id/midLine" android:text="확인" android:id="@+id/tvOk" />
-        <TextView style="@style/DialogBottomButton" android:layout_toEndOf="@id/midLine" android:text="취소" android:id="@+id/tvCancel" />
-    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" >
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:layout_weight="1"
+                  android:textSize="16dp" android:textColor="@color/black" android:gravity="center" android:text="확인" android:id="@+id/tvOk" />
+        <View style="@style/DialogBottomMidLineView" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:layout_weight="1"
+                  android:textSize="16dp" android:textColor="@color/black" android:gravity="center" android:text="취소" android:id="@+id/tvCancel" />
+        <View style="@style/DialogBottomMidLineView" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:layout_weight="1"
+                  android:textSize="16dp" android:textColor="@color/black" android:gravity="center" android:text="빠른작업" android:id="@+id/tvSpeed" />
+    </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
                                                 android:layout_height="match_parent">

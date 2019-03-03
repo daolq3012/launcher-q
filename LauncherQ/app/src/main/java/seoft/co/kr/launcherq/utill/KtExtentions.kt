@@ -127,6 +127,44 @@ fun AlertDialog.Builder.showDialogWithInput(title:String? = null, message:String
 }
 
 
+fun AlertDialog.Builder.showDialogWithTwoInput(title:String? = null, message:String? = null,
+                                            postiveBtText:String? = null, negativeBtText:String? = null,
+                                            cbPostive : ((String)->Unit)? = null, cbNegative:(()->Unit)? = null,
+                                               inputType1: Int, text1:String,hint1:String = "",
+                                               inputType2: Int, text2:String,hint2:String ="") {
+    title?.let {  setTitle(title) }
+    message?.let { setMessage(message) }
+
+    val etInput1 = EditText(context).apply {
+        this.inputType = inputType1
+        this.text = text1.toEditable()
+        this.hint = hint1.toEditable()
+    }
+    val etInput2 = EditText(context).apply {
+        this.inputType = inputType2
+        this.text = text2.toEditable()
+        this.hint = hint2.toEditable()
+    }
+    val ll = LinearLayout(context).apply { orientation = LinearLayout.VERTICAL }
+    val lp = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT).apply { setMargins(55,0,55,0) }
+
+    ll.addView(etInput1,lp)
+    ll.addView(etInput2,lp)
+
+    this.setView(ll)
+
+    postiveBtText?.let { setPositiveButton(postiveBtText){
+            _,_ -> cbPostive?.invoke("${etInput1.text}${SC.SPLITTER}${etInput2.text}")
+    }}
+    negativeBtText?.let { setNegativeButton(negativeBtText){
+            _,_ -> cbNegative?.invoke()
+    }}
+    show()
+}
+
+
 fun Any.i(tag:String = "#$#") {
     Log.i(tag,this.toString())
 }

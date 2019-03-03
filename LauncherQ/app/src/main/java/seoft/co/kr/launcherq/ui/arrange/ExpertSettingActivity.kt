@@ -2,13 +2,13 @@ package seoft.co.kr.launcherq.ui.arrange
 
 import android.app.Activity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
 import kotlinx.android.synthetic.main.activity_expert_setting.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.model.*
-import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.toEditable
-import seoft.co.kr.launcherq.utill.toast
+import seoft.co.kr.launcherq.utill.*
 
 /**
  * this activity is not mvvm structure
@@ -196,7 +196,87 @@ class ExpertSettingActivity : AppCompatActivity() {
         }
 
         tvCancel.setOnClickListener { _ -> finish() }
+
+        tvSpeed.setOnClickListener { _ ->
+            SelectorDialog(this,
+                "선택하세요",
+                SelectorDialog.DialogSelectorInfo("웹페이지 빠른 등록"),
+                SelectorDialog.DialogSelectorInfo("전화 빠른 등록"),
+                SelectorDialog.DialogSelectorInfo("앱 실행 빠른 등록"),
+                cb = {
+                    when(it) {
+                        1 -> setWeb()
+                        2 -> setPhone()
+                        3 -> setApp()
+                    }
+                }
+            ).create()
+        }
+
     }
+
+    fun setWeb(){
+        AlertDialog.Builder(this).showDialogWithTwoInput(
+            message = "(1)표시 될 이름과 (2)웹 페이지 주소를 입력하세요",
+            postiveBtText = "확인",
+            negativeBtText = "취소",
+            cbPostive = {
+                etName.setText(it.split(SC.SPLITTER)[0])
+                etUri.setText(it.split(SC.SPLITTER)[1])
+                eomAction = ExpertOption("ACTION_VIEW", "android.intent.action.VIEW")
+                tvAction.text = eomAction.name
+            },
+            cbNegative = {},
+            inputType1 = InputType.TYPE_CLASS_TEXT,
+            text1 = etName.text.toString(),
+            hint1 = "Google",
+            inputType2 = InputType.TYPE_CLASS_TEXT,
+            text2 = etUri.text.toString(),
+            hint2 = "http://google.com"
+        )
+    }
+
+    fun setPhone(){
+        AlertDialog.Builder(this).showDialogWithTwoInput(
+            message = "(1)표시 될 이름과 (2)전화번호를 입력하세요",
+            postiveBtText = "확인",
+            negativeBtText = "취소",
+            cbPostive = {
+                etName.setText(it.split(SC.SPLITTER)[0])
+                etUri.setText("tel:${it.split(SC.SPLITTER)[1]}")
+                eomAction = ExpertOption("ACTION_DIAL", "android.intent.action.DIAL")
+                tvAction.text = eomAction.name
+            },
+            cbNegative = {},
+            inputType1 = InputType.TYPE_CLASS_TEXT,
+            text1 = etName.text.toString(),
+            hint1 = "Mother",
+            inputType2 = InputType.TYPE_CLASS_PHONE,
+            text2 = etUri.text.toString(),
+            hint2 = "01011223344"
+        )
+    }
+
+    fun setApp(){
+        AlertDialog.Builder(this).showDialogWithTwoInput(
+            message = "(1)표시 될 이름과 (2)패키지명를 입력하세요",
+            postiveBtText = "확인",
+            negativeBtText = "취소",
+            cbPostive = {
+                it.split(SC.SPLITTER).i(TAG)
+                etName.setText(it.split(SC.SPLITTER)[0])
+                etPkgName.setText(it.split(SC.SPLITTER)[1])
+            },
+            cbNegative = {},
+            inputType1 = InputType.TYPE_CLASS_TEXT,
+            text1 = etName.text.toString(),
+            hint1 = "Google Map",
+            inputType2 = InputType.TYPE_CLASS_TEXT,
+            text2 = etPkgName.text.toString(),
+            hint2 = "com.google.android.apps.maps"
+        )
+    }
+
 
 
     companion object {
@@ -204,7 +284,5 @@ class ExpertSettingActivity : AppCompatActivity() {
         val ES_TYPE = "ES_TYPE"
 
     }
-
-//    좀더 테스트? 하고 삭제기능 ㄱㄱ
 
 }

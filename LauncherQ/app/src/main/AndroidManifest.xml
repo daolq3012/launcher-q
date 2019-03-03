@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <permission android:name="seoft.co.kr.launcherq.READ_DATABASE" android:protectionLevel="normal" />
     <permission android:name="seoft.co.kr.launcherq.WRITE_DATABASE" android:protectionLevel="normal" />

@@ -33,6 +33,8 @@ class SC{
         var FLING_BOTTOM_BOUNDARY = 15
         var FLING_TOP_BOUNDARY = 40
 
+        val SPLITTER = "#$#"
+
     }
 
 

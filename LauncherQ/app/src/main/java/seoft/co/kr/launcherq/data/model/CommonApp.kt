@@ -1,6 +1,7 @@
 package seoft.co.kr.launcherq.data.model
 
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.utill.SC
 
 data class CommonApp(
     val pkgName:String,
@@ -19,6 +20,5 @@ enum class CAppException(val get:String, val rss:Int, val title:String){
     CALL("CALL", R.drawable.ic_call_orange,"전화"),
 }
 
-val SPLITTER = "#$#"
-fun CommonApp.toSaveString() = "${pkgName}${SPLITTER}${label}${SPLITTER}"
-fun String.toCommonApp() = CommonApp(this.split(SPLITTER)[0],this.split(SPLITTER)[1],false,false)
+fun CommonApp.toSaveString() = "${pkgName}${SC.SPLITTER}${label}${SC.SPLITTER}"
+fun String.toCommonApp() = CommonApp(this.split(SC.SPLITTER)[0],this.split(SC.SPLITTER)[1],false,false)
