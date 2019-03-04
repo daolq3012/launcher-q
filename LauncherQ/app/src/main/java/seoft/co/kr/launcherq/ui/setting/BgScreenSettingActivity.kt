@@ -125,7 +125,6 @@ class BgScreenSettingActivity: AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         val reduction = 2
-
         val deviceWidth = Repo.preference.getDeviceX()/reduction
         val deviceHeight = Repo.preference.getDeviceY()/reduction
 

@@ -1,6 +1,5 @@
 package seoft.co.kr.launcherq.ui.main
 
-import android.app.admin.DevicePolicyManager
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.*
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private val screenSize = Point()
     private val mc = MainCaculator()
 
-    lateinit var devicePolicyManager : DevicePolicyManager
+//    lateinit var devicePolicyManager : DevicePolicyManager
 
     val NORMAL_MESSAGE = "NORMAL_MESSAGE"
     val EDIT_MESSAGE = "EDIT_MESSAGE"
@@ -104,13 +103,11 @@ class MainActivity : AppCompatActivity() {
         vm.liveDataApps.observe(this, Observer { it?.let { refreshGrid(it) } })
         vm.twoStepOpenInterval.observe(this, Observer { pbTwoStepGage.max = it!! })
 
-
-        inits()
         requestManager = RequestManager(this)
 
-
-
+        inits()
     }
+
 
     /**
      *  check QuickAppType.TWO_APP when change command datas using content provider from another app AND resume
@@ -390,7 +387,11 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode == REQ_PERMISSIONS && grantResults.all {it == PackageManager.PERMISSION_GRANTED}) {
-            vm.start()
+            rlTouchController.postDelayed(object:Runnable{
+                override fun run() {
+                    vm.start()
+                }
+            },100)
         } else {
             requestManager.showPermissionRequestDialog()
         }
@@ -399,10 +400,18 @@ class MainActivity : AppCompatActivity() {
     fun inits(){
         windowManager.defaultDisplay.getRealSize( screenSize )
 
+        vm.setDeviceXY(screenSize.x, screenSize.y)
+
         gestureDetectorCompat = GestureDetectorCompat(this,MainGestureListener(Point(screenSize.x,screenSize.y)){
             when(it) {
                 MainGestureListener.MainGestureListenerCmd.LONG_PRESS -> { if (vm.step.value() != Step.OPEN_ONE) showSettingInMainDialog() }
-                MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> { devicePolicyManager.lockNow() }
+                MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> {
+//                    devicePolicyManager.lockNow()
+
+                    // TODO Need to update, adjust tmp now ( I install [Screen Off Application ] )
+                    launchApp("gr.ictpro.jsalatas.screenoff")
+
+                }
                 MainGestureListener.MainGestureListenerCmd.FLING_UP -> {
                     startActivity(
                         Intent(applicationContext, DrawerActivity::class.java)
@@ -414,13 +423,13 @@ class MainActivity : AppCompatActivity() {
 
         registBroadcast()
 
-        devicePolicyManager = applicationContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        val cn = ComponentName(applicationContext, ShutdownConfigAdminReceiver::class.java)
-        if (!devicePolicyManager.isAdminActive(cn)) {
-            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-                .apply { putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cn) }
-            startActivityForResult(intent, 0)
-        }
+//        devicePolicyManager = applicationContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+//        val cn = ComponentName(applicationContext, ShutdownConfigAdminReceiver::class.java)
+//        if (!devicePolicyManager.isAdminActive(cn)) {
+//            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+//                .apply { putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cn) }
+//            startActivityForResult(intent, 0)
+//        }
 
     }
 

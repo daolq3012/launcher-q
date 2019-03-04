@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_drawer.*
 import seoft.co.kr.launcherq.R
@@ -57,6 +58,10 @@ class DrawerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawer)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_drawer)
 

@@ -200,7 +200,7 @@ class ArrangeActivity : AppCompatActivity() {
             val imageUri = CropImage.getPickImageResultUri(this, data)
 
             CropImage.activity(imageUri)
-                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
+                .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
                 .setAspectRatio(vm.myIconPixel, vm.myIconPixel)
                 .start(this)
 
@@ -213,8 +213,8 @@ class ArrangeActivity : AppCompatActivity() {
             val myPath = File(dir, "${vm.dir}#${vm.curPos}")
 
             val fos = FileOutputStream(myPath)
-            bitImg.compress(Bitmap.CompressFormat.PNG,100,fos)
-//            bitImg.compress(Bitmap.CompressFormat.JPEG,100,fos)
+//            bitImg.compress(Bitmap.CompressFormat.PNG,100,fos)
+            bitImg.compress(Bitmap.CompressFormat.JPEG,100,fos)
 
             val b = BitmapFactory.decodeStream(FileInputStream(myPath))
             vm.saveImageCache("${vm.dir}#${vm.curPos}",b)

@@ -22,6 +22,7 @@
             tools:context=".ui.main.MainActivity">
 
         <ImageView
+                android:scaleType="fitXY"
                 app:bgImg="@{vm.bgBitmap}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

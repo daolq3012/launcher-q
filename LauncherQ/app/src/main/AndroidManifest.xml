@@ -13,6 +13,7 @@
     <permission android:name="seoft.co.kr.launcherq.WRITE_DATABASE" android:protectionLevel="normal" />
 
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
             android:name=".utill.App"
@@ -61,16 +62,16 @@
                   android:launchMode="singleTask"
                   android:windowSoftInputMode="adjustResize" />
 
-        <receiver android:name=".utill.ShutdownConfigAdminReceiver"
-                  android:label="@string/sample_device_admin"
-                  android:description="@string/sample_device_admin_description"
-                  android:permission="android.permission.BIND_DEVICE_ADMIN">
-            <meta-data android:name="android.app.device_admin"
-                       android:resource="@xml/device_turn_off" />
-            <intent-filter>
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name=".utill.ShutdownConfigAdminReceiver"-->
+                  <!--android:label="@string/sample_device_admin"-->
+                  <!--android:description="@string/sample_device_admin_description"-->
+                  <!--android:permission="android.permission.BIND_DEVICE_ADMIN">-->
+            <!--<meta-data android:name="android.app.device_admin"-->
+                       <!--android:resource="@xml/device_turn_off" />-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <receiver android:name=".utill.PackageReceiver">
             <intent-filter android:priority="999" >
