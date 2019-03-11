@@ -25,6 +25,14 @@
                 android:key="clickTopBoundary"
                 android:title="clickTopBoundary"
                 android:summary="배경을 임의의 이미지로 설정합니다"/>
+        <PreferenceScreen
+                android:key="clickSaveSetting"
+                android:title="clickSaveSetting"
+                android:summary="배경을 임의의 이미지로 설정합니다"/>
+        <PreferenceScreen
+                android:key="clickLoadSetting"
+                android:title="clickLoadSetting"
+                android:summary="배경을 임의의 이미지로 설정합니다"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

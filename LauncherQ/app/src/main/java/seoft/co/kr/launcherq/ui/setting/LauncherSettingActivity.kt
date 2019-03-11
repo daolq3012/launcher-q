@@ -5,6 +5,7 @@ import android.preference.PreferenceFragment
 import android.support.v7.app.AppCompatActivity
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.utill.LaqSettingManager
 import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.setupActionBar
 
@@ -114,6 +115,27 @@ class LauncherSettingActivity: AppCompatActivity() {
                     SC.needResetUxSetting = true
                 }
                 snd.show()
+                true
+            }
+
+            findPreference("clickSaveSetting").setOnPreferenceClickListener { view ->
+
+
+                val laqSettingJson = LaqSettingManager().getJson(Repo)
+
+                // TODO save json
+
+
+                true
+            }
+
+            findPreference("clickLoadSetting").setOnPreferenceClickListener { view ->
+
+
+                // TODO load json & adjust this method
+                val tmpString = "ABCD"
+                LaqSettingManager().setLaqSetting(tmpString,Repo)
+
                 true
             }
         }
