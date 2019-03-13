@@ -1,20 +1,29 @@
 package seoft.co.kr.launcherq.ui.setting
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceFragment
+import android.support.v4.provider.DocumentFile
 import android.support.v7.app.AppCompatActivity
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.utill.LaqSettingManager
-import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.setupActionBar
+import seoft.co.kr.launcherq.utill.*
+import java.util.*
 
 
 class LauncherSettingActivity: AppCompatActivity() {
 
     val TAG = "LauncherSettingActivity#$#"
 
+
     companion object {
+        const val REQ_SAVE = 1111
+        const val REQ_LOAD = 1112
+
+        // using save data
+        var strData = ""
+
         lateinit var launcherSettingActivity : AppCompatActivity
     }
 
@@ -120,26 +129,81 @@ class LauncherSettingActivity: AppCompatActivity() {
 
             findPreference("clickSaveSetting").setOnPreferenceClickListener { view ->
 
-
                 val laqSettingJson = LaqSettingManager().getJson(Repo)
-
-                // TODO save json
-
-
+                (activity as LauncherSettingActivity).saveData(laqSettingJson)
                 true
             }
 
             findPreference("clickLoadSetting").setOnPreferenceClickListener { view ->
-
-
-                // TODO load json & adjust this method
-                val tmpString = "ABCD"
-                LaqSettingManager().setLaqSetting(tmpString,Repo)
-
+                (activity as LauncherSettingActivity).loadData()
                 true
             }
         }
 
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+
+            "ABCD".i(TAG)
+
+            if(requestCode == REQ_LOAD) {
+                data!!.data.path.i(TAG)
+            }
+
+        }
+
+    }
+
+    fun saveData(jsonData:String) {
+        strData = jsonData
+        "저장할 디렉토리를 선택하세요".toast()
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply { addCategory(Intent.CATEGORY_DEFAULT) }
+        startActivityForResult(Intent.createChooser(intent, "choose saving directory"), REQ_SAVE)
+    }
+
+    fun loadData(){
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "text/plain" }
+        startActivityForResult(intent, REQ_LOAD)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == REQ_SAVE && resultCode == Activity.RESULT_OK) {
+            try{
+                if(data == null || data.data == null ) throw IllegalArgumentException("FILE_SAVE_ERR")
+
+                val newFile = DocumentFile.fromTreeUri(this, data.data)?.createFile("text/plain","laq_setting_bak_${Date().time}")
+                newFile?: throw IllegalArgumentException("FILE_SAVE_ERR")
+
+                val os = contentResolver.openOutputStream(newFile.uri)
+                os?: throw IllegalArgumentException("FILE_SAVE_ERR")
+                os.write(strData.toByteArray())
+                os.close()
+            } catch (e:Exception) {
+                e.printStackTrace()
+                "파일을 저장할 수 없습니다".toast()
+            }
+
+            "설정 저장 완료".toast()
+
+        } else if (requestCode == REQ_LOAD && resultCode == Activity.RESULT_OK) {
+            try{
+                if(data == null || data.data == null ) throw IllegalArgumentException("FILE_LOAD_ERR")
+                val ips = contentResolver.openInputStream(data.data)
+                ips?:throw IllegalArgumentException("FILE_LOAD_ERR")
+                val loadString = ips.readBytes().toString( Charsets.UTF_8)
+                ips.close()
+
+                LaqSettingManager().setLaqSetting(loadString,Repo)
+
+            } catch (e:Exception) {
+                e.printStackTrace()
+                "파일을 불러올 수 없습니다".toast()
+            }
+
+            "설정 불러오기 완료".toast()
+        }
     }
 
 
