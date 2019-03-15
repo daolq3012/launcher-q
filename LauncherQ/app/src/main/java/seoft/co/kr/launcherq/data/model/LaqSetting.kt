@@ -1,5 +1,8 @@
 package seoft.co.kr.launcherq.data.model
 
+/**
+ * Don't have [SP_DEVICE_X,Y, SP_DRAWER_APPS, ...] in PreferenceRepo
+ */
 data class LaqSetting(var bgDateUse :Boolean = true,
                       var bgTimeUse :Boolean = true,
                       var bgAmpmUse :Boolean = true,

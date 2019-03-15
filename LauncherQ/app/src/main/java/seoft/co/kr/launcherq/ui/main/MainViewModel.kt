@@ -1,17 +1,19 @@
 package seoft.co.kr.launcherq.ui.main
 
 import android.arch.lifecycle.MutableLiveData
-import android.content.Intent
-import android.content.pm.PackageManager.MATCH_ALL
 import android.databinding.ObservableField
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.*
+import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.Command
+import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.App
+import seoft.co.kr.launcherq.utill.InstantUtil
 import seoft.co.kr.launcherq.utill.SC
 import seoft.co.kr.launcherq.utill.toPixel
 import java.io.File
@@ -149,7 +151,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     fun appInit(){
-        val installedApps = getInstalledApps()
+        val installedApps = InstantUtil().getInstalledApps()
         repo.preference.setDrawerApps(installedApps)
     }
 
@@ -161,19 +163,6 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
     fun clickTwoStepItem(pos:Int) {
         toActMsg(MsgType.PICK_TWO_STEP_ITEM,pos)
     }
-
-    fun getInstalledApps(): MutableList<CommonApp> {
-
-        val packageManager = App.get.packageManager
-        val intent = Intent(Intent.ACTION_MAIN, null)
-            .apply { addCategory(Intent.CATEGORY_LAUNCHER) }
-
-        return packageManager.queryIntentActivities(intent,MATCH_ALL)
-            .map { it.activityInfo }
-            .map { CommonApp( it.packageName, it.loadLabel(packageManager).toString(), false ) }
-            .toMutableList()
-    }
-
 }
 
 enum class Step{

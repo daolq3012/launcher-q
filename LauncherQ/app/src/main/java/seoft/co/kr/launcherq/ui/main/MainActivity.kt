@@ -437,7 +437,7 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(timeReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
         registerReceiver(packageReceiver, IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_ADDED)
-            addAction(Intent.ACTION_PACKAGE_INSTALL)
+//            addAction(Intent.ACTION_PACKAGE_INSTALL)
             addAction(Intent.ACTION_PACKAGE_REMOVED)
             addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED)
             addDataScheme("package")

@@ -20,6 +20,14 @@ class PackageReceiver: BroadcastReceiver(){
 
             val packageManager = App.get.packageManager
 
+            val checkSize = InstantUtil().getInstalledApps()
+                .asSequence()
+                .filter {
+                    it.pkgName == packageName
+                }.toList().size
+
+            if(checkSize == 0) return
+
             val appInfo = packageManager.getApplicationInfo(packageName,0)
             val label = packageManager.getApplicationLabel(appInfo).toString()
 
@@ -27,6 +35,8 @@ class PackageReceiver: BroadcastReceiver(){
             SC.drawerApps.add(CommonApp(packageName, label ))
             Repo.preference.setDrawerApps(SC.drawerApps)
 
+        } else if (action == Intent.ACTION_PACKAGE_REPLACED) {
+            // ??
         } else if (action == Intent.ACTION_PACKAGE_REMOVED) {
             "ACTION_PACKAGE_REMOVED : $packageName".i(TAG)
             SC.drawerApps = Repo.preference.getDrawerApps()
@@ -44,5 +54,8 @@ class PackageReceiver: BroadcastReceiver(){
         }
 
     }
+
+
+
 
 }

@@ -8,12 +8,12 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <permission android:name="seoft.co.kr.launcherq.READ_DATABASE" android:protectionLevel="normal" />
     <permission android:name="seoft.co.kr.launcherq.WRITE_DATABASE" android:protectionLevel="normal" />
-
-    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
             android:name=".utill.App"
@@ -75,7 +75,7 @@
 
         <receiver android:name=".utill.PackageReceiver">
             <intent-filter android:priority="999" >
-                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <!--<action android:name="android.intent.action.PACKAGE_INSTALL" />-->
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />

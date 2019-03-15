@@ -45,6 +45,14 @@ class LaqSettingManager{
 
         laqSetting.toString().i(TAG)
 
+        val havingAppPkgNames = SC.drawerApps.asSequence().map { it.pkgName }.toList()
+
+        for(i in 0 until 4) {
+            val tmpQApps = laqSetting.quickApps!![i]
+            for(j in 0 until 16) if (!havingAppPkgNames.contains( tmpQApps[j].commonApp.pkgName ) ) tmpQApps[j] = SC.EMPTY_QUICK_APP
+            Repo.preference.setQuickApps(tmpQApps,i)
+        }
+
         laqSetting.let {
             with(repo.preference) {
 

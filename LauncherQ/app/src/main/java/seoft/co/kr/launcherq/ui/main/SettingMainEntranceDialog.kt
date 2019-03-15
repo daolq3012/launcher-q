@@ -41,6 +41,16 @@ class SettingMainEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(c
             context.startActivity(Intent(context, LauncherSettingActivity::class.java))
             dismiss()
         }
+
+
+        tvThemeSetting.setOnClickListener { v ->
+
+            // TODO remove code
+            // using force die this app & restart for select other launch app
+            val aa :String? = null
+            aa!!.toString()
+            dismiss()
+        }
     }
 
 }

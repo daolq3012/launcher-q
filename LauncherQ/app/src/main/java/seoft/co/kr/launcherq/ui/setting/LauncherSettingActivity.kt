@@ -197,6 +197,10 @@ class LauncherSettingActivity: AppCompatActivity() {
 
                 LaqSettingManager().setLaqSetting(loadString,Repo)
 
+                SC.needResetTwoStepSetting = true
+                SC.needResetBgSetting = true
+                SC.needResetUxSetting = true
+
             } catch (e:Exception) {
                 e.printStackTrace()
                 "파일을 불러올 수 없습니다".toast()
