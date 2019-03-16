@@ -44,6 +44,7 @@ class DrawerActivity : AppCompatActivity() {
     var recyclerViews:ArrayList<RecyclerView> = arrayListOf()
 
     var screenSize : Point = Point()
+    var isFirstTouch = true
 
     lateinit var selectedApp : CommonApp
 
@@ -117,19 +118,24 @@ class DrawerActivity : AppCompatActivity() {
 
                 rv.setOnTouchListener { view, motionEvent ->
                     when(motionEvent.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            befY = motionEvent.y.toInt()
+                        MotionEvent.ACTION_MOVE-> {
+                            if(isFirstTouch) {
+                                befY = motionEvent.y.toInt()
+                                isFirstTouch = false
+                            }
                         }
                         MotionEvent.ACTION_UP -> {
                             afterY = motionEvent.y.toInt()
+
                             if(befY - afterY > screenSize.y / FINISH_ACTION_SENSITIVE ) {
                                 finish()
                                 overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up )
                             }
-                            else if(afterY - befY > screenSize.y / FINISH_ACTION_SENSITIVE ){
+                            else if(befY - afterY < -1 * screenSize.y / FINISH_ACTION_SENSITIVE ){
                                 finish()
                                 overridePendingTransition( R.anim.slide_in_down, R.anim.slide_out_down )
                             }
+                            isFirstTouch = true
                         }
                     }
                     false

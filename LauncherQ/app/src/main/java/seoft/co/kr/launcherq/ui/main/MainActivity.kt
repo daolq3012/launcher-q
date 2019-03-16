@@ -44,8 +44,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var gestureDetectorCompat : GestureDetectorCompat
     private val screenSize = Point()
     private val mc = MainCaculator()
-
-//    lateinit var devicePolicyManager : DevicePolicyManager
+    val simd : SettingMainEntranceDialog by lazy {
+        SettingMainEntranceDialog(this){}
+    }
 
     val NORMAL_MESSAGE = "NORMAL_MESSAGE"
     val EDIT_MESSAGE = "EDIT_MESSAGE"
@@ -376,6 +377,7 @@ class MainActivity : AppCompatActivity() {
 
         vm.step.set(Step.NONE)
         vm.emptyTwoStepApp()
+        simd?.dismiss()
 
         if(SC.needResetBgSetting) resetBgSetting() // reset whole properties
         else vm.resetBgWidgets() // when onresume but don't need setting reset, example) quit another app, clock refresh
@@ -406,7 +408,6 @@ class MainActivity : AppCompatActivity() {
             when(it) {
                 MainGestureListener.MainGestureListenerCmd.LONG_PRESS -> { if (vm.step.value() != Step.OPEN_ONE) showSettingInMainDialog() }
                 MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> {
-//                    devicePolicyManager.lockNow()
 
                     // TODO Need to update, adjust tmp now ( I install [Screen Off Application ] )
                     launchApp("gr.ictpro.jsalatas.screenoff")
@@ -423,22 +424,14 @@ class MainActivity : AppCompatActivity() {
 
         registBroadcast()
 
-//        devicePolicyManager = applicationContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-//        val cn = ComponentName(applicationContext, ShutdownConfigAdminReceiver::class.java)
-//        if (!devicePolicyManager.isAdminActive(cn)) {
-//            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-//                .apply { putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cn) }
-//            startActivityForResult(intent, 0)
-//        }
-
     }
 
     fun registBroadcast(){
         registerReceiver(timeReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
         registerReceiver(packageReceiver, IntentFilter().apply {
             addAction(Intent.ACTION_PACKAGE_ADDED)
-//            addAction(Intent.ACTION_PACKAGE_INSTALL)
             addAction(Intent.ACTION_PACKAGE_REMOVED)
+            addAction(Intent.ACTION_PACKAGE_REPLACED)
             addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED)
             addDataScheme("package")
         })
@@ -591,8 +584,6 @@ class MainActivity : AppCompatActivity() {
                     intervalStart()
                     return@postDelayed
                 }
-
-
             }
 
             if(curPosKeepCnt >= vm.twoStepOpenInterval.value!!){
@@ -626,7 +617,6 @@ class MainActivity : AppCompatActivity() {
     fun showSettingInMainDialog(){
 
         clearViews()
-        val simd = SettingMainEntranceDialog(this){}
         simd.show()
     }
 

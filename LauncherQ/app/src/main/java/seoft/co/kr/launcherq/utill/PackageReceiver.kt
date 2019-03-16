@@ -36,9 +36,10 @@ class PackageReceiver: BroadcastReceiver(){
             Repo.preference.setDrawerApps(SC.drawerApps)
 
         } else if (action == Intent.ACTION_PACKAGE_REPLACED) {
+            "ACTION_PACKAGE_REPLACED : $packageName".i(TAG)
             // ??
-        } else if (action == Intent.ACTION_PACKAGE_REMOVED) {
-            "ACTION_PACKAGE_REMOVED : $packageName".i(TAG)
+        } else if (action == Intent.ACTION_PACKAGE_FULLY_REMOVED) {
+            "ACTION_PACKAGE_FULLY_REMOVED : $packageName".i(TAG)
             SC.drawerApps = Repo.preference.getDrawerApps()
                 .asSequence()
                 .filterNot { it.pkgName == packageName }
