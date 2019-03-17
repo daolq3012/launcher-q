@@ -12,7 +12,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Process
-import android.provider.Settings
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -408,8 +407,6 @@ class MainActivity : AppCompatActivity() {
                 MainGestureListener.MainGestureListenerCmd.LONG_PRESS -> { if (vm.step.value() != Step.OPEN_ONE) showSettingInMainDialog() }
                 MainGestureListener.MainGestureListenerCmd.DOUBLE_TAP -> {
                     turnOffScreen()
-                    // TODO Need to update, adjust tmp now ( I install [Screen Off Application ] )
-//                    launchApp("gr.ictpro.jsalatas.screenoff")
                 }
                 MainGestureListener.MainGestureListenerCmd.FLING_UP -> {
                     startActivity(
@@ -425,19 +422,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun turnOffScreen(){
-        val defaultTurnOffTime = Settings.System.getInt(contentResolver, Settings.System.SCREEN_OFF_TIMEOUT, 30000)
-        val defaultBrightness = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 150)
-        Settings.System.putInt(contentResolver,Settings.System.SCREEN_OFF_TIMEOUT, 1)
-        Settings.System.putInt(contentResolver,Settings.System.SCREEN_BRIGHTNESS, 0)
         val intent = Intent(applicationContext,BlackScreenActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         }
         startActivity(intent)
-        Handler().postDelayed( {
-            Settings.System.putInt(contentResolver,Settings.System.SCREEN_OFF_TIMEOUT, defaultTurnOffTime)
-            Settings.System.putInt(contentResolver,Settings.System.SCREEN_BRIGHTNESS, defaultBrightness)
-        },3000)
     }
 
     fun registBroadcast(){

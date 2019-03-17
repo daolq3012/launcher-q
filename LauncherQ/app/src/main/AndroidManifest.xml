@@ -32,8 +32,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppThemeNoActionBar"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.main.BlackScreenActivity" android:theme="@style/AppThemeBlackNoActionBar" >
-        </activity>
+
         <activity
                 android:name=".ui.main.MainActivity"
                 android:clearTaskOnLaunch="true"
@@ -48,6 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.main.BlackScreenActivity" android:theme="@style/AppThemeBlackNoActionBar" />
         <activity android:name=".ui.splash.SplashActivity"/>
         <activity android:name=".ui.setting.BgScreenSettingActivity"/>
         <activity android:name=".ui.setting.LauncherSettingActivity"/>
