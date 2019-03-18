@@ -88,7 +88,7 @@ class LauncherSettingActivity: AppCompatActivity() {
 
             findPreference("clickDistance").setOnPreferenceClickListener { view ->
                 val snd = SelectNumberDialog(activity!!, "원스탭 열기 거리","DP",
-                    Repo.preference.getDistance(),100,200){
+                    Repo.preference.getDistance(),80,180){
                     Repo.preference.setDistance(it)
                     SC.needResetUxSetting = true
                 }

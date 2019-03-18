@@ -35,6 +35,9 @@ class SC{
 
         val SPLITTER = "#$#"
 
+
+        var can = true
+
     }
 
 

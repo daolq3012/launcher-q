@@ -20,18 +20,25 @@ class PackageReceiver: BroadcastReceiver(){
 
             val packageManager = App.get.packageManager
 
-            val checkSize = InstantUtil().getInstalledApps()
+            val isRunApp = InstantUtil().getInstalledApps()
                 .asSequence()
-                .filter {
-                    it.pkgName == packageName
-                }.toList().size
+                .map { it.pkgName }
+                .contains(packageName)
 
-            if(checkSize == 0) return
+            if(!isRunApp) return
+
+            SC.drawerApps = Repo.preference.getDrawerApps()
+
+            val isInDrawer = SC.drawerApps
+                .asSequence()
+                .map { it.pkgName }
+                .contains ( packageName )
+
+            if(isInDrawer) return
 
             val appInfo = packageManager.getApplicationInfo(packageName,0)
             val label = packageManager.getApplicationLabel(appInfo).toString()
 
-            SC.drawerApps = Repo.preference.getDrawerApps()
             SC.drawerApps.add(CommonApp(packageName, label ))
             Repo.preference.setDrawerApps(SC.drawerApps)
 

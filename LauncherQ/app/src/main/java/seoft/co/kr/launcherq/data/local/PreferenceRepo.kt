@@ -174,7 +174,7 @@ class PreferenceRepo {
         mPrefs.edit().putInt(SP_QL_DISTANCE, distance).apply()
     }
     fun getDistance() : Int{
-        return mPrefs.getInt(SP_QL_DISTANCE,150)
+        return mPrefs.getInt(SP_QL_DISTANCE,120)
     }
 
     fun setTwoStepOpenInterval(interval : Int) {
