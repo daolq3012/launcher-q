@@ -250,10 +250,10 @@ class ExpertSettingActivity : AppCompatActivity() {
             cbNegative = {},
             inputType1 = InputType.TYPE_CLASS_TEXT,
             text1 = etName.text.toString(),
-            hint1 = "Mother",
+            hint1 = "Mike",
             inputType2 = InputType.TYPE_CLASS_PHONE,
             text2 = etUri.text.toString(),
-            hint2 = "01011223344"
+            hint2 = "01023459876"
         )
     }
 
@@ -270,10 +270,10 @@ class ExpertSettingActivity : AppCompatActivity() {
             cbNegative = {},
             inputType1 = InputType.TYPE_CLASS_TEXT,
             text1 = etName.text.toString(),
-            hint1 = "Google Map",
+            hint1 = "(1)Google Map",
             inputType2 = InputType.TYPE_CLASS_TEXT,
             text2 = etPkgName.text.toString(),
-            hint2 = "com.google.android.apps.maps"
+            hint2 = "(2)com.google.android.apps.maps"
         )
     }
 

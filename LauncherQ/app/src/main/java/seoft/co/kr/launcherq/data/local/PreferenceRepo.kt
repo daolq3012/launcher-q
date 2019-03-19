@@ -46,8 +46,6 @@ class PreferenceRepo {
 
     private val SP_QL_TWO_STEP_OPEN_INTERVAL = "SP_QL_TWO_STEP_OPEN_INTERVAL"
 
-    private val SP_ON_APPS = "SP_ON_APPS"
-
     private val SP_MY_ICON_PIXEL = "SP_MY_ICON_PIXEL"
 
     private val SP_FLING_TOP_BOUNDARY = "SP_FLING_DOWN_BOUNDARY"

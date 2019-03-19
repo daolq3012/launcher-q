@@ -33,6 +33,10 @@
                 android:key="clickLoadSetting"
                 android:title="clickLoadSetting"
                 android:summary="배경을 임의의 이미지로 설정합니다"/>
+        <PreferenceScreen
+                android:key="clickMyIconPixelSetting"
+                android:title="clickMyIconPixelSetting"
+                android:summary="배경을 임의의 이미지로 설정합니다"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

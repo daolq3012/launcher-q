@@ -22,7 +22,21 @@ fun setVisibiltyTwoStepBg(ll: LinearLayout, twoStepApp: QuickApp) {
 fun setVisibiltyTwoStepItem(ll: LinearLayout, twoStepApp: QuickApp, pos:Int, twoAppList:List<Command>) {
 
     when (twoStepApp.type) {
-        QuickAppType.ONE_APP, QuickAppType.EMPTY -> return
+
+        // not use twoStepApp when type is ONE_APP
+        QuickAppType.ONE_APP -> {
+            val shortcutQuery = LauncherApps.ShortcutQuery().apply {
+                setQueryFlags(
+                    LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
+                            LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST or
+                            LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                setPackage(twoStepApp.commonApp.pkgName)
+            }
+            val twoStepList = MainActivity.launcherApps.getShortcuts(shortcutQuery, Process.myUserHandle())!!
+            ll.visibility = if(twoStepList.size > pos) View.VISIBLE
+            else View.GONE
+        }
+        QuickAppType.EMPTY -> return
         QuickAppType.FOLDER -> {
             ll.visibility = if(twoStepApp.dir.size > pos) View.VISIBLE
             else View.GONE
@@ -58,9 +72,9 @@ fun setTextTwoStepItem(tv: TextView, qApp: QuickApp, pos:Int, twoAppList:List<Co
         QuickAppType.EXPERT -> {
             with(qApp.expert!!.useTwo){
                 if(this!![pos] != null) tv.text = this[pos]!!.name
-//                if(this!!.size > pos) tv.text = this[pos]!!.name
             }
         }
+        // not use twoStepApp when type is ONE_APP
         QuickAppType.ONE_APP -> {
 
             val shortcutQuery = LauncherApps.ShortcutQuery().apply {
@@ -69,12 +83,10 @@ fun setTextTwoStepItem(tv: TextView, qApp: QuickApp, pos:Int, twoAppList:List<Co
                             LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST or
                             LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
                 setPackage(qApp.commonApp.pkgName)
-
             }
 
-            with(MainActivity.launcherApps.getShortcuts(shortcutQuery, Process.myUserHandle())!!){
-                if(this.size > pos) tv.text = this[pos].shortLabel
-            }
+            val twoStepList = MainActivity.launcherApps.getShortcuts(shortcutQuery, Process.myUserHandle())!!
+            if(twoStepList.size > pos) tv.text = twoStepList[pos].shortLabel
         }
     }
 }

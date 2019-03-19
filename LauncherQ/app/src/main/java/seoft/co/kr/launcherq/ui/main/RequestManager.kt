@@ -75,7 +75,6 @@ class RequestManager(val activity: MainActivity){
 
     fun showSystemPermissionRequestDialog(){
 
-        // TODO fix bug of call twice
         AlertDialog.Builder(activity).showDialog(
             title = "Launcher Q 에서 다음 권한이 필요합니다",
             message = "- 화면 잠금시간 임시 제어(홈 화면 더블 탭시 화면꺼짐)\n- 화면 밝기 임시 제어(홈 화면 더블 탭시 화면꺼짐\n\n권한요청을 다시 하시겠습니까?",

@@ -138,6 +138,17 @@ class LauncherSettingActivity: AppCompatActivity() {
                 (activity as LauncherSettingActivity).loadData()
                 true
             }
+
+
+            findPreference("clickMyIconPixelSetting").setOnPreferenceClickListener { view ->
+                val snd = SelectNumberDialog(activity!!, "임의 아이콘 크기 설정","pixel",
+                    Repo.preference.getTopBoundary(),10,100){
+                    Repo.preference.setTopBoundary(it)
+                }
+                snd.show()
+                "해당 사이즈를 적용하려면 임의 아이콘을 재 설정해야합니다".toast()
+                true
+            }
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

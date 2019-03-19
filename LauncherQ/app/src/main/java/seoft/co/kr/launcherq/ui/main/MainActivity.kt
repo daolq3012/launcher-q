@@ -449,21 +449,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
-        // for prevent overlap fling up
         if(event.action == MotionEvent.ACTION_DOWN &&
             ((event.y <= screenSize.y - screenSize.y / 10 * (SC.FLING_BOTTOM_BOUNDARY/10F))
             && (event.y >= screenSize.y / 10 * (SC.FLING_TOP_BOUNDARY/10F)))) {
 
             vm.emptyTwoStepApp()
-
             val distance = vm.distance
-
             mc.calcOpenTouchStart(event.x.toInt(),event.y.toInt(), distance, screenSize)
             val params = RelativeLayout.LayoutParams(distance.toPixel()*2, distance.toPixel()*2)
                 .apply { setMargins(mc.startViewMarginPointX, mc.startViewMarginPointY,0,0) }
-
             rlAppStarter.layoutParams = params
-
             vm.step.set(Step.TOUCH_START)
 
         } else if(event.action == MotionEvent.ACTION_DOWN){
@@ -482,9 +477,7 @@ class MainActivity : AppCompatActivity() {
                     for (i in 0 until 4) {
                         if (this[i][0].x < curX && curX < this[i][1].x &&
                             this[i][0].y < curY && curY < this[i][1].y ) {
-
                             mc.calcOpenOneStep(curX, curY,gvSize,screenSize,vm.gridCnt)
-
                             val params = RelativeLayout.LayoutParams(gvSize.toPixel(), gvSize.toPixel())
                                 .apply { setMargins(mc.gridViewMarginPointX, mc.gridViewMarginPointY,0,0) }
                             gvApps.layoutParams = params
@@ -494,23 +487,18 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-
             } else if(vm.step.value() == Step.OPEN_ONE) {
                 twoStepStartPos.x = event.x.toInt()
                 twoStepStartPos.y = event.y.toInt()
                 curPosInOneStep = mc.calcInboundOneStep(twoStepStartPos.x,twoStepStartPos.y,vm.gridCnt)
-
-
             }
-        } else if(event.action == MotionEvent.ACTION_UP) {
-            if(vm.step.value() == Step.TOUCH_START) { vm.step.set(Step.NONE) }
+        }
+        else if(event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+            if(vm.step.value() == Step.TOUCH_START) vm.step.set(Step.NONE)
             else if(vm.step.value() == Step.OPEN_ONE) {
                 val pos = mc.calcInboundOneStep(event.x.toInt(),event.y.toInt(),vm.gridCnt)
-                if(pos != -1 && vm.liveDataApps.value!![pos].type != QuickAppType.EMPTY)  {
-                    runOneStepApp(vm.liveDataApps.value!![pos])
-                } else {
-                    turnOnPreview(false)
-                }
+                if(pos != -1 && vm.liveDataApps.value!![pos].type != QuickAppType.EMPTY)  runOneStepApp(vm.liveDataApps.value!![pos])
+                else turnOnPreview(false)
             }
 
         }
@@ -530,6 +518,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun intervaling(){
+
         Handler().postDelayed({
 
             if(vm.step.value() != Step.OPEN_ONE) return@postDelayed
