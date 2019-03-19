@@ -38,7 +38,10 @@ class PackageReceiver: BroadcastReceiver(){
 
             val appInfo = packageManager.getApplicationInfo(packageName,0)
             val label = packageManager.getApplicationLabel(appInfo).toString()
-
+            SC.drawerApps
+                .forEach {
+                    Repo.imageCacheRepo.saveCache(it.pkgName,App.get.packageManager.getApplicationIcon(it.pkgName))
+                }
             SC.drawerApps.add(CommonApp(packageName, label ))
             Repo.preference.setDrawerApps(SC.drawerApps)
 

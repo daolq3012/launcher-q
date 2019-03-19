@@ -28,7 +28,7 @@ class BackgroundRepo{
         val myPath = File(dir, IMAGE_FILE_NAME)
 
         val fos = FileOutputStream(myPath)
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos)
+        bitmap.compress(Bitmap.CompressFormat.PNG,50,fos)
 
         SC.imgDir = dir.absolutePath
 

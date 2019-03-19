@@ -25,20 +25,9 @@ class SelectActivity : AppCompatActivity() {
     val TAG = "SelectActivity#$#"
 
     val COLUMN_COUNT = 5
+    var showLabelOptions = false
 
     private lateinit var binding: ActivitySelectBinding
-    private val selectRecyclerViewAdapter = SelectRecyclerViewAdapter(Repo) {
-
-        val rstIntent = Intent()
-            .apply {
-                putExtra(PKG_NAME,it.pkgName)
-                putExtra(LABEL,it.label)
-                putExtra(IS_EXCEPT,it.isExcept)
-            }
-
-        setResult(Activity.RESULT_OK,rstIntent)
-        finish()
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,15 +45,32 @@ class SelectActivity : AppCompatActivity() {
             }
         })
 
+        vm.showEtcOptions = intent.getBooleanExtra(SHOW_ETC_OPTIONS,false)
+        showLabelOptions = intent.getBooleanExtra(SHOW_LABEL,false)
+
+        val selectRecyclerViewAdapter = SelectRecyclerViewAdapter(Repo,showLabelOptions) {
+
+            val rstIntent = Intent()
+                .apply {
+                    putExtra(PKG_NAME,it.pkgName)
+                    putExtra(LABEL,it.label)
+                    putExtra(IS_EXCEPT,it.isExcept)
+                }
+
+            setResult(Activity.RESULT_OK,rstIntent)
+            finish()
+        }
+
         binding.gvApps.layoutManager = GridLayoutManager(this,COLUMN_COUNT)
         binding.gvApps.adapter = selectRecyclerViewAdapter
         binding.gvApps.addItemDecoration(GridSpacingItemDecoration(COLUMN_COUNT,30))
+
+
         vm.liveDataCommonApps.observe(this,
             Observer { it?.let {
                 selectRecyclerViewAdapter.replaceData(it)
             } })
 
-        vm.showOptions = intent.getBooleanExtra(SHOW_OPTIONS,false)
 
         vm.start()
 
@@ -86,7 +92,8 @@ class SelectActivity : AppCompatActivity() {
     }
 
     companion object {
-        val SHOW_OPTIONS = "SHOW_OPTIONS"
+        val SHOW_ETC_OPTIONS = "SHOW_ETC_OPTIONS"
+        val SHOW_LABEL = "SHOW_LABEL"
     }
 
     inner class GridSpacingItemDecoration(

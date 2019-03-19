@@ -13,13 +13,13 @@ class SelectViewModel(val repo: Repo): ViewModelHelper() {
 
     var liveDataCommonApps = MutableLiveData<List<CommonApp>>()
 
-    var showOptions = false
+    var showEtcOptions = false
 
     override fun start() {
         val instApps = SC.drawerApps.toMutableList()
 
         // batch order is bottom to top
-        CAppException.values().forEach { instApps.add(0, CommonApp(it.get,isExcept = true)) }
+        if(showEtcOptions) CAppException.values().forEach { instApps.add(0, CommonApp(it.get,isExcept = true)) }
 
         liveDataCommonApps.value = instApps
     }

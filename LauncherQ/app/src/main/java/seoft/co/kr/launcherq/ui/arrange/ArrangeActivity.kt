@@ -9,6 +9,9 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AlertDialog
@@ -28,13 +31,15 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
+
 class ArrangeActivity : AppCompatActivity() {
 
     val TAG = "ArrangeActivity#$#"
 
     private lateinit var binding: ActivityArrangeBinding
-    val REQ_CODE_APP_SELECT = 1234
-    val REQ_CODE_EXPERT_SETTING = 1235
+    val REQ_CODE_APP_SELECT = 1000
+    val REQ_CODE_APP_ICON_SELECT = 2000
+    val REQ_CODE_EXPERT_SETTING = 3000
 
     lateinit var vm : ArrangeViewModel
 
@@ -53,13 +58,15 @@ class ArrangeActivity : AppCompatActivity() {
                 // SHOW_OPTIONS has show drawer, etc... when select app activity
                 MsgType.SELECT_APP -> {
                     val intent = Intent(applicationContext,SelectActivity::class.java).apply {
-                        putExtra(SelectActivity.SHOW_OPTIONS,true)
+                        putExtra(SelectActivity.SHOW_ETC_OPTIONS,true)
+                        putExtra(SelectActivity.SHOW_LABEL,true)
                     }
                     startActivityForResult(intent,REQ_CODE_APP_SELECT)
                 }
                 MsgType.SELECT_APP_IN_FOLDER -> {
                     val intent = Intent(applicationContext,SelectActivity::class.java).apply {
-                        putExtra(SelectActivity.SHOW_OPTIONS,false)
+                        putExtra(SelectActivity.SHOW_ETC_OPTIONS,false)
+                        putExtra(SelectActivity.SHOW_LABEL,true)
                     }
                     startActivityForResult(intent,REQ_CODE_APP_SELECT)
                 }
@@ -166,7 +173,25 @@ class ArrangeActivity : AppCompatActivity() {
     }
 
     fun selectIcon(){
-        CropImage.startPickImageActivity(this)
+        SelectorDialog(this,
+            "선택하세요",
+            SelectorDialog.DialogSelectorInfo("기본 아이콘 사용"),
+            SelectorDialog.DialogSelectorInfo("갤러리에서 가져오기"),
+            cb = {
+                when(it) {
+                    1 -> {
+                        val intent = Intent(applicationContext,SelectActivity::class.java).apply {
+                            putExtra(SelectActivity.SHOW_ETC_OPTIONS,false)
+                            putExtra(SelectActivity.SHOW_LABEL,false)
+                        }
+                        startActivityForResult(intent,REQ_CODE_APP_ICON_SELECT)
+                    }
+                    2 -> {
+                        CropImage.startPickImageActivity(this)
+                    }
+                }
+            }
+        ).create()
     }
 
 
@@ -196,35 +221,75 @@ class ArrangeActivity : AppCompatActivity() {
                         getBooleanExtra(IS_EXCEPT,false)
                     ))
             }
-        } else if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        } else if (resultCode == Activity.RESULT_OK && requestCode == REQ_CODE_APP_ICON_SELECT){
+            data?.run {
+
+                val pkgName = getStringExtra(PKG_NAME)
+
+                if(!Repo.imageCacheRepo.containsKey(pkgName))
+                    Repo.imageCacheRepo.saveCache(pkgName,App.get.packageManager.getApplicationIcon(pkgName))
+
+                val drawer = Repo.imageCacheRepo.getDrawable(pkgName)
+                val bitImg = drawableToBitmap(drawer)
+
+                adjustBitmap(bitImg)
+            }
+        }
+        else if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val imageUri = CropImage.getPickImageResultUri(this, data)
 
             CropImage.activity(imageUri)
-                .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
+                .setOutputCompressFormat(Bitmap.CompressFormat.PNG)
                 .setAspectRatio(vm.myIconPixel, vm.myIconPixel)
                 .start(this)
 
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val result = CropImage.getActivityResult(data)
             val bitImg = MediaStore.Images.Media.getBitmap(this.contentResolver,result.uri)
+            adjustBitmap(bitImg)
 
-            val cw = ContextWrapper(applicationContext)
-            val dir = cw.getDir("imageDir", Context.MODE_PRIVATE)
-            val myPath = File(dir, "${vm.dir}#${vm.curPos}")
-
-            val fos = FileOutputStream(myPath)
-//            bitImg.compress(Bitmap.CompressFormat.PNG,100,fos)
-            bitImg.compress(Bitmap.CompressFormat.JPEG,100,fos)
-
-            val b = BitmapFactory.decodeStream(FileInputStream(myPath))
-            vm.saveImageCache("${vm.dir}#${vm.curPos}",b)
-
-            vm.setHasImage(true)
         } else if (requestCode == REQ_CODE_EXPERT_SETTING && resultCode == Activity.RESULT_OK) {
             vm.saveExpertedQuickAppToCurPos()
         }
 
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun drawableToBitmap(drawable: Drawable): Bitmap {
+        var bitmap: Bitmap? = null
+
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap!!
+            }
+        }
+
+        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            bitmap = Bitmap.createBitmap(
+                1,
+                1,
+                Bitmap.Config.ARGB_8888
+            ) // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
+        drawable.draw(canvas)
+        return bitmap!!
+    }
+
+    fun adjustBitmap(bitmap: Bitmap){
+        val cw = ContextWrapper(applicationContext)
+        val dir = cw.getDir("imageDir", Context.MODE_PRIVATE)
+        val myPath = File(dir, "${vm.dir}#${vm.curPos}")
+        val fos = FileOutputStream(myPath)
+        bitmap.compress(Bitmap.CompressFormat.PNG,50,fos)
+        val b = BitmapFactory.decodeStream(FileInputStream(myPath))
+        vm.saveImageCache("${vm.dir}#${vm.curPos}",b)
+
+        vm.setHasImage(true)
     }
 
     companion object {
