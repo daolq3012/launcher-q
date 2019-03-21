@@ -1,5 +1,6 @@
 package seoft.co.kr.launcherq.ui.main
 
+import android.app.admin.DevicePolicyManager
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.*
@@ -9,6 +10,7 @@ import android.databinding.DataBindingUtil
 import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Process
@@ -59,6 +61,8 @@ class MainActivity : AppCompatActivity() {
     var curPosKeepCnt = 0
 
     var twoStepStartPos = Point()
+
+    lateinit var devicePolicyManager : DevicePolicyManager
 
     companion object {
         val launcherApps : LauncherApps by lazy { App.get.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps }
@@ -419,14 +423,27 @@ class MainActivity : AppCompatActivity() {
 
         registBroadcast()
 
+        devicePolicyManager = applicationContext.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        val cn = ComponentName(applicationContext, ShutdownConfigAdminReceiver::class.java)
+        if (!devicePolicyManager.isAdminActive(cn)) {
+            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+                .apply { putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, cn) }
+            startActivityForResult(intent, 0)
+        }
+
     }
 
     fun turnOffScreen(){
-        val intent = Intent(applicationContext,BlackScreenActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-            addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            devicePolicyManager.lockNow()
+        } else {
+            val intent = Intent(applicationContext,BlackScreenActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            }
+            startActivity(intent)
         }
-        startActivity(intent)
     }
 
     fun registBroadcast(){

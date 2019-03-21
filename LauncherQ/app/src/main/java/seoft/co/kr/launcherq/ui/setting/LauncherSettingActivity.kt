@@ -2,12 +2,14 @@ package seoft.co.kr.launcherq.ui.setting
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceFragment
 import android.support.v4.provider.DocumentFile
 import android.support.v7.app.AppCompatActivity
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.ui.opensource.OpensourceActivity
 import seoft.co.kr.launcherq.utill.*
 import java.util.*
 
@@ -149,6 +151,36 @@ class LauncherSettingActivity: AppCompatActivity() {
                 "해당 사이즈를 적용하려면 임의 아이콘을 재 설정해야합니다".toast()
                 true
             }
+
+            findPreference("clickShareApp").setOnPreferenceClickListener { view ->
+                val intent = Intent(Intent.ACTION_SEND) .apply { type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=seoft.co.kr.launcherq") }
+
+                val chooser = Intent.createChooser(intent, "투표투표")
+                    .apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                App.get.startActivity(chooser)
+                true
+            }
+
+            findPreference("clickOpensource").setOnPreferenceClickListener { view ->
+                startActivity(Intent(activity.applicationContext, OpensourceActivity::class.java))
+                true
+            }
+
+            findPreference("clickLauncherQInfo").setOnPreferenceClickListener { view ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://seoft.co.kr/laq")))
+                true
+            }
+
+            findPreference("clickSeoft").setOnPreferenceClickListener { view ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://seoft.co.kr")))
+                true
+            }
+
+
+
         }
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -8,3 +8,5 @@ data class ExpertOption(
 )
 
 data class Shortcut(val id: String, val packageName: String, val label: String, val shortcutInfo: ShortcutInfo)
+
+data class Opensource(val title:String, val content:String)

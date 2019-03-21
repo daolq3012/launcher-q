@@ -153,7 +153,7 @@ fun setBottoms(ll: LinearLayout,tv:TextView, pickedApp: QuickApp, arrangeBottoms
             }
         }
         ArrangeViewModel.ArrangeBottoms.ICON -> {
-            if(pickedApp.type == QuickAppType.EMPTY || pickedApp.type == QuickAppType.FOLDER) {
+            if(pickedApp.type == QuickAppType.EMPTY) {
                 ll.isClickable = false
                 tv.setTextColor(xColor)
             } else {
