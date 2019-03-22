@@ -6,6 +6,7 @@ import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
 import seoft.co.kr.launcherq.data.model.CommonApp
 import seoft.co.kr.launcherq.data.model.Info
 import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.ui.setting.FontActivty
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
 
@@ -14,8 +15,9 @@ class PreferenceRepo {
     private val DEFAULT_DEVICE_X = 1080
     private val DEFAULT_DEVICE_Y = 1920
 
-    private val SP_IS_FIRST_LAUNCH = "PFRK_IS_FIRST_LAUNCH"
     private val mPrefs = PreferenceManager.getDefaultSharedPreferences(App.get)
+
+    private val SP_IS_FIRST_LAUNCH = "PFRK_IS_FIRST_LAUNCH"
     private val SP_BG_IMAGE_BITMAP_PATH = "SP_BG_IMAGE_BITMAP_PATH"
     private val SP_BG_IMAGE_COLOR = "SP_BG_IMAGE_COLOR"
     private val SP_DEVICE_X = "SP_DEVICE_X"
@@ -92,11 +94,11 @@ class PreferenceRepo {
         var jsonStr = mPrefs.getString(SP_BG_WIDGET_INFOS,"")
         if (jsonStr.isNullOrEmpty()) {
             val backgroundInfos = BackgroundWidgetInfos( arrayOf(
-                Info("HH:mm",20,"#00574B",50,100,""),
-                Info("AM%%PM",20,"#00574B",250,200,""),
-                Info("yyyy. MM. dd.",20,"#00574B",50,300,""),
-                Info("Sun%%Mon%%Tue%%Wed%%Thu%%Fri%%Sat",20,"#00574B",250,400,""),
-                Info("WELCOME%%TO%%LAUNCHER Q",20,"#00574B",50,500,"")
+                Info("HH:mm",20,"#00574B",50,100,FontActivty.DEFAULT_FONT),
+                Info("AM%%PM",20,"#00574B",250,200,FontActivty.DEFAULT_FONT),
+                Info("yyyy. MM. dd.",20,"#00574B",50,300,FontActivty.DEFAULT_FONT),
+                Info("Sun%%Mon%%Tue%%Wed%%Thu%%Fri%%Sat",20,"#00574B",250,400,FontActivty.DEFAULT_FONT),
+                Info("WELCOME%%TO%%LAUNCHER Q",20,"#00574B",50,500,FontActivty.DEFAULT_FONT)
             ))
             setBgWidgetInfos(backgroundInfos)
             jsonStr = SC.gson.toJson(backgroundInfos)

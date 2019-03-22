@@ -11,7 +11,6 @@ import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
 
 class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoType): ViewModelHelper() {
 
@@ -32,6 +31,8 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
     val widgetInfoType : ObservableField<WidgetInfoType> by lazy {
         ObservableField(widgetInfoType_)
     }
+
+    val FONT_ACTIVITY = 100
 
     override fun start() {
 
@@ -56,6 +57,16 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
             bgwi.set(this)
         }
     }
+
+    fun saveFont(font:String){
+
+        bgwi.get()?.copy()?.run {
+            Infos[widgetInfoType_.getInt].font = font
+            bgwi.set(this)
+        }
+    }
+
+    fun clickFontBt() { toActMsg(MsgType.START_ACTIVITY, FONT_ACTIVITY) }
 
     fun clickColorBt() {
         bgwi.get()?.run {
@@ -82,6 +93,8 @@ class BgWidgetSettingViewModel(val repo: Repo, val widgetInfoType_: WidgetInfoTy
             bgwi.set(this)
         }
     }
+
+
 
     fun clickOnOffBt(v:View) {
 

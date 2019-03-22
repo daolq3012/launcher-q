@@ -3,6 +3,7 @@ package seoft.co.kr.launcherq.utill
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.View
 import android.widget.*
 import seoft.co.kr.launcherq.R
@@ -12,6 +13,7 @@ import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import seoft.co.kr.launcherq.ui.arrange.ArrangeViewModel
+import seoft.co.kr.launcherq.ui.setting.FontActivty
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,6 +40,19 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                     leftMargin = posX
                     topMargin = posY }
             it.setTextColor(color.toIntColor())
+
+            if(this.font == FontActivty.DEFAULT_FONT)
+                it.typeface = Typeface.DEFAULT
+            else if(this.font == FontActivty.LOAD_FONT_FILE) {
+
+            } else {
+                try {
+                    //ref : https://dreamaz.tistory.com/292
+                    it.typeface = Typeface.createFromAsset(App.get.assets, this.font)
+                } catch (e:Exception) {
+                    it.typeface = Typeface.DEFAULT
+                }
+            }
 
             when(type){
                 WidgetInfoType.TIME -> {

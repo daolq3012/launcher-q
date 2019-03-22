@@ -1,7 +1,9 @@
 package seoft.co.kr.launcherq.ui.setting
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -42,6 +44,8 @@ class BgWidgetSettingActivity : AppCompatActivity() {
 
     lateinit var widgetType : WidgetInfoType
 
+    val REQ_FONT = 900
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,14 +63,34 @@ class BgWidgetSettingActivity : AppCompatActivity() {
 
         vm.observeActMsg(this, Observer {
             when(it) {
-                MsgType.PICK_COLOR  -> pickColor(vm.msg as String)
-                MsgType.OPEN_INPUT_DIALOG  -> openInputDialog(vm.msg as String)
+                MsgType.PICK_COLOR -> pickColor(vm.msg as String)
+                MsgType.OPEN_INPUT_DIALOG -> openInputDialog(vm.msg as String)
+                MsgType.START_ACTIVITY -> {
+                    if(vm.msg as Int == vm.FONT_ACTIVITY) {
+                        startActivityForResult(Intent(application,FontActivty::class.java),REQ_FONT)
+                    }
+
+                }
             }
         })
 
         initListener(widgetType)
 
         vm.start()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == REQ_FONT && resultCode == Activity.RESULT_OK) {
+
+            data?.run {
+                vm.saveFont(getStringExtra(FontActivty.FONT))
+            }
+
+        }
+
+
     }
 
     fun initListener(widgetType : WidgetInfoType){

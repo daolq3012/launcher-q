@@ -25,7 +25,7 @@
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:title="툴바 타이틀"
+                    app:title="폰트설정"
                     app:titleTextColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -42,8 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-
+            
+            <ListView android:layout_width="match_parent" android:layout_height="match_parent" />
 
         </LinearLayout>
 
