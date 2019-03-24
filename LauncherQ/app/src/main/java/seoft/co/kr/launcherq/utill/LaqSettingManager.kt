@@ -8,8 +8,6 @@ class LaqSettingManager{
 
     val TAG = "LaqSettingManager#$#"
 
-//    lateinit var laqSetting : LaqSetting
-
     fun getJson(repo: Repo): String {
 
         with(repo.preference) {

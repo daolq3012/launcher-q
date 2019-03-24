@@ -43,6 +43,7 @@ class LauncherSettingActivity: AppCompatActivity() {
         launcherSettingActivity = this
 
         initToolbar()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

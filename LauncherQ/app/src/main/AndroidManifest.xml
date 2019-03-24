@@ -67,7 +67,7 @@
                 android:windowSoftInputMode="stateHidden|stateVisible|adjustPan"/>
         <activity android:name=".ui.arrange.ArrangeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.select.SelectActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.setting.FontActivty" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.setting.FontActivity" android:screenOrientation="portrait"/>
         <activity
                 android:screenOrientation="portrait"
                 android:name=".ui.arrange.ExpertSettingActivity"

@@ -13,7 +13,8 @@ import seoft.co.kr.launcherq.data.model.QuickApp
 import seoft.co.kr.launcherq.data.model.QuickAppType
 import seoft.co.kr.launcherq.data.model.WidgetInfoType
 import seoft.co.kr.launcherq.ui.arrange.ArrangeViewModel
-import seoft.co.kr.launcherq.ui.setting.FontActivty
+import seoft.co.kr.launcherq.ui.setting.FontActivity
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,16 +42,28 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                     topMargin = posY }
             it.setTextColor(color.toIntColor())
 
-            if(this.font == FontActivty.DEFAULT_FONT)
-                it.typeface = Typeface.DEFAULT
-            else if(this.font == FontActivty.LOAD_FONT_FILE) {
-
-            } else {
-                try {
-                    //ref : https://dreamaz.tistory.com/292
-                    it.typeface = Typeface.createFromAsset(App.get.assets, this.font)
-                } catch (e:Exception) {
-                    it.typeface = Typeface.DEFAULT
+            when(this.font){
+                FontActivity.DEFAULT_FONT -> it.typeface = Typeface.DEFAULT
+                FontActivity.LOAD_FONT_FILE ->{
+                    /**
+                     * User font was saved in internal storage name is WidgetInfoType's getStr.ttf ex) [timeWidget.ttf]
+                     * and this widget's font value is [FontActivity.LOAD_FONT_FILE]
+                     */
+                    try {
+                        val route = "${App.get.applicationContext.filesDir.absolutePath}/${type.getStr}.ttf"
+                        val fontFile = File(route)
+                        it.typeface = Typeface.createFromFile(fontFile.path)
+                    } catch (e:Exception) {
+                        it.typeface = Typeface.DEFAULT
+                    }
+                }
+                else -> {
+                    try {
+                        //ref : https://dreamaz.tistory.com/292
+                        it.typeface = Typeface.createFromAsset(App.get.assets, this.font)
+                    } catch (e:Exception) {
+                        it.typeface = Typeface.DEFAULT
+                    }
                 }
             }
 

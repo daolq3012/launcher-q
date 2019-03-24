@@ -1,7 +1,9 @@
 package seoft.co.kr.launcherq.ui.setting
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -11,20 +13,23 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_font.*
 import seoft.co.kr.launcherq.R
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.setupActionBar
+import seoft.co.kr.launcherq.data.model.WidgetInfoType
+import seoft.co.kr.launcherq.utill.*
 
-class FontActivty : AppCompatActivity() {
 
-    val TAG = "FontActivty#$#"
+class FontActivity : AppCompatActivity() {
+
+    val TAG = "FontActivity#$#"
 
     companion object {
-        val FONT = "FONT"
-        val DEFAULT_FONT = "DEFAULT_FONT"
-        var LOAD_FONT_FILE = "LOAD_FONT_FILE"
+        const val FONT = "FONT"
+        const val WIDGET_TYPE = "WIDGET_TYPE"
+        const val DEFAULT_FONT = "DEFAULT_FONT"
+        const val LOAD_FONT_FILE = "LOAD_FONT_FILE"
 
     }
 
+    val REQ_LOAD = 1112
 
     val fonts = arrayListOf(
         "fonts/lato_bold.ttf",
@@ -42,6 +47,7 @@ class FontActivty : AppCompatActivity() {
         DEFAULT_FONT
     )
 
+    lateinit var widgetType : WidgetInfoType
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +57,8 @@ class FontActivty : AppCompatActivity() {
         lvFont.adapter = FontListAdapter()
 
         initToolbar()
+
+        widgetType = intent.getStringExtra(WIDGET_TYPE).getWidget()
     }
 
     fun selectFont(fontFileName:String){
@@ -58,7 +66,8 @@ class FontActivty : AppCompatActivity() {
         fontFileName.i(TAG)
 
         if(fontFileName == LOAD_FONT_FILE) {
-
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "application/*" }
+            startActivityForResult(intent, LauncherSettingActivity.REQ_LOAD)
         } else {
             val rstIntent = Intent()
                 .apply {
@@ -66,6 +75,38 @@ class FontActivty : AppCompatActivity() {
                 }
             setResult(Activity.RESULT_OK,rstIntent)
             finish()
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LauncherSettingActivity.REQ_LOAD && resultCode == Activity.RESULT_OK) {
+            try{
+                if(data == null || data.data == null ) throw IllegalArgumentException("FILE_LOAD_ERR")
+
+                val ois = contentResolver.openInputStream(data.data)
+                ois?:throw IllegalArgumentException("FILE_LOAD_ERR")
+                val ofo = openFileOutput("${widgetType.getStr}.ttf", Context.MODE_PRIVATE)
+                ofo?: throw IllegalArgumentException("FILE_SAVE_ERR")
+                ofo.write(ois.readBytes())
+                ofo.close()
+                ois.close()
+
+                val rstIntent = Intent()
+                    .apply {
+                        putExtra(FONT,LOAD_FONT_FILE)
+                    }
+                setResult(Activity.RESULT_OK,rstIntent)
+                finish()
+
+            } catch (e:Exception) {
+                e.printStackTrace()
+                "파일을 불러올 수 없습니다".toast()
+            }
+
+            "설정 불러오기 완료".toast()
         }
     }
 
@@ -101,8 +142,12 @@ class FontActivty : AppCompatActivity() {
             val tvFont = view.findViewById<TextView>(R.id.tvFont)
 
             tvFont.text = if(fonts[pos] == LOAD_FONT_FILE) "사용자 폰트 설정"
-            else if(fonts[pos] == DEFAULT_FONT) "디바이스 폰트"
+            else if(fonts[pos] == DEFAULT_FONT) "스마트폰 기본 폰트"
             else fonts[pos]
+
+            tvFont.typeface = if(fonts[pos] == LOAD_FONT_FILE) Typeface.DEFAULT
+            else if(fonts[pos] == DEFAULT_FONT) Typeface.DEFAULT
+            else Typeface.createFromAsset(App.get.assets, fonts[pos] )
 
             view.setOnClickListener { v ->
                 selectFont(fonts[pos])

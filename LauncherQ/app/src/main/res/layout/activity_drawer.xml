@@ -12,12 +12,12 @@
     <RelativeLayout
             android:id="@+id/rlRoot"
             android:layout_width="match_parent"
-            android:background="@color/transparent"
             android:layout_height="match_parent"
             tools:context=".ui.drawer.DrawerActivity">
 
         <LinearLayout
-                android:layout_marginTop="40dp"
+                android:background="@color/transparent"
+                android:paddingTop="40dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

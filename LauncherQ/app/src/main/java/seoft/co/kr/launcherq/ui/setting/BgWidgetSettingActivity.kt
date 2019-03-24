@@ -67,7 +67,12 @@ class BgWidgetSettingActivity : AppCompatActivity() {
                 MsgType.OPEN_INPUT_DIALOG -> openInputDialog(vm.msg as String)
                 MsgType.START_ACTIVITY -> {
                     if(vm.msg as Int == vm.FONT_ACTIVITY) {
-                        startActivityForResult(Intent(application,FontActivty::class.java),REQ_FONT)
+
+                        val fontIntent = Intent(application,FontActivity::class.java).apply {
+                            putExtra(FontActivity.WIDGET_TYPE, widgetType.getStr)
+                        }
+
+                        startActivityForResult(fontIntent,REQ_FONT)
                     }
 
                 }
@@ -85,7 +90,7 @@ class BgWidgetSettingActivity : AppCompatActivity() {
         if(requestCode == REQ_FONT && resultCode == Activity.RESULT_OK) {
 
             data?.run {
-                vm.saveFont(getStringExtra(FontActivty.FONT))
+                vm.saveFont(getStringExtra(FontActivity.FONT))
             }
 
         }
