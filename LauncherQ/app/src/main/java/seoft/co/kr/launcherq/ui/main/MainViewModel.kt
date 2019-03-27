@@ -69,7 +69,16 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
         SC.drawerApps
             .forEach {
-                repo.imageCacheRepo.saveCache(it.pkgName,App.get.packageManager.getApplicationIcon(it.pkgName))
+                try {
+                    repo.imageCacheRepo.saveCache(it.pkgName,App.get.packageManager.getApplicationIcon(it.pkgName))
+                } catch (e:Exception){
+                    val tmpPkgName = it.pkgName
+                    SC.drawerApps = SC.drawerApps.
+                        asSequence()
+                        .filterNot { it.pkgName == tmpPkgName }
+                        .toMutableList()
+                    repo.preference.setDrawerApps(SC.drawerApps)
+                }
             }
 
         // set custom icon images
