@@ -435,7 +435,7 @@ class MainActivity : AppCompatActivity() {
 
     fun turnOffScreen(){
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             devicePolicyManager.lockNow()
         } else {
             val intent = Intent(applicationContext,BlackScreenActivity::class.java).apply {

@@ -36,9 +36,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <TextView android:text="assdfasdfaf" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvTest"/>
-        <TextView android:text="assdfasdfaf" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-
         <ListView
                 android:layout_gravity="center"
                 android:id="@+id/lvFont"

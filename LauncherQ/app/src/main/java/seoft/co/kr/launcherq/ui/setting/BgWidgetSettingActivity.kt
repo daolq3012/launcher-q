@@ -146,6 +146,7 @@ class BgWidgetSettingActivity : AppCompatActivity() {
                 }
                 return true
             }
+            return true
         }
     }
 

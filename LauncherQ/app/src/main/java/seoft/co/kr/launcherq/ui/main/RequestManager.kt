@@ -23,6 +23,7 @@ class RequestManager(val activity: MainActivity){
     fun reqPermissions() {
         activity.requestPermissions(arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA),
             REQ_PERMISSIONS)
     }
