@@ -3,6 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="seoft.co.kr.launcherq">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -23,6 +24,7 @@
             android:protectionLevel="normal"/>
 
     <application
+            android:usesCleartextTraffic="true"
             android:name=".utill.App"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -31,13 +33,15 @@
             android:supportsRtl="true"
             android:theme="@style/AppThemeNoActionBar"
             tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".ui.adjust.AdjustActivity"  android:taskAffinity="seoft.co.kr.launcherq.ui.adjust.AdjustActivity" android:launchMode="singleInstance"
+                  android:exported ="true" >
+        </activity>
         <activity
-                android:screenOrientation="portrait"
                 android:name=".ui.main.MainActivity"
                 android:clearTaskOnLaunch="true"
                 android:launchMode="singleTask"
                 android:resumeWhilePausing="true"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -47,14 +51,26 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.BlackScreenActivity" android:theme="@style/AppThemeBlackNoActionBar" android:screenOrientation="portrait" />
-        <activity android:name=".ui.splash.SplashActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ui.setting.BgScreenSettingActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ui.setting.LauncherSettingActivity" android:screenOrientation="portrait"/>
         <activity
-                android:name="com.theartofdev.edmodo.cropper.CropImageActivity" android:screenOrientation="portrait"
+                android:name=".ui.main.BlackScreenActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppThemeBlackNoActionBar"/>
+        <activity
+                android:name=".ui.splash.SplashActivity"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.setting.BgScreenSettingActivity"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.setting.LauncherSettingActivity"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme"/>
-        <activity android:name=".ui.setting.BgWidgetSettingActivity" android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.setting.BgWidgetSettingActivity"
+                android:screenOrientation="portrait"/>
 
         <receiver
                 android:name=".ui.main.MainActivity$TimeReceiver"
@@ -62,24 +78,29 @@
                 android:exported="false"/>
 
         <activity
-                android:screenOrientation="portrait"
                 android:name=".ui.drawer.DrawerActivity"
-                android:windowSoftInputMode="stateHidden|stateVisible|adjustPan"/>
-        <activity android:name=".ui.arrange.ArrangeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.select.SelectActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.setting.FontActivity" android:screenOrientation="portrait"/>
-        <activity
                 android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|stateVisible|adjustPan"/>
+        <activity
+                android:name=".ui.arrange.ArrangeActivity"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.select.SelectActivity"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.setting.FontActivity"
+                android:screenOrientation="portrait"/>
+        <activity
                 android:name=".ui.arrange.ExpertSettingActivity"
                 android:launchMode="singleTask"
+                android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustResize"/>
-
-        <activity android:name=".ui.opensource.OpensourceActivity" android:screenOrientation="portrait" />
-
+        <activity
+                android:name=".ui.opensource.OpensourceActivity"
+                android:screenOrientation="portrait"/>
 
         <receiver android:name=".utill.PackageReceiver">
             <intent-filter android:priority="999">
-
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED"/>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <action android:name="android.intent.action.PACKAGE_REMOVED"/>
@@ -88,15 +109,17 @@
                 <data android:scheme="package"/>
             </intent-filter>
         </receiver>
+        <receiver
+                android:name=".utill.ShutdownConfigAdminReceiver"
+                android:description="@string/device_admin_description"
+                android:label="@string/device_admin"
+                android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                    android:name="android.app.device_admin"
+                    android:resource="@xml/device_turn_off"/>
 
-        <receiver android:name=".utill.ShutdownConfigAdminReceiver"
-                  android:label="@string/device_admin"
-                  android:description="@string/device_admin_description"
-                  android:permission="android.permission.BIND_DEVICE_ADMIN">
-            <meta-data android:name="android.app.device_admin"
-                       android:resource="@xml/device_turn_off" />
             <intent-filter>
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
             </intent-filter>
         </receiver>
 

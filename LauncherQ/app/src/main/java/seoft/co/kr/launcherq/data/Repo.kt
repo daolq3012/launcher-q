@@ -2,6 +2,7 @@ package seoft.co.kr.launcherq.data
 
 import android.arch.persistence.room.Room
 import seoft.co.kr.launcherq.data.local.*
+import seoft.co.kr.launcherq.data.remote.RemoteThemeDocRepo
 import seoft.co.kr.launcherq.utill.App
 
 object Repo{
@@ -13,4 +14,7 @@ object Repo{
         .build()
 
     val imageCacheRepo = ImageCacheRepo()
+
+    val themeDocApi = RemoteThemeDocRepo()
+
 }
