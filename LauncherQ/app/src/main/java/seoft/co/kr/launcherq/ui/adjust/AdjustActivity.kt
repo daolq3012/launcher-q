@@ -8,11 +8,11 @@ import io.reactivex.disposables.CompositeDisposable
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
 import seoft.co.kr.launcherq.data.callback.FileCallback
+import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
+import seoft.co.kr.launcherq.data.model.Info
 import seoft.co.kr.launcherq.data.model.ThemeDoc
-import seoft.co.kr.launcherq.utill.App
-import seoft.co.kr.launcherq.utill.SC
-import seoft.co.kr.launcherq.utill.i
-import seoft.co.kr.launcherq.utill.plusAssign
+import seoft.co.kr.launcherq.ui.setting.FontActivity.Companion.LOAD_FONT_FILE
+import seoft.co.kr.launcherq.utill.*
 import java.io.File
 
 class AdjustActivity : AppCompatActivity() {
@@ -41,27 +41,64 @@ class AdjustActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        adjustBgImage()
+    }
+
+    fun adjustBgImage(){
 
         compositeDisposable += Repo.themeDocApi.getBgImgById(themeDoc.id,
             object: FileCallback {
                 override fun onFileLoad(file: File) {
                     val bitmap = BitmapFactory.decodeFile(file.path)
                     Repo.backgroundRepo.saveBitmap( bitmap, App.get )
-                    SC.needResetBgSetting = true
 
                     if(file.isFile) file.delete()
-                    "onFileLoad".i(TAG)
-//                    isLoading.set(false)
+                    "getBgImgById onFileLoad".i(TAG)
+                    adjustFont()
                 }
 
                 override fun onDataNotAvailable() {
                     "onDataNotAvailable".i(TAG)
-//                    isLoading.set(false)
+                    "배경을 불러오는대 실패하였습니다".toast()
+                    finish()
                 }
             }
         )
+    }
 
+    fun adjustFont(){
+        themeDoc.themeInfos?.forEach {
+            if(it.font == LOAD_FONT_FILE){
+                val type = it.type.getWidget().getStr
+                compositeDisposable += Repo.themeDocApi.getFontById(themeDoc.id, type ,
+                    object: FileCallback {
+                        override fun onFileLoad(file: File) {
+                            "getFontById onFileLoad $type".i(TAG)
+                            adjustRemainder()
+                        }
+                        override fun onDataNotAvailable() {
+                            "onDataNotAvailable".i(TAG)
+                            "폰트를 불러오는대 실패하였습니다".toast()
+                            finish()
+                        }
+                    }
+                )
+            }
+        }
 
+    }
+
+    fun adjustRemainder(){
+        val bgwi = BackgroundWidgetInfos(
+            themeDoc
+                .themeInfos?.map {
+                Info(it.etc,it.size,it.color,it.posX,it.posY,it.font)
+            }!!.toTypedArray()
+        )
+        Repo.preference.setBgWidgetInfos(bgwi)
+        SC.needResetBgSetting = true
+        "테마 적용 완료".toast()
+        finish()
     }
 
     override fun onPause() {
@@ -71,7 +108,5 @@ class AdjustActivity : AppCompatActivity() {
             compositeDisposable.dispose()
         }
     }
-
-
 
 }

@@ -62,8 +62,39 @@ class RemoteThemeDocRepo {
                 error.message.toString().e(TAG)
                 cb.onDataNotAvailable()
             })
+    }
 
 
+
+    fun getFontById(docId:Int,type:String, cb: FileCallback) : Disposable{
+        return apiServices.getFontById(docId,type)
+            .flatMap {
+                Observable.create (
+                    object : ObservableOnSubscribe<File> {
+                        override fun subscribe(subscriber : ObservableEmitter<File>) {
+                            val filename = "$type.ttf"
+                            val route = "${App.get.applicationContext.filesDir.absolutePath}/$filename"
+                            val destinationFile = File(route)
+
+                            val bufferedSink = Okio.buffer(Okio.sink(destinationFile))
+                            bufferedSink.writeAll(it.body()!!.source())
+                            bufferedSink.close()
+
+                            subscriber.onNext(destinationFile)
+                            subscriber.onComplete()
+                        }
+                    }
+                )
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                cb.onFileLoad(it)
+            }, { error ->
+                error.printStackTrace()
+                error.message.toString().e(TAG)
+                cb.onDataNotAvailable()
+            })
     }
 
 }

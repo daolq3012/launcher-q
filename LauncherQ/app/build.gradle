@@ -20,10 +20,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", 'SERVER_URL', '"http://192.168.0.8:3000/raq-store/v1/"'
+            buildConfigField "String", 'SERVER_URL', '"http://192.168.0.5:3000/raq-store/v1/"'
         }
         debug {
-            buildConfigField "String", 'SERVER_URL', '"http://192.168.0.8:3000/raq-store/v1/"'
+            buildConfigField "String", 'SERVER_URL', '"http://192.168.0.5:3000/raq-store/v1/"'
         }
     }
 

@@ -57,6 +57,17 @@ fun String.getWidget() : WidgetInfoType {
     }
 }
 
+fun Int.getWidget() : WidgetInfoType {
+    return when(this) {
+        WidgetInfoType.TIME.getInt -> WidgetInfoType.TIME
+        WidgetInfoType.AMPM.getInt -> WidgetInfoType.AMPM
+        WidgetInfoType.DATE.getInt -> WidgetInfoType.DATE
+        WidgetInfoType.DOW.getInt -> WidgetInfoType.DOW
+        WidgetInfoType.TEXT.getInt -> WidgetInfoType.TEXT
+        else -> WidgetInfoType.ERR
+    }
+}
+
 fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
 

@@ -22,6 +22,10 @@ interface ThemeDocApiServices {
     @Streaming
     fun getBgImgById(@Path("docId") docId: Int): Observable<Response<ResponseBody>>
 
+    @GET("font/{docId}/{type}")
+    @Streaming
+    fun getFontById(@Path("docId") docId: Int,@Path("type") type: String): Observable<Response<ResponseBody>>
+
     companion object Factory {
         fun create(): ThemeDocApiServices {
             val retrofit = Retrofit.Builder()
