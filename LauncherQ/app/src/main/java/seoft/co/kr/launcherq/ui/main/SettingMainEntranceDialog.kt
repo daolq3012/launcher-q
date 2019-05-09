@@ -3,6 +3,7 @@ package seoft.co.kr.launcherq.ui.main
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Window
 import kotlinx.android.synthetic.main.dialog_setting_main_entrance.*
@@ -10,11 +11,15 @@ import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
 import seoft.co.kr.launcherq.ui.setting.BgScreenSettingActivity
 import seoft.co.kr.launcherq.ui.setting.LauncherSettingActivity
+import seoft.co.kr.launcherq.utill.App
+import seoft.co.kr.launcherq.utill.toast
 
 
 class SettingMainEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(context) {
 
     val TAG = "SettingMainEntranceDialog#$#"
+
+    val LAQ_STORE_PKG_NAME = "seoft.co.kr.laq_store"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +50,20 @@ class SettingMainEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(c
 
         tvThemeSetting.setOnClickListener { v ->
 
+            try {
+                App.get.startActivity(context.packageManager.getLaunchIntentForPackage(LAQ_STORE_PKG_NAME))
+            } catch (e : Exception) {
+                "완성된 테마를 받기위해선 Laq Store앱이 필요합니다".toast()
+                App.get.startActivity(
+                    Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$LAQ_STORE_PKG_NAME"))
+                )
+            }
+
             // TODO remove code
             // using force die this app & restart for select other launch app
-            val aa :String? = null
-            aa!!.toString()
-            dismiss()
+//            val aa :String? = null
+//            aa!!.toString()
+//            dismiss()
         }
     }
 

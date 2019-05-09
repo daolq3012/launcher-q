@@ -20,7 +20,28 @@
             android:layout_height="match_parent"
             tools:context=".ui.arrange.ArrangeActivity">
 
+
+
+        <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_height="wrap_content"
+                app:elevation="0dp"
+                android:layout_width="match_parent">
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:title="바로가기 관리"
+                    app:titleTextColor="@color/myDeepGray"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/myLightGray"
+                    android:theme="?attr/actionBarTheme" />
+
+        </android.support.design.widget.AppBarLayout>
+
+
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_below="@+id/appBarLayout"
                       android:orientation="horizontal" android:gravity="center" android:id="@+id/llTop"
         >
 

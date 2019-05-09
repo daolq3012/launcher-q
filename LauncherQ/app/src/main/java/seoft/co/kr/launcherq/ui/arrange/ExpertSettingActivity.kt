@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.InputType
+import android.view.Menu
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_expert_setting.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.model.*
@@ -36,7 +38,7 @@ class ExpertSettingActivity : AppCompatActivity() {
         cmdType = intent.getIntExtra(ES_TYPE,-1)
 
         initValues()
-
+        initToolbar()
         initListener()
     }
 
@@ -145,74 +147,123 @@ class ExpertSettingActivity : AppCompatActivity() {
             }.apply { show() }
         }
 
-        tvOk.setOnClickListener { _ ->
+//        tvOk.setOnClickListener { _ ->
+//
+//            if(etName.text.toString().isBlank()) {
+//                "name을 입력하세요".toast()
+//                return@setOnClickListener
+//            }
+//
+//            curCustomIntent.apply {
+//                name = etName.text.toString()
+//
+//                etUri.text.toString().let { uriData = if(it.isBlank()) null else it }
+//                etType.text.toString().let { type = if(it.isBlank()) null else it }
+//                etPkgName.text.toString().let { pkgName = if(it.isBlank()) null else it }
+//
+//                val tmpCustomComponentName = CustomComponentName(etCnPkgName.text.toString(),etCnCls.text.toString())
+//
+//                customComponentName = if(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == "") null
+//                else tmpCustomComponentName
+//
+//                action = eomAction.result
+//
+//                if(eomCategorys.isEmpty()) categorys = mutableListOf(eos.categoryDefault)
+//                else categorys = eomCategorys.map { it.result }.toMutableList()
+//
+//                flag = eomSetFlag.result.toInt()
+//
+//                if(eomAddFlag.isNotEmpty()) addFlag = eomAddFlag.map { it.result.toInt() }.toMutableList()
+//                else addFlag = null
+//            }
+//
+//            if(SC.qApp4SetExpert!!.expert == null)
+//                SC.qApp4SetExpert!!.expert = Expert(null)
+//
+//            with(SC.qApp4SetExpert!!.expert!!){
+//                if(pos == 0 ) useOne = curCustomIntent
+//                else {
+//
+//                    if(useTwo == null)
+//                        useTwo = mutableListOf(null,null,null,null,null,null)
+//
+//                    useTwo!![pos-1] = curCustomIntent
+//                }
+//            }
+//
+//            SC.qApp4SetExpert!!.type = QuickAppType.EXPERT
+//
+//            setResult(Activity.RESULT_OK)
+//            finish()
+//        }
+//
+//        tvCancel.setOnClickListener { _ -> finish() }
+//
+//        tvSpeed.setOnClickListener { _ ->
+//            SelectorDialog(this,
+//                "선택하세요",
+//                SelectorDialog.DialogSelectorInfo("웹페이지 빠른 등록"),
+//                SelectorDialog.DialogSelectorInfo("전화 빠른 등록"),
+//                SelectorDialog.DialogSelectorInfo("앱 실행 빠른 등록"),
+//                cb = {
+//                    when(it) {
+//                        1 -> setWeb()
+//                        2 -> setPhone()
+//                        3 -> setApp()
+//                    }
+//                }
+//            ).create()
+//        }
 
-            if(etName.text.toString().isBlank()) {
-                "name을 입력하세요".toast()
-                return@setOnClickListener
-            }
+    }
 
-            curCustomIntent.apply {
-                name = etName.text.toString()
-
-                etUri.text.toString().let { uriData = if(it.isBlank()) null else it }
-                etType.text.toString().let { type = if(it.isBlank()) null else it }
-                etPkgName.text.toString().let { pkgName = if(it.isBlank()) null else it }
-
-                val tmpCustomComponentName = CustomComponentName(etCnPkgName.text.toString(),etCnCls.text.toString())
-
-                customComponentName = if(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == "") null
-                else tmpCustomComponentName
-
-                action = eomAction.result
-
-                if(eomCategorys.isEmpty()) categorys = mutableListOf(eos.categoryDefault)
-                else categorys = eomCategorys.map { it.result }.toMutableList()
-
-                flag = eomSetFlag.result.toInt()
-
-                if(eomAddFlag.isNotEmpty()) addFlag = eomAddFlag.map { it.result.toInt() }.toMutableList()
-                else addFlag = null
-            }
-
-            if(SC.qApp4SetExpert!!.expert == null)
-                SC.qApp4SetExpert!!.expert = Expert(null)
-
-            with(SC.qApp4SetExpert!!.expert!!){
-                if(pos == 0 ) useOne = curCustomIntent
-                else {
-
-                    if(useTwo == null)
-                        useTwo = mutableListOf(null,null,null,null,null,null)
-
-                    useTwo!![pos-1] = curCustomIntent
-                }
-            }
-
-            SC.qApp4SetExpert!!.type = QuickAppType.EXPERT
-
-            setResult(Activity.RESULT_OK)
-            finish()
+    fun done(){
+        if(etName.text.toString().isBlank()) {
+            "name을 입력하세요".toast()
+            return
         }
 
-        tvCancel.setOnClickListener { _ -> finish() }
+        curCustomIntent.apply {
+            name = etName.text.toString()
 
-        tvSpeed.setOnClickListener { _ ->
-            SelectorDialog(this,
-                "선택하세요",
-                SelectorDialog.DialogSelectorInfo("웹페이지 빠른 등록"),
-                SelectorDialog.DialogSelectorInfo("전화 빠른 등록"),
-                SelectorDialog.DialogSelectorInfo("앱 실행 빠른 등록"),
-                cb = {
-                    when(it) {
-                        1 -> setWeb()
-                        2 -> setPhone()
-                        3 -> setApp()
-                    }
-                }
-            ).create()
+            etUri.text.toString().let { uriData = if(it.isBlank()) null else it }
+            etType.text.toString().let { type = if(it.isBlank()) null else it }
+            etPkgName.text.toString().let { pkgName = if(it.isBlank()) null else it }
+
+            val tmpCustomComponentName = CustomComponentName(etCnPkgName.text.toString(),etCnCls.text.toString())
+
+            customComponentName = if(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == "") null
+            else tmpCustomComponentName
+
+            action = eomAction.result
+
+            if(eomCategorys.isEmpty()) categorys = mutableListOf(eos.categoryDefault)
+            else categorys = eomCategorys.map { it.result }.toMutableList()
+
+            flag = eomSetFlag.result.toInt()
+
+            if(eomAddFlag.isNotEmpty()) addFlag = eomAddFlag.map { it.result.toInt() }.toMutableList()
+            else addFlag = null
         }
 
+        if(SC.qApp4SetExpert!!.expert == null)
+            SC.qApp4SetExpert!!.expert = Expert(null)
+
+        with(SC.qApp4SetExpert!!.expert!!){
+            if(pos == 0 ) useOne = curCustomIntent
+            else {
+
+                if(useTwo == null)
+                    useTwo = mutableListOf(null,null,null,null,null,null)
+
+                useTwo!![pos-1] = curCustomIntent
+            }
+        }
+
+        SC.qApp4SetExpert!!.type = QuickAppType.EXPERT
+
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     fun setWeb(){
@@ -278,7 +329,47 @@ class ExpertSettingActivity : AppCompatActivity() {
     }
 
 
+    private fun initToolbar(){
+        setupActionBar(R.id.toolbar) {
+            setHomeAsUpIndicator(R.drawable.ic_back)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
+        }
+    }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mn_expert_setting,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        item?: return true
+
+        when(item.itemId) {
+            R.id.menu_es_more -> {
+                SelectorDialog(this,
+                    "선택하세요",
+                    SelectorDialog.DialogSelectorInfo("웹페이지 빠른 등록"),
+                    SelectorDialog.DialogSelectorInfo("전화 빠른 등록"),
+                    SelectorDialog.DialogSelectorInfo("앱 실행 빠른 등록"),
+                    cb = {
+                        when(it) {
+                            1 -> setWeb()
+                            2 -> setPhone()
+                            3 -> setApp()
+                        }
+                    }
+                ).create()
+            }
+            R.id.menu_es_done -> done()
+            android.R.id.home -> finish()
+        }
+
+        return true
+    }
     companion object {
         val ES_POS = "ES_POS"
         val ES_TYPE = "ES_TYPE"

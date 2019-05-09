@@ -52,6 +52,8 @@ class ArrangeActivity : AppCompatActivity() {
         binding.vm = vm
         binding.executePendingBindings()
 
+        initToolbar()
+
         vm.observeActMsg(this, Observer {
             when(it) {
 
@@ -133,7 +135,7 @@ class ArrangeActivity : AppCompatActivity() {
                         if(vm.isMoving) {
                             when(it.quickApp.type) {
                                 QuickAppType.EMPTY -> vm.moveApp(it.pos)
-                                // with folder
+                                // with ic_folder_im
                                 else -> {
                                     AlertDialog.Builder(this).showDialog(
                                         message =
@@ -290,6 +292,20 @@ class ArrangeActivity : AppCompatActivity() {
         vm.saveImageCache("${vm.dir}#${vm.curPos}",b)
 
         vm.setHasImage(true)
+    }
+
+    private fun initToolbar(){
+        setupActionBar(R.id.toolbar) {
+            setHomeAsUpIndicator(R.drawable.ic_back)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     companion object {

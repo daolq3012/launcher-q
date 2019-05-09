@@ -49,7 +49,7 @@ class MainGridAdapter(val context: Context, val repo: Repo, val qApps: MutableLi
         } else {
             when(qApps[pos].type) {
                 QuickAppType.EMPTY -> item.ivIcon.setImageResource(R.drawable.dot_img)
-                QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_green)
+                QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_im)
                 QuickAppType.ONE_APP, QuickAppType.TWO_APP -> {
                     item.ivIcon.setImageDrawable(
                         if(repo.imageCacheRepo.containsKey(tmpPkgName)) repo.imageCacheRepo.getDrawable(tmpPkgName)

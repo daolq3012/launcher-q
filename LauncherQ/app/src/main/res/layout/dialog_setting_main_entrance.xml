@@ -18,7 +18,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="배경 설정"
+                    android:text="스크린 설정"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

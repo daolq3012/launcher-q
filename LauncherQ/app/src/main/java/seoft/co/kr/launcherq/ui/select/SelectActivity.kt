@@ -80,7 +80,7 @@ class SelectActivity : AppCompatActivity() {
 
     private fun initToolbar(){
         setupActionBar(R.id.toolbar) {
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white)
+            setHomeAsUpIndicator(R.drawable.ic_back)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }

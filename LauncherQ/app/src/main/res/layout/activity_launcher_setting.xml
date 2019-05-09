@@ -8,16 +8,17 @@
               tools:context=".ui.setting.LauncherSettingActivity">
 
     <android.support.design.widget.AppBarLayout
+            app:elevation="0dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="배경 설정"
-                app:titleTextColor="@color/white"
+                app:title="스크린 설정"
+                app:titleTextColor="@color/myDeepGray"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="?attr/colorPrimary"
+                android:background="@color/myLightGray"
                 android:theme="?attr/actionBarTheme" />
 
     </android.support.design.widget.AppBarLayout>

@@ -52,7 +52,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     /**
-     * set pic app to [empty place] or [in folder]
+     * set pic app to [empty place] or [in ic_folder_im]
      */
     fun setPickedApp(quickApp: QuickApp, pos:Int){
 
@@ -65,7 +65,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
     }
 
     /**
-     * save common app to [empty place] or [in folder]
+     * save common app to [empty place] or [in ic_folder_im]
      */
     fun saveCommonAppToCurPos(commonApp: CommonApp, pos:Int = curPos) {
 
@@ -75,7 +75,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         else if(pickedApp.value().type == QuickAppType.FOLDER){
             changedLiveDataApps[pos].dir.add(commonApp.toSaveString())
             changedLiveDataApps[pos].isPicked = false // for unset select effect
-
+            "폴더 내 ${commonApp.label}앱 추가 완료".toast()
         }
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
@@ -320,7 +320,13 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
 
     fun clickAdd(){
         toActMsg(
-            if(pickedApp.value().type == QuickAppType.FOLDER) MsgType.SELECT_APP_IN_FOLDER
+            if(pickedApp.value().type == QuickAppType.FOLDER) {
+                if(pickedApp.value().dir.size >=6) {
+                    "폴더 내 최대 앱 갯수(6개)를 초과합니다".toast()
+                    MsgType.NONE
+                }
+                else MsgType.SELECT_APP_IN_FOLDER
+            }
             else MsgType.SELECT_APP
         )
     }

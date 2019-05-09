@@ -29,8 +29,10 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
     private fun initToolbar(){
         setupActionBar(R.id.toolbar) {
+            setHomeAsUpIndicator(R.drawable.ic_back)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
         }
     }
 

@@ -16,8 +16,8 @@ data class CommonApp(
  * get:String -> pkgName
  */
 enum class CAppException(val get:String, val rss:Int, val title:String){
-    DRAWER("DRAWER", R.drawable.ic_apps_orange,"서랍"),
-    CALL("CALL", R.drawable.ic_call_orange,"전화"),
+    DRAWER("DRAWER", R.drawable.ic_grid_on,"서랍"),
+    CALL("CALL", R.drawable.ic_call_im,"전화"),
 }
 
 fun CommonApp.toSaveString() = "${pkgName}${SC.SPLITTER}${label}${SC.SPLITTER}"

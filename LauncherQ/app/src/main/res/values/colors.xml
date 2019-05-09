@@ -11,6 +11,13 @@
     <color name="white">#ffffff</color>
     <color name="gray">#6e6e6e</color>
 
+
+    <color name="myPurple">#8d75ed</color>
+    <color name="myDeepGray">#454545</color>
+    <color name="myGray">#f2f2f2</color>
+    <color name="myLightGray">#fafafa</color>
+
+
     <color name="thick_white_for_bg">#EDEDED</color>
     <color name="gray_for_line">#D1D1D1</color>
     <color name="gray_for_font">#757575</color>

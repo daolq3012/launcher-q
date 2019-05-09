@@ -564,7 +564,7 @@ class MainActivity : AppCompatActivity() {
                     ivPreview.setImageResource(CAppException.values().find { it.get == tmpPkgName }?.rss ?: R.drawable.ic_error_orange)
                 } else {
                     when(tmpCurApp.type) {
-                        QuickAppType.FOLDER -> ivPreview.setImageResource(R.drawable.ic_folder_green)
+                        QuickAppType.FOLDER -> ivPreview.setImageResource(R.drawable.ic_folder_im)
                         QuickAppType.ONE_APP, QuickAppType.TWO_APP ->{
                             ivPreview.setImageDrawable(
                                 if(Repo.imageCacheRepo.containsKey(tmpPkgName)) Repo.imageCacheRepo.getDrawable(tmpPkgName)
