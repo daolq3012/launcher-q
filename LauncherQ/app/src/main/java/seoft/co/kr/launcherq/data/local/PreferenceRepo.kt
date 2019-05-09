@@ -167,14 +167,14 @@ class PreferenceRepo {
         mPrefs.edit().putInt(SP_QL_GRID_VIEW_SIZE, gridViewSize).apply()
     }
     fun getGridViewSize() : Int{
-        return mPrefs.getInt(SP_QL_GRID_VIEW_SIZE,180)
+        return mPrefs.getInt(SP_QL_GRID_VIEW_SIZE,210)
     }
 
     fun setDistance(distance : Int) {
         mPrefs.edit().putInt(SP_QL_DISTANCE, distance).apply()
     }
     fun getDistance() : Int{
-        return mPrefs.getInt(SP_QL_DISTANCE,120)
+        return mPrefs.getInt(SP_QL_DISTANCE,95)
     }
 
     fun setTwoStepOpenInterval(interval : Int) {
@@ -202,7 +202,7 @@ class PreferenceRepo {
         mPrefs.edit().putInt(SP_FLING_BOTTOM_BOUNDARY, size).apply()
     }
     fun getTopBoundary(): Int {
-        return mPrefs.getInt(SP_FLING_BOTTOM_BOUNDARY,40)
+        return mPrefs.getInt(SP_FLING_BOTTOM_BOUNDARY,49)
     }
 
 }

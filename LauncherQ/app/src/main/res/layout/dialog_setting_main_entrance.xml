@@ -19,7 +19,7 @@
                     android:gravity="center"
                     android:layout_weight="1"
                     android:text="스크린 설정"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
             <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/gray_for_line" />
@@ -33,7 +33,7 @@
                     android:gravity="center"
                     android:layout_weight="1"
                     android:text="바로가기 관리"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
 
@@ -52,7 +52,7 @@
                     android:gravity="center"
                     android:layout_weight="1"
                     android:text="테마 설정"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
             <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/gray_for_line" />
@@ -66,7 +66,7 @@
                     android:gravity="center"
                     android:layout_weight="1"
                     android:text="런처 설정"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" />
         </TableRow>
     </TableLayout>

@@ -146,7 +146,7 @@ class LauncherSettingActivity: AppCompatActivity() {
 
             findPreference("clickMyIconPixelSetting").setOnPreferenceClickListener { view ->
                 val snd = SelectNumberDialog(activity!!, "임의 아이콘 크기 설정","pixel",
-                    Repo.preference.getTopBoundary(),10,100){
+                    Repo.preference.getTopBoundary(),16,64){
                     Repo.preference.setTopBoundary(it)
                 }
                 snd.show()

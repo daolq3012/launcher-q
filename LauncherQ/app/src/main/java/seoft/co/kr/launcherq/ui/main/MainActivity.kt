@@ -64,6 +64,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var devicePolicyManager : DevicePolicyManager
 
+    var systemPermissionAlert : AlertDialog? = null
+
     companion object {
         val launcherApps : LauncherApps by lazy { App.get.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps }
     }
@@ -86,6 +88,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        "oncreate".i()
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -377,6 +381,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        "onresume".i()
+
         turnOnPreview(false)
 
         vm.step.set(Step.NONE)
@@ -389,8 +395,13 @@ class MainActivity : AppCompatActivity() {
         if(SC.needResetUxSetting) resetUxSetting()
         if(SC.needResetTwoStepSetting) resetTwoStepSetting()
 
-        if(!requestManager.hasSystemPermission()) requestManager.showSystemPermissionRequestDialog()
+        if(!requestManager.hasSystemPermission() ){
+            systemPermissionAlert?.dismiss()
+            systemPermissionAlert = requestManager.systemPermissionRequestDialog.show()
+        }
     }
+
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -460,8 +471,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if(timeReceiver!=null) unregisterReceiver(timeReceiver)
-        if(packageReceiver!=null) unregisterReceiver(packageReceiver)
+        unregisterReceiver(timeReceiver)
+        unregisterReceiver(packageReceiver)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

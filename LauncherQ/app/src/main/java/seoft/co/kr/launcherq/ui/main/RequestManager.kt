@@ -74,22 +74,16 @@ class RequestManager(val activity: MainActivity){
         }
     }
 
-    fun showSystemPermissionRequestDialog(){
-
-        AlertDialog.Builder(activity).showDialog(
-            title = "Launcher Q 에서 다음 권한이 필요합니다",
-            message = "- 화면 잠금시간 임시 제어(홈 화면 더블 탭시 화면꺼짐)\n- 화면 밝기 임시 제어(홈 화면 더블 탭시 화면꺼짐\n\n권한요청을 다시 하시겠습니까?",
-            postiveBtText = "확인",
-            negativeBtText = "취소",
-            cbPostive = {
-                reqSystemPermissions()
-            },
-            cbNegative = {
-                "권한요청이 거부되어 종료합니다".toast()
-                activity.finish()
-            }
-        )
-    }
-
+    val systemPermissionRequestDialog = AlertDialog.Builder(activity)
+        .setTitle("Launcher Q 에서 다음 권한이 필요합니다")
+        .setMessage("홈 화면 더블 탭시 화면 꺼짐 기능을 위한\n- 화면 잠금시간 임시 제어\n- 화면 밝기 임시 제어\n\n권한요청을 다시 하시겠습니까?")
+        .setPositiveButton("확인",({ _, _ ->
+            reqSystemPermissions()
+        }))
+        .setNegativeButton("취소", ({ _, _ ->
+            "권한요청이 거부되어 종료합니다".toast()
+            activity.finish()
+        }))
+        .setCancelable(false)
 
 }

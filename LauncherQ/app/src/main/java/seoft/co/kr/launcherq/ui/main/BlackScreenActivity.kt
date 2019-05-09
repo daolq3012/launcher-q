@@ -36,7 +36,7 @@ class BlackScreenActivity : AppCompatActivity() {
         hideBars()
 
         Settings.System.putInt(contentResolver, Settings.System.SCREEN_OFF_TIMEOUT, 1)
-//        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0)
+        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0)
         "곧 화면이 꺼집니다".toast()
 
         gestureDetectorCompat = GestureDetectorCompat(this, object: GestureDetector.SimpleOnGestureListener(){

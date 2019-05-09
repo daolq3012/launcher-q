@@ -135,6 +135,7 @@
     <style name="SettingDrawerDialogAppBoxTextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/myPurple</item>
         <item name="android:text">EMPTY</item>
         <item name="android:gravity">center</item>
     </style>
