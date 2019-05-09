@@ -15,5 +15,6 @@ enum class MsgType {
     OPEN_ICON_SETTER,
     OPEN_EXPERT_STATUS,
     NONE,
+    TMP,
 }
 
