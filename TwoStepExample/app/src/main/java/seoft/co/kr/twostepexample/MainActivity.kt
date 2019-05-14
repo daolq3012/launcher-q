@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
                 Command(id = null, title = "AActivity", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.AActivity",normalMessage = "AA",useEdit = true),
                 Command(id = null, title = "BActivity with param", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.BActivity",normalMessage = "BB",useEdit = false),
                 Command(id = null, title = "AActivity", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.AActivity",normalMessage = "AA",useEdit = true),
-                Command(id = null, title = "BActivity with param", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.BActivity",normalMessage = "BB",useEdit = false),
-                Command(id = null, title = "AActivity", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.AActivity",normalMessage = "AA",useEdit = true),
                 Command(id = null, title = "BActivity with param", pkgName = "seoft.co.kr.twostepexample",cls = "seoft.co.kr.twostepexample.BActivity",normalMessage = "BB",useEdit = false)
             )
             CommandRepo.insertCommands(this,insertCmd)
