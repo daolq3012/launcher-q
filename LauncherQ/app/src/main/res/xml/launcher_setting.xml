@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="거리/수치/민감도 관리">
+    <PreferenceCategory android:title="바로가기 관리">
         <PreferenceScreen
                 android:key="clickGridCnt"
-                android:title="gridCnt"
-                android:summary="배경을 단색으로 설정합니다"/>
+                android:title="바로가기 앱 행,열 갯수"
+                android:summary="바로가기에 배치될 앱의 행,열 갯수를 설정합니다"/>
         <PreferenceScreen
                 android:key="clickViewSIze"
-                android:title="gridViewSize"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="바로가기 뷰 사이즈"
+                android:summary="바로가기 뷰 사이즈를 설정합니다"/>
         <PreferenceScreen
                 android:key="clickDistance"
-                android:title="distance"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="바로가기 열기 거리"
+                android:summary="바로가기를 열기 위한 드래그 거리를 설정합니다"/>
         <PreferenceScreen
                 android:key="clickInterval"
-                android:title="interval"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
-        <PreferenceScreen
-                android:key="clickBottomBoundary"
-                android:title="clickBottomBoundary"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
-        <PreferenceScreen
-                android:key="clickTopBoundary"
-                android:title="clickTopBoundary"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="바로가기 유지 시간"
+                android:summary="투스탭을 열기 위해 바로가기 에서 유지될 시간을 설정합니다"/>
         <PreferenceScreen
                 android:key="clickMyIconPixelSetting"
-                android:title="clickMyIconPixelSetting"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="임의 아이콘 해상도 설정"
+                android:summary="임의 아이콘을 설정했을때 적용 될 해상도를 설정합니다"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Launcher Q 설정 저장/불러오기">
+    <PreferenceCategory android:title="드래그 터치 허용 범위">
+        <PreferenceScreen
+                android:key="clickTopBoundary"
+                android:title="상단 드래그 터치 허용 범위"
+                android:summary="상태창을 내리기 위한 상단 드래그 터치 범위를 설정합니다"/>
+        <PreferenceScreen
+                android:key="clickBottomBoundary"
+                android:title="하단 드래그 터치 허용 범위"
+                android:summary="앱 목록을 불러오기 위한 하단 드래그 터치 범위를 설정합니다"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Launcher Q 설정 파일 저장/불러오기">
         <PreferenceScreen
                 android:key="clickSaveSetting"
-                android:title="clickSaveSetting"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="Launcher Q 설정 파일 저장"
+                android:summary="임의 공간에 설정 파일로 바로가기, 위젯 설정을 저장합니다"/>
         <PreferenceScreen
                 android:key="clickLoadSetting"
-                android:title="clickLoadSetting"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="Launcher Q 설정 파일 불러오기"
+                android:summary="임의 공간에 설정 파일로 바로가기, 위젯 설정을 불러옵니다"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="기타">
         <PreferenceScreen
                 android:key="clickShareApp"
-                android:title="앱 공유"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="Launcher Q 앱 공유"
+                android:summary="Launcher Q 앱을 공유합니다"/>
         <PreferenceScreen
                 android:key="clickOpensource"
                 android:title="오픈소스 라이센스"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:summary="오픈소스 라이센스를 확인합니다"/>
         <PreferenceScreen
                 android:key="clickLauncherQInfo"
-                android:title="Launcher Q 정보"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="Launcher Q 앱 정보"
+                android:summary="Launcher Q 앱의 상세설명을 확인할 수 있습니다"/>
         <PreferenceScreen
                 android:key="clickSeoft"
                 android:title="SEOFT"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:summary="개발자 홈페이지로 안내합니다"/>
     </PreferenceCategory>
 
 

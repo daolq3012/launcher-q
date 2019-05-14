@@ -2,15 +2,15 @@ package seoft.co.kr.launcherq.data.local
 
 import android.preference.PreferenceManager
 import com.google.gson.reflect.TypeToken
-import seoft.co.kr.launcherq.data.model.BackgroundWidgetInfos
-import seoft.co.kr.launcherq.data.model.CommonApp
-import seoft.co.kr.launcherq.data.model.Info
-import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.data.model.*
 import seoft.co.kr.launcherq.ui.setting.FontActivity
 import seoft.co.kr.launcherq.utill.App
 import seoft.co.kr.launcherq.utill.SC
+import seoft.co.kr.launcherq.utill.toPixel
 
 class PreferenceRepo {
+
+    val TAG = "PreferenceRepo#$#"
 
     private val DEFAULT_DEVICE_X = 1080
     private val DEFAULT_DEVICE_Y = 1920
@@ -93,13 +93,38 @@ class PreferenceRepo {
     fun getBgWidgetInfos() :BackgroundWidgetInfos {
         var jsonStr = mPrefs.getString(SP_BG_WIDGET_INFOS,"")
         if (jsonStr.isNullOrEmpty()) {
+
+            /**
+             * optimization distance & size from that devices
+             * 1. Pixel 2 : 1080 * 1920 (420dpi)
+             * 2. Pixel 3 XL : 1440 * 1960 (560dpi)
+             * 3. Galaxy S10e : 1080 * 2280
+             * 4. Galaxy S7 : 1080*1920 AND 1440*2560
+             */
+
+//            val aa = 50 / 2
+//            val bb = 20 / 2
+//            val cc = 200 / 2
+//            val dd = 180 / 2
+//            val ee = 510 / 2
+//            val ff = 330 / 2
+//
+//            val backgroundInfos = BackgroundWidgetInfos( arrayOf(
+//                Info("HH:mm",aa.toPixel(),"#ffffff",(cc*2).toPixel(),cc.toPixel(),FontActivity.DEFAULT_FONT),
+//                Info("AM%%PM",aa.toPixel(),"#ffffff",cc.toPixel(),cc.toPixel(),FontActivity.DEFAULT_FONT),
+//                Info("yyyy. MM. dd.",bb.toPixel(),"#ffffff",cc.toPixel(),dd.toPixel(),FontActivity.DEFAULT_FONT),
+//                Info("Sun%%Mon%%Tue%%Wed%%Thu%%Fri%%Sat",bb.toPixel(),"#ffffff",ee.toPixel(),dd.toPixel(),FontActivity.DEFAULT_FONT),
+//                Info("WELCOME TO LAUNCHER Q%%HELLO WORLD",bb.toPixel(),"#f0ff68",cc.toPixel(),ff.toPixel(),FontActivity.DEFAULT_FONT)
+//            ))
+
             val backgroundInfos = BackgroundWidgetInfos( arrayOf(
-                Info("HH:mm",20,"#00574B",50,100,FontActivity.DEFAULT_FONT),
-                Info("AM%%PM",20,"#00574B",250,200,FontActivity.DEFAULT_FONT),
-                Info("yyyy. MM. dd.",20,"#00574B",50,300,FontActivity.DEFAULT_FONT),
-                Info("Sun%%Mon%%Tue%%Wed%%Thu%%Fri%%Sat",20,"#00574B",250,400,FontActivity.DEFAULT_FONT),
-                Info("WELCOME%%TO%%LAUNCHER Q",20,"#00574B",50,500,FontActivity.DEFAULT_FONT)
+                Info("HH:mm",17.toPixel(),"#ffffff",154.toPixel(),66.toPixel(),"fonts/roboto_thin.ttf"),
+                Info("AM%%PM",17.toPixel(),"#ffffff",66.toPixel(),66.toPixel(),"fonts/roboto_thin.ttf"),
+                Info("yyyy. MM. dd.",6.toPixel(),"#ffffff",66.toPixel(),60.toPixel(),"fonts/roboto_light.ttf"),
+                Info("Sun%%Mon%%Tue%%Wed%%Thu%%Fri%%Sat",6.toPixel(),"#ffffff",186.toPixel(),60.toPixel(),"fonts/roboto_light.ttf"),
+                Info("WELCOME TO LAUNCHER Q%%SET BACKGROUND FROM WIDGET SETTING",6.toPixel(),"#f0ff68",66.toPixel(),210.toPixel(),FontActivity.DEFAULT_FONT)
             ))
+
             setBgWidgetInfos(backgroundInfos)
             jsonStr = SC.gson.toJson(backgroundInfos)
         }
@@ -135,20 +160,71 @@ class PreferenceRepo {
 
     fun getQuickApps(dir:Int) : MutableList<QuickApp>{
         var key = ""
-
         when(dir) {
             0 -> key = SP_QL_TOP_APPS
             1 -> key = SP_QL_RIGHT_APPS
             2 -> key = SP_QL_BOTTOM_APPS
             3 -> key = SP_QL_LEFT_APPS
         }
-
         var jsonStr = mPrefs.getString(key,"")
 
         if(jsonStr.isNullOrEmpty()) {
             val tmpApps = mutableListOf<QuickApp>()
-            for(i in 0 until 16) { tmpApps.add(SC.EMPTY_QUICK_APP)}
+            for(i in 0 until 16) tmpApps.add(SC.getQuickAppFactory())
+
+            /**
+             * Init default app arrange, if has conatin pkgname app
+             * top : dialer, messaging, chrome // if dialer was empty, adjust exception's CALL app
+             * right : setting, calendar, youtube
+             * left : contact, map, clock
+             */
+
+            SC.drawerApps.forEach {
+                if(dir==0) {
+                    if(it.pkgName.contains("dialer")  ) {
+                        tmpApps[0].type = QuickAppType.ONE_APP
+                        tmpApps[0].commonApp = it
+                    }
+                    else if(it.pkgName.contains("messaging")  ) {
+                        tmpApps[1].type = QuickAppType.ONE_APP
+                        tmpApps[1].commonApp = it
+                    }
+                    else if(it.pkgName.contains("chrome")) {
+                        tmpApps[2].type = QuickAppType.ONE_APP
+                        tmpApps[2].commonApp = it
+                    }
+                } else if (dir==1){
+                    if(it.pkgName.contains("setting")) {
+                        tmpApps[1].type = QuickAppType.ONE_APP
+                        tmpApps[1].commonApp = it
+                    } else if(it.pkgName.contains("calendar")) {
+                        tmpApps[4].type = QuickAppType.ONE_APP
+                        tmpApps[4].commonApp = it
+                    } else if(it.pkgName.contains("youtube")) {
+                        tmpApps[7].type = QuickAppType.ONE_APP
+                        tmpApps[7].commonApp = it
+                    }
+                } else if (dir==3){
+                    if(it.pkgName.contains("contact")) {
+                        tmpApps[1].type = QuickAppType.ONE_APP
+                        tmpApps[1].commonApp = it
+                    } else if(it.pkgName.contains("map")) {
+                        tmpApps[4].type = QuickAppType.ONE_APP
+                        tmpApps[4].commonApp = it
+                    } else if(it.pkgName.contains("clock")) {
+                        tmpApps[7].type = QuickAppType.ONE_APP
+                        tmpApps[7].commonApp = it
+                    }
+                }
+            }
+
+            if(dir==0 && tmpApps[0].type == QuickAppType.EMPTY) {
+                tmpApps[0].type = QuickAppType.ONE_APP
+                tmpApps[0].commonApp = CommonApp(CAppException.CALL.get, CAppException.CALL.title, false, true)
+            }
+
             jsonStr = SC.gson.toJson(tmpApps,object : TypeToken<MutableList<QuickApp>>(){}.type)
+
         }
 
         return SC.gson.fromJson<MutableList<QuickApp>>(jsonStr, object : TypeToken<MutableList<QuickApp>>(){}.type)

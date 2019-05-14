@@ -36,7 +36,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
     var liveDataApps = MutableLiveData<MutableList<QuickApp>>()
 
-    val twoStepApp = ObservableField<QuickApp>(SC.EMPTY_QUICK_APP)
+    val twoStepApp = ObservableField<QuickApp>(SC.getQuickAppFactory())
 
     var twoAppList = emptyList<Command>() // set when call openTwoStep in mainActivity
 
@@ -98,7 +98,7 @@ class MainViewModel(val repo: Repo): ViewModelHelper() {
 
 
 
-    fun emptyTwoStepApp(){ twoStepApp.set(SC.EMPTY_QUICK_APP) }
+    fun emptyTwoStepApp(){ twoStepApp.set(SC.getQuickAppFactory()) }
 
     fun getTwoAppLaunchListAndSet(pkgName:String): List<Command> {
         twoAppList = repo.commandRepo.selectFromPkgName(pkgName).take(6)

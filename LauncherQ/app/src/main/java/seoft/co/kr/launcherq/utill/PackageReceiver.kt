@@ -58,7 +58,7 @@ class PackageReceiver: BroadcastReceiver(){
 
             for(i in 0 until 4) {
                 val tmpQApps = Repo.preference.getQuickApps(i)
-                for(j in 0 until 16) if (tmpQApps[j].commonApp.pkgName == packageName) tmpQApps[j] = SC.EMPTY_QUICK_APP
+                for(j in 0 until 16) if (tmpQApps[j].commonApp.pkgName == packageName) tmpQApps[j] = SC.getQuickAppFactory()
                 Repo.preference.setQuickApps(tmpQApps,i)
             }
 

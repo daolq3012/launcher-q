@@ -28,7 +28,11 @@ class SC{
 
         lateinit var drawerApps : MutableList<CommonApp>
 
-        val EMPTY_QUICK_APP = QuickApp(CommonApp("","",false), QuickAppType.EMPTY)
+        fun getQuickAppFactory():QuickApp{
+            return QuickApp(CommonApp("","",false), QuickAppType.EMPTY)
+        }
+
+//        val EMPTY_QUICK_APP = QuickApp(CommonApp("","",false), QuickAppType.EMPTY)
 
         var FLING_BOTTOM_BOUNDARY = 15
         var FLING_TOP_BOUNDARY = 40

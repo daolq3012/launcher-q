@@ -47,7 +47,7 @@ class LaqSettingManager{
 
         for(i in 0 until 4) {
             val tmpQApps = laqSetting.quickApps!![i]
-            for(j in 0 until 16) if (!havingAppPkgNames.contains( tmpQApps[j].commonApp.pkgName ) ) tmpQApps[j] = SC.EMPTY_QUICK_APP
+            for(j in 0 until 16) if (!havingAppPkgNames.contains( tmpQApps[j].commonApp.pkgName ) ) tmpQApps[j] = SC.getQuickAppFactory()
             Repo.preference.setQuickApps(tmpQApps,i)
         }
 

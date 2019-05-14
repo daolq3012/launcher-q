@@ -12,7 +12,11 @@ data class CommonApp(
 )
 
 /**
- * Have exception :
+ * Exception app :
+ *
+ * condition :
+ * pkgName is simple string EX) CALL
+ * isExcept is true
  * get:String -> pkgName
  */
 enum class CAppException(val get:String, val rss:Int, val title:String){

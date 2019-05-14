@@ -70,8 +70,13 @@ class LauncherSettingActivity: AppCompatActivity() {
         }
 
         fun initListener(){
+
+            //
+            // 바로가기 바로가기 관리
+            //
+
             findPreference("clickGridCnt").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "그리드 카운트", "개",
+                val snd = SelectNumberDialog(activity!!, "바로가기 앱 행,열 갯수", "개",
                     Repo.preference.getGridCount(), 3,4){
                     Repo.preference.setGridCount(it)
                     SC.needResetUxSetting = true
@@ -81,7 +86,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickViewSIze").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "뷰 사이즈","DP",
+                val snd = SelectNumberDialog(activity!!, "바로가기 뷰 사이즈","DP",
                     Repo.preference.getGridViewSize(),150,250){
                     Repo.preference.setGridViewSize(it)
                     SC.needResetUxSetting = true
@@ -91,7 +96,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickDistance").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "원스탭 열기 거리","DP",
+                val snd = SelectNumberDialog(activity!!, "바로가기 열기 거리","DP",
                     Repo.preference.getDistance(),80,180){
                     Repo.preference.setDistance(it)
                     SC.needResetUxSetting = true
@@ -101,7 +106,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickInterval").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "투스탭 열기 유지 시간 간격","",
+                val snd = SelectNumberDialog(activity!!, "바로가기 유지 시간","",
                     Repo.preference.getTwoStepOpenInterval(),4,24){
                     Repo.preference.setTwoStepOpenInterval(it)
                     SC.needResetUxSetting = true
@@ -110,19 +115,22 @@ class LauncherSettingActivity: AppCompatActivity() {
                 true
             }
 
-            findPreference("clickBottomBoundary").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "하단 드래그 터치 영역","%",
-                    Repo.preference.getBottomBoundary(),0,49){
-                    Repo.preference.setBottomBoundary(it)
-                    SC.needResetUxSetting = true
+            findPreference("clickMyIconPixelSetting").setOnPreferenceClickListener { view ->
+                val snd = SelectNumberDialog(activity!!, "임의 아이콘 해상도 설정","pixel",
+                    Repo.preference.getTopBoundary(),16,64){
+                    Repo.preference.setTopBoundary(it)
                 }
                 snd.show()
+                "해당 사이즈를 적용하려면 임의 아이콘을 재 설정해야합니다".toast()
                 true
-
             }
 
+            //
+            // 드래그 허용 범위
+            //
+
             findPreference("clickTopBoundary").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "상단 드래그 터치 영역","%",
+                val snd = SelectNumberDialog(activity!!, "상단 드래그 터치 허용 범위","%",
                     Repo.preference.getTopBoundary(),0,49){
                     Repo.preference.setTopBoundary(it)
                     SC.needResetUxSetting = true
@@ -130,6 +138,20 @@ class LauncherSettingActivity: AppCompatActivity() {
                 snd.show()
                 true
             }
+
+            findPreference("clickBottomBoundary").setOnPreferenceClickListener { view ->
+                val snd = SelectNumberDialog(activity!!, "하단 드래그 터치 허용 범위","%",
+                    Repo.preference.getBottomBoundary(),0,49){
+                    Repo.preference.setBottomBoundary(it)
+                    SC.needResetUxSetting = true
+                }
+                snd.show()
+                true
+            }
+
+            //
+            // Launcher Q 설정 파일 저장/불러오기
+            //
 
             findPreference("clickSaveSetting").setOnPreferenceClickListener { view ->
 
@@ -143,16 +165,9 @@ class LauncherSettingActivity: AppCompatActivity() {
                 true
             }
 
-
-            findPreference("clickMyIconPixelSetting").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "임의 아이콘 크기 설정","pixel",
-                    Repo.preference.getTopBoundary(),16,64){
-                    Repo.preference.setTopBoundary(it)
-                }
-                snd.show()
-                "해당 사이즈를 적용하려면 임의 아이콘을 재 설정해야합니다".toast()
-                true
-            }
+            //
+            // 기타
+            //
 
             findPreference("clickShareApp").setOnPreferenceClickListener { view ->
                 val intent = Intent(Intent.ACTION_SEND) .apply { type = "text/plain"
