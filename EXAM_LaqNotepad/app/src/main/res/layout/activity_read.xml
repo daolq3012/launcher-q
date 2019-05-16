@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/whole_padding_shallow" android:paddingRight="@dimen/whole_padding_shallow"
+        android:background="@color/backgroundGray" android:layout_height="match_parent"
+        tools:context=".ui.read.ReadActivity">
+
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_alignParentTop="true"
+                    android:layout_above="@id/llBtns" android:background="@drawable/round_24dp">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textColor="@color/shallowBlack"
+                android:textSize="14sp"
+                android:textIsSelectable="true"
+                android:ems="10"
+                android:id="@+id/tvContent"/>
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="60dp" android:id="@+id/llBtns"
+                  android:orientation="horizontal" android:layout_alignParentBottom="true" >
+
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="홈으로"
+                  android:textStyle="bold" android:gravity="center" android:id="@+id/tvHome" android:textColor="@color/purple" />
+
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="수정"
+                  android:textStyle="bold" android:gravity="center" android:id="@+id/tvEdit" android:textColor="@color/purple" />
+
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="삭제"
+                  android:textStyle="bold" android:gravity="center" android:id="@+id/tvDelete" android:textColor="@color/purple" />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
