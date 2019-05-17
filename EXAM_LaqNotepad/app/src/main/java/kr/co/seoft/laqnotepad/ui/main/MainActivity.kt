@@ -3,8 +3,10 @@ package kr.co.seoft.laqnotepad.ui.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.text.InputType
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.co.seoft.laqnotepad.R
@@ -19,12 +21,19 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val NEW_NOTE = 1000
         const val EDIT_NOTE = 1100
+
         const val NONE_FOUCS_ITEM = -1
+        const val FINDING = -2
 
     }
 
 
-    var focusingId = NONE_FOUCS_ITEM
+    /**
+     * FINIDNG -> after search
+     * NONE_FOUCS_ITEM -> init status
+     * else -> status is set note's id (int)
+     */
+    var status = NONE_FOUCS_ITEM
 
     lateinit var noteRVAdapter : NoteRVAdapter
 
@@ -38,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         noteRVAdapter = NoteRVAdapter(this){ note, isLongClick ->
 
             if(isLongClick) {
-                focusOn(note.id)
+                if(status != FINDING) focusOn(note.id)
             } else {
                 startActivityForResult(Intent(applicationContext,ReadActivity::class.java).apply {
                     putExtra(EK_ID,note.id)
@@ -50,22 +59,33 @@ class MainActivity : AppCompatActivity() {
         rvNote.adapter = noteRVAdapter
         initListener()
         updateNotes()
-
-
-
     }
 
     override fun onResume() {
         super.onResume()
-
-        focusOff()
+        focusInit()
 
     }
 
-    private fun focusOff() {
-        focusingId = NONE_FOUCS_ITEM
+
+    private fun focusFinding() {
+        status = FINDING
+        tvShowAll.visibility = View.VISIBLE
+        tvWrite.visibility = View.GONE
+        tvSetting.visibility = View.GONE
+        tvFind.visibility = View.GONE
+        tvMoveTop.visibility = View.GONE
+        tvMoveBottom.visibility = View.GONE
+        tvQuickOff.visibility = View.GONE
+        tvQuickOn.visibility = View.GONE
+    }
+
+    private fun focusInit() {
+        status = NONE_FOUCS_ITEM
+        tvShowAll.visibility = View.GONE
         tvWrite.visibility = View.VISIBLE
         tvSetting.visibility = View.VISIBLE
+        tvFind.visibility = View.VISIBLE
         tvMoveTop.visibility = View.GONE
         tvMoveBottom.visibility = View.GONE
         tvQuickOff.visibility = View.GONE
@@ -74,9 +94,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun focusOn(id:Int){
-        focusingId = id
+        status = id
+        tvShowAll.visibility = View.GONE
         tvWrite.visibility = View.GONE
         tvSetting.visibility = View.GONE
+        tvFind.visibility = View.GONE
         tvMoveTop.visibility = View.VISIBLE
         tvMoveBottom.visibility = View.VISIBLE
 
@@ -92,6 +114,20 @@ class MainActivity : AppCompatActivity() {
         noteRVAdapter.updateNotes(Repo.getNotes())
     }
 
+    fun findNoteFromWord(word:String){
+        val findNotes = Repo.getNotes()
+            .filter { it.content.contains(word) }
+            .toList().toMutableList()
+
+        findNotes.forEach { it.i() }
+
+        if(findNotes.size > 0) {
+            noteRVAdapter.updateNotes(findNotes)
+            focusFinding()
+        }
+        else "검색결과가 없습니다".toasti()
+    }
+
     fun initListener(){
 
         tvWrite.setOnClickListener { _ ->
@@ -100,46 +136,66 @@ class MainActivity : AppCompatActivity() {
             }, NEW_NOTE)
         }
 
+        tvFind.setOnClickListener { _ ->
+            AlertDialog.Builder(this).showDialogWithInput(
+                message = "검색어 입력",
+                postiveBtText = "확인",
+                negativeBtText = "취소",
+                cbPostive = {
+                    if(it.isNotEmpty()) findNoteFromWord(it)
+                },
+                cbNegative = {
+
+                },
+                inputType = InputType.TYPE_CLASS_TEXT,
+                text = ""
+            )
+        }
+
+        tvShowAll.setOnClickListener { _ ->
+            focusInit()
+        }
+
         tvSetting.setOnClickListener { _ ->
 
         }
 
         tvMoveTop.setOnClickListener { _ ->
-            if(focusingId == NONE_FOUCS_ITEM) return@setOnClickListener
+            if(status == NONE_FOUCS_ITEM) return@setOnClickListener
 
             var notes = Repo.getNotes()
-            val idx = findIdxById(focusingId,notes)
+            val idx = findIdxById(status,notes)
             val tmpNote = notes[idx]
             notes.removeAt(idx)
             notes.add(0,tmpNote)
             Repo.setNotes(notes)
-            focusOff()
+            focusInit()
         }
 
         tvMoveBottom.setOnClickListener { _ ->
-            if(focusingId == NONE_FOUCS_ITEM) return@setOnClickListener
+            if(status == NONE_FOUCS_ITEM) return@setOnClickListener
 
             var notes = Repo.getNotes()
-            val idx = findIdxById(focusingId,notes)
+            val idx = findIdxById(status,notes)
             val tmpNote = notes[idx]
             notes.removeAt(idx)
             notes.add(notes.size,tmpNote)
             Repo.setNotes(notes)
-            focusOff()
+            focusInit()
         }
 
         tvQuickOn.setOnClickListener { _ ->
-            if(focusingId == NONE_FOUCS_ITEM) return@setOnClickListener
-            if(!Repo.addQuicks(focusingId)) "최대 4개까지의 바로가기만 등록할 수 있습니다".toasti()
+            if(status == NONE_FOUCS_ITEM) return@setOnClickListener
+            if(!Repo.addQuicks(status)) "최대 4개까지의 바로가기만 등록할 수 있습니다".toasti()
             "바로가기 등록 완료".toasti()
-            focusOff()
+            focusInit()
         }
 
         tvQuickOff.setOnClickListener { _ ->
-            if(focusingId == NONE_FOUCS_ITEM) return@setOnClickListener
-            Repo.removeQuicks(focusingId)
+            if(status == NONE_FOUCS_ITEM) return@setOnClickListener
+            Repo.removeQuicks(status)
             "바로가기 해제 완료".toasti()
-            focusOff()
+            focusInit()
         }
 
     }
@@ -189,32 +245,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-
-        if(focusingId != -1) focusOff()
+        if(status != NONE_FOUCS_ITEM) focusInit()
         else super.onBackPressed()
-
-
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.mn_main,menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//
-//        item?: return true
-//
-//        when(item.itemId) {
-//            R.id.menu_main_setting -> {
-//
-//                "setting".i()
-//
-//            }
-//        }
-//
-//        return true
-//    }
-
 
 }

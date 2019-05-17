@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import seoft.co.manage_two_step.Command
-import seoft.co.manage_two_step.CommandRepo
+import seoft.co.kr.manage_two_step.Command
+import seoft.co.kr.manage_two_step.CommandRepo
 
 class MainActivity : AppCompatActivity() {
 

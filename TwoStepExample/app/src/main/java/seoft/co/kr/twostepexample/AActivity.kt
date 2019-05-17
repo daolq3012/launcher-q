@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_a.*
-import seoft.co.manage_two_step.Command
+import seoft.co.kr.manage_two_step.Command
 
 class AActivity : AppCompatActivity() {
 

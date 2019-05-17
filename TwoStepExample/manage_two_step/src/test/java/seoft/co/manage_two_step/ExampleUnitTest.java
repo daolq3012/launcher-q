@@ -1,4 +1,4 @@
-package seoft.co.manage_two_step;
+package seoft.co.kr.manage_two_step;
 
 import org.junit.Test;
 

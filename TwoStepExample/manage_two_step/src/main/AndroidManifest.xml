@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="seoft.co.manage_two_step">
+          package="seoft.co.kr.manage_two_step">
 
     <uses-permission android:name="seoft.co.kr.launcherq.READ_DATABASE" />
     <uses-permission android:name="seoft.co.kr.launcherq.WRITE_DATABASE" />
