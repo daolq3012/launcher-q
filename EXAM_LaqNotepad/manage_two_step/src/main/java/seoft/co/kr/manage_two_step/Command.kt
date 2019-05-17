@@ -1,35 +1,35 @@
-package seoft.co.kr.launcherq.data.model
+package seoft.co.kr.manage_two_step
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
 import android.content.ContentValues
 import android.database.Cursor
+import android.net.Uri
 import android.provider.BaseColumns
 
-@Entity(tableName = Command.TABLE_NAME)
+
 data class Command(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = COLUMN_ID)
     var id : Long? = null,
-
-    @ColumnInfo(name = COLUMN_TITLE)
     var title:String,
-
-    @ColumnInfo(name = COLUMN_PKG_NAME)
     var pkgName:String,
-
-    @ColumnInfo(name = COLUMN_CLASS)
     var cls:String,
-
-    @ColumnInfo(name = COLUMN_NORMAL_MSG)
     var normalMessage:String="",
-
-    @ColumnInfo(name = COLUMN_USE_EDIT)
     var useEdit:Boolean=false
-
-    ) {
+) {
     companion object {
+
+        /////////////////////////////////////////////////
+        // in CommandContentProvider's companion objects in LauncherQ
+        val AUTHORITY = "seoft.co.kr.launcherq.utill.CommandContentProvider"
+        val URI_COMMAND = Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}")
+        fun getUriFromPkgName(pkgName:String): Uri {
+            return Uri.parse("content://$AUTHORITY/${Command.TABLE_NAME}/-1?${Command.COLUMN_PKG_NAME}=$pkgName")
+        }
+        //
+        /////////////////////////////////////////////////
+
+
+        const val NORMAL_MESSAGE = "NORMAL_MESSAGE"
+        const val EDIT_MESSAGE = "EDIT_MESSAGE"
+
         const val TABLE_NAME = "COMMAND"
         const val COLUMN_ID = BaseColumns._ID
         const val COLUMN_TITLE = "title"
@@ -62,6 +62,7 @@ data class Command(
                 }
         }
 
+
         fun cursorToCommands(cursor: Cursor) : List<Command> {
             val cmds = mutableListOf<Command>()
             with(cursor){
@@ -72,7 +73,7 @@ data class Command(
                         getString(getColumnIndex(Command.COLUMN_PKG_NAME)),
                         getString(getColumnIndex(Command.COLUMN_CLASS)),
                         getString(getColumnIndex(Command.COLUMN_NORMAL_MSG)),
-                        ( getInt(getColumnIndex(Command.COLUMN_USE_EDIT)) == 1 )
+                        ( getInt(getColumnIndex(Command.COLUMN_USE_EDIT)) == 0 )
                     ))
                 }
                 return cmds

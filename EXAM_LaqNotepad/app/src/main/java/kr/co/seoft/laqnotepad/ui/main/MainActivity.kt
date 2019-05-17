@@ -15,15 +15,30 @@ import kr.co.seoft.laqnotepad.data.Repo
 import kr.co.seoft.laqnotepad.ui.edit.EditActivity
 import kr.co.seoft.laqnotepad.ui.read.ReadActivity
 import kr.co.seoft.laqnotepad.util.*
+import seoft.co.kr.manage_two_step.Command
+import seoft.co.kr.manage_two_step.CommandRepo
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
+
+        const val PKG_NAME = "kr.co.seoft.laqnotepad"
+        const val CLS_NAME = "kr.co.seoft.laqnotepad.ui.main.MainActivity"
         const val NEW_NOTE = 1000
         const val EDIT_NOTE = 1100
 
         const val NONE_FOUCS_ITEM = -1
         const val FINDING = -2
+
+
+        // for laq short cut connect
+        const val LAQ_WRITE_MEMO = "LAQ_WRITE_MEMO"
+        const val LAQ_FIND_NOTE = "LAQ_FIND_NOTE"
+        const val LAQ_ = "LAQ_"
+        const val LAQ_0 = "LAQ_0"
+        const val LAQ_1 = "LAQ_1"
+        const val LAQ_2 = "LAQ_2"
+        const val LAQ_3 = "LAQ_3"
 
     }
 
@@ -63,10 +78,55 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        adjustShortCutCmd()
         focusInit()
-
     }
 
+
+    fun adjustShortCutCmd() {
+
+        val getNormalMsg = intent.getStringExtra(Command.NORMAL_MESSAGE)
+
+        when (getNormalMsg) {
+            LAQ_WRITE_MEMO -> {
+                val getEditMsg = intent.getStringExtra(Command.EDIT_MESSAGE)
+
+                "LAQ_WRITE_MEMO $getEditMsg".i()
+
+            }
+            LAQ_FIND_NOTE -> {
+                val getEditMsg = intent.getStringExtra(Command.EDIT_MESSAGE)
+                "LAQ_FIND_NOTE $getEditMsg".i()
+
+            }
+            LAQ_0 -> {
+                "LAQ_0".i()
+
+            }
+            LAQ_1 -> {
+                "LAQ_1".i()
+
+            }
+            LAQ_2 -> {
+                "LAQ_2".i()
+
+            }
+            LAQ_3 -> {
+                "LAQ_3".i()
+
+            }
+        }
+
+//        val getEditMsg = intent.getStringExtra(Command.EDIT_MESSAGE)
+//
+//        const val LAQ_WRITE_MEMO = "LAQ_WRITE_MEMO"
+//        const val LAQ_FIND_NOTE = "LAQ_FIND_NOTE"
+//        const val LAQ_ = "LAQ_"
+//        const val LAQ_0 = "LAQ_0"
+//        const val LAQ_1 = "LAQ_1"
+//        const val LAQ_2 = "LAQ_2"
+//        const val LAQ_3 = "LAQ_3"
+    }
 
     private fun focusFinding() {
         status = FINDING
@@ -112,6 +172,7 @@ class MainActivity : AppCompatActivity() {
 
     fun updateNotes(){
         noteRVAdapter.updateNotes(Repo.getNotes())
+        refreshTwoStep()
     }
 
     fun findNoteFromWord(word:String){
@@ -119,13 +180,57 @@ class MainActivity : AppCompatActivity() {
             .filter { it.content.contains(word) }
             .toList().toMutableList()
 
-        findNotes.forEach { it.i() }
-
-        if(findNotes.size > 0) {
+        if(findNotes.isNotEmpty()) {
             noteRVAdapter.updateNotes(findNotes)
             focusFinding()
         }
         else "검색결과가 없습니다".toasti()
+    }
+
+    fun refreshTwoStep(){
+
+        var insertingCmds = mutableListOf<Command>()
+
+        val quickWriteCmd = Command(
+            title = "빠른 노트 작성",
+            pkgName = PKG_NAME,
+            cls = CLS_NAME,
+            normalMessage = LAQ_WRITE_MEMO,
+            useEdit = true
+        )
+
+        val quickSearchCmd = Command(
+            title = "빠른 노트 찾기",
+            pkgName = PKG_NAME,
+            cls = CLS_NAME,
+            normalMessage = LAQ_FIND_NOTE,
+            useEdit = true
+        )
+
+        val notes = Repo.getNotes()
+
+        insertingCmds.add(quickWriteCmd)
+        insertingCmds.add(quickSearchCmd)
+
+        Repo.getQuicks().forEachIndexed { idx, quickId ->
+            insertingCmds.add(getShortCutNoteCmd(notes,idx ,quickId))
+        }
+
+        CommandRepo.deleteFromPkgName(this,PKG_NAME)
+        CommandRepo.insertCommands(this,insertingCmds)
+    }
+
+    fun getShortCutNoteCmd(notes: MutableList<Note>, idx:Int ,quickId: Int) : Command {
+
+        val note = notes.filter { it.id == quickId }
+        return Command(
+            title = note[0].content.split("\n")[0],
+            pkgName = PKG_NAME,
+            cls = CLS_NAME,
+            normalMessage = "${LAQ_}$idx",
+            useEdit = false
+        )
+
     }
 
     fun initListener(){
