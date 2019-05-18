@@ -25,13 +25,13 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="60dp" android:id="@+id/llBtns"
                   android:orientation="horizontal" android:layout_alignParentBottom="true" >
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="홈으로"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/home"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvHome" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="수정"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/edit"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvEdit" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="삭제"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/delete"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvDelete" android:textColor="@color/purple" />
 
 

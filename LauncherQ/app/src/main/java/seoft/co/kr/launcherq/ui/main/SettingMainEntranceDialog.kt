@@ -12,6 +12,7 @@ import seoft.co.kr.launcherq.ui.arrange.ArrangeActivity
 import seoft.co.kr.launcherq.ui.setting.BgScreenSettingActivity
 import seoft.co.kr.launcherq.ui.setting.LauncherSettingActivity
 import seoft.co.kr.launcherq.utill.App
+import seoft.co.kr.launcherq.utill.TRANS
 import seoft.co.kr.launcherq.utill.toast
 
 
@@ -53,17 +54,12 @@ class SettingMainEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(c
             try {
                 App.get.startActivity(context.packageManager.getLaunchIntentForPackage(LAQ_STORE_PKG_NAME))
             } catch (e : Exception) {
-                "완성된 테마를 받기위해선 Laq Store앱이 필요합니다".toast()
+                R.string.need_to_laqstore.TRANS().toast()
                 App.get.startActivity(
                     Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$LAQ_STORE_PKG_NAME"))
                 )
             }
 
-            // TODO remove code
-            // using force die this app & restart for select other launch app
-//            val aa :String? = null
-//            aa!!.toString()
-//            dismiss()
         }
     }
 

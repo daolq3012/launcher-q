@@ -76,7 +76,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             //
 
             findPreference("clickGridCnt").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "바로가기 앱 행,열 갯수", "개",
+                val snd = SelectNumberDialog(activity!!, R.string.setting1.TRANS(), R.string.ea.TRANS(),
                     Repo.preference.getGridCount(), 3,4){
                     Repo.preference.setGridCount(it)
                     SC.needResetUxSetting = true
@@ -86,7 +86,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickViewSIze").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "바로가기 뷰 사이즈","DP",
+                val snd = SelectNumberDialog(activity!!, R.string.setting2.TRANS(),"DP",
                     Repo.preference.getGridViewSize(),150,250){
                     Repo.preference.setGridViewSize(it)
                     SC.needResetUxSetting = true
@@ -96,7 +96,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickDistance").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "바로가기 열기 거리","DP",
+                val snd = SelectNumberDialog(activity!!, R.string.setting3.TRANS(),"DP",
                     Repo.preference.getDistance(),80,180){
                     Repo.preference.setDistance(it)
                     SC.needResetUxSetting = true
@@ -106,7 +106,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickInterval").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "바로가기 유지 시간","",
+                val snd = SelectNumberDialog(activity!!, R.string.setting4.TRANS(),"",
                     Repo.preference.getTwoStepOpenInterval(),4,24){
                     Repo.preference.setTwoStepOpenInterval(it)
                     SC.needResetUxSetting = true
@@ -116,12 +116,13 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickMyIconPixelSetting").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "임의 아이콘 해상도 설정","pixel",
+                val snd = SelectNumberDialog(activity!!, R.string.setting5.TRANS(),"pixel",
                     Repo.preference.getTopBoundary(),16,64){
                     Repo.preference.setTopBoundary(it)
                 }
                 snd.show()
-                "해당 사이즈를 적용하려면 임의 아이콘을 재 설정해야합니다".toast()
+
+                R.string.setting5_1.TRANS().toast()
                 true
             }
 
@@ -130,7 +131,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             //
 
             findPreference("clickTopBoundary").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "상단 드래그 터치 허용 범위","%",
+                val snd = SelectNumberDialog(activity!!, R.string.setting6.TRANS(),"%",
                     Repo.preference.getTopBoundary(),0,49){
                     Repo.preference.setTopBoundary(it)
                     SC.needResetUxSetting = true
@@ -140,7 +141,7 @@ class LauncherSettingActivity: AppCompatActivity() {
             }
 
             findPreference("clickBottomBoundary").setOnPreferenceClickListener { view ->
-                val snd = SelectNumberDialog(activity!!, "하단 드래그 터치 허용 범위","%",
+                val snd = SelectNumberDialog(activity!!, R.string.setting7.TRANS(),"%",
                     Repo.preference.getBottomBoundary(),0,49){
                     Repo.preference.setBottomBoundary(it)
                     SC.needResetUxSetting = true
@@ -173,7 +174,7 @@ class LauncherSettingActivity: AppCompatActivity() {
                 val intent = Intent(Intent.ACTION_SEND) .apply { type = "text/plain"
                     putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=seoft.co.kr.launcherq") }
 
-                val chooser = Intent.createChooser(intent, "투표투표")
+                val chooser = Intent.createChooser(intent, R.string.app_name.TRANS())
                     .apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }
@@ -200,22 +201,22 @@ class LauncherSettingActivity: AppCompatActivity() {
 
         }
 
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-
-            "ABCD".i(TAG)
-
-            if(requestCode == REQ_LOAD) {
-                data!!.data.path.i(TAG)
-            }
-
-        }
+//        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//            super.onActivityResult(requestCode, resultCode, data)
+//
+//            "ABCD".i(TAG)
+//
+//            if(requestCode == REQ_LOAD) {
+//                data!!.data.path.i(TAG)
+//            }
+//
+//        }
 
     }
 
     fun saveData(jsonData:String) {
         strData = jsonData
-        "저장할 디렉토리를 선택하세요".toast()
+        R.string.setting8.TRANS().toast()
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply { addCategory(Intent.CATEGORY_DEFAULT) }
         startActivityForResult(Intent.createChooser(intent, "choose saving directory"), REQ_SAVE)
     }
@@ -242,10 +243,10 @@ class LauncherSettingActivity: AppCompatActivity() {
                 os.close()
             } catch (e:Exception) {
                 e.printStackTrace()
-                "파일을 저장할 수 없습니다".toast()
+                R.string.cant_save_file.TRANS().toast()
             }
 
-            "설정 저장 완료".toast()
+            R.string.success_to_save_setting.TRANS().toast()
 
         } else if (requestCode == REQ_LOAD && resultCode == Activity.RESULT_OK) {
             try{
@@ -263,10 +264,10 @@ class LauncherSettingActivity: AppCompatActivity() {
 
             } catch (e:Exception) {
                 e.printStackTrace()
-                "파일을 불러올 수 없습니다".toast()
+                R.string.cant_load_file.TRANS().toast()
             }
 
-            "설정 불러오기 완료".toast()
+            R.string.success_load.TRANS().toast()
         }
     }
 

@@ -40,7 +40,7 @@ class SimpleImageAdapter(val context:Context, val gridInterval:Int, val qApps: M
             when(qApps[pos].type) {
                 QuickAppType.ONE_APP,QuickAppType.TWO_APP -> iv.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
                 QuickAppType.FOLDER -> iv.setImageResource(R.drawable.ic_folder_im)
-                QuickAppType.EXPERT -> iv.setImageResource(R.drawable.ic_build_orange)
+                QuickAppType.EXPERT -> iv.setImageResource(R.drawable.ic_expert_im)
                 else -> {}
             }
         }

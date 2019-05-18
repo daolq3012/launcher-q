@@ -54,7 +54,7 @@ class ArrangeImageAdapter(val context:Context, val repo: Repo, val qApps: Mutabl
                 QuickAppType.EMPTY -> item.ivIcon.setImageResource(R.drawable.ic_dot_black)
                 QuickAppType.FOLDER -> item.ivIcon.setImageResource(R.drawable.ic_folder_im)
                 QuickAppType.ONE_APP, QuickAppType.TWO_APP -> item.ivIcon.setImageDrawable(App.get.packageManager.getApplicationIcon(qApps[pos].commonApp.pkgName))
-                QuickAppType.EXPERT -> item.ivIcon.setImageResource(R.drawable.ic_build_orange)
+                QuickAppType.EXPERT -> item.ivIcon.setImageResource(R.drawable.ic_expert_im)
             }
         }
 

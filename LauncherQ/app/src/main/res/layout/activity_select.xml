@@ -26,7 +26,7 @@
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:title="앱 선택"
+                    app:title="@string/select_app"
                     app:titleTextColor="@color/myDeepGray"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"

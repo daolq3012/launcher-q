@@ -3,6 +3,7 @@ package kr.co.seoft.laqnotepad.ui.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -74,65 +75,76 @@ class MainActivity : AppCompatActivity() {
         rvNote.adapter = noteRVAdapter
         initListener()
         updateNotes()
+        adjustShortCutCmd()
     }
 
     override fun onResume() {
         super.onResume()
-        adjustShortCutCmd()
-        focusInit()
+        "onResume".i()
+//        adjustShortCutCmd()
+//        focusInit()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        "onNewIntent".i()
+        adjustShortCutCmd(intent)
     }
 
 
-    fun adjustShortCutCmd() {
+    fun adjustShortCutCmd(_newIntent:Intent? = null) {
 
-        val getNormalMsg = intent.getStringExtra(Command.NORMAL_MESSAGE)
+        var newIntent : Intent
+        if(_newIntent== null) newIntent = intent
+        else newIntent = _newIntent
 
-        when (getNormalMsg) {
-            LAQ_WRITE_MEMO -> {
-                val getEditMsg = intent.getStringExtra(Command.EDIT_MESSAGE)
+        val getNormalMsg = newIntent.getStringExtra(Command.NORMAL_MESSAGE)
 
-                "LAQ_WRITE_MEMO $getEditMsg".i()
+        "adjustShortCutCmd getNormalMsg $getNormalMsg".i()
 
+//        Handler().postDelayed({
+
+            when (getNormalMsg) {
+                LAQ_WRITE_MEMO -> {
+                    val getEditMsg = newIntent.getStringExtra(Command.EDIT_MESSAGE)
+                    "LAQ_WRITE_MEMO $getEditMsg".i()
+                    writeNewNote(getEditMsg)
+                }
+                LAQ_FIND_NOTE -> {
+                    val getEditMsg = newIntent.getStringExtra(Command.EDIT_MESSAGE)
+                    "LAQ_FIND_NOTE $getEditMsg".i()
+                    findNoteFromWord(getEditMsg)
+                }
+                LAQ_0 -> openNoteFromLaQ(0)
+                LAQ_1 -> openNoteFromLaQ(1)
+                LAQ_2 -> openNoteFromLaQ(2)
+                LAQ_3 -> openNoteFromLaQ(3)
             }
-            LAQ_FIND_NOTE -> {
-                val getEditMsg = intent.getStringExtra(Command.EDIT_MESSAGE)
-                "LAQ_FIND_NOTE $getEditMsg".i()
 
-            }
-            LAQ_0 -> {
-                "LAQ_0".i()
+//        }, 100)
 
-            }
-            LAQ_1 -> {
-                "LAQ_1".i()
-
-            }
-            LAQ_2 -> {
-                "LAQ_2".i()
-
-            }
-            LAQ_3 -> {
-                "LAQ_3".i()
-
-            }
-        }
-
-//        val getEditMsg = intent.getStringExtra(Command.EDIT_MESSAGE)
-//
-//        const val LAQ_WRITE_MEMO = "LAQ_WRITE_MEMO"
-//        const val LAQ_FIND_NOTE = "LAQ_FIND_NOTE"
-//        const val LAQ_ = "LAQ_"
-//        const val LAQ_0 = "LAQ_0"
-//        const val LAQ_1 = "LAQ_1"
-//        const val LAQ_2 = "LAQ_2"
-//        const val LAQ_3 = "LAQ_3"
     }
+
+    fun openNoteFromLaQ(idx:Int){
+        val noteId = Repo.getQuicks()[idx]
+        val note = Repo.getNotes().filter { it.id == noteId }.first()
+
+        startActivityForResult(Intent(applicationContext,ReadActivity::class.java).apply {
+            putExtra(EK_ID,note.id)
+            putExtra(EK_CONTENT,note.content)
+        }, EDIT_NOTE)
+
+
+
+
+    }
+
 
     private fun focusFinding() {
         status = FINDING
         tvShowAll.visibility = View.VISIBLE
         tvWrite.visibility = View.GONE
-        tvSetting.visibility = View.GONE
+//        tvSetting.visibility = View.GONE
         tvFind.visibility = View.GONE
         tvMoveTop.visibility = View.GONE
         tvMoveBottom.visibility = View.GONE
@@ -144,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         status = NONE_FOUCS_ITEM
         tvShowAll.visibility = View.GONE
         tvWrite.visibility = View.VISIBLE
-        tvSetting.visibility = View.VISIBLE
+//        tvSetting.visibility = View.VISIBLE
         tvFind.visibility = View.VISIBLE
         tvMoveTop.visibility = View.GONE
         tvMoveBottom.visibility = View.GONE
@@ -157,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         status = id
         tvShowAll.visibility = View.GONE
         tvWrite.visibility = View.GONE
-        tvSetting.visibility = View.GONE
+//        tvSetting.visibility = View.GONE
         tvFind.visibility = View.GONE
         tvMoveTop.visibility = View.VISIBLE
         tvMoveBottom.visibility = View.VISIBLE
@@ -184,7 +196,7 @@ class MainActivity : AppCompatActivity() {
             noteRVAdapter.updateNotes(findNotes)
             focusFinding()
         }
-        else "검색결과가 없습니다".toasti()
+        else R.string.not_exist_search_result.TO_STRING()
     }
 
     fun refreshTwoStep(){
@@ -192,7 +204,7 @@ class MainActivity : AppCompatActivity() {
         var insertingCmds = mutableListOf<Command>()
 
         val quickWriteCmd = Command(
-            title = "빠른 노트 작성",
+            title = R.string.quick_write.TO_STRING(),
             pkgName = PKG_NAME,
             cls = CLS_NAME,
             normalMessage = LAQ_WRITE_MEMO,
@@ -200,7 +212,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val quickSearchCmd = Command(
-            title = "빠른 노트 찾기",
+            title = R.string.quick_note.TO_STRING(),
             pkgName = PKG_NAME,
             cls = CLS_NAME,
             normalMessage = LAQ_FIND_NOTE,
@@ -224,7 +236,7 @@ class MainActivity : AppCompatActivity() {
 
         val note = notes.filter { it.id == quickId }
         return Command(
-            title = note[0].content.split("\n")[0],
+            title = note.first().content.split("\n")[0],
             pkgName = PKG_NAME,
             cls = CLS_NAME,
             normalMessage = "${LAQ_}$idx",
@@ -241,11 +253,12 @@ class MainActivity : AppCompatActivity() {
             }, NEW_NOTE)
         }
 
+
         tvFind.setOnClickListener { _ ->
             AlertDialog.Builder(this).showDialogWithInput(
-                message = "검색어 입력",
-                postiveBtText = "확인",
-                negativeBtText = "취소",
+                message = R.string.enter_search_keyword.TO_STRING(),
+                postiveBtText = R.string.yes.TO_STRING(),
+                negativeBtText = R.string.cancel.TO_STRING(),
                 cbPostive = {
                     if(it.isNotEmpty()) findNoteFromWord(it)
                 },
@@ -261,9 +274,9 @@ class MainActivity : AppCompatActivity() {
             focusInit()
         }
 
-        tvSetting.setOnClickListener { _ ->
-
-        }
+//        tvSetting.setOnClickListener { _ ->
+//
+//        }
 
         tvMoveTop.setOnClickListener { _ ->
             if(status == NONE_FOUCS_ITEM) return@setOnClickListener
@@ -291,15 +304,15 @@ class MainActivity : AppCompatActivity() {
 
         tvQuickOn.setOnClickListener { _ ->
             if(status == NONE_FOUCS_ITEM) return@setOnClickListener
-            if(!Repo.addQuicks(status)) "최대 4개까지의 바로가기만 등록할 수 있습니다".toasti()
-            "바로가기 등록 완료".toasti()
+            if(!Repo.addQuicks(status)) R.string.max4.TO_STRING().toasti()
+            else R.string.register_success.TO_STRING().toasti()
             focusInit()
         }
 
         tvQuickOff.setOnClickListener { _ ->
             if(status == NONE_FOUCS_ITEM) return@setOnClickListener
             Repo.removeQuicks(status)
-            "바로가기 해제 완료".toasti()
+            R.string.unregister_success.TO_STRING().toasti()
             focusInit()
         }
 
@@ -315,6 +328,10 @@ class MainActivity : AppCompatActivity() {
         return -1
     }
 
+    fun writeNewNote(content:String){
+        Repo.addNotes(content)
+        updateNotes()
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -322,8 +339,7 @@ class MainActivity : AppCompatActivity() {
             when (requestCode) {
                 NEW_NOTE -> {
                     val savingString = data.getStringExtra(EK_CONTENT)
-                    Repo.addNotes(savingString)
-                    updateNotes()
+                    writeNewNote(savingString)
                 }
                 EDIT_NOTE ->{
                     val isRemove = data.getBooleanExtra(EK_IS_REMOVE,false)

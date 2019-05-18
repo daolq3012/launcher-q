@@ -15,7 +15,7 @@
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="전문가 설정"
+                app:title="@string/expert_setting"
                 app:titleTextColor="@color/myDeepGray"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -55,13 +55,13 @@
             <EditText style="@style/ExpertSettingContentView" android:id="@+id/etType" />
             <View style="@style/HorizontalGrayLineWithAllMargin" />
             <TextView style="@style/ExpertSettingTitleTextview" android:text="category" />
-            <TextView style="@style/ExpertSettingContentView" android:text="CATEGORY_DEFAULT\n추가하기" android:id="@+id/tvCategory" />
+            <TextView style="@style/ExpertSettingContentView" android:text="@string/expert_setting_2" android:id="@+id/tvCategory" />
             <View style="@style/HorizontalGrayLineWithAllMargin" />
             <TextView style="@style/ExpertSettingTitleTextview" android:text="setFlag" />
             <TextView style="@style/ExpertSettingContentView" android:text="FLAG_ACTIVITY_NEW_TASK" android:id="@+id/tvSetFlag" />
             <View style="@style/HorizontalGrayLineWithAllMargin" />
             <TextView style="@style/ExpertSettingTitleTextview" android:text="addFlag" />
-            <TextView style="@style/ExpertSettingContentView" android:text="추가하기" android:id="@+id/tvAddFlag" />
+            <TextView style="@style/ExpertSettingContentView" android:text="@string/add" android:id="@+id/tvAddFlag" />
             <View style="@style/HorizontalGrayLineWithAllMargin" />
             <TextView style="@style/ExpertSettingTitleTextview" android:text="pkgName" />
             <EditText style="@style/ExpertSettingContentView" android:id="@+id/etPkgName" />

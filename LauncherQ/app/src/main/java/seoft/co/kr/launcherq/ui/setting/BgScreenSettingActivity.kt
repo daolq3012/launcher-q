@@ -109,7 +109,7 @@ class BgScreenSettingActivity: AppCompatActivity() {
                         val bit = Bitmap.createBitmap(1,1, Bitmap.Config.ARGB_8888)
                         bit.eraseColor(color)
                         Repo.backgroundRepo.saveBitmap(bit, App.get)
-                        "배경화면 설정 완료".toast()
+                        R.string.success_to_set_background.TRANS().toast()
 
                         val strPickColor = color.toStrColor()
                         Repo.preference.setBgImageColor(strPickColor)
@@ -143,7 +143,7 @@ class BgScreenSettingActivity: AppCompatActivity() {
 
             Repo.backgroundRepo.saveBitmap(bitImg,this)
             SC.needResetBgSetting = true
-            "배경화면 설정 완료".toast()
+            R.string.success_to_set_background.TRANS().toast()
         }
     }
 }

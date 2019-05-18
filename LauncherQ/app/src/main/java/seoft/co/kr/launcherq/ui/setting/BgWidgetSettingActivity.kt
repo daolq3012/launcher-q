@@ -171,8 +171,8 @@ class BgWidgetSettingActivity : AppCompatActivity() {
         AlertDialog.Builder(this).showDialogWithInput(
             title = bgWidgetContent.widgetClassContents[widgetType.getInt].title,
             message = bgWidgetContent.widgetClassContents[widgetType.getInt].explain,
-            postiveBtText = "확인",
-            negativeBtText = "취소",
+            postiveBtText = R.string.ok.TRANS(),
+            negativeBtText = R.string.cancel.TRANS(),
             cbPostive = {
                 vm.saveEtc(it)
             },

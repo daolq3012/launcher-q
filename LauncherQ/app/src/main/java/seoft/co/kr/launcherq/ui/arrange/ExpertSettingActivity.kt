@@ -76,7 +76,7 @@ class ExpertSettingActivity : AppCompatActivity() {
                 val cur = it
                 eos.categorys.find { it.result ==  cur }?.let { eomCategorys.add(it) }
             }
-            tvCategory.text = eomCategorys.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+            tvCategory.text = eomCategorys.joinToString(postfix = "\n${R.string.add.TRANS()}",separator = "\n"){it.name}
 
 
             curCustomIntent.addFlag?.let {
@@ -85,7 +85,7 @@ class ExpertSettingActivity : AppCompatActivity() {
                     eos.flags.find { it.result.toInt() ==  cur }?.let { eomAddFlag.add(it) }
                 }
 
-                tvAddFlag.text = eomAddFlag.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+                tvAddFlag.text = eomAddFlag.joinToString(postfix = "\n${R.string.add.TRANS()}",separator = "\n"){it.name}
             }
 
         } else { // add
@@ -109,12 +109,12 @@ class ExpertSettingActivity : AppCompatActivity() {
 
                 if(it.result.isEmpty()) {
                     eomCategorys.clear()
-                    tvCategory.text = "CATEGORY_DEFAULT\n추가하기"
+                    tvCategory.text = "CATEGORY_DEFAULT\n${R.string.add.TRANS()}"
                     return@ExpertOptionDialog
                 }
                 eomCategorys.add(it)
 
-                tvCategory.text = eomCategorys.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+                tvCategory.text = eomCategorys.joinToString(postfix = "\n${R.string.add.TRANS()}",separator = "\n"){it.name}
 
             }.apply { show() }
         }
@@ -136,90 +136,21 @@ class ExpertSettingActivity : AppCompatActivity() {
 
                 if(it.result.isEmpty()) {
                     eomAddFlag.clear()
-                    tvAddFlag.text = "추가하기"
+                    tvAddFlag.text = R.string.add.TRANS()
                     return@ExpertOptionDialog
                 }
                 eomAddFlag.add(it)
 
-                tvAddFlag.text = eomAddFlag.joinToString(postfix = "\n추가하기",separator = "\n"){it.name}
+                tvAddFlag.text = eomAddFlag.joinToString(postfix = "\n${R.string.add.TRANS()}",separator = "\n"){it.name}
 
 
             }.apply { show() }
         }
-
-//        tvOk.setOnClickListener { _ ->
-//
-//            if(etName.text.toString().isBlank()) {
-//                "name을 입력하세요".toast()
-//                return@setOnClickListener
-//            }
-//
-//            curCustomIntent.apply {
-//                name = etName.text.toString()
-//
-//                etUri.text.toString().let { uriData = if(it.isBlank()) null else it }
-//                etType.text.toString().let { type = if(it.isBlank()) null else it }
-//                etPkgName.text.toString().let { pkgName = if(it.isBlank()) null else it }
-//
-//                val tmpCustomComponentName = CustomComponentName(etCnPkgName.text.toString(),etCnCls.text.toString())
-//
-//                customComponentName = if(tmpCustomComponentName.compCls == "" && tmpCustomComponentName.compName == "") null
-//                else tmpCustomComponentName
-//
-//                action = eomAction.result
-//
-//                if(eomCategorys.isEmpty()) categorys = mutableListOf(eos.categoryDefault)
-//                else categorys = eomCategorys.map { it.result }.toMutableList()
-//
-//                flag = eomSetFlag.result.toInt()
-//
-//                if(eomAddFlag.isNotEmpty()) addFlag = eomAddFlag.map { it.result.toInt() }.toMutableList()
-//                else addFlag = null
-//            }
-//
-//            if(SC.qApp4SetExpert!!.expert == null)
-//                SC.qApp4SetExpert!!.expert = Expert(null)
-//
-//            with(SC.qApp4SetExpert!!.expert!!){
-//                if(pos == 0 ) useOne = curCustomIntent
-//                else {
-//
-//                    if(useTwo == null)
-//                        useTwo = mutableListOf(null,null,null,null,null,null)
-//
-//                    useTwo!![pos-1] = curCustomIntent
-//                }
-//            }
-//
-//            SC.qApp4SetExpert!!.type = QuickAppType.EXPERT
-//
-//            setResult(Activity.RESULT_OK)
-//            finish()
-//        }
-//
-//        tvCancel.setOnClickListener { _ -> finish() }
-//
-//        tvSpeed.setOnClickListener { _ ->
-//            SelectorDialog(this,
-//                "선택하세요",
-//                SelectorDialog.DialogSelectorInfo("웹페이지 빠른 등록"),
-//                SelectorDialog.DialogSelectorInfo("전화 빠른 등록"),
-//                SelectorDialog.DialogSelectorInfo("앱 실행 빠른 등록"),
-//                cb = {
-//                    when(it) {
-//                        1 -> setWeb()
-//                        2 -> setPhone()
-//                        3 -> setApp()
-//                    }
-//                }
-//            ).create()
-//        }
-
     }
 
     fun done(){
         if(etName.text.toString().isBlank()) {
-            "name을 입력하세요".toast()
+            R.string.input_name.TRANS().toast()
             return
         }
 
@@ -268,9 +199,9 @@ class ExpertSettingActivity : AppCompatActivity() {
 
     fun setWeb(){
         AlertDialog.Builder(this).showDialogWithTwoInput(
-            message = "(1)표시 될 이름과 (2)웹 페이지 주소를 입력하세요",
-            postiveBtText = "확인",
-            negativeBtText = "취소",
+            message = R.string.expert_explain_1.TRANS(),
+            postiveBtText = R.string.ok.TRANS(),
+            negativeBtText = R.string.cancel.TRANS(),
             cbPostive = {
                 etName.setText(it.split(SC.SPLITTER)[0])
                 etUri.setText(it.split(SC.SPLITTER)[1])
@@ -289,9 +220,9 @@ class ExpertSettingActivity : AppCompatActivity() {
 
     fun setPhone(){
         AlertDialog.Builder(this).showDialogWithTwoInput(
-            message = "(1)표시 될 이름과 (2)전화번호를 입력하세요",
-            postiveBtText = "확인",
-            negativeBtText = "취소",
+            message = R.string.expert_explain_2.TRANS(),
+            postiveBtText = R.string.ok.TRANS(),
+            negativeBtText = R.string.cancel.TRANS(),
             cbPostive = {
                 etName.setText(it.split(SC.SPLITTER)[0])
                 etUri.setText("tel:${it.split(SC.SPLITTER)[1]}")
@@ -310,9 +241,9 @@ class ExpertSettingActivity : AppCompatActivity() {
 
     fun setApp(){
         AlertDialog.Builder(this).showDialogWithTwoInput(
-            message = "(1)표시 될 이름과 (2)패키지명를 입력하세요",
-            postiveBtText = "확인",
-            negativeBtText = "취소",
+            message = R.string.expert_explain_3.TRANS(),
+            postiveBtText = R.string.ok.TRANS(),
+            negativeBtText = R.string.cancel.TRANS(),
             cbPostive = {
                 it.split(SC.SPLITTER).i(TAG)
                 etName.setText(it.split(SC.SPLITTER)[0])
@@ -351,10 +282,10 @@ class ExpertSettingActivity : AppCompatActivity() {
         when(item.itemId) {
             R.id.menu_es_more -> {
                 SelectorDialog(this,
-                    "선택하세요",
-                    SelectorDialog.DialogSelectorInfo("웹페이지 빠른 등록"),
-                    SelectorDialog.DialogSelectorInfo("전화 빠른 등록"),
-                    SelectorDialog.DialogSelectorInfo("앱 실행 빠른 등록"),
+                    R.string.select.TRANS(),
+                    SelectorDialog.DialogSelectorInfo(R.string.regist_webpage_shortcut.TRANS()),
+                    SelectorDialog.DialogSelectorInfo(R.string.regist_call_shortcut.TRANS()),
+                    SelectorDialog.DialogSelectorInfo(R.string.regist_app_shortcut.TRANS()),
                     cb = {
                         when(it) {
                             1 -> setWeb()

@@ -76,9 +76,9 @@ class ArrangeActivity : AppCompatActivity() {
                 MsgType.OPEN_ICON_SETTER ->{
                     if(vm.msg as Boolean) {
                         SelectorDialog(this,
-                            "선택하세요",
-                            SelectorDialog.DialogSelectorInfo("수정"),
-                            SelectorDialog.DialogSelectorInfo("삭제"),
+                            R.string.select.TRANS(),
+                            SelectorDialog.DialogSelectorInfo(R.string.edit.TRANS()),
+                            SelectorDialog.DialogSelectorInfo(R.string.delete.TRANS()),
                             cb = {
                                 when(it) {
                                     1 -> selectIcon()
@@ -139,10 +139,10 @@ class ArrangeActivity : AppCompatActivity() {
                                 else -> {
                                     AlertDialog.Builder(this).showDialog(
                                         message =
-                                        if(it.quickApp.type == QuickAppType.FOLDER) "폴더 안에 넣으시겠습니까?"
-                                        else "있는데 덮어 씌우겠습니까?",
-                                        postiveBtText = "네",
-                                        negativeBtText = "아니요",
+                                        if(it.quickApp.type == QuickAppType.FOLDER) R.string.insert_to_folder.TRANS()
+                                        else R.string.cover_this.TRANS(),
+                                        postiveBtText = R.string.yes.TRANS(),
+                                        negativeBtText = R.string.no.TRANS(),
                                         cbPostive = {
                                             vm.moveApp(it.pos)
                                         },
@@ -176,9 +176,9 @@ class ArrangeActivity : AppCompatActivity() {
 
     fun selectIcon(){
         SelectorDialog(this,
-            "선택하세요",
-            SelectorDialog.DialogSelectorInfo("기본 아이콘 사용"),
-            SelectorDialog.DialogSelectorInfo("갤러리에서 가져오기"),
+            R.string.select.TRANS(),
+            SelectorDialog.DialogSelectorInfo(R.string.use_default_icon.TRANS()),
+            SelectorDialog.DialogSelectorInfo(R.string.bring_from_gallery.TRANS()),
             cb = {
                 when(it) {
                     1 -> {
@@ -200,7 +200,7 @@ class ArrangeActivity : AppCompatActivity() {
     private fun openFolder(pickedApp: QuickApp) {
 
         if(pickedApp.dir.isEmpty()) {
-            "폴더가 비어있습니다".toast()
+            R.string.empty_folder.TRANS().toast()
             return
         }
 

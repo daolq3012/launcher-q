@@ -179,3 +179,8 @@ fun AlertDialog.Builder.showDialogWithTwoInput(title:String? = null, message:Str
 fun Any.i(tag:String = "#$#") {
     Log.i(tag,this.toString())
 }
+
+
+fun Int.TRANS():String{
+    return App.get.resources.getString(this)
+}

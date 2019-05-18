@@ -12,6 +12,7 @@ import kr.co.seoft.laqnotepad.ui.main.MainActivity
 import kr.co.seoft.laqnotepad.util.EK_CONTENT
 import kr.co.seoft.laqnotepad.util.EK_ID
 import kr.co.seoft.laqnotepad.util.EK_IS_REMOVE
+import kr.co.seoft.laqnotepad.util.TO_STRING
 
 class ReadActivity : AppCompatActivity() {
 
@@ -48,15 +49,15 @@ class ReadActivity : AppCompatActivity() {
 
             AlertDialog
                 .Builder(this)
-                .setMessage("정말 삭제하시겠습니까?")
-                .setPositiveButton("네") {d, w ->
+                .setMessage(R.string.sure_delete.TO_STRING())
+                .setPositiveButton(R.string.yes.TO_STRING()) {d, w ->
                     setResult(Activity.RESULT_OK, Intent().apply {
                         putExtra(EK_ID,id)
                         putExtra(EK_IS_REMOVE,true)
                     })
                     finish()
                 }
-                .setNegativeButton("아니요") {d, w ->
+                .setNegativeButton(R.string.no.TO_STRING()) {d, w ->
                 }
                 .show()
 

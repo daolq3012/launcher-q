@@ -276,9 +276,9 @@ class MainActivity : AppCompatActivity() {
                 applicationContext.startActivity(actintent)
             } ?: run {
                 AlertDialog.Builder(this@MainActivity).showDialogWithInput(
-                    title = "입력",
-                    postiveBtText = "확인",
-                    negativeBtText = "취소",
+                    title = R.string.input.TRANS(),
+                    postiveBtText = R.string.ok.TRANS(),
+                    negativeBtText = R.string.cancel.TRANS(),
                     cbPostive = {
                         launchAppFromCommand(cmd,it)
                     },
@@ -581,7 +581,7 @@ class MainActivity : AppCompatActivity() {
                                 if(Repo.imageCacheRepo.containsKey(tmpPkgName)) Repo.imageCacheRepo.getDrawable(tmpPkgName)
                                 else App.get.packageManager.getApplicationIcon(tmpPkgName) )
                         }
-                        QuickAppType.EXPERT -> ivPreview.setImageResource(R.drawable.ic_build_orange)
+                        QuickAppType.EXPERT -> ivPreview.setImageResource(R.drawable.ic_expert_im)
                     }
                 }
 
@@ -589,7 +589,7 @@ class MainActivity : AppCompatActivity() {
                     CAppException.values().find { it.get == tmpPkgName }?.title
                 } else {
                     when (tmpCurApp.type) {
-                        QuickAppType.FOLDER -> "폴더"
+                        QuickAppType.FOLDER -> R.string.folder.TRANS()
                         QuickAppType.ONE_APP, QuickAppType.TWO_APP -> tmpCurApp.commonApp.label
                         QuickAppType.EXPERT -> "Expert"
                         else -> ""

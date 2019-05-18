@@ -103,10 +103,10 @@ class FontActivity : AppCompatActivity() {
 
             } catch (e:Exception) {
                 e.printStackTrace()
-                "파일을 불러올 수 없습니다".toast()
+                R.string.cant_load_file.TRANS().toast()
             }
 
-            "설정 불러오기 완료".toast()
+            R.string.success_load.TRANS().toast()
         }
     }
 
@@ -141,8 +141,8 @@ class FontActivity : AppCompatActivity() {
             val view = LayoutInflater.from(baseContext).inflate(R.layout.item_font,null)
             val tvFont = view.findViewById<TextView>(R.id.tvFont)
 
-            tvFont.text = if(fonts[pos] == LOAD_FONT_FILE) "사용자 폰트 설정"
-            else if(fonts[pos] == DEFAULT_FONT) "스마트폰 기본 폰트"
+            tvFont.text = if(fonts[pos] == LOAD_FONT_FILE) R.string.user_font_setting.TRANS()
+            else if(fonts[pos] == DEFAULT_FONT) R.string.phone_font_setting.TRANS()
             else fonts[pos]
 
             tvFont.typeface = if(fonts[pos] == LOAD_FONT_FILE) Typeface.DEFAULT

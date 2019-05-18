@@ -18,8 +18,7 @@
             android:letterSpacing="-0.02"
             android:lineSpacingExtra="10sp"
             android:gravity="center_horizontal"
-            tools:text="지금까지 공들여 만든 퀴즈 내용을
-정말로 삭제하시겠습니까?"
+            tools:text="지금까지 공들여 만든 퀴즈 내용을 정말로 삭제하시겠습니까?"
     />
 
     <LinearLayout

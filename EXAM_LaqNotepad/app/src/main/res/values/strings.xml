@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Laq Notepad</string>
+    <string name="cancel">cancel</string>
+    <string name="save">save</string>
+    <string name="write">write</string>
+    <string name="search">search</string>
+    <string name="move_to_top">move to top</string>
+    <string name="move_to_bottom">move to bottom</string>
+    <string name="add_short_cut">add short cut</string>
+    <string name="remove_short_cut">remove short cut</string>
+    <string name="show_all">show all</string>
+    <string name="home">home</string>
+    <string name="edit">edit</string>
+    <string name="delete">delete</string>
+    <string name="not_exist_search_result">Not exist search result</string>
+    <string name="quick_write">quick write</string>
+    <string name="quick_note">quick note</string>
+    <string name="enter_search_keyword">Enter search keyword</string>
+    <string name="yes">yes</string>
+    <string name="max4">Exceeded insert count</string>
+    <string name="register_success">register success</string>
+    <string name="unregister_success">unregister success</string>
+    <string name="sure_delete">Sure delete ?</string>
+    <string name="no">no</string>
 </resources>

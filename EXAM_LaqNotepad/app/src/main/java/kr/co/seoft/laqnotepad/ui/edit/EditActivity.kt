@@ -34,6 +34,8 @@ class EditActivity : AppCompatActivity() {
 
     private fun initListener(){
 
+        etContent.requestFocus()
+
         tvSave.setOnClickListener { _ ->
 
             setResult(Activity.RESULT_OK, Intent().apply {

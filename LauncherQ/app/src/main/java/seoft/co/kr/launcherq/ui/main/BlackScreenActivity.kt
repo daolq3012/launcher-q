@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.utill.TRANS
 import seoft.co.kr.launcherq.utill.toast
 
 class BlackScreenActivity : AppCompatActivity() {
@@ -37,7 +38,7 @@ class BlackScreenActivity : AppCompatActivity() {
 
         Settings.System.putInt(contentResolver, Settings.System.SCREEN_OFF_TIMEOUT, 1)
         Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0)
-        "곧 화면이 꺼집니다".toast()
+        R.string.screen_off_soon.TRANS().toast()
 
         gestureDetectorCompat = GestureDetectorCompat(this, object: GestureDetector.SimpleOnGestureListener(){
             override fun onDoubleTap(e: MotionEvent?): Boolean {

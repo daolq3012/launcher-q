@@ -7,6 +7,7 @@ import android.view.Window
 import kotlinx.android.synthetic.main.dialog_setting_drawer_whole.*
 import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
+import seoft.co.kr.launcherq.utill.TRANS
 
 
 class DrawerWholeSettingDialog(context: Context, val drawerMode: DrawerViewModel.DrawerMode, val repo: Repo, var cb: (dsdr:DrawerSettingDialogResult)->Unit) : Dialog(context) {
@@ -42,7 +43,7 @@ class DrawerWholeSettingDialog(context: Context, val drawerMode: DrawerViewModel
         tvNumX.text = curX.toString()
         tvNumY.text = curY.toString()
 
-        tvHide.text = if(DrawerViewModel.DrawerMode.HIDE_MODE == drawerMode) "일반 앱 리스트" else "숨겨진 앱 리스트"
+        tvHide.text = if(DrawerViewModel.DrawerMode.HIDE_MODE == drawerMode) R.string.default_app_list.TRANS() else R.string.hide_app_list.TRANS()
 
 
         tvNumX.setOnClickListener { v ->

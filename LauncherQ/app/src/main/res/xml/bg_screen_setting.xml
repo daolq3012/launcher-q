@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="배경 화면 설정">
+    <PreferenceCategory android:title="@string/background_setting">
         <PreferenceScreen
                 android:key="simpleColor"
-                android:title="단색"
-                android:summary="배경을 단색으로 설정합니다"/>
+                android:title="@string/solid_color"
+                android:summary="@string/solid_color_content"/>
         <PreferenceScreen
                 android:key="specificImage"
-                android:title="임의 이미지"
-                android:summary="배경을 임의의 이미지로 설정합니다"/>
+                android:title="@string/user_image"
+                android:summary="@string/user_image_content"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="위젯 설정">
+    <PreferenceCategory android:title="@string/widget_setting">
 
         <PreferenceScreen
                 android:key="timeWidget"
-                android:title="시간 위젯 설정" />
+                android:title="@string/time" />
 
         <PreferenceScreen
                 android:key="ampmWidget"
-                android:title="오전/오후 위젯 설정"
-                android:summary="해당 기능 해제시 시간이 0 ~ 23 범위 내에서 출력됩니다" />
+                android:title="@string/am_pm"
+                android:summary="@string/am_pm_explain" />
 
         <PreferenceScreen
                 android:key="dateWidget"
-                android:title="날짜 위젯 설정" />
+                android:title="@string/date" />
 
         <PreferenceScreen
                 android:key="dowWidget"
-                android:title="요일 위젯 설정" />
+                android:title="@string/day_of_week" />
 
         <PreferenceScreen
                 android:key="textWidget"
-                android:title="글귀 위젯 설정" />
+                android:title="@string/text" />
 
     </PreferenceCategory>
 </PreferenceScreen>

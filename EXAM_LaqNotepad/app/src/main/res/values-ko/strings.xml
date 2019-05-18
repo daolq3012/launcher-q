@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LaQ 노트패드</string>
+    <string name="cancel">취소</string>
+    <string name="save">저장</string>
+    <string name="write">글 쓰기</string>
+    <string name="search">검색</string>
+    <string name="move_to_top">최상위로 이동</string>
+    <string name="move_to_bottom">최하위로 이동</string>
+    <string name="add_short_cut">바로가기 설정</string>
+    <string name="remove_short_cut">바로가기 해제</string>
+    <string name="show_all">모두 보기</string>
+    <string name="delete">삭제</string>
+    <string name="edit">수정</string>
+    <string name="home">홈으로</string>
+    <string name="not_exist_search_result">검색결과가 없습니다</string>
+    <string name="quick_note">빠른 작성</string>
+    <string name="quick_write">바로 찾기</string>
+    <string name="enter_search_keyword">검색어 입력</string>
+    <string name="yes">확인</string>
+    <string name="max4">최대 4개까지의 바로가기만 등록할 수 있습니다</string>
+    <string name="register_success">바로가기 등록 완료</string>
+    <string name="unregister_success">바로가기 등록 완료</string>
+    <string name="sure_delete">정말 삭제하시겠습니까?</string>
+    <string name="no">아니요</string>
+</resources>

@@ -23,7 +23,7 @@
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:title="오픈소스 라이센스"
+                    app:title="@string/opensource"
                     app:titleTextColor="@color/myDeepGray"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"

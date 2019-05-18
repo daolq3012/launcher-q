@@ -59,7 +59,7 @@ class AdjustActivity : AppCompatActivity() {
 
                 override fun onDataNotAvailable() {
                     "onDataNotAvailable".i(TAG)
-                    "배경을 불러오는대 실패하였습니다".toast()
+                    R.string.fail_to_load_bg.TRANS().toast()
                     finish()
                 }
             }
@@ -78,7 +78,7 @@ class AdjustActivity : AppCompatActivity() {
                         }
                         override fun onDataNotAvailable() {
                             "onDataNotAvailable".i(TAG)
-                            "폰트를 불러오는대 실패하였습니다".toast()
+                            R.string.fail_to_load_font.TRANS().toast()
                             finish()
                         }
                     }
@@ -97,7 +97,7 @@ class AdjustActivity : AppCompatActivity() {
         )
         Repo.preference.setBgWidgetInfos(bgwi)
         SC.needResetBgSetting = true
-        "테마 적용 완료".toast()
+        R.string.success_to_set_theme.TRANS().toast()
         finish()
     }
 

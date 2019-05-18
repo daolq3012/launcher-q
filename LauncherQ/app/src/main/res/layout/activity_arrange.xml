@@ -30,7 +30,7 @@
 
             <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:title="바로가기 관리"
+                    app:title="@string/manage_shortcut"
                     app:titleTextColor="@color/myDeepGray"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -209,7 +209,7 @@
                               app:arrangeBottoms="@{bottoms.ADD}"
                               android:padding="15dp" >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:id="@+id/tvAddApp" android:text="앱추가" />
+                              android:id="@+id/tvAddApp" android:text="@string/add_app" />
                 </LinearLayout>
 
                 <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />
@@ -221,7 +221,7 @@
                               app:pickedApp="@{vm.pickedApp}"
                               app:arrangeBottoms="@{bottoms.DELETE}">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:text="삭제" android:id="@+id/tvDelete"/>
+                              android:text="@string/delete" android:id="@+id/tvDelete"/>
                 </LinearLayout>
 
                 <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />
@@ -233,7 +233,7 @@
                               app:pickedApp="@{vm.pickedApp}"
                               app:arrangeBottoms="@{bottoms.MOVE}">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:text="이동" android:id="@+id/tvMove"  />
+                              android:text="@string/move_app" android:id="@+id/tvMove"  />
                 </LinearLayout>
 
             </LinearLayout>
@@ -248,7 +248,7 @@
                               app:arrangeBottoms="@{bottoms.FOLDER}"
                               android:padding="15dp" >
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:text="폴더" android:id="@+id/tvFolder" />
+                              android:text="@string/folder" android:id="@+id/tvFolder" />
                 </LinearLayout>
 
                 <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />
@@ -260,7 +260,7 @@
                               app:pickedApp="@{vm.pickedApp}"
                               app:arrangeBottoms="@{bottoms.EXPERT}">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:text="전문가 모드" android:id="@+id/tvExpert"/>
+                              android:text="@string/expert_mode" android:id="@+id/tvExpert"/>
                 </LinearLayout>
 
                 <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#000000" />
@@ -272,7 +272,7 @@
                               app:pickedApp="@{vm.pickedApp}"
                               app:arrangeBottoms="@{bottoms.ICON}">
                     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
-                              android:text="아이콘 설정" android:id="@+id/tvIcon"/>
+                              android:text="@string/setting_icon" android:id="@+id/tvIcon"/>
                 </LinearLayout>
 
             </LinearLayout>

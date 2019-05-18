@@ -79,7 +79,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="순서 변경"
+            android:text="@string/reorder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -92,7 +92,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="앱 숨기기"
+            android:text="@string/hide_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -105,7 +105,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="앱 삭제"
+            android:text="@string/delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

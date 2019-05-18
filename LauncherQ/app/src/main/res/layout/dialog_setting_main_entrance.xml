@@ -18,7 +18,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="스크린 설정"
+                    android:text="@string/screen_setting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
@@ -32,7 +32,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="바로가기 관리"
+                    android:text="@string/manage_shortcut"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
@@ -51,7 +51,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="테마 설정"
+                    android:text="@string/theme_setting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
@@ -65,7 +65,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:text="런처 설정"
+                    android:text="@string/launcher_setting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
         </TableRow>

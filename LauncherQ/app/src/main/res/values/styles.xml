@@ -94,15 +94,15 @@
     </style>
 
     <style name="ExpertStatusDialogTextViewAdd" parent="ExpertStatusDialogTextView">
-        <item name="android:text">   추가   </item>
+        <item name="android:text">@string/__add</item>
     </style>
 
     <style name="ExpertStatusDialogTextViewEdit" parent="ExpertStatusDialogTextView">
-        <item name="android:text">   수정      </item>
+        <item name="android:text">@string/__edit</item>
     </style>
 
     <style name="ExpertStatusDialogTextViewDelete" parent="ExpertStatusDialogTextView">
-        <item name="android:text">      삭제   </item>
+        <item name="android:text">@string/__delete</item>
     </style>
 
     <style name="SettingDrawerDialogAppBoxOutter">

@@ -4,8 +4,12 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import seoft.co.kr.launcherq.R
 import seoft.co.kr.launcherq.data.Repo
-import seoft.co.kr.launcherq.data.model.*
+import seoft.co.kr.launcherq.data.model.CommonApp
+import seoft.co.kr.launcherq.data.model.QuickApp
+import seoft.co.kr.launcherq.data.model.QuickAppType
+import seoft.co.kr.launcherq.data.model.toSaveString
 import seoft.co.kr.launcherq.ui.MsgType
 import seoft.co.kr.launcherq.ui.ViewModelHelper
 import seoft.co.kr.launcherq.utill.*
@@ -75,7 +79,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         else if(pickedApp.value().type == QuickAppType.FOLDER){
             changedLiveDataApps[pos].dir.add(commonApp.toSaveString())
             changedLiveDataApps[pos].isPicked = false // for unset select effect
-            "폴더 내 ${commonApp.label}앱 추가 완료".toast()
+            "${commonApp.label}${R.string.success_to_insert_app_in_folder.TRANS()}".toast()
         }
         insertingApp = null
         repo.preference.setQuickApps(changedLiveDataApps ,dir)
@@ -159,7 +163,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
             (changingQuickApp.type == QuickAppType.EXPERT && liveDataApps.value!![toPos].type == QuickAppType.FOLDER) ||
             (changingQuickApp.commonApp.isExcept && liveDataApps.value!![toPos].type == QuickAppType.FOLDER)
         ) {
-            "해당 타입은 폴더안에 넣을 수 없습니다".toast()
+            R.string.this_type_cant_insert_to_folder_.TRANS().toast()
             cancelMoveApp()
             return
         }
@@ -213,94 +217,6 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         refreshAppGrid()
     }
 
-
-    fun saveExpertAppToCurPosForTest(pos:Int = curPos) {
-
-        val testCnt =3
-
-        if(testCnt == 1) {
-
-        } else if(testCnt == 2) {
-
-
-            val changedLiveDataApps = liveDataApps.value!!
-                .apply {
-                    this[pos] = QuickApp(EMPTY_COMMON_APP,
-                        QuickAppType.EXPERT,
-                        expert = Expert(
-                            CustomIntent(
-                                name="크롬",
-                                action="android.intent.action.MAIN",
-                                categorys = arrayListOf("android.intent.category.LAUNCHER"),
-                                addFlag = arrayListOf(268435456, 2097152),
-                                customComponentName =  CustomComponentName("com.android.chrome","com.google.android.apps.chrome.Main")
-                            ),
-                            arrayListOf(
-                                CustomIntent(
-                                    name="네이버",
-                                    action="android.intent.action.VIEW",
-                                    uriData = "http://naver.com"
-                                ),
-                                CustomIntent(
-                                    name="구글",
-                                    action="android.intent.action.VIEW",
-                                    uriData = "http://google.com"
-                                ),
-                                CustomIntent(
-                                    name="스텍오버플로우",
-                                    action="android.intent.action.VIEW",
-                                    uriData = "https://stackoverflow.com"
-                                )
-                            )
-                        )
-                    )
-
-                }
-            repo.preference.setQuickApps(changedLiveDataApps ,dir)
-            refreshAppGrid()
-
-
-        }
-        else if(testCnt == 3) {
-
-
-            val changedLiveDataApps = liveDataApps.value!!
-                .apply {
-                    this[pos] = QuickApp(CommonApp("seoft.co.kr.chatfactory",
-                        "챗팩"
-//                        ,"seoft.co.kr.chatfactory.ui.splash.SplashActivity"
-                        ),
-                        QuickAppType.EXPERT,
-                        expert = Expert(null,
-                            arrayListOf(
-                                CustomIntent(
-                                    name="엄마",
-                                    action="android.intent.action.DIAL",
-                                    uriData = "tel:0123456789"
-                                ),
-                                CustomIntent(
-                                    name="bb",
-                                    action="android.intent.action.DIAL",
-                                    uriData = "tel:789456123"
-                                ),
-                                CustomIntent(
-                                    name="cc",
-                                    action="android.intent.action.DIAL",
-                                    uriData = "tel:11111111"
-                                )
-                            )
-                        )
-                    )
-
-                }
-            repo.preference.setQuickApps(changedLiveDataApps ,dir)
-            refreshAppGrid()
-
-
-        }
-
-    }
-
     /**
      * Expert mode situaction
      *
@@ -322,7 +238,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         toActMsg(
             if(pickedApp.value().type == QuickAppType.FOLDER) {
                 if(pickedApp.value().dir.size >=6) {
-                    "폴더 내 최대 앱 갯수(6개)를 초과합니다".toast()
+                    R.string.exceed_to_max_count.TRANS().toast()
                     MsgType.NONE
                 }
                 else MsgType.SELECT_APP_IN_FOLDER
@@ -340,7 +256,7 @@ class ArrangeViewModel(val repo: Repo): ViewModelHelper() {
         moveBefPos = curPos
         moveBefDir = dir
 
-        "이동할곳을 선택해주세요".toast()
+        R.string.select_to_move_place.TRANS().toast()
     }
 
     fun clickFolder(){

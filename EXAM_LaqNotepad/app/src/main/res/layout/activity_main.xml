@@ -17,7 +17,7 @@
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="LaQ 노트패드"
+                app:title="@string/app_name"
                 app:titleTextColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -41,28 +41,28 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="60dp" android:id="@+id/llBtns"
                   android:orientation="horizontal" android:layout_alignParentBottom="true" >
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="글쓰기"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/write"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvWrite" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="검색"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/search"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvFind" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="설정"
-                  android:textStyle="bold" android:gravity="center" android:id="@+id/tvSetting" android:textColor="@color/purple" />
+        <!--<TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="설정"-->
+                  <!--android:textStyle="bold" android:gravity="center" android:id="@+id/tvSetting" android:textColor="@color/purple" />-->
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="최상위로 이동"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/move_to_top" android:visibility="gone"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvMoveTop" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="바로가기 설정"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/add_short_cut" android:visibility="gone"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvQuickOn" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="바로가기 해제"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/remove_short_cut" android:visibility="gone"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvQuickOff" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="최하위로 이동"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/move_to_bottom" android:visibility="gone"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvMoveBottom" android:textColor="@color/purple" />
 
-        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="모두보기"
+        <TextView android:layout_width="0dp" android:layout_height="60dp" android:layout_weight="1" android:text="@string/show_all" android:visibility="gone"
                   android:textStyle="bold" android:gravity="center" android:id="@+id/tvShowAll" android:textColor="@color/purple" />
 
 

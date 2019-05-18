@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import android.support.v7.app.AlertDialog
+import seoft.co.kr.launcherq.R
+import seoft.co.kr.launcherq.utill.TRANS
 import seoft.co.kr.launcherq.utill.showDialog
 import seoft.co.kr.launcherq.utill.toast
 
@@ -30,15 +32,15 @@ class RequestManager(val activity: MainActivity){
 
     fun showPermissionRequestDialog(){
         AlertDialog.Builder(activity).showDialog(
-            title = "Launcher Q 에서 다음 권한이 필요합니다",
-            message = "- 파일 입출력 권한 (배경화면 사진 설정 및 가져오기)\n- 카메라 권한 (배경화면 사진 촬영후 설정)\n\n권한요청을 다시 하시겠습니까?",
-            postiveBtText = "확인",
-            negativeBtText = "취소",
+            title = R.string.need_permission.TRANS(),
+            message = R.string.need_permission_content.TRANS(),
+            postiveBtText = R.string.ok.TRANS(),
+            negativeBtText = R.string.cancel.TRANS(),
             cbPostive = {
                 reqPermissions()
             },
             cbNegative = {
-                "권한요청이 거부되어 종료합니다".toast()
+                R.string.quit_app_refuse.TRANS().toast()
                 activity.finish()
             }
         )
@@ -75,13 +77,13 @@ class RequestManager(val activity: MainActivity){
     }
 
     val systemPermissionRequestDialog = AlertDialog.Builder(activity)
-        .setTitle("Launcher Q 에서 다음 권한이 필요합니다")
-        .setMessage("홈 화면 더블 탭시 화면 꺼짐 기능을 위한\n- 화면 잠금시간 임시 제어\n- 화면 밝기 임시 제어\n\n권한요청을 다시 하시겠습니까?")
-        .setPositiveButton("확인",({ _, _ ->
+        .setTitle(R.string.need_permission.TRANS())
+        .setMessage(R.string.need_permission_conent2.TRANS())
+        .setPositiveButton(R.string.ok.TRANS(),({ _, _ ->
             reqSystemPermissions()
         }))
-        .setNegativeButton("취소", ({ _, _ ->
-            "권한요청이 거부되어 종료합니다".toast()
+        .setNegativeButton(R.string.cancel.TRANS(), ({ _, _ ->
+            R.string.quit_app_refuse.TRANS().toast()
             activity.finish()
         }))
         .setCancelable(false)

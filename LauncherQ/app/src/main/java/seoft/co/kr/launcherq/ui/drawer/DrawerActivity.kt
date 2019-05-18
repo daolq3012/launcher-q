@@ -163,7 +163,7 @@ class DrawerActivity : AppCompatActivity() {
             }
             DrawerMode.HIDE_MODE -> {
                 vm.setUnhide(dApp.pkgName)
-                "${dApp.label}앱의 숨기기가 해제되었습니다".toast(Toast.LENGTH_SHORT)
+                "${dApp.label}${R.string.app_is_shown.TRANS()}".toast(Toast.LENGTH_SHORT)
             }
         }
     }
@@ -181,7 +181,7 @@ class DrawerActivity : AppCompatActivity() {
                 }
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_HIDE -> {
                     vm.setHide(dApp.pkgName)
-                    "${dApp.label}앱을 숨겼습니다"
+                    "${dApp.label}${R.string.app_hide.TRANS()}"
                 }
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_TOP -> startArrangeActivity(0,dApp)
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_RIGHT -> startArrangeActivity(1,dApp)

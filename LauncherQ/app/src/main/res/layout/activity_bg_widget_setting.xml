@@ -105,7 +105,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="크기 설정"
+                        android:text="@string/widget_size"
                 />
                 <SeekBar
                         android:progress="@{vm.initSize}"
@@ -121,6 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 <Button
+                        android:textSize="11dp"
                         android:layout_weight="1"
                         android:onClick="@{(v)->vm.clickOnOffBt(v)}"
                         app:type="@{vm.widgetInfoType}"
@@ -129,37 +130,41 @@
                         app:useDate="@{vm.useDate}"
                         app:useDow="@{vm.useDow}"
                         app:useText="@{vm.useText}"
-                        android:text="사용"
+                        android:text="@string/use"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                 />
                 <Button
+                        android:textSize="11dp"
                         android:onClick="@{()->vm.clickColorBt()}"
                         android:layout_weight="1"
-                        android:text="색상"
+                        android:text="@string/color"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/button3" />
                 <Button
+                        android:textSize="11dp"
                         android:onClick="@{()->vm.clickEtcBt()}"
                         android:layout_weight="1"
-                        android:text="형식"
+                        android:text="@string/type"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/button2" />
 
                 <Button
+                        android:textSize="11dp"
                         android:onClick="@{()->vm.clickFontBt()}"
                         android:layout_weight="1"
-                        android:text="폰트"
+                        android:text="@string/font"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/button5" />
 
                 <Button
+                        android:textSize="11dp"
                         android:onClick="@{()->vm.clickResetBt()}"
                         android:layout_weight="1"
-                        android:text="초기화"
+                        android:text="@string/reset"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/button4" />

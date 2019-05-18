@@ -55,7 +55,7 @@ class MainGridAdapter(val context: Context, val repo: Repo, val qApps: MutableLi
                         if(repo.imageCacheRepo.containsKey(tmpPkgName)) repo.imageCacheRepo.getDrawable(tmpPkgName)
                         else App.get.packageManager.getApplicationIcon(tmpPkgName))
                 }
-                QuickAppType.EXPERT -> item.ivIcon.setImageResource(R.drawable.ic_build_orange)
+                QuickAppType.EXPERT -> item.ivIcon.setImageResource(R.drawable.ic_expert_im)
             }
         }
 
