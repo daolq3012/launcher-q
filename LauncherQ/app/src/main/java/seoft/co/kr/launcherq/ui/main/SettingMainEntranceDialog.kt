@@ -57,6 +57,7 @@ class SettingMainEntranceDialog(context:Context, val cb:(Any)->Unit ) : Dialog(c
                 R.string.need_to_laqstore.TRANS().toast()
                 App.get.startActivity(
                     Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$LAQ_STORE_PKG_NAME"))
+                        .apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
                 )
             }
 

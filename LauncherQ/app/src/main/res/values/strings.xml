@@ -14,7 +14,7 @@
     <string name="day_of_week">dow</string>
     <string name="text">text</string>
     <string name="share_app">Share Application</string>
-    <string name="share_app_content">Share Launcher Q</string>
+    <string name="share_app_content">Share Launcher Q application</string>
     <string name="opensource">Opensource License</string>
     <string name="opensource_content">Confirm Opensource License</string>
     <string name="app_name_content">Confirm Launcher Q\'s detail infomation</string>
@@ -77,12 +77,12 @@
     <string name="need_to_laqstore">Need to Laq Store App for download theme</string>
     <string name="success_to_set_background">Success to set background</string>
     <string name="setting1">window row, column count</string>
-    <string name="setting2">widnow size</string>
+    <string name="setting2">window size</string>
     <string name="setting3">distance for open window</string>
     <string name="setting4">maintain time for open two step</string>
     <string name="setting5">icon resolution</string>
-    <string name="setting6">top drag touch boudary</string>
-    <string name="setting7">bottom drag touch boudary</string>
+    <string name="setting6">top drag touch boundary</string>
+    <string name="setting7">bottom drag touch boundary</string>
     <string name="setting8">select save directory</string>
     <string name="setting5_1">Reset user icon for adjust this resolution</string>
     <string name="ea">EA.</string>
@@ -110,13 +110,13 @@
     <string name="user_image_content">Set background as user image</string>
     <string name="background_setting">Background setting</string>
     <string name="widget_setting">Widget setting</string>
-    <string name="setting1_0">Set shortcut window row,column count</string>
-    <string name="setting2_0">Set shortcut widnow size</string>
+    <string name="setting1_0">Set shortcut window row, column count</string>
+    <string name="setting2_0">Set shortcut window size</string>
     <string name="setting3_0">Set distance for open shortcut window</string>
     <string name="setting4_0">Set maintain time for open shortcut window</string>
     <string name="setting5_0">Set user icon resolution</string>
-    <string name="setting6_0">Set top drag touch boudary for task off status bar</string>
-    <string name="setting7_0">Set bottom drag touch boudary for open app list drawer</string>
+    <string name="setting6_0">Set top drag touch boundary for task off status bar</string>
+    <string name="setting7_0">Set bottom drag touch boundary for open app list drawer</string>
     <string name="setting8__">Save/Load Launcher Q setting file</string>
     <string name="setting_5__">Boundary of Drag or touch</string>
     <string name="setting8_1">save Launcher Q setting file</string>
@@ -126,5 +126,9 @@
     <string name="__add">" add "</string>
     <string name="__edit">" edit "</string>
     <string name="__delete">" delete "</string>
+    <string name="call">call</string>
+    <string name="drawer">app drawer</string>
+    <string name="insertion_direction">insertion\ndirecton</string>
+    <string name="select_font">Select Font</string>
 
 </resources>

@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity() {
         var insertingCmds = mutableListOf<Command>()
 
         val quickWriteCmd = Command(
-            title = R.string.quick_write.TO_STRING(),
+            title = R.string.quick_note.TO_STRING(),
             pkgName = PKG_NAME,
             cls = CLS_NAME,
             normalMessage = LAQ_WRITE_MEMO,
@@ -212,7 +212,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val quickSearchCmd = Command(
-            title = R.string.quick_note.TO_STRING(),
+            title = R.string.quick_find.TO_STRING(),
             pkgName = PKG_NAME,
             cls = CLS_NAME,
             normalMessage = LAQ_FIND_NOTE,

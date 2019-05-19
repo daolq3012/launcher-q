@@ -48,7 +48,7 @@
     <PreferenceCategory android:title="@string/etc">
         <PreferenceScreen
                 android:key="clickShareApp"
-                android:title="share_app"
+                android:title="@string/share_app"
                 android:summary="@string/share_app_content"/>
         <PreferenceScreen
                 android:key="clickOpensource"

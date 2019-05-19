@@ -28,6 +28,8 @@ class AdjustActivity : AppCompatActivity() {
     lateinit var themeInfoJson : String
     lateinit var themeDoc: ThemeDoc
 
+    private var isDone = 0 // themeDoc.themeInfos.size(5) is done, do next step in font step
+
     var compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +37,13 @@ class AdjustActivity : AppCompatActivity() {
         setContentView(R.layout.activity_adjust)
 
         themeInfoJson = intent.getStringExtra(THEHE_INFO)
+
+        "themeInfoJson $themeInfoJson".i()
+
         themeDoc = SC.gson.fromJson<ThemeDoc>(themeInfoJson, object : TypeToken<ThemeDoc>(){}.type)
         themeDoc.toString().i(TAG)
+
+
     }
 
     override fun onResume() {
@@ -45,6 +52,7 @@ class AdjustActivity : AppCompatActivity() {
     }
 
     fun adjustBgImage(){
+        "adjustBgImage".i()
 
         compositeDisposable += Repo.themeDocApi.getBgImgById(themeDoc.id,
             object: FileCallback {
@@ -67,6 +75,8 @@ class AdjustActivity : AppCompatActivity() {
     }
 
     fun adjustFont(){
+        "adjustFont".i()
+
         themeDoc.themeInfos?.forEach {
             if(it.font == LOAD_FONT_FILE){
                 val type = it.type.getWidget().getStr
@@ -74,7 +84,8 @@ class AdjustActivity : AppCompatActivity() {
                     object: FileCallback {
                         override fun onFileLoad(file: File) {
                             "getFontById onFileLoad $type".i(TAG)
-                            adjustRemainder()
+                            isDone++
+                            checkNextStepFromFontStep()
                         }
                         override fun onDataNotAvailable() {
                             "onDataNotAvailable".i(TAG)
@@ -83,12 +94,26 @@ class AdjustActivity : AppCompatActivity() {
                         }
                     }
                 )
+            } else {
+                isDone++
+                checkNextStepFromFontStep()
             }
         }
+    }
 
+    fun checkNextStepFromFontStep(){
+
+        if(themeDoc.themeInfos == null )
+            R.string.fail_to_load_font.TRANS().toast()
+
+        if(isDone ==  themeDoc.themeInfos!!.size) {
+            adjustRemainder()
+        }
     }
 
     fun adjustRemainder(){
+        "adjustRemainder".i()
+
         val bgwi = BackgroundWidgetInfos(
             themeDoc
                 .themeInfos?.map {

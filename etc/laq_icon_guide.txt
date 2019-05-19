@@ -1,0 +1,17 @@
+
+colors
+    <color name="myPurple">#8d75ed</color>
+    <color name="myDeepGray">#454545</color>
+    <color name="myGray">#f2f2f2</color>
+    <color name="myLightGray">#fafafa</color>
+
+    <color name="myLightGreen">#4DFF52</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+brush size
+43
+33
+23
+13

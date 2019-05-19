@@ -41,7 +41,7 @@
             <LinearLayout android:id="@+id/llSetMid" android:layout_width="@dimen/grid_parent_size_in_app_setting_view" android:layout_gravity="center"
                     android:gravity="center" android:layout_height="@dimen/grid_parent_size_in_app_setting_view" >
                 <TextView android:gravity="center" android:layout_width="match_parent"
-                          android:text="바로가기\n설정" android:layout_height="match_parent"/>
+                          android:text="@string/insertion_direction" android:layout_height="match_parent"/>
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/llSetRight"

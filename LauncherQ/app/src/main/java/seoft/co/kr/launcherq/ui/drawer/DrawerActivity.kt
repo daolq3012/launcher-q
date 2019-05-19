@@ -177,7 +177,7 @@ class DrawerActivity : AppCompatActivity() {
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_ORDER -> {
                     selectedApp = dApp
                     vm.drawerMode = DrawerMode.MOVE_MODE
-                    "이동할 곳을 선택해주세요".toast()
+                    R.string.select_to_move_place.TRANS().toast()
                 }
                 DrawerAppSettingDialog.DrawerAppSettingType.SET_HIDE -> {
                     vm.setHide(dApp.pkgName)
