@@ -69,6 +69,7 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
 
             when(type){
                 WidgetInfoType.TIME -> {
+                    if(etc.isEmpty()) it.text = ""
                     // etc's default value is 0~23
                     // if use ampm widget hour is 0~12 or not hour is 0~23
                     val rstStr = if(Repo.preference.getBgAmpmUse()) etc.replace("HH","hh") else etc
@@ -76,6 +77,8 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                     it.text = sdf.format(Date())
                 }
                 WidgetInfoType.AMPM -> {
+
+                    if(etc.isEmpty()) it.text = ""
 
                     // regex is AM%%PM
                     // example ) 오전%%오후
@@ -86,10 +89,12 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                     it.text = rst
                 }
                 WidgetInfoType.DATE -> {
+                    if(etc.isEmpty()) it.text = ""
                     val sdf = SimpleDateFormat(etc)
                     it.text = sdf.format(Date())
                 }
                 WidgetInfoType.DOW -> {
+                    if(etc.isEmpty()) it.text = ""
 
                     val strs = etc.split("%%")
 
@@ -100,6 +105,7 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                     it.text = strs[todayDow-1]
                 }
                 WidgetInfoType.TEXT -> {
+                    if(etc.isEmpty()) it.text = ""
                     val strs = etc.split("%%")
                     it.text = strs[ Random().nextInt(strs.size)]
                 }
