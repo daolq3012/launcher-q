@@ -69,7 +69,10 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
 
             when(type){
                 WidgetInfoType.TIME -> {
-                    if(etc.isEmpty()) it.text = ""
+                    if(etc.isEmpty()) {
+                        it.text = ""
+                        return@run
+                    }
                     // etc's default value is 0~23
                     // if use ampm widget hour is 0~12 or not hour is 0~23
                     val rstStr = if(Repo.preference.getBgAmpmUse()) etc.replace("HH","hh") else etc
@@ -78,23 +81,38 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                 }
                 WidgetInfoType.AMPM -> {
 
-                    if(etc.isEmpty()) it.text = ""
+                    if(etc.isEmpty()) {
+                        it.text = ""
+                        return@run
+                    }
 
                     // regex is AM%%PM
                     // example ) 오전%%오후
                     val strs = etc.split("%%")
                     val sdf = SimpleDateFormat("a")
-                    val rst = if(sdf.format(Date()) == "AM" || sdf.format(Date()) == "오전") strs[0] else strs[1]
+
+                    val rst = if(sdf.format(Date()) == "AM" || sdf.format(Date()) == "오전") {
+                        strs[0]
+                    } else {
+                        if(strs.size >= 2) strs[1]
+                        else ""
+                    }
 
                     it.text = rst
                 }
                 WidgetInfoType.DATE -> {
-                    if(etc.isEmpty()) it.text = ""
+                    if(etc.isEmpty()) {
+                        it.text = ""
+                        return@run
+                    }
                     val sdf = SimpleDateFormat(etc)
                     it.text = sdf.format(Date())
                 }
                 WidgetInfoType.DOW -> {
-                    if(etc.isEmpty()) it.text = ""
+                    if(etc.isEmpty()) {
+                        it.text = ""
+                        return@run
+                    }
 
                     val strs = etc.split("%%")
 
@@ -102,10 +120,16 @@ fun setBgEtc(tv:TextView, bgwi : BackgroundWidgetInfos, isUse:Boolean, type: Wid
                     // sun mon tue wed thu fri sat
                     // 1   2   3   4   5   6   7
                     val todayDow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-                    it.text = strs[todayDow-1]
+
+                    if(strs.size > todayDow - 1) it.text = strs[todayDow-1]
+                    else it.text = ""
+
                 }
                 WidgetInfoType.TEXT -> {
-                    if(etc.isEmpty()) it.text = ""
+                    if(etc.isEmpty()) {
+                        it.text = ""
+                        return@run
+                    }
                     val strs = etc.split("%%")
                     it.text = strs[ Random().nextInt(strs.size)]
                 }

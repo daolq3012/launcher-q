@@ -5,14 +5,18 @@ import android.content.Context
 object CommandRepo{
 
     /**
-     * return value is add item count
+     * return ( value >= 0 )is add item count
+     * return value == -1 is fail to insert
      */
     fun insertCommands(context: Context, cmds : List<Command>): Int {
-
+        try {
         return context.contentResolver.bulkInsert(
             Command.URI_COMMAND,
             cmds.map { Command.toContentValues(it) }
                 .toTypedArray() )
+        } catch (e:Exception) {
+            return -1
+        }
     }
 
     fun selectFromPkgName(context: Context, pkgName:String): List<Command> {
@@ -20,8 +24,15 @@ object CommandRepo{
         return Command.cursorToCommands(c)
     }
 
+    /**
+     * return value == -1 is fail to delete
+     */
     fun deleteFromPkgName(context: Context, pkgName:String) : Int {
-        return context.contentResolver.delete(Command.getUriFromPkgName(pkgName),null,null)
+        try {
+            return context.contentResolver.delete(Command.getUriFromPkgName(pkgName),null,null)
+        } catch (e:Exception) {
+            return -1
+        }
     }
 
 

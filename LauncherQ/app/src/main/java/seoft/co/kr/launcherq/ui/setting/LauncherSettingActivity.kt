@@ -117,8 +117,8 @@ class LauncherSettingActivity: AppCompatActivity() {
 
             findPreference("clickMyIconPixelSetting").setOnPreferenceClickListener { view ->
                 val snd = SelectNumberDialog(activity!!, R.string.setting5.TRANS(),"pixel",
-                    Repo.preference.getTopBoundary(),16,64){
-                    Repo.preference.setTopBoundary(it)
+                    Repo.preference.getMyIconPixel(),16,64){
+                    Repo.preference.setMyIconPixel(it)
                 }
                 snd.show()
 

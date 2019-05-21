@@ -181,11 +181,7 @@ class MainActivity : AppCompatActivity() {
             QuickAppType.ONE_APP,QuickAppType.TWO_APP -> {
 
                 if(quickApp.commonApp.isExcept) {
-                    when(quickApp.commonApp.pkgName) {
-                        CAppException.DRAWER.get -> startActivity( Intent(applicationContext, DrawerActivity::class.java) )
-                        CAppException.CALL.get -> startActivity( Intent(Intent.ACTION_DIAL,null))
-                    }
-
+                    runExcept(quickApp.commonApp.pkgName)
                 } else {
                     "quickApp.commonApp.pkgName : ${quickApp.commonApp.pkgName} ".i(TAG)
                     launchApp(quickApp.commonApp.pkgName)
@@ -198,8 +194,12 @@ class MainActivity : AppCompatActivity() {
                 openTwoStep(quickApp)
             }
             QuickAppType.EXPERT -> {
-                if(quickApp.commonApp.pkgName != "")
-                    launchApp(quickApp.commonApp.pkgName)
+                if(quickApp.commonApp.pkgName != "") {
+
+                    if (quickApp.commonApp.isExcept) {
+                        runExcept(quickApp.commonApp.pkgName)
+                    } else launchApp(quickApp.commonApp.pkgName)
+                }
                 else if(quickApp.expert!!.useOne != null) {
                     runExpertApp(quickApp.expert!!.useOne!!)
                 } else "Expert's one step is empty".toast()
@@ -211,6 +211,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun runExcept(pkgName: String){
+        when(pkgName) {
+            CAppException.DRAWER.get -> startActivity( Intent(applicationContext, DrawerActivity::class.java) )
+            CAppException.CALL.get -> startActivity( Intent(Intent.ACTION_DIAL,null))
+        }
+    }
 
     private fun runExpertApp(customIntent: CustomIntent) {
 
